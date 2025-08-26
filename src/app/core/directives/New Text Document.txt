@@ -1,0 +1,72 @@
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-container {
+  position: relative;
+  width: 100%;
+}
+
+.form-input,
+.form-textarea {
+  width: 100%;
+  height: 73px;
+  background: white;
+  border-radius: 30px;
+  padding: 0 32px;
+  font-size: 23px;
+  color: #1f2937;
+  transition: all 0.2s ease;
+}
+
+.form-input::placeholder,
+.form-textarea::placeholder {
+  color: #6b7280;
+}
+
+.form-input:focus,
+.form-textarea:focus {
+  outline: none;
+  border-color: #38bdf8;
+  box-shadow: 0 0 8px rgba(56, 189, 248, 0.2);
+}
+
+.form-input.error,
+.form-textarea.error {
+  border-color: #ef4444;
+}
+
+.form-textarea {
+  height: 100px;
+  padding: 32px;
+  resize: vertical;
+  min-height: 170px;
+}
+
+.error-container {
+  min-height: 25px;
+  font-size: 12px;
+  color: #ef4444;
+  margin-top: 4px;
+  padding: 3px 32px;
+}
+
+.error-message {
+  display: block;
+}
+
+
+ناقص في المنيو الكيرسور بوينتر وناقص فيها الفيكسيد هايت مع الاسكرول باللون المعين 
+وناقص موضوع ان كلمة اللودينح تتغير في العرب يوالانجليزي 
+
+
+
+وناقص ازاي اعمل ايرور هاندلينج عليها واليوزر بيدوس نيكست 
+
+وناقص انك توحد المسافات او الجاب ما بين كل الانبوتس بحيث الايرور يظهر براحتة ومياثرش ع اللاي اوت 
+
+
+
+انت في المالتي استيب فورم هتحتاج تعمل لودينجج  وواتاكد ان الفورم بيظهر لودينج عقبال ما الداتا ترجع 

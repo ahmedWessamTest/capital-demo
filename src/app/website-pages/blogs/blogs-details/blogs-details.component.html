@@ -1,0 +1,125 @@
+
+<div class="container relative mx-auto ">
+  <div class="content-wrapper ">
+    <div class="flex-container">
+      <!-- Skeleton Loader -->
+      @if (isLoading()) {
+        <div class="main-content" @skeletonAnimation>
+          <div class="card">
+            <div class="hero-image-container">
+              <img
+                src="assets/blogs/blog-place.jpg"
+                alt="Loading blog featured image"
+                class="hero-image"
+                loading="eager"
+                fetchpriority="high"
+                width="1200"
+                height="300"
+                decoding="async"
+              />
+            </div>
+            <div class="card-content p-6">
+              <div class="h-8 w-3/4 bg-gray-200 rounded mb-4"></div>
+              <div class="h-4 w-1/4 bg-gray-200 rounded mb-4"></div>
+              <div class="space-y-2">
+                <div class="h-4 bg-gray-200 rounded"></div>
+                <div class="h-4 bg-gray-200 rounded"></div>
+                <div class="h-4 bg-gray-200 rounded w-5/6"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="sidebar 
+        !sticky !top-0" @skeletonAnimation>
+          <div class="sidebar-content">
+            <h2 class="sidebar-title">Latest Blogs</h2>
+            <div class="posts-container">
+              @for (i of [1,2,3]; track i) {
+                <div class="post-item flex gap-4">
+                  <div class="post-thumbnail bg-gray-200 animate-pulse h-16 w-16 rounded"></div>
+                  <div class="post-content flex-1">
+                    <div class="h-4 w-3/4 bg-gray-200 rounded mb-2"></div>
+                    <div class="h-3 w-1/4 bg-gray-200 rounded"></div>
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
+        </div>
+      }
+
+      <!-- Main Content -->
+      @else if (blog) {
+        <div class="main-content mx-auto">
+          <div class="card">
+            <div class="relative hero-image-container">
+              <img
+                [src]="blog.main_image ? getOptimizedImageUrl(blog.main_image) : 'assets/images/placeholder.jpg'"
+                [alt]="getBlogTitle() + ' featured image'"
+                class="hero-image"
+                loading="eager"
+                fetchpriority="high"
+                width="1200"
+                height="300"
+                decoding="async"
+              />
+              <a class="" [routerLink]="['/' + languageService.getCurrentLanguage().toLowerCase(), languageService.getCurrentLanguage().toLowerCase() === 'en' ? 'english-blogs' : 'arabic-blogs']">
+                <svg class="z-10    absolute top-10 start-10 cursor-pointer" width="35" height="35" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M17.5 2.97266C9.47734 2.97266 2.97363 9.47637 2.97363 17.499C2.97363 25.5217 9.47734 32.0254 17.5 32.0254C25.5227 32.0254 32.0264 25.5217 32.0264 17.499C32.0264 9.47637 25.5227 2.97266 17.5 2.97266ZM22.158 24.4854C22.5859 24.9119 22.5866 25.6044 22.1601 26.0323C21.9461 26.2463 21.6658 26.3536 21.3855 26.3536C21.106 26.3536 20.8271 26.247 20.6131 26.0344L12.842 18.2852C12.6362 18.0801 12.5207 17.8019 12.5207 17.5113C12.5207 17.2208 12.6355 16.9426 12.8413 16.7368L20.6131 8.96504C21.0403 8.53779 21.7328 8.53779 22.1601 8.96504C22.5873 9.39229 22.5873 10.0848 22.1601 10.512L15.1621 17.5093L22.158 24.4854Z" fill="#555"/>
+                </svg>
+              </a>
+            </div>
+            <div>
+              <h1 class="main-title my-4">{{ getBlogTitle() }}</h1>
+              <p class="date my-2">{{ blog.blog_date ?? 'No date available' }}</p>
+              <div class="whitespace-normal leading-relaxed tracking-normal font-normal mb-[10px]">
+                <!-- <app-safe-html [content]="getBlogText()"></app-safe-html> -->
+                <div class="prose" [innerHTML]="getBlogText() | safeHtml"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="sidebar !sticky !top-40" >
+          <div class="sidebar-content">
+            <h2 class="sidebar-title">{{languageService.getCurrentLanguage() === 'en' ? 'Latest Blogs' : 'أحدث المقالات'}}</h2>
+            <div class="posts-container">
+              @for (post of sidebarPosts; track trackByPostId($index, post)) {
+                <div
+                  class="post-item flex gap-4"
+                  [routerLink]="['/' + languageService.getCurrentLanguage() + '/blog', post.slug]"
+                  (click)="onPostClick(post)"
+                >
+                  <div class="post-thumbnail-container relative h-[92px] w-[140px]">
+                    <img
+                      [src]="getOptimizedImageUrl(post.image)"
+                      [alt]="post.title + ' thumbnail'"
+                      class="post-thumbnail absolute inset-0 w-full h-full object-cover rounded"
+                      loading="lazy"
+                      width="64"
+                      height="64"
+                      decoding="async"
+                      [ngClass]="{'opacity-0': !isImageLoaded(post.id)}"
+                      (load)="onImageLoad(post.id)"
+                    />
+                    @if (!isImageLoaded(post.id)) {
+                      <div class="post-thumbnail bg-gray-200 animate-pulse h-[92px] w-[140px] rounded absolute inset-0"></div>
+                    }
+                  </div>
+                  <div class="post-content flex-1">
+                    <p class="post-title">{{ post.title }}</p>
+                    <p class="post-date">{{ post.date }}</p>
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</div>
+
+<div class="hidden">
+  <app-safe-html [content]="getFirstScriptText()"></app-safe-html>
+  <app-safe-html [content]="getSecondScriptText()"></app-safe-html>
+</div>

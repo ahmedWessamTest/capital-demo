@@ -1,0 +1,437 @@
+.insurance-claim-container {
+  margin: 0 auto;
+  font-family: "Alexandria", sans-serif;
+  background: white;
+  width: 100%;
+  max-width: 1200px;
+  max-height: 100vh;
+}
+
+.main-content {
+  display: flex;
+  align-items: start;
+  gap: clamp(12px, 1.5vw, 24px);
+}
+
+.images-section {
+  display: flex;
+  max-width: 35%;
+  justify-content: start;
+  margin-inline-end: clamp(-30px, -3vw, -60px);
+  z-index: 20;
+}
+
+.main-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: clamp(8px, 1vw, 12px);
+}
+
+@media (max-width: 1024px) {
+  .images-section {
+    max-width: 100%;
+    height: auto;
+    border-radius: clamp(8px, 1vw, 12px);
+    display: none;
+  }
+}
+.form-section {
+  position: relative;
+  flex: 1;
+  flex-grow: 1;
+}
+
+.insurance-types {
+  display: flex;
+  gap: clamp(6px, 0.75vw, 12px);
+  justify-content: center;
+  position: absolute;
+  top: clamp(16px, 2vw, 26px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  padding: clamp(6px, 1vw, 12px) 0;
+  z-index: 1;
+}
+.about-text {
+  color: #174a77;
+  font-family: Alexandria;
+  font-size: clamp(16px, 2.5vw, 23px);
+  font-style: normal;
+  font-weight: 400;
+  line-height: 30px; /* 130.435% */
+  text-transform: capitalize;
+}
+
+.insurance-type-btn {
+  color: #ffffff;
+  background-color: #0c4a6e;
+  border-radius: 50px;
+  padding: clamp(6px, 1vw, 10px) clamp(12px, 2vw, 20px);
+  font-size: clamp(14px, 2vw, 23px);
+  font-weight: 400;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: clamp(80px, 10vw, 120px);
+  text-transform: capitalize;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.insurance-type-btn:hover {
+  background: #0c4a6e;
+  color: #ffffff;
+  transform: translateY(-2px);
+}
+
+.insurance-type-btn.active {
+  background: #38bdf8;
+  border-color: #38bdf8;
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(56, 189, 248, 0.3);
+}
+
+.claim-form {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(8px, 1vw, 12px);
+  margin-top: clamp(30px, 5vw, 60px);
+  padding: clamp(35px, 6vw, 70px) clamp(50px, 8vw, 100px);
+  background: var(--color-bage);
+  height: 700px; /* Fixed height */
+  overflow-y: auto; /* Enable vertical scrolling */
+  position: relative;
+  overflow-x: hidden;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-container {
+  position: relative;
+  width: 100%;
+}
+
+.form-input,
+.form-textarea {
+  width: 100%;
+  height: clamp(50px, 6vw, 73px);
+  background: white;
+  border-radius: clamp(20px, 3vw, 30px);
+  padding: 0 clamp(16px, 2.5vw, 32px);
+  font-size: clamp(16px, 2.5vw, 23px);
+  color: #1f2937;
+  transition: all 0.2s ease;
+  resize: none !important;
+}
+textarea {
+  resize: none !important;
+}
+
+.form-input::placeholder,
+.form-textarea::placeholder {
+  color: #6b7280;
+}
+
+.form-input:focus,
+.form-textarea:focus {
+  outline: none;
+  border-color: #38bdf8;
+  box-shadow: 0 0 8px rgba(56, 189, 248, 0.2);
+}
+
+.form-input.error,
+.form-textarea.error {
+  border-color: #ef4444;
+}
+
+.form-textarea {
+  height: 100px;
+  padding: clamp(16px, 2.5vw, 32px);
+  resize: vertical;
+  min-height: clamp(120px, 15vw, 170px);
+}
+
+.error-container {
+  min-height: clamp(16px, 2vw, 25px);
+  font-size: clamp(10px, 1vw, 12px);
+  color: #ef4444;
+  margin-top: clamp(2px, 0.5vw, 4px);
+  padding: clamp(2px, 0.3vw, 3px) clamp(16px, 2.5vw, 32px);
+}
+
+.error-message {
+  display: block;
+}
+
+.file-upload-section {
+  margin: clamp(6px, 1vw, 12px) 0;
+}
+
+.file-upload-label {
+  display: inline-flex;
+  align-items: center;
+  gap: clamp(4px, 0.5vw, 8px);
+  color: #38bdf8;
+  font-size: clamp(14px, 1.5vw, 16px);
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.file-upload-label:hover {
+  color: #0ea5e9;
+}
+
+.file-upload-label svg {
+  width: clamp(16px, 1.5vw, 20px);
+  height: clamp(16px, 1.5vw, 20px);
+}
+
+.file-input {
+  display: none;
+}
+
+.selected-files {
+  margin-top: clamp(4px, 0.5vw, 8px);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(4px, 0.5vw, 8px);
+}
+
+.file-item {
+  display: flex;
+  align-items: center;
+  background: #f1f5f9;
+  padding: clamp(4px, 0.5vw, 8px) clamp(6px, 1vw, 12px);
+  border-radius: clamp(4px, 0.5vw, 8px);
+  border: 1px solid skyblue;
+}
+
+.file-name {
+  flex: 1;
+  font-size: clamp(12px, 1.5vw, 14px);
+  color: RGB(21, 72, 118);
+}
+
+.remove-file-btn {
+  background: #ef4444;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: clamp(16px, 1.5vw, 20px);
+  height: clamp(16px, 1.5vw, 20px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: clamp(12px, 1.5vw, 14px);
+}
+
+.remove-file-btn:hover {
+  background: #dc2626;
+}
+
+.submit-btn {
+  background: #37a6de;
+  color: white;
+  border: none;
+  border-radius: clamp(20px, 3vw, 30px);
+  padding: clamp(10px, 1.5vw, 14px) clamp(16px, 2.5vw, 32px);
+  font-size: clamp(14px, 1.5vw, 16px);
+  font-weight: 400;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  align-self: flex-start;
+  margin-top: auto; /* Push button to the bottom */
+  flex-shrink: 0; /* Prevent button from shrinking */
+}
+
+.submit-btn:hover:not(:disabled) {
+  background: #0ea5e9;
+}
+
+.submit-btn:disabled {
+  background: #37a6de;
+  cursor: not-allowed;
+}
+
+@media (max-width: 1024px) {
+  .main-content {
+    flex-direction: column;
+    gap: 16px;
+  }
+  .claim-form {
+    padding: 50px 60px;
+    height: 450px; /* Adjust height for tablets */
+  }
+
+  .images-section {
+    margin-inline-end: 0;
+    justify-content: center;
+  }
+
+  .form-section {
+    width: 100%;
+  }
+
+  .insurance-types {
+    gap: 10px;
+  }
+
+  .insurance-type-btn {
+    padding: 8px 16px;
+    font-size: 18px;
+    min-width: 100px;
+  }
+}
+
+@media (max-width: 768px) {
+  .insurance-claim-container {
+    padding: 12px;
+  }
+
+  .images-section {
+    display: none;
+  }
+
+  .insurance-types {
+    top: 3px;
+  }
+
+  .insurance-type-btn {
+    padding: 6px 12px;
+    font-size: 16px;
+    min-width: 90px;
+  }
+
+  .claim-form {
+    margin-top: 40px;
+    padding: 40px 20px;
+  }
+
+  .form-input,
+  .form-textarea {
+    height: 50px;
+    font-size: 16px;
+    padding: 0 16px;
+  }
+
+  .form-textarea {
+    min-height: 120px;
+    padding: 16px;
+  }
+
+  .error-container {
+    min-height: 20px;
+    font-size: 10px;
+    padding: 2px 16px;
+  }
+
+  .submit-btn {
+    width: 100%;
+    padding: 12px 16px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .insurance-type-btn {
+    padding: 5px 10px;
+    font-size: 14px;
+    min-width: 80px;
+  }
+
+  .form-input,
+  .form-textarea {
+    height: 40px;
+    font-size: 14px;
+    padding: 0 12px;
+  }
+
+  .form-textarea {
+    min-height: 100px;
+    padding: 12px;
+  }
+
+  .error-container {
+    min-height: 16px;
+    font-size: 9px;
+  }
+
+  .file-upload-label {
+    font-size: 14px;
+  }
+}
+
+@media (prefers-contrast: high) {
+  .form-input,
+  .form-textarea {
+    border: 2px solid #000;
+  }
+
+  .form-input:focus,
+  .form-textarea:focus {
+    border-color: #0066cc;
+  }
+
+  .form-input.error,
+  .form-textarea.error {
+    border-color: #cc0000;
+  }
+
+  .insurance-type-btn {
+    border: 2px solid #000;
+  }
+
+  .insurance-type-btn.active {
+    background: #0066cc;
+    border-color: #0066cc;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+  }
+}
+
+@media print {
+  .images-section {
+    display: none;
+  }
+
+  .insurance-claim-container {
+    background: white;
+  }
+
+  .form-input,
+  .form-textarea {
+    border: 1px solid #000;
+  }
+}
+
+.insurance-claim-container[dir="rtl"] {
+  text-align: right;
+}
+
+.insurance-claim-container[dir="rtl"] .form-group,
+.insurance-claim-container[dir="rtl"] .input-container,
+.insurance-claim-container[dir="rtl"] .error-container {
+  direction: rtl;
+}
+
+.insurance-claim-container[dir="rtl"] .form-input,
+.insurance-claim-container[dir="rtl"] .form-textarea {
+  text-align: right;
+}
+
+.insurance-claim-container[dir="rtl"] .insurance-types {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.insurance-claim-container[dir="rtl"] .submit-btn {
+  margin-left: auto;
+  margin-right: 1rem;
+}

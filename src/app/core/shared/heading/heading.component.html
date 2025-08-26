@@ -1,0 +1,81 @@
+<div class="flex justify-center items-center py-2 md:mb-20 ">
+    <!-- Start SVG Group (visible if showStartSvg is true) -->
+    <!-- This group contains two left-pointing arrows, with the first one slightly overlapping the second. -->
+    <!-- The 'me-[10px]' class on the second SVG ensures a 10px gap between the SVG group and the heading text. -->
+    <div *ngIf="showStartSvg" class="flex items-center svg-pulse-animation">
+      <svg
+        class="-me-4"
+        xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <path
+          d="M14.2891 5.70696C13.8986 5.31643 13.2655 5.31643 12.8749 5.70696L7.98743 10.5992C7.20704 11.3804 7.20735 12.6462 7.98812 13.4269L12.8785 18.3173C13.2691 18.7078 13.9022 18.7078 14.2928 18.3173C14.6833 17.9268 14.6833 17.2936 14.2928 16.9031L10.1071 12.7174C9.71653 12.3269 9.71653 11.6938 10.1071 11.3032L14.2891 7.12117C14.6797 6.73065 14.6797 6.09748 14.2891 5.70696Z"
+          fill="#174A77"
+        />
+      </svg>
+      <svg
+        class="me-4"
+        xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <path
+          d="M14.2891 5.70696C13.8986 5.31643 13.2655 5.31643 12.8749 5.70696L7.98743 10.5992C7.20704 11.3804 7.20735 12.6462 7.98812 13.4269L12.8785 18.3173C13.2691 18.7078 13.9022 18.7078 14.2928 18.3173C14.6833 17.9268 14.6833 17.2936 14.2928 16.9031L10.1071 12.7174C9.71653 12.3269 9.71653 11.6938 10.1071 11.3032L14.2891 7.12117C14.6797 6.73065 14.6797 6.09748 14.2891 5.70696Z"
+          fill="#3BA7DE"
+        />
+      </svg>
+    </div>
+  
+    <!-- Heading Text -->
+    <!-- The h2 tag is used for semantic correctness and accessibility. -->
+    <div [ngClass]="className" class="text-primary-500 text-[16px] font-bold  capitalize md:text-35 text-center text-skew-animation">
+      {{ headingText }}
+    </div>
+  
+    <!-- End SVG Group (visible if showEndSvg is true) -->
+    <!-- This group contains two right-pointing arrows, with the first one slightly overlapping the second. -->
+    <!-- The 'ms-[10px]' class on the first SVG ensures a 10px gap between the heading text and the SVG group. -->
+    <div *ngIf="showEndSvg" class="flex items-center  svg-pulse-animation">
+      <svg
+        class="ms-4"
+        width="24"
+        dir="ltr"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <path
+          d="M9.71046 5.70696C10.101 5.31643 10.7341 5.31643 11.1247 5.70696L16.0121 10.5992C16.7925 11.3804 16.7922 12.6462 16.0114 13.4269L11.1211 18.3173C10.7305 18.7078 10.0974 18.7078 9.70676 18.3173C9.31626 17.9268 9.31626 17.2936 9.70676 16.9031L13.8925 12.7174C14.283 12.3269 14.283 11.6938 13.8925 11.3032L9.71046 7.12117C9.31986 6.73065 9.31986 6.09748 9.71046 5.70696Z"
+          fill="#3BA7DE"
+        />
+      </svg>
+      <svg
+        class=" -ms-4"
+        width="24"
+        dir="ltr"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <path
+          d="M9.71046 5.70696C10.101 5.31643 10.7341 5.31643 11.1247 5.70696L16.0121 10.5992C16.7925 11.3804 16.7922 12.6462 16.0114 13.4269L11.1211 18.3173C10.7305 18.7078 10.0974 18.7078 9.70676 18.3173C9.31626 17.9268 9.31626 17.2936 9.70676 16.9031L13.8925 12.7174C14.283 12.3269 14.283 11.6938 13.8925 11.3032L9.71046 7.12117C9.31986 6.73065 9.31986 6.09748 9.71046 5.70696Z"
+          fill="#174A77"
+        />
+      </svg>
+    </div>
+  </div>

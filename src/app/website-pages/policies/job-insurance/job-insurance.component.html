@@ -1,0 +1,1265 @@
+<div
+  class="bg-white my-5 overflow-hidden pb-20 relative"
+  [dir]="translate.currentLang === 'ar' ? 'rtl' : 'ltr'"
+>
+  <div
+    class="mx-5 md:mx-10 lg:mx-20 overflow-hidden pt-8 pb-0 relative flex flex-col md:flex-row gap-4 mb-12 bg-gradient-to-br from-[#F2F2F2] from-[15.48%] via-[#DBEFFD] via-[63.88%] to-[#DBEFFD] rounded-lg shadow-lg justify-evenly"
+  >
+    <img
+      *ngIf="showForm"
+      (click)="showForm = !showForm"
+      class="absolute z-10 w-[40px] h-[40px] top-[10px] start-[10px] cursor-pointer hover:scale-120 transition-all duration-300"
+      src="assets/common/back.svg"
+      alt=""
+    />
+    <!-- Text content with separate loading state -->
+    <div
+      class="z-10 policy-top-card px-6 md:px-8 lg:px-12 flex flex-col gap-4 justify-center w-full md:w-3/4 transition-all duration-300"
+      [ngClass]="{ 'mt-4': showForm }"
+    >
+      <!-- Text content skeleton loader -->
+      <div
+        *ngIf="isTextContentLoading"
+        class="animate-pulse flex flex-col gap-4"
+      >
+        <div class="h-8 md:h-10 lg:h-12 bg-gray-200 rounded w-3/4"></div>
+        <div class="space-y-2">
+          <div class="h-4 bg-gray-200 rounded w-full"></div>
+          <div class="h-4 bg-gray-200 rounded w-5/6"></div>
+        </div>
+        <div
+          class="flex flex-col items-start md:flex-row md:items-center gap-4 !mb-8 mt-4"
+        >
+          <div class="h-10 bg-gray-200 rounded-lg w-32"></div>
+        </div>
+      </div>
+      <!-- Actual text content -->
+      <div *ngIf="!isTextContentLoading">
+        <div
+          class="text-xl md:text-2xl lg:text-3xl font-semibold text-gray-800"
+        >
+          {{
+            currentLanguage === "ar"
+              ? "التأمين المهني"
+              : "Professional Indemnity Insurance"
+          }}
+        </div>
+        <p class="text-sm md:text-base text-gray-600">
+          {{
+            currentLanguage === "ar"
+              ? "حماية شاملة للمهنيين ضد مخاطر الأخطاء والإهمال المهني"
+              : "Comprehensive protection for professionals against errors and professional negligence risks"
+          }}
+        </p>
+        <div
+          class="flex flex-col items-start md:flex-row md:items-center gap-4 !mb-8 mt-4"
+        >
+          <button
+            *ngIf="!showForm"
+            class="main-btn bg-[#00AEEF] text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors text-sm md:text-base"
+            (click)="showForm = !showForm; scrollToForm()"
+          >
+            {{ "pages.building_policy.claim_data_button" | translate }}
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- Image section with separate loading state -->
+    <div class="h-auto w-full md:w-[580px] flex items-end justify-center">
+      <!-- Image skeleton loader -->
+      <div
+        *ngIf="isImageLoading"
+        class="w-full h-full animate-pulse bg-gray-200 rounded-b-lg md:rounded-none flex items-center justify-center"
+      >
+        <div
+          class="w-16 h-16 bg-gray-300 rounded-lg flex items-center justify-center"
+        >
+          <svg
+            class="w-8 h-8 text-gray-400"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </div>
+      </div>
+      <!-- Actual image -->
+      <!-- <img
+        *ngIf="!isImageLoading"
+        class="w-[100%] h-[60%] object-cover rounded-b-lg md:rounded-none transition-opacity duration-300"
+        src="public/jop.jpg"
+        alt="{{
+          'pages.professional_indemnity.professional_indemnity_image_alt'
+            | translate
+        }}"
+        (load)="onImageLoad()"
+        (error)="onImageError()"
+        [style.opacity]="imageLoaded ? 1 : 0"
+      /> -->
+    </div>
+    <!-- Gradient background image -->
+    <img
+      [ngStyle]="{ opacity: showForm ? 1 : 0 }"
+      src="assets/common/gradient.png"
+      class="absolute bottom-0 z-0 transition-opacity duration-300"
+      [ngClass]="{
+        '-left-10': translate.currentLang === 'en',
+        '-right-10': translate.currentLang === 'ar'
+      }"
+      alt="{{ 'pages.building_policy.gradient_image_alt' | translate }}"
+    />
+  </div>
+
+  <div
+    *ngIf="showForm"
+    class="mx-5 md:mx-10 lg:mx-20 min-h-[500px]"
+    id="policy-form"
+  >
+    <img
+      loading="eager"
+      fetchpriority="high"
+      src="assets/policies/bg.png"
+      alt="{{ 'pages.building_policy.background_image_alt' | translate }}"
+      class="absolute object-contain bottom-0 h-[700px] w-[400px]"
+      [ngClass]="{
+        '-right-20': translate.currentLang === 'en',
+        '-left-20': translate.currentLang === 'ar'
+      }"
+      style="z-index: 2"
+    />
+    <div
+      class="absolute inset-0 bg-transparent opacity-50"
+      style="z-index: 3"
+    ></div>
+    <div class="relative z-10 p-4">
+      <div
+        *ngIf="step < 4"
+        class="flex flex-col sm:flex-row items-center gap-4"
+      >
+        <div
+          class="w-[78px] h-[78px] sm:w-[64px] sm:h-[64px] md:w-[78px] md:h-[78px]"
+        >
+          <img
+            src="assets/ai/ai-avatar.jpg"
+            alt="{{ 'pages.building_policy.ai_avatar_alt' | translate }}"
+            class="w-full h-full object-cover rounded-full"
+          />
+        </div>
+        <div
+          class="flex flex-col gap-2"
+          [ngClass]="{ 'sm:text-left': translate.currentLang === 'en' }"
+        >
+          <p
+            class="text-[#000] font-Alexandria text-[16px] sm:text-[18px] md:text-[20px] font-normal leading-[24px] sm:leading-[30px]"
+          >
+            {{ "pages.building_policy.ai_greeting" | translate }}
+          </p>
+          <p
+            class="text-[#F00] font-Alexandria text-[16px] sm:text-[18px] md:text-[20px] font-medium leading-[24px] sm:leading-[30px]"
+          >
+            {{ "pages.building_policy.ai_subtext" | translate }}
+          </p>
+        </div>
+      </div>
+
+      <div
+        *ngIf="step < 4"
+        class="my-10 flex flex-col sm:flex-row justify-between items-center gap-4 w-full"
+      >
+        <div
+          class="w-full sm:flex-1 h-[20px] md:h-[23px] bg-[#EDF9FF] rounded-full overflow-hidden"
+        >
+          <div
+            class="h-full bg-[#00AEEF] rounded-full transition-all duration-300"
+            [style.width.%]="progress"
+          ></div>
+        </div>
+        <p
+          class="text-[#37A6DE] text-center sm:text-right font-Alexandria text-[16px] sm:text-[18px] font-normal leading-6 sm:leading-[30px] whitespace-nowrap"
+          [ngClass]="{ 'sm:text-left': translate.currentLang === 'en' }"
+        >
+          {{
+            steps[step][
+              translate.currentLang === "ar" ? "ar_title" : "en_title"
+            ]
+          }}
+        </p>
+      </div>
+
+      <form
+        [formGroup]="claimForm"
+        (ngSubmit)="nextStep()"
+        class="flex flex-col gap-4"
+      >
+        <!-- Step 0: Personal Information -->
+        <div *ngIf="step === 0" class="flex flex-col gap-4">
+          <div class="flex flex-col mb-[15px] capitalize">
+            <div
+              class="text-[#3C3C3C] font-Alexandria mb-4 text-[16px] font-[400] leading-5"
+            >
+              {{
+                "pages.building_policy.form.personal_information.prompt_0"
+                  | translate
+              }}
+            </div>
+            <div
+              class="text-[#3C3C3C] font-bold font-Alexandria mb-4 text-[18px] leading-5"
+            >
+              {{
+                "pages.building_policy.form.personal_information.prompt_1"
+                  | translate
+              }}
+            </div>
+            <div class="text-[#000] font-Alexandria text-[16px] leading-5">
+              {{
+                "pages.building_policy.form.personal_information.prompt_2"
+                  | translate
+              }}
+            </div>
+          </div>
+          <div class="flex flex-col">
+            <div class="flex flex-col">
+              <input
+                (input)="restrictToLetters($event)"
+                formControlName="name"
+                type="text"
+                class="general-input w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                [ngClass]="{
+                  'text-right': translate.currentLang === 'ar',
+                  'text-left': translate.currentLang === 'en'
+                }"
+                [placeholder]="
+                  'pages.building_policy.form.personal_information.name_placeholder'
+                    | translate
+                "
+                (paste)="preventPaste($event)"
+              />
+              <div class="error-container flex justify-between">
+                @if (claimForm.get('name')?.touched &&
+                claimForm.get('name')?.invalid) {
+                <span
+                  class="error-message"
+                  [ngClass]="{ 'order-2': translate.currentLang === 'ar' }"
+                  >{{
+                    "pages.building_policy.form.personal_information.errors.name_required"
+                      | translate
+                  }}</span
+                >
+                }
+              </div>
+            </div>
+            <div class="flex flex-col">
+              <input
+                formControlName="phone"
+                type="tel"
+                class="general-input w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                [ngClass]="{
+                  'text-right': translate.currentLang === 'ar',
+                  'text-left': translate.currentLang === 'en'
+                }"
+                [placeholder]="
+                  'pages.building_policy.form.personal_information.phone_placeholder'
+                    | translate
+                "
+                (paste)="preventPaste($event)"
+                (keydown)="preventNonNumeric($event)"
+              />
+              <div class="error-container flex justify-between">
+                @if (claimForm.get('phone')?.touched &&
+                claimForm.get('phone')?.invalid) {
+                <span
+                  class="error-message"
+                  [ngClass]="{ 'order-2': translate.currentLang === 'ar' }"
+                  >{{
+                    "pages.building_policy.form.personal_information.errors.phone_required"
+                      | translate
+                  }}</span
+                >
+                }
+              </div>
+            </div>
+            <div class="flex flex-col">
+              <input
+                formControlName="email"
+                type="email"
+                class="general-input w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                [ngClass]="{
+                  'text-right': translate.currentLang === 'ar',
+                  'text-left': translate.currentLang === 'en'
+                }"
+                [placeholder]="
+                  'pages.building_policy.form.personal_information.email_placeholder'
+                    | translate
+                "
+                (paste)="preventPaste($event)"
+              />
+              <div class="error-container flex justify-between">
+                @if (claimForm.get('email')?.touched &&
+                claimForm.get('email')?.invalid) { @if
+                (claimForm.get('email')?.hasError('required')) {
+                <span
+                  class="error-message"
+                  [ngClass]="{ 'order-2': translate.currentLang === 'ar' }"
+                  >{{
+                    "pages.building_policy.form.personal_information.errors.email_required"
+                      | translate
+                  }}</span
+                >
+                } @else if (claimForm.get('email')?.hasError('email') ||
+                claimForm.get('email')?.hasError('pattern')) {
+                <span
+                  class="error-message"
+                  [ngClass]="{ 'order-2': translate.currentLang === 'ar' }"
+                  >{{
+                    "pages.building_policy.form.personal_information.errors.email_invalid"
+                      | translate
+                  }}</span
+                >
+                } }
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 1: Position/Profession -->
+        <div *ngIf="step === 1" class="flex flex-col gap-4">
+          <div class="flex flex-col mb-[15px] capitalize">
+            <div
+              class="text-[#3C3C3C] font-Alexandria mb-4 text-[16px] font-[400] leading-5"
+            >
+              {{
+                "pages.professional_indemnity.form.position.prompt_0"
+                  | translate
+              }}
+            </div>
+            <div
+              class="text-[#3C3C3C] font-bold font-Alexandria mb-4 text-[18px] leading-5"
+            >
+              {{
+                "pages.professional_indemnity.form.position.prompt_1"
+                  | translate
+              }}
+            </div>
+            <div class="text-[#000] font-Alexandria text-[16px] leading-5">
+              {{
+                "pages.professional_indemnity.form.position.prompt_2"
+                  | translate
+              }}
+            </div>
+          </div>
+          <div class="flex flex-col mb-2">
+            <app-policy-drop-down
+              [governorates]="positionOptions"
+              [displayProperty]="'name'"
+              [valueProperty]="'en_name'"
+              [placeholder]="
+                'pages.professional_indemnity.form.position.placeholder'
+                  | translate
+              "
+              [showError]="
+                (claimForm.get('jop_title')?.touched ?? false) &&
+                (claimForm.get('jop_title')?.invalid ?? false)
+              "
+              (selected)="onPositionSelected($event)"
+              (focused)="onDropdownFocus('jop_title')"
+            >
+            </app-policy-drop-down>
+            <div class="error-container flex justify-between">
+              @if (claimForm.get('jop_title')?.touched &&
+              claimForm.get('jop_title')?.invalid) {
+              <span
+                class="error-message"
+                [ngClass]="{ 'order-2': translate.currentLang === 'ar' }"
+                >{{
+                  "pages.professional_indemnity.form.position.errors.position_required"
+                    | translate
+                }}</span
+              >
+              }
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2: Sum Insured Amount -->
+        <div *ngIf="step === 2" class="flex flex-col gap-4">
+          <div class="flex flex-col mb-[15px] capitalize">
+            <div
+              class="text-[#3C3C3C] font-Alexandria mb-4 text-[16px] font-[400] leading-5"
+            >
+              {{
+                "pages.professional_indemnity.form.sum_insured.prompt_0"
+                  | translate
+              }}
+            </div>
+            <div
+              class="text-[#3C3C3C] font-bold font-Alexandria mb-4 text-[18px] leading-5"
+            >
+              {{
+                "pages.professional_indemnity.form.sum_insured.prompt_1"
+                  | translate
+              }}
+            </div>
+            <div class="text-[#000] font-Alexandria text-[16px] leading-5">
+              {{
+                "pages.professional_indemnity.form.sum_insured.prompt_2"
+                  | translate
+              }}
+            </div>
+          </div>
+          <div class="flex flex-col mb-2">
+            <input
+              formControlName="jop_price"
+              type="number"
+              class="general-input w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              [ngClass]="{
+                'text-right': translate.currentLang === 'ar',
+                'text-left': translate.currentLang === 'en'
+              }"
+              [placeholder]="
+                'pages.professional_indemnity.form.sum_insured.placeholder'
+                  | translate
+              "
+              (paste)="preventPaste($event)"
+              (keydown)="preventNonNumeric($event)"
+              [min]="50000"
+              [max]="1000000"
+            />
+            <div class="text-sm text-gray-500 mt-1">
+              {{
+                "pages.professional_indemnity.form.sum_insured.range_info"
+                  | translate
+              }}
+            </div>
+            <div class="error-container flex justify-between">
+              @if (claimForm.get('jop_price')?.touched &&
+              claimForm.get('jop_price')?.invalid) { @if
+              (claimForm.get('jop_price')?.hasError('required')) {
+              <span
+                class="error-message"
+                [ngClass]="{ 'order-2': translate.currentLang === 'ar' }"
+                >{{
+                  "pages.professional_indemnity.form.sum_insured.errors.sum_insured_required"
+                    | translate
+                }}</span
+              >
+              } @else if (claimForm.get('jop_price')?.hasError('min')) {
+              <span
+                class="error-message"
+                [ngClass]="{ 'order-2': translate.currentLang === 'ar' }"
+                >{{
+                  "pages.professional_indemnity.form.sum_insured.errors.sum_insured_min"
+                    | translate
+                }}</span
+              >
+              } @else if (claimForm.get('jop_price')?.hasError('max')) {
+              <span
+                class="error-message"
+                [ngClass]="{ 'order-2': translate.currentLang === 'ar' }"
+                >{{
+                  "pages.professional_indemnity.form.sum_insured.errors.sum_insured_max"
+                    | translate
+                }}</span
+              >
+              } }
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 3: Documents Upload -->
+        <div *ngIf="step === 3" class="flex flex-col gap-4">
+          <div class="flex flex-col mb-[15px] capitalize">
+            <div
+              class="text-[#3C3C3C] font-Alexandria mb-4 text-[16px] font-[400] leading-5"
+            >
+              {{
+                "pages.professional_indemnity.form.documents.prompt_0"
+                  | translate
+              }}
+            </div>
+            <div
+              class="text-[#3C3C3C] font-bold font-Alexandria mb-4 text-[18px] leading-5"
+            >
+              {{
+                "pages.professional_indemnity.form.documents.prompt_1"
+                  | translate
+              }}
+            </div>
+            <div class="text-[#000] font-Alexandria text-[16px] leading-5">
+              {{
+                "pages.professional_indemnity.form.documents.prompt_2"
+                  | translate
+              }}
+            </div>
+          </div>
+
+          <!-- ID Document Upload (Required) -->
+          <div class="flex flex-col mb-4">
+            <label
+              class="text-[#3C3C3C] font-Alexandria mb-2 text-[16px] font-[400] leading-5"
+            >
+              {{
+                "pages.professional_indemnity.form.documents.id_document_label"
+                  | translate
+              }}
+              <span class="text-red-500">*</span>
+            </label>
+            <div class="relative">
+              <input
+                type="file"
+                id="idDocument"
+                accept=".jpg,.jpeg,.png,.pdf"
+                class="hidden"
+                (change)="onFileSelected($event, 'jop_main_id')"
+              />
+              <label
+                for="idDocument"
+                class="flex items-center justify-center w-full px-4 py-3 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-blue-500 transition-colors"
+              >
+                <div class="flex flex-col items-center">
+                  <svg
+                    class="w-8 h-8 text-gray-400 mb-2"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                    ></path>
+                  </svg>
+                  <span class="text-sm text-gray-600">
+                    {{
+                      "pages.professional_indemnity.form.documents.upload_text"
+                        | translate
+                    }}
+                  </span>
+                  <span class="text-xs text-gray-500 mt-1">
+                    {{
+                      "pages.professional_indemnity.form.documents.file_types"
+                        | translate
+                    }}
+                  </span>
+                </div>
+              </label>
+              <div
+                *ngIf="claimForm.get('jop_main_id')?.value"
+                class="mt-2 text-sm text-green-600"
+              >
+                ✓
+                {{
+                  "pages.professional_indemnity.form.documents.file_selected"
+                    | translate
+                }}
+              </div>
+            </div>
+            <div class="error-container flex justify-between">
+              @if (claimForm.get('jop_main_id')?.touched &&
+              claimForm.get('jop_main_id')?.invalid) {
+              <span
+                class="error-message"
+                [ngClass]="{ 'order-2': translate.currentLang === 'ar' }"
+                >{{
+                  "pages.professional_indemnity.form.documents.errors.id_document_required"
+                    | translate
+                }}</span
+              >
+              }
+            </div>
+          </div>
+
+          <!-- Occupation Document Upload (Optional) -->
+          <div class="flex flex-col mb-4">
+            <label
+              class="text-[#3C3C3C] font-Alexandria mb-2 text-[16px] font-[400] leading-5"
+            >
+              {{
+                "pages.professional_indemnity.form.documents.occupation_document_label"
+                  | translate
+              }}
+              <span class="text-gray-500 text-sm"
+                >({{
+                  "pages.professional_indemnity.form.documents.optional"
+                    | translate
+                }})</span
+              >
+            </label>
+            <div class="relative">
+              <input
+                type="file"
+                id="occupationDocument"
+                accept=".jpg,.jpeg,.png,.pdf"
+                class="hidden"
+                (change)="onFileSelected($event, 'jop_second_id')"
+              />
+              <label
+                for="occupationDocument"
+                class="flex items-center justify-center w-full px-4 py-3 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-blue-500 transition-colors"
+              >
+                <div class="flex flex-col items-center">
+                  <svg
+                    class="w-8 h-8 text-gray-400 mb-2"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                    ></path>
+                  </svg>
+                  <span class="text-sm text-gray-600">
+                    {{
+                      "pages.professional_indemnity.form.documents.upload_text"
+                        | translate
+                    }}
+                  </span>
+                  <span class="text-xs text-gray-500 mt-1">
+                    {{
+                      "pages.professional_indemnity.form.documents.file_types"
+                        | translate
+                    }}
+                  </span>
+                </div>
+              </label>
+              <div
+                *ngIf="claimForm.get('jop_second_id')?.value"
+                class="mt-2 text-sm text-green-600"
+              >
+                ✓
+                {{
+                  "pages.professional_indemnity.form.documents.file_selected"
+                    | translate
+                }}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 4: Select Plan -->
+        <ng-container *ngIf="step === 4 && showPlans">
+          <div class="flex flex-col gap-6">
+            <div *ngIf="plans.length === 0" class="text-red-500 text-sm">
+              {{
+                "pages.building_policy.form.select_plan.no_plans" | translate
+              }}
+            </div>
+            <ng-container *ngIf="isLoading; else content">
+              <div class="flex flex-wrap gap-4 justify-center">
+                <div
+                  *ngFor="let _ of [1, 2, 3]"
+                  class="w-full max-w-md p-4 sm:p-6 min-w-[280px]"
+                >
+                  <div class="animate-pulse">
+                    <div class="h-12 bg-gray-200 rounded-2xl mb-4"></div>
+                    <div class="h-8 bg-gray-200 rounded mb-4"></div>
+                    <div class="space-y-3">
+                      <div
+                        *ngFor="let _ of [1, 2, 3, 4, 5, 6, 7]"
+                        class="flex items-center"
+                      >
+                        <div class="w-4 h-4 bg-gray-200 rounded-sm me-3"></div>
+                        <div class="h-4 bg-gray-200 rounded w-3/4"></div>
+                      </div>
+                    </div>
+                    <div class="h-10 bg-gray-200 rounded mt-6"></div>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+            <ng-template #content>
+              <div class="plans mx-auto w-full max-w-[calc(3*448px+2*1rem)]">
+                <owl-carousel-o [options]="customOptions" class="bg-red-50">
+                  <ng-container *ngFor="let plan of plans; let i = index">
+                    <ng-template carouselSlide [id]="plan.id.toString()">
+                      <div
+                        class="relative flex w-full max-w-md mx-auto p-4 shadow-lg rounded-2xl font-Alexandria sm:p-6 {{
+                          i === 0 ? 'basic' : i === 1 ? 'standard' : 'premium'
+                        }} min-w-[280px] animate-[fadeIn_0.5s_ease-in-out_0.3s_both] flex flex-col justify-between min-h-[500px]"
+                        style="height: auto"
+                      >
+                        <div>
+                          <div
+                            class="absolute z-10 w-10 h-12 rounded-full top-1/2 -left-0 transform -translate-x-1/2 -translate-y-1/2 bg-white [box-shadow:inset_-4px_0_4px_-2px_rgba(0,0,0,0.2)] hidden sm:block"
+                          ></div>
+                          <div
+                            class="absolute z-10 w-10 h-12 rounded-full top-1/2 -right-0 transform translate-x-1/2 -translate-y-1/2 bg-white [box-shadow:inset_4px_0_4px_-2px_rgba(0,0,0,0.2)] hidden sm:block"
+                          ></div>
+                          <div
+                            class="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4"
+                          >
+                            <span class="text-[#5db5df] text-base capitalize">{{
+                              plan | customTranslate : "title"
+                            }}</span>
+                            <button
+                              class="{{
+                                i === 0
+                                  ? 'basic-btn'
+                                  : i === 1
+                                  ? 'standard-btn'
+                                  : 'premium-btn'
+                              }} basic-btn-text"
+                            >
+                              {{
+                                "pages.motor_policy.form.select_plan.in_year"
+                                  | translate
+                              }}
+                            </button>
+                          </div>
+                          <div
+                            class="text-xl sm:text-2xl font-bold text-black mb-4"
+                          >
+                            {{ plan.year_money }} EGP
+                          </div>
+                          <ul class="space-y-3 mb-6">
+                            <li class="flex items-center justify-between">
+                              <div class="flex items-center">
+                                <img class="w-4 h-4" src="plan.svg" alt="" />
+                                <span
+                                  class="text-sm sm:text-base text-black capitalize"
+                                  >{{
+                                    "pages.motor_policy.form.select_plan.company"
+                                      | translate
+                                  }}</span
+                                >
+                              </div>
+                              <span class="text-red-600 text-xs text-right">{{
+                                plan.company_name
+                              }}</span>
+                            </li>
+                            <li class="flex items-center justify-between">
+                              <div class="flex items-center">
+                                <img class="w-4 h-4" src="plan.svg" alt="" />
+                                <span
+                                  class="text-sm sm:text-base text-black capitalize"
+                                  >{{
+                                    "pages.motor_policy.form.select_plan.monthly"
+                                      | translate
+                                  }}</span
+                                >
+                              </div>
+                              <span class="text-red-600 text-xs text-right"
+                                >{{ plan.month_money }} EGP</span
+                              >
+                            </li>
+                            <li
+                              *ngFor="let choice of plan.jopchoices"
+                              class="flex items-center justify-between"
+                            >
+                              <div class="flex items-center">
+                                <img class="w-4 h-4" src="plan.svg" alt="" />
+                                <span
+                                  class="text-sm sm:text-base text-black capitalize"
+                                  >{{
+                                    choice | customTranslate : "title"
+                                  }}</span
+                                >
+                              </div>
+                              <ng-container
+                                *ngIf="
+                                  choice.en_description !== 'not found' &&
+                                    choice.en_description;
+                                  else notFound
+                                "
+                              >
+                                <span class="text-red-600 text-xs text-right">
+                                  <span
+                                    *ngIf="isValidUrl(choice.en_description)"
+                                  >
+                                    <a
+                                      [href]="choice.en_description"
+                                      target="_blank"
+                                      class="text-red-600 underline"
+                                    >
+                                      <img
+                                        *ngIf="
+                                          choice.en_description.includes(
+                                            '.png'
+                                          ) ||
+                                          choice.en_description.includes('.jpg')
+                                        "
+                                        [src]="choice.en_description"
+                                        [alt]="
+                                          choice | customTranslate : 'title'
+                                        "
+                                        class="w-12 h-12 inline-block"
+                                      />
+                                      <span
+                                        *ngIf="
+                                          !choice.en_description.includes(
+                                            '.png'
+                                          ) &&
+                                          !choice.en_description.includes(
+                                            '.jpg'
+                                          )
+                                        "
+                                        >Link</span
+                                      >
+                                    </a>
+                                  </span>
+                                  <span
+                                    *ngIf="
+                                      !isValidUrl(choice.en_description) &&
+                                      isNumber(choice.en_description)
+                                    "
+                                  >
+                                    {{ choice.en_description }} EGP
+                                  </span>
+                                  <span
+                                    *ngIf="
+                                      !isValidUrl(choice.en_description) &&
+                                      !isNumber(choice.en_description)
+                                    "
+                                  >
+                                    {{
+                                      choice | customTranslate : "description"
+                                    }}
+                                  </span>
+                                </span>
+                              </ng-container>
+                              <ng-template #notFound>
+                                <span class="text-gray-600 text-xs text-right"
+                                  >Not found</span
+                                >
+                              </ng-template>
+                            </li>
+                          </ul>
+                        </div>
+                        <button
+                          class="cursor-pointer select-policy-btn w-full sm:w-auto mt-auto"
+                          (click)="onPlanSelected(plan)"
+                        >
+                          {{
+                            "pages.motor_policy.form.select_plan.select_plan_button"
+                              | translate
+                          }}
+                        </button>
+                      </div>
+                    </ng-template>
+                  </ng-container>
+                </owl-carousel-o>
+              </div>
+              <div class="flex max-w-[300px] justify-start">
+                <button
+                  class="need-call-btn"
+                  (click)="needCall()"
+                  [disabled]="isNeedCallLoading"
+                >
+                  {{
+                    isNeedCallLoading
+                      ? ("pages.motor_policy.form.personal_information.loading"
+                        | translate)
+                      : ("pages.motor_policy.form.car_price.need_call_button"
+                        | translate)
+                  }}
+                </button>
+              </div>
+            </ng-template>
+          </div>
+        </ng-container>
+
+        <!-- Step 5: Payment -->
+        <div *ngIf="step === 5" class="flex flex-col md:flex-row gap-6">
+          <div class="w-full md:w-1/2">
+            <div
+              *ngIf="selectedPlan"
+              class="relative w-full max-w-md mx-auto p-4 shadow-lg rounded-2xl font-Alexandria sm:p-6 {{
+                selectedPlan.id === plans[0].id
+                  ? 'basic'
+                  : selectedPlan.id === plans[1].id
+                  ? 'standard'
+                  : 'premium'
+              }} animate-[fadeIn_0.5s_ease-in-out_0.3s_both]"
+              style="height: auto"
+            >
+              <div
+                class="absolute z-10 w-10 h-12 rounded-full top-1/2 -left-0 transform -translate-x-1/2 -translate-y-1/2 bg-white [box-shadow:inset_-4px_0_4px_-2px_rgba(0,0,0,0.2)] hidden sm:block"
+              ></div>
+              <div
+                class="absolute z-10 w-10 h-12 rounded-full top-1/2 -right-0 transform translate-x-1/2 -translate-y-1/2 bg-white [box-shadow:inset_4px_0_4px_-2px_rgba(0,0,0,0.2)] hidden sm:block"
+              ></div>
+              <div
+                class="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4"
+              >
+                <span class="text-[#5db5df] text-base capitalize">{{
+                  selectedPlan | customTranslate : "title"
+                }}</span>
+                <button
+                  class="{{
+                    selectedPlan.id === plans[0].id
+                      ? 'basic-btn'
+                      : selectedPlan.id === plans[1].id
+                      ? 'standard-btn'
+                      : 'premium-btn'
+                  }} basic-btn-text"
+                >
+                  {{
+                    "pages.building_policy.form.select_plan.in_year" | translate
+                  }}
+                </button>
+              </div>
+              <div class="text-xl sm:text-2xl font-bold text-black mb-4">
+                {{ selectedPlan.year_money }} EGP
+              </div>
+              <ul class="space-y-3 mb-6">
+                <li class="flex items-center justify-between">
+                  <div class="flex items-center">
+                    <img class="w-4 h-4" src="plan.svg" alt="" />
+                    <span class="text-sm sm:text-base text-black capitalize">{{
+                      "pages.building_policy.form.select_plan.company"
+                        | translate
+                    }}</span>
+                  </div>
+                  <span class="text-red-600 text-xs text-right">{{
+                    selectedPlan.company_name
+                  }}</span>
+                </li>
+                <li class="flex items-center justify-between">
+                  <div class="flex items-center">
+                    <img class="w-4 h-4" src="plan.svg" alt="" />
+                    <span class="text-sm sm:text-base text-black capitalize">{{
+                      "pages.building_policy.form.select_plan.monthly"
+                        | translate
+                    }}</span>
+                  </div>
+                  <span class="text-red-600 text-xs text-right"
+                    >{{ selectedPlan.month_money }} EGP</span
+                  >
+                </li>
+                <li
+                  *ngFor="let choice of selectedPlan.jopchoices"
+                  class="flex items-center justify-between"
+                >
+                  <div class="flex items-center">
+                    <img class="w-4 h-4" src="plan.svg" alt="" />
+                    <span class="text-sm sm:text-base text-black capitalize">{{
+                      choice | customTranslate : "title"
+                    }}</span>
+                  </div>
+                  <ng-container
+                    *ngIf="
+                      choice.en_description !== 'not found' &&
+                        choice.en_description;
+                      else notFound
+                    "
+                  >
+                    <span class="text-red-600 text-xs text-right">
+                      <span *ngIf="isValidUrl(choice.en_description)">
+                        <a
+                          [href]="choice.en_description"
+                          target="_blank"
+                          class="text-red-600 underline"
+                        >
+                          <img
+                            *ngIf="
+                              choice.en_description.includes('.png') ||
+                              choice.en_description.includes('.jpg')
+                            "
+                            [src]="choice.en_description"
+                            [alt]="choice | customTranslate : 'title'"
+                            class="w-12 h-12 inline-block"
+                          />
+                          <span
+                            *ngIf="
+                              !choice.en_description.includes('.png') &&
+                              !choice.en_description.includes('.jpg')
+                            "
+                            >Link</span
+                          >
+                        </a>
+                      </span>
+                      <span
+                        *ngIf="
+                          !isValidUrl(choice.en_description) &&
+                          isNumber(choice.en_description)
+                        "
+                      >
+                        {{ choice.en_description }} EGP
+                      </span>
+                      <span
+                        *ngIf="
+                          !isValidUrl(choice.en_description) &&
+                          !isNumber(choice.en_description)
+                        "
+                      >
+                        {{ choice | customTranslate : "description" }}
+                      </span>
+                    </span>
+                  </ng-container>
+                  <ng-template #notFound>
+                    <span class="text-gray-600 text-xs text-right"
+                      >Not found</span
+                    >
+                  </ng-template>
+                </li>
+              </ul>
+            </div>
+            <div *ngIf="!selectedPlan" class="text-red-500 text-sm">
+              {{
+                "pages.building_policy.form.payment.no_plan_selected"
+                  | translate
+              }}
+            </div>
+          </div>
+          <div class="w-full md:w-1/2 flex flex-col gap-4">
+            <div
+              class="text-[#3C3C3C] font-Alexandria text-[18px] font-[400] leading-5"
+            >
+              {{
+                "pages.building_policy.form.payment.payment_prompt_1"
+                  | translate
+              }}
+            </div>
+            <div
+              class="text-[#000] font-Alexandria text-[23px] font-[400] leading-5 mb-4"
+            >
+              {{
+                "pages.building_policy.form.payment.payment_prompt_2"
+                  | translate
+              }}
+            </div>
+            <div class="flex flex-col gap-4">
+              <div class="max-w-[300px]">
+                <label
+                  class="flex items-center text-lg md:text-[18px] px-12 py-4 border border-gray-400 rounded-[15px] cursor-pointer transition"
+                  [ngClass]="{
+                    'border-blue-500 text-blue-500':
+                      claimForm.get('paymentType')?.value === 'Full Payment'
+                  }"
+                >
+                  <input
+                    type="radio"
+                    name="paymentType"
+                    value="Full Payment"
+                    formControlName="paymentType"
+                    class="hidden"
+                  />
+                  <span
+                    class="w-3.5 h-3.5 me-2 rounded-full border-2 flex items-center justify-center"
+                    [ngClass]="{
+                      'border-blue-500':
+                        claimForm.get('paymentType')?.value === 'Full Payment',
+                      'border-gray-400':
+                        claimForm.get('paymentType')?.value !== 'Full Payment'
+                    }"
+                  >
+                    <span
+                      *ngIf="
+                        claimForm.get('paymentType')?.value === 'Full Payment'
+                      "
+                      class="w-2 h-2 bg-blue-500 rounded-full"
+                    ></span>
+                  </span>
+                  {{
+                    "pages.building_policy.form.payment.full_payment"
+                      | translate
+                  }}
+                </label>
+              </div>
+              <div
+                class="text-[#3C3C3C] font-Alexandria text-[18px] font-[400] leading-5"
+              >
+                {{
+                  "pages.building_policy.form.payment.payment_methods"
+                    | translate
+                }}
+              </div>
+              <div>
+                <label
+                  class="flex items-center text-lg md:text-[18px] px-12 py-4 border border-gray-400 rounded-[15px] cursor-pointer transition"
+                  [ngClass]="{
+                    'border-blue-500 text-blue-500':
+                      claimForm.get('paymentMethod')?.value === 'Cash'
+                  }"
+                >
+                  <input
+                    type="radio"
+                    name="paymentMethod"
+                    value="Cash"
+                    formControlName="paymentMethod"
+                    class="hidden"
+                  />
+                  <span
+                    class="w-3.5 h-3.5 me-2 rounded-full border-2 flex items-center justify-center"
+                    [ngClass]="{
+                      'border-blue-500':
+                        claimForm.get('paymentMethod')?.value === 'Cash',
+                      'border-gray-400':
+                        claimForm.get('paymentMethod')?.value !== 'Cash'
+                    }"
+                  >
+                    <span
+                      *ngIf="claimForm.get('paymentMethod')?.value === 'Cash'"
+                      class="w-2 h-2 bg-blue-500 rounded-full"
+                    ></span>
+                  </span>
+                  {{ "pages.building_policy.form.payment.cash" | translate }}
+                </label>
+              </div>
+            </div>
+            <div class="flex gap-4 items-center justify-between">
+              <button
+                class="general-btn bg-[#37a6de] text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors"
+                (click)="pay()"
+                [disabled]="isLoading"
+              >
+                {{
+                  isLoading
+                    ? ("pages.building_policy.form.personal_information.loading"
+                      | translate)
+                    : ("pages.building_policy.form.payment.pay_button"
+                      | translate)
+                }}
+              </button>
+              <button
+                class="need-call-btn"
+                (click)="needCall()"
+                [disabled]="isNeedCallLoading"
+              >
+                {{
+                  isNeedCallLoading
+                    ? ("pages.building_policy.form.personal_information.loading"
+                      | translate)
+                    : ("pages.building_policy.form.building_value.need_call_button"
+                      | translate)
+                }}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex gap-4 items-center">
+          <button
+            *ngIf="step < 4"
+            type="submit"
+            class="general-btn bg-[#00AEEF] text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors"
+            [disabled]="isLoading"
+          >
+            {{
+              isLoading
+                ? ("pages.building_policy.form.personal_information.loading"
+                  | translate)
+                : ("pages.building_policy.form.next_button" | translate)
+            }}
+          </button>
+          <button
+            *ngIf="step >= 1 && step < 4"
+            class="need-call-btn"
+            (click)="needCall()"
+            [disabled]="isNeedCallLoading"
+          >
+            {{
+              isNeedCallLoading
+                ? ("pages.building_policy.form.personal_information.loading"
+                  | translate)
+                : ("pages.building_policy.form.building_value.need_call_button"
+                  | translate)
+            }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div
+  *ngIf="!showForm"
+  class="mx-5 max-h-[933px] overflow-y-auto md:mx-10 lg:mx-20 p-4 md:p-12 rounded-[40px] bg-[url('assets/policies/big-cover.png')] bg-no-repeat bg-center bg-cover"
+>
+  <div
+    class="flex flex-col gap-4 md:gap-12 p-4 capitalize prose"
+    [innerHTML]="
+      (currentLanguage
+        ? currentLanguage === 'ar'
+          ? category?.ar_main_description
+          : category?.en_main_description
+        : ''
+      ) | safeHtml
+    "
+  ></div>
+</div>
+
+<div
+  *ngIf="!showForm"
+  class="mx-5 mt-12 md:mx-10 lg:mx-20 p-4 md:p-8 rounded-[20px] bg-[url('assets/policies/small-cover.png')] bg-no-repeat bg-center bg-cover"
+>
+  <div
+    class="w-full flex flex-col lg:flex-row gap-8 lg:gap-16 capitalize justify-center items-center"
+  >
+    <!-- Arc/Circle Section -->
+    <div
+      class="relative w-64 h-64 sm:w-72 sm:h-72 md:w-86 md:h-86 flex items-center justify-center mx-auto lg:mx-0"
+    >
+      <!-- Half-white border copy under the main arc -->
+      <div
+        class="absolute w-64 h-64 sm:w-72 sm:h-72 md:w-86 md:h-86 rounded-full border-[18px] sm:border-[20px] md:border-[24px] border-transparent border-t-white rotate-[246deg]"
+      ></div>
+
+      <!-- Main blue arc -->
+      <div
+        class="absolute w-64 h-64 sm:w-72 sm:h-72 md:w-86 md:h-86 rounded-full border-[18px] sm:border-[20px] md:border-[24px] border-transparent border-t-[#37A6DE] border-l-[#37A6DE] border-r-[#37A6DE] rotate-[16deg]"
+      ></div>
+
+      <!-- Middle light blue ring -->
+      <div
+        class="absolute w-40 h-40 sm:w-48 sm:h-48 md:w-58 md:h-58 rounded-full border-[30px] sm:border-[36px] md:border-[40px] border-[#A9D5EB] bg-transparent"
+      ></div>
+
+      <!-- Inner content circle -->
+      <div
+        *ngIf="counters && counters.length > 0"
+        class="z-10 flex flex-col items-center justify-center text-center bg-[#37A6DE] rounded-full w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 shadow-md"
+      >
+        <div class="text-lg sm:text-xl md:text-[30px] font-bold text-white">
+          {{ counters[0].counter_value || 0 }}
+        </div>
+        <div class="text-sm sm:text-base md:text-[20px] text-white">
+          {{
+            currentLanguage === "ar" ? counters[0].ar_name : counters[0].en_name
+          }}
+        </div>
+        <div class="text-white mt-2 text-xs sm:text-sm md:text-base">
+          <img
+            src="assets/policies/car-icon.png"
+            alt=""
+            class="w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10"
+          />
+        </div>
+      </div>
+      <div *ngIf="!counters || counters.length === 0">
+        Loading or no data available...
+      </div>
+    </div>
+
+    <div class="flex flex-col gap-6 items-start justify-center lg:w-[60%]">
+      <div class="policy-title2 text-[20px] md:text-[35px]">
+        {{ currentLanguage === "ar" ? "نقدم لك" : "Our Progress" }}
+      </div>
+      <div class="policy-big-title text-[20px] md:text-[35px]">
+        {{
+          currentLanguage === "ar"
+            ? "راحة بالك تبدأ من هنا"
+            : "Your peace of mind starts here"
+        }}
+      </div>
+      <ul class="flex flex-col gap-2">
+        <li class="leading-[35px] text-justify">
+          {{
+            currentLanguage === "ar"
+              ? "96 وثيقة تأمين على العقارات تغطي احتياجاتك الصحية في كل مرحلة، من الاستشارات إلى العمليات الجراحية الكبرى"
+              : "over 96 property insurance policies covering your healthcare needs at every stage, from consultation to major surgeries"
+          }}
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<app-partners-logos [policyType]="'property'"></app-partners-logos>

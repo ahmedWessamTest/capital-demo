@@ -1,0 +1,162 @@
+<div class="p-4 lg:max-h[820px] md:p-12 overflow-x-hidden lg:p-14 bg-[linear-gradient(rgba(239,248,255,0.905),rgba(239,248,255,0.884)),url('assets/about/amin.webp')] bg-no-repeat bg-center bg-cover">
+  <div *ngIf="aboutData$ | async as aboutData; else loading" class="flex flex-col gap-8 md:flex-row md:gap-12 items-center capitalize">
+    <div class="flex-1 relative">
+      <div class="image-skeleton absolute inset-0 bg-gray-200 animate-pulse rounded"></div>
+      <img loading="lazy" [src]="baseImageUrl + aboutData.about.main_image" alt="About Us" class="w-full h-full min-w-[280px] object-cover" (load)="onImageLoad($event)" />
+      <div class="absolute w-[150px] h-[150px] md:w-[250px] md:h-[250px] rounded-full bottom-20 right-10 md:bottom-30 md:right-20 text-wrap p-4 flex items-center justify-center text-white text-xl font-extrabold bg-primary-500 shadow-lg text-center leading-snug">
+        <span>
+          <ng-container *ngIf="lang === 'ar'; else englishText">
+             + {{ aboutData.about.years_of_experience }}<br/> سنوات من<br/>الخبرة
+          </ng-container>
+          <ng-template #englishText>
+             +  {{ aboutData.about.years_of_experience }}<br/> Years of<br/>Experience
+          </ng-template>
+        </span>
+      </div>
+    </div>
+    <div class="flex flex-col flex-1 text-center md:text-left items-center md:items-start gap-[35px] w-full min-h-screen">
+      <div class="flex flex-col gap-[35px] w-full">
+        <div class="flex flex-col gap-4">
+          <div *ngIf="isHome" class="flex !h-[30px]">
+            <app-heading [headingText]="'about' | translate" [showStartSvg]="true" [showEndSvg]="false"></app-heading>
+          </div>
+          <div  ngClass="{{ lang === 'ar' ? 'text-right' : 'text-left' }}" class="text-[#5DB5DF] text-2xl mt-8 md:text-35 font-bold" title="{{ lang === 'ar' ? aboutData.about.ar_main_title : aboutData.about.en_main_title }}">
+            {{ (lang === 'ar' ? aboutData.about.ar_main_title : aboutData.about.en_main_title ).slice(0, 100) }}
+          </div>
+        </div>
+        <p ngClass="{{ lang === 'ar' ? 'text-right' : 'text-left' }}" class="about-text justify-center parse overflow-y-auto h-[350px] "  [innerHTML]="lang === 'ar' ? aboutData.about.ar_main_content : aboutData.about.en_main_content"></p>
+      </div>
+      <div class="w-full flex flex-col gap-4 items-center md:flex-row justify-around mt-4">
+        <div class="w-[235px] flex flex-col gap-3 md:gap-4 justify-center items-center">
+          <div class="relative w-16 h-16">
+            <div class="image-skeleton absolute inset-0 bg-gray-200 animate-pulse rounded-full"></div>
+            <img loading="lazy" src="assets/about/about-icon-1.png" alt="" class="w-full h-full object-cover" (load)="onImageLoad($event)" />
+          </div>
+          <div class="small-about-title text-center">{{ lang === 'ar' ? aboutData.about.ar_about_first_feature_title : aboutData.about.en_about_first_feature_title }}</div>
+          <div class="small-about-text h-[150px] overflow-y-auto" title="{{ lang === 'ar' ? aboutData.about.ar_about_first_feature_text : aboutData.about.en_about_first_feature_text }}" >
+            {{ (lang === 'ar' ? aboutData.about.ar_about_first_feature_text : aboutData.about.en_about_first_feature_text ).slice(0, 100) }}
+          </div>
+        </div>
+        <div class="w-[235px] flex flex-col gap-3 justify-center items-center">
+          <div class="relative w-16 h-16">
+            <div class="image-skeleton absolute inset-0 bg-gray-200 animate-pulse rounded-full"></div>
+            <img loading="lazy" src="assets/about/about-icon-2.png" alt="" class="w-full h-full object-cover" (load)="onImageLoad($event)" />
+          </div>
+          <div class="small-about-title text-center">{{ lang === 'ar' ? aboutData.about.ar_about_second_feature_title : aboutData.about.en_about_second_feature_title }}</div>
+          <div class="small-about-text h-[150px] overflow-y-auto" title="{{ lang === 'ar' ? aboutData.about.ar_about_second_feature_text : aboutData.about.en_about_second_feature_text }}">
+            {{ (lang === 'ar' ? aboutData.about.ar_about_second_feature_text : aboutData.about.en_about_second_feature_text ).slice(0, 100) }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ng-template #loading>
+    <div class="flex flex-col gap-8 md:flex-row md:gap-12 items-center capitalize p-4">
+      <div class="flex-1 relative">
+        <div class="w-full h-64 bg-gray-200 animate-pulse rounded"></div>
+      </div>
+      <div class="flex-1 flex flex-col gap-6 items-center md:items-start">
+        <div class="w-1/2 h-8 bg-gray-200 animate-pulse rounded"></div>
+        <div class="w-3/4 h-10 bg-gray-200 animate-pulse rounded"></div>
+        <div class="w-full h-24 bg-gray-200 animate-pulse rounded"></div>
+        <div class="w-full flex flex-col gap-4 items-center md:flex-row justify-around">
+          <div class="w-[235px] flex flex-col gap-3">
+            <div class="w-16 h-16 bg-gray-200 animate-pulse rounded-full mx-auto"></div>
+            <div class="w-1/2 h-6 bg-gray-200 animate-pulse rounded mx-auto"></div>
+            <div class="w-3/4 h-12 bg-gray-200 animate-pulse rounded mx-auto"></div>
+          </div>
+          <div class="w-[235px] flex flex-col gap-3">
+            <div class="w-16 h-16 bg-gray-200 animate-pulse rounded-full mx-auto"></div>
+            <div class="w-1/2 h-6 bg-gray-200 animate-pulse rounded mx-auto"></div>
+            <div class="w-3/4 h-12 bg-gray-200 animate-pulse rounded mx-auto"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</div>
+
+<div *ngIf="!isHome" class="p-4 md:p-12 lg:p-20">
+  <div *ngIf="aboutData$ | async as aboutData; else loading" class="flex gap-8 flex-wrap">
+    <div class="px-8 py-6 rounded-[35px] h-[260px] w-[260px] overflow-y-auto vision flex-1 flex flex-col gap-8 bg-[linear-gradient(rgba(239,248,255,0.905),rgba(239,248,255,0.884)),url('assets/about/vision.jpg')] bg-no-repeat bg-center bg-cover">
+      <div class="mission-title">{{ lang === 'ar' ?"رؤيتنا" : "Our Vision" }}</div>
+      <div class="mission-text" >{{ lang === 'ar' ? aboutData.about.ar_vision : aboutData.about.en_vision }}</div>
+    </div>
+    <div class="h-[260px] w-[260px] px-8 py-6 rounded-[35px] overflow-y-auto mission flex-1 flex flex-col gap-8 bg-[linear-gradient(rgba(239,248,255,0.905),rgba(239,248,255,0.884)),url('assets/about/mission.jpg')] bg-no-repeat bg-center bg-cover">
+      <div class="mission-title">{{ lang === 'ar' ?"مهمتنا" : "Our Mission" }}</div>
+      <div class="mission-text" >{{ lang === 'ar' ? aboutData.about.ar_mission : aboutData.about.en_mission }}</div>
+    </div>
+
+  </div>
+  <ng-template #loading>
+    <div class="flex gap-8 flex-wrap">
+      <div class="min-h-[260px] px-8 py-6 rounded-[35px] flex-1 flex flex-col gap-8">
+        <div class="w-1/3 h-6 bg-gray-200 animate-pulse rounded"></div>
+        <div class="w-full h-24 bg-gray-200 animate-pulse rounded"></div>
+      </div>
+      <div class="min-h-[260px] px-8 py-6 rounded-[35px] flex-1 flex flex-col gap-8">
+        <div class="w-1/3 h-6 bg-gray-200 animate-pulse rounded"></div>
+        <div class="w-full h-24 bg-gray-200 animate-pulse rounded"></div>
+      </div>
+    </div>
+  </ng-template>
+</div>
+
+<ng-container *ngIf="!isHome">
+  <div class="p-4 md:p-12 lg:p-20">
+    <div *ngIf="aboutData$ | async as aboutData; else loading" class="flex flex-col lg:flex-row gap-6 sm:gap-8 lg:gap-12 w-full box-bg py-6 sm:py-8 lg:py-12 px-4 sm:px-6 lg:px-7 bg-[linear-gradient(rgba(239,248,255,0.905),rgba(239,248,255,0.884)),url('assets/about/history.jpg')]">
+      <div class="flex flex-1 flex-col gap-4 sm:gap-6 lg:gap-4">
+        <div class="heading my-1 heading-underline">{{ lang === 'ar' ? "تاريخنا" : "Our History" }}</div>
+        <div [innerHTML]="(lang === 'ar' ? aboutData.about.ar_history_title : aboutData.about.en_history_title).slice(0, 100)" class="font-[600] text-xl sm:text-2xl md:text-3xl lg:text-4xl text-semi-black max-w-full lg:max-w-[571px] leading-6 sm:leading-8 md:leading-10 lg:leading-[45px] capitalize"></div>
+        <div class="rounded-35 flex items-center w-full h-48 sm:h-64 md:h-80 lg:h-[381px] relative">
+          <div class="image-skeleton absolute inset-0 bg-gray-200 animate-pulse rounded-35"></div>
+          <img loading="lazy" class="rounded-35 w-full h-full object-cover" src="/assets/about/history.jpg" alt="History" (load)="onImageLoad($event)" />
+        </div>
+        <div class="flex flex-col sm:flex-row p-4 sm:p-6 just sm:gap-6 lg:gap-8 items-center justify-center rounded-35 bg-primary-300 text-white">
+          <div class="w-20 h-20 sm:w-24 sm:h-24 lg:w-[132px] lg:h-[132px] rounded-full border-2 border-primary-500 bg-white flex justify-center items-center flex-shrink-0 relative">
+            <div class="image-skeleton absolute inset-0 bg-gray-200 animate-pulse rounded-full"></div>
+            <img loading="lazy" class="w-[75%]" src="/logo.webp" alt="Logo" (load)="onImageLoad($event)" />
+          </div>
+          <div *ngFor="let counter of aboutData.counters | slice:0:3" class="flex flex-col gap-1 sm:gap-0 capitalize items-center text-center">
+            <div class="history-number min-w-[80px]">{{ counter?.counter_value }}</div>
+            <div class="history-num-text  min-w-[80px]">{{ lang === 'ar' ? counter?.ar_name : counter?.en_name }}</div>
+          </div>
+        </div>
+      </div>
+      <div class="flex flex-1 flex-col gap-6 sm:gap-8 lg:gap-12  min-h-screen">
+        <div class="flex h-full items-end justify-end">
+          <div class="history h-[350px] overflow-y-auto"  style="text-align: justify;" [innerHTML]="lang === 'ar' ? aboutData.about.ar_history_text : aboutData.about.en_history_text"></div>
+        </div>
+        <div class="rounded-35 w-full h-32 sm:h-40 md:h-48 lg:h-[220px] relative">
+          <div class="image-skeleton absolute inset-0 bg-gray-200 animate-pulse rounded-35"></div>
+          <img loading="lazy" class="w-full rounded-35 h-full object-cover" [src]="baseImageUrl + aboutData.about.history_image" alt="History" (load)="onImageLoad($event)" />
+        </div>
+      </div>
+    </div>
+    <ng-template #loading>
+      <div class="flex flex-col lg:flex-row gap-6 sm:gap-8 lg:gap-12 w-full py-6 sm:py-8 lg:py-12 px-4 sm:px-6 lg:px-7">
+        <div class="flex flex-1 flex-col gap-4 sm:gap-6 lg:gap-8">
+          <div class="w-1/2 h-8 bg-gray-200 animate-pulse rounded"></div>
+          <div class="w-full h-24 bg-gray-200 animate-pulse rounded"></div>
+          <div class="w-full h-48 sm:h-64 md:h-80 lg:h-[381px] bg-gray-200 animate-pulse rounded-35"></div>
+          <div class="flex flex-col sm:flex-row p-4 sm:p-6 gap-4 sm:gap-6 lg:gap-8 items-center justify-center rounded-35 bg-gray-200 animate-pulse">
+            <div class="w-20 h-20 sm:w-24 sm:h-24 lg:w-[132px] lg:h-[132px] rounded-full bg-gray-300 animate-pulse"></div>
+            <div class="flex flex-col gap-1 sm:gap-2 items-center">
+              <div class="w-16 h-6 bg-gray-300 animate-pulse rounded"></div>
+              <div class="w-24 h-4 bg-gray-300 animate-pulse rounded"></div>
+            </div>
+            <div class="flex flex-col gap-1 sm:gap-2 items-center">
+              <div class="w-16 h-6 bg-gray-300 animate-pulse rounded"></div>
+              <div class="w-24 h-4 bg-gray-300 animate-pulse rounded"></div>
+            </div>
+          </div>
+        </div>
+        <div class="flex flex-1 flex-col gap-6 sm:gap-8 lg:gap-12 justify-center">
+          <div class="w-1/2 h-6 bg-gray-200 animate-pulse rounded"></div>
+          <div class="w-full h-24 bg-gray-200 animate-pulse rounded"></div>
+          <div class="w-full h-32 sm:h-40 md:h-48 lg:h-[220px] bg-gray-200 animate-pulse rounded-35"></div>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+</ng-container>

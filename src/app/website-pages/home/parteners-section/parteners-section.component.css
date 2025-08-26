@@ -1,0 +1,102 @@
+.test {
+    text-transform: capitalize;
+  }
+  
+
+  .active-slide img {
+    filter: brightness(0) saturate(100%) invert(60%) sepia(60%) saturate(800%) hue-rotate(170deg) brightness(95%) contrast(90%) !important;
+  }
+  
+  .active-slide div {
+    color: #36A6DD !important; 
+    font-weight: bold;
+  }
+  
+  ::ng-deep .owl-item.center .partener-img img {
+    filter: brightness(0) saturate(100%) invert(60%) sepia(60%) saturate(800%) hue-rotate(170deg) brightness(95%) contrast(90%);
+  }
+  
+  ::ng-deep .owl-item.center .partener-img div {
+    color: #36A6DD !important;
+    font-weight: 400;
+    font-size: 12px;
+  }
+  
+  /* Ensure SVG is visible */
+  .flex.items-center.justify-center {
+    display: flex !important;
+    visibility: visible !important;
+    width: 24px;
+    height: 24px;
+  }
+  
+  /* Remove extra padding/margins from carousel items */
+  .owl-item {
+    padding: 0 !important;
+  }
+  
+  /* Ensure carousel container doesn't add extra spacing */
+  .owl-carousel {
+    padding: 0 !important;
+  }
+  
+  ::ng-deep .owl-carousel {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  
+  ::ng-deep .owl-stage-outer {
+    padding: 0 !important;
+  }
+  
+  ::ng-deep .owl-item {
+    padding: 0 !important;
+  }
+  
+  /* Ensure navigation button is visible */
+  .cursor-pointer {
+    z-index: 10;
+    position: relative;
+  }
+  
+  /* Prevent text wrapping in title */
+  .whitespace-nowrap {
+    white-space: nowrap;
+  }
+  
+  /* Ensure proper flex behavior */
+  .flex-shrink-0 {
+    flex-shrink: 0;
+  }
+  
+  .min-w-0 {
+    min-width: 0;
+  }
+  
+  /* Smooth transitions */
+  .transition-all {
+    /* transition: all 0.3s ease-in-out; */
+  }
+  
+
+  .parteners-slider{
+    margin:0 auto;
+    transition: all 0s;
+  }
+.parteners-slider:hover img{
+  transition: all 0s;
+
+  /* filter: brightness(0) saturate(100%) invert(60%) sepia(60%) saturate(800%) hue-rotate(170deg) brightness(95%) contrast(90%); */
+
+}
+.parteners-slider:hover div{
+  transition: all 0s;
+
+  /* color: #36A6DD !important; */
+
+}
+
+  ::ng-deep .owl-item:not(.active) {
+    opacity: 0.0; /* Fades non-active slides slightly */
+    transition: opacity 0.5s ease, transform 0.8s ease; /* Smooth transition */
+}

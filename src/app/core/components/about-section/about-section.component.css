@@ -1,0 +1,41 @@
+.about-text{
+    color: #174A77;
+font-family: Alexandria;
+font-size: 23px;
+font-style: normal;
+font-weight: 400;
+line-height: 30px; /* 130.435% */
+text-transform: capitalize;
+}
+
+.about-heading{
+    color: #5DB5DF;
+font-family: Alexandria;
+font-size: clamp(23px, 5vw, 45px);
+font-style: normal;
+font-weight: 600;
+line-height: 55px; /* 122.222% */
+text-transform: capitalize;
+}
+
+.small-about-text{
+    color: #174A77;
+font-family: Alexandria;
+font-size: clamp(16px, 2vw, 18px);
+font-style: normal;
+font-weight: 400;
+line-height: 25px; /* 138.889% */
+text-transform: capitalize;
+text-align: center;
+}
+
+.small-about-title{
+    color: #5DB5DF;
+    font-family: Alexandria;
+    font-size: clamp(23px, 1vw, 25px);
+    font-style: normal;
+    font-weight: 600;
+    line-height: 55px; /* 239.13% */
+    text-transform: capitalize;
+    text-align: center;
+}

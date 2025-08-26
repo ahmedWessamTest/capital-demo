@@ -1,0 +1,78 @@
+/* parteners-logos.component.css */
+
+.partner-slide {
+    margin: 0 auto;
+    max-width: 185px;
+    transition: all .4s;
+    will-change: transform;
+    /* Ensure consistent height */
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* Remove the opacity reduction for non-center items if you want all items fully visible */
+  ::ng-deep .owl-item {
+    transition: opacity .5s ease, transform 0.8s ease;
+    /* Keep all items fully opaque */
+    opacity: 1 !important;
+  }
+  
+  /* If you want to keep the center focus effect, use this instead: */
+  /*
+  ::ng-deep .owl-item:not(.center) {
+    opacity: 0.8;
+    transition: opacity .5s ease, transform 0.8s ease;
+  }
+  */
+  
+  /* Ensure the carousel stage doesn't clip content */
+  ::ng-deep .owl-stage-outer {
+    overflow: visible;
+  }
+  
+  /* Fix carousel item sizing */
+  ::ng-deep .owl-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100px;
+  }
+  
+  /* Ensure images maintain aspect ratio */
+  .partner-slide img {
+    transition: opacity 0.3s ease-in-out;
+    /* Prevent image distortion */
+    object-fit: contain;
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+  }
+  
+  /* Skeleton loader animation */
+  @keyframes pulse {
+    0% { background-color: #e5e7eb; }
+    50% { background-color: #d1d5db; }
+    100% { background-color: #e5e7eb; }
+  }
+  
+  .animate-pulse {
+    animation: pulse 1.5s infinite;
+  }
+  
+  /* Prevent carousel from adding unwanted padding/margin */
+  ::ng-deep .owl-carousel .owl-stage {
+    display: flex;
+    align-items: center;
+  }
+  
+  /* Fix for images being cut off in certain browsers */
+  ::ng-deep .owl-carousel .owl-item img {
+    width: auto !important;
+    max-width: 185px;
+    height: auto !important;
+    max-height: 50px;
+    object-fit: contain;
+  }

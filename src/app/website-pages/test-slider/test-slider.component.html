@@ -1,0 +1,26 @@
+
+
+<div class="mx-auto categories-slider  ">
+  
+    <owl-carousel-o [options]="carouselOptions" class="bg-red-50" #categoriesSlider>
+      <ng-template carouselSlide *ngFor="let item of items" class="">
+        <div class="slide-container rounded-35-res relative flex items-center justify-center">
+          <div class="w-full h-full relative">
+
+            <div class="absolute bottom-2 md:bottom-10  left-1/2 translate-x-[-50%] text-white z-20 cursor-pointer" [ngClass]="{'rtl-flip': isRtl}" (click)="next()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
+                  <path d="M9.74555 17.7203C10.1368 18.1101 10.7699 18.1089 11.1598 17.7176L16.0378 12.816C16.8166 12.0333 16.8139 10.7675 16.0316 9.98832L11.1319 5.10733C10.7406 4.71758 10.1075 4.71879 9.71763 5.11004C9.32788 5.50129 9.32909 6.13449 9.72034 6.52424L13.9141 10.7019C14.3053 11.0916 14.3066 11.7247 13.9168 12.1161L9.74284 16.3061C9.35299 16.6974 9.3542 17.3306 9.74555 17.7203Z" fill="white"/>
+                  <path d="M2.34419 17.7203C2.73544 18.1101 3.36853 18.1089 3.75838 17.7176L8.63639 12.816C9.41528 12.0333 9.41254 10.7675 8.63027 9.98832L3.73056 5.10733C3.33921 4.71758 2.70611 4.71879 2.31626 5.11004C1.92651 5.50129 1.92773 6.13449 2.31898 6.52424L6.51271 10.7019C6.90398 11.0916 6.90519 11.7247 6.51543 12.1161L2.34147 16.3061C1.95162 16.6974 1.95284 17.3306 2.34419 17.7203Z" fill="white"/>
+                  <path d="M16.3442 17.7203C16.7354 18.1101 17.3685 18.1089 17.7584 17.7176L22.6364 12.816C23.4153 12.0333 23.4125 10.7675 22.6303 9.98832L17.7306 5.10733C17.3392 4.71758 16.7061 4.71879 16.3163 5.11004C15.9265 5.50129 15.9277 6.13449 16.319 6.52424L20.5127 10.7019C20.904 11.0916 20.9052 11.7247 20.5154 12.1161L16.3415 16.3061C15.9516 16.6974 15.9528 17.3306 16.3442 17.7203Z" fill="white"/>
+                </svg>
+              </div>
+            <img [src]="item.src" alt="{{item.en_text}}" class="rounded-35-res slide-image w-full h-full">
+          </div>
+          <div class="slide-content absolute">
+            <h3 class="text-white text-35-res font-semibold">{{isRtl?item.ar_text:item.en_text}}</h3>
+          </div>
+          
+        </div>
+      </ng-template>
+    </owl-carousel-o>
+  </div>

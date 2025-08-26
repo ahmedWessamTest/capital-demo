@@ -1,0 +1,147 @@
+<div class="p-6 max-w-[1440px] bg-[#F8F8F8] h-[70vh] mx-auto rounded-md flex flex-col" [dir]="isRTL ? 'rtl' : 'ltr'" [@fadeIn]>
+    <!-- Header - Fixed height -->
+    <div class="flex items-center space-x-2 text-blue-600 font-medium cursor-pointer mb-4 flex-shrink-0" 
+         [ngClass]="{'space-x-reverse': isRTL}">
+      <a [routerLink]="['/', currentLang$ | async, 'claims']">
+        <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 35 35" fill="none">
+          <path d="M17.499 2.97363C9.47637 2.97363 2.97266 9.47734 2.97266 17.5C2.97266 25.5227 9.47637 32.0264 17.499 32.0264C25.5217 32.0264 32.0254 25.5227 32.0254 17.5C32.0254 9.47734 25.5217 2.97363 17.499 2.97363ZM22.157 24.4863C22.585 24.9129 22.5856 25.6054 22.1591 26.0333C21.9451 26.2473 21.6648 26.3546 21.3846 26.3546C21.105 26.3546 20.8261 26.2479 20.6121 26.0354L12.841 18.2861C12.6353 18.0811 12.5197 17.8028 12.5197 17.5123C12.5197 17.2218 12.6346 16.9436 12.8403 16.7378L20.6121 8.96602C21.0394 8.53877 21.7318 8.53877 22.1591 8.96602C22.5863 9.39326 22.5863 10.0857 22.1591 10.513L15.1611 17.5103L22.157 24.4863Z" fill="#B2B2B2"/>
+        </svg>
+      </a>
+      <span class="comments-updates">Comments And Updates</span>
+    </div>
+  
+    <!-- Comments List - Flexible height (takes remaining space) -->
+    <div #commentsContainer class="flex-1 overflow-y-auto overflow-x-hidden min-h-0 mb-4">
+      <div *ngIf="isLoading" class="animate-pulse">
+        <div *ngFor="let _ of [1, 2, 3]" class="mb-4">
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 rounded-full bg-gray-200"></div>
+            <div class="flex flex-col max-w-xl gap-2">
+              <div class="h-4 w-32 bg-gray-200 rounded"></div>
+              <div class="h-16 w-full bg-gray-200 rounded-lg"></div>
+            </div>
+          </div>
+          <hr class="mt-4 text-[#b2b2b2b3] max-w-sm ms-auto" />
+        </div>
+      </div>
+      <div *ngIf="!isLoading && error" class="text-red-600 text-center">{{ error }}</div>
+      <div *ngIf="!isLoading && !error && comments.length === 0" class="text-gray-500 text-center">
+        No comments available for this claim.
+      </div>
+      <div *ngFor="let comment of comments; let isLast = last" class="mb-4">
+        <div class="flex items-start gap-4" [ngClass]="getAlignmentClasses(comment.role)">
+          <!-- Avatar Column -->
+          <div class="flex flex-col items-center flex-shrink-0">
+            <div *ngIf="comment.role === 'admin'" class="w-12 h-12 rounded-full bg-white shadow flex items-center justify-center">
+              <img src="/assets/logo/logo.webp" alt="avatar" class="w-8 h-8 object-contain" />
+            </div>
+            <div *ngIf="comment.role === 'user'" class="w-12 h-12 rounded-full bg-white shadow flex items-center justify-center">
+              <img src="/assets/policies/user-avatar.svg" alt="avatar" class="w-8 h-8 object-contain" />
+            </div>
+          </div>
+          <!-- Content Column -->
+          <div class="flex flex-col max-w-xl gap-2">
+            <!-- Sender and Date -->
+            <span class="sender-date text-sm text-gray-600">
+              {{ comment.sender }} · {{ comment.date }}
+            </span>
+            <!-- Message Bubble -->
+            <div class="comment-text p-3 rounded-lg whitespace-pre-wrap break-words leading-relaxed">
+              {{ comment.message }}
+            </div>
+            <!-- File Link (if any) -->
+            <div *ngIf="comment.comment_file" class="flex justify-end flex-wrap gap-2 mt-2">
+              <a [href]="API_CONFIG.BASE_URL_IMAGE + comment.comment_file" target="_blank" class="bg-white px-3 py-1 rounded-full text-sm border flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                  <path d="M14.5625 11.0912L10.7321 15.1827C10.4072 15.5457 9.9448 15.7557 9.45756 15.7614C8.97037 15.767 8.50318 15.5678 8.16989 15.2124C7.43365 14.4439 7.44602 13.2279 8.19773 12.4745L13.3423 6.97275C13.9099 6.34099 14.7175 5.97797 15.5668 5.97304C16.4159 5.9681 17.2277 6.3217 17.8025 6.94683C19.0286 8.30174 19.0199 10.3678 17.7823 11.7123L12.3276 17.5404C11.5514 18.3197 10.4887 18.7453 9.38918 18.7175C8.28962 18.6897 7.24987 18.211 6.51389 17.3936C4.83165 15.496 4.87326 12.629 6.6099 10.7811L11.7622 5.28027" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                View Attached File
+              </a>
+            </div>
+          </div>
+        </div>
+        <hr *ngIf="!isLast" class="mt-4 text-[#b2b2b2b3] max-w-sm" [ngClass]="{
+          'ms-auto': (comment.role == 'user' && !isRTL) || (comment.role !== 'user' && isRTL),
+          'me-auto': (comment.role !== 'user' && !isRTL) || (comment.role == 'user' && isRTL)
+        }" />
+      </div>
+    </div>
+  
+    <!-- Comment Input Form - Fixed height at bottom -->
+    <form [formGroup]="commentForm" (ngSubmit)="onSubmit()" class="flex-shrink-0">
+      <!-- Selected Files Display -->
+      <div *ngIf="selectedFiles.length > 0" class="mb-4">
+        <div class="flex flex-wrap gap-2">
+          <div *ngFor="let file of selectedFiles; let i = index" class="bg-blue-50 px-3 py-2 rounded-lg flex items-center gap-2 text-sm">
+            <img *ngIf="isImageFile(file)" [src]="getFilePreview(file)" alt="preview" class="w-10 h-10 object-cover rounded" />
+            <svg *ngIf="!isImageFile(file)" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none">
+              <path d="M14.5625 11.0912L10.7321 15.1827C10.4072 15.5457 9.9448 15.7557 9.45756 15.7614C8.97037 15.767 8.50318 15.5678 8.16989 15.2124C7.43365 14.4439 7.44602 13.2279 8.19773 12.4745L13.3423 6.97275C13.9099 6.34099 14.7175 5.97797 15.5668 5.97304C16.4159 5.9681 17.2277 6.3217 17.8025 6.94683C19.0286 8.30174 19.0199 10.3678 17.7823 11.7123L12.3276 17.5404C11.5514 18.3197 10.4887 18.7453 9.38918 18.7175C8.28962 18.6897 7.24987 18.211 6.51389 17.3936C4.83165 15.496 4.87326 12.629 6.6099 10.7811L11.7622 5.28027" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            {{ file.name }}
+            <button *ngIf="!isSubmitting" type="button" (click)="removeFile(i)" class="text-red-500 hover:text-red-700 ml-2">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Input Row -->
+      <div class="flex items-end gap-2" [ngClass]="{'space-x-reverse': isRTL}">
+        <!-- Textarea Container -->
+        <div class="relative flex-grow flex items-center flex-col">
+          <textarea
+            [placeholder]="canComment ? 'Add A Comment' : comments.length === 0 ? 'No comments available to reply to.' : 'Commenting is disabled as the claim is not pending.'"
+            formControlName="message"
+            rows="1"
+            (keydown)="onKeyDown($event)"
+            class="w-full px-4 py-2 pr-20 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#37A6DE] resize-none"
+            [class.border-red-500]="commentForm.get('message')?.invalid && commentForm.get('message')?.touched"
+            [class.pr-20]="!isRTL"
+            [class.pl-20]="isRTL"
+            [disabled]="!canComment || isSubmitting"
+            [readOnly]="!canComment"
+          ></textarea>
+          <!-- File Upload and Send Button Container -->
+          <div class="absolute bottom-1/2 transform translate-y-1/2 end-2 flex items-center gap-1"
+               [class.right-2]="!isRTL"
+               [class.left-2]="isRTL">
+            <!-- File Upload Button -->
+            <button
+              *ngIf="!isSubmitting"
+              type="button"
+              (click)="triggerFileInput()"
+              class="p-1 hover:bg-gray-100 rounded-full transition-colors duration-200"
+              title="Attach files"
+              [disabled]="!canComment"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" class="text-gray-500 hover:text-gray-700">
+                <path d="M14.5625 11.0912L10.7321 15.1827C10.4072 15.5457 9.9448 15.7557 9.45756 15.7614C8.97037 15.767 8.50318 15.5678 8.16989 15.2124C7.43365 14.4439 7.44602 13.2279 8.19773 12.4745L13.3423 6.97275C13.9099 6.34099 14.7175 5.97797 15.5668 5.97304C16.4159 5.9681 17.2277 6.3217 17.8025 6.94683C19.0286 8.30174 19.0199 10.3678 17.7823 11.7123L12.3276 17.5404C11.5514 18.3197 10.4887 18.7453 9.38918 18.7175C8.28962 18.6897 7.24987 18.211 6.51389 17.3936C4.83165 15.496 4.87326 12.629 6.6099 10.7811L11.7622 5.28027" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+            <!-- Send Button -->
+            <button
+              type="submit"
+              [disabled]="commentForm.invalid || !canComment || isSubmitting"
+              class="flex items-center justify-center px-3 py-1 bg-[#37A6DE] text-white rounded-md hover:bg-blue-600 transition disabled:cursor-not-allowed text-sm"
+            >
+            <span *ngIf="!isSubmitting">{{ 'pages.comments.send' | translate }}</span>
+            <span *ngIf="isSubmitting">{{ 'pages.comments.sending' | translate }}</span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- Hidden File Input -->
+      <input
+        *ngIf="!isSubmitting"
+        type="file"
+        id="fileInput"
+        multiple
+        (change)="onFileSelect($event)"
+        class="hidden"
+        accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.txt"
+      />
+    </form>
+  </div>

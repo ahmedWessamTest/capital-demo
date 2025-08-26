@@ -1,0 +1,18 @@
+@media (max-width: 1020px) {
+    
+}
+.rtl-flip {
+    transform: scaleX(-1);
+  }
+  .footer-bg {
+    background-position: center;
+    background-size: cover;
+    background-color: #37A7DE;
+  }
+  .footer-bg-wave {
+        background-image: url("../../../../assets/footer/footer-bg.webp");
+    z-index: 10;
+    position: relative;
+    background-size: cover;
+    /* background-color: #F7F3E8; */
+  }

@@ -1,0 +1,101 @@
+
+/* Slide Styling */
+.testimonial-name {
+  font-family: 'Alexandria', sans-serif;
+  font-size: clamp(20px, 3vw, 35px);
+  line-height: 40px;
+  font-weight: 400;
+  text-transform: capitalize;
+}
+
+.testimonial-text {
+  font-family: 'Alexandria', sans-serif;
+  font-size: clamp(20px, 3vw, 23px);
+  line-height: 24px;
+  font-weight: 400;
+  text-transform: capitalize;
+}
+
+.testimonial {
+  font-family: 'Alexandria', sans-serif;
+  font-size: clamp(20px, 3vw, 23px);
+  line-height: 30px;
+  font-weight: 400;
+  text-transform: capitalize;
+}
+
+.rounded-35 {
+  border-radius:65px;
+}
+
+
+
+
+/* slider */
+
+.testimonial-slide{
+  margin: 50px auto;
+  /* width :638px; */
+  min-width:280px;
+}
+
+
+::ng-deep .owl-theme .owl-dots .owl-dot span{
+  background-color: #79C7EE !important;
+  opacity: 1 !important;
+
+  transition:all .3s;
+} 
+
+
+
+::ng-deep .owl-theme .owl-dots .owl-dot:hover span{
+  background-color: #37A6DE !important;
+  opacity: .1 !important;
+
+} 
+
+
+
+::ng-deep .owl-theme .owl-dots .owl-dot.active span
+{
+  background-color: #37A6DE !important;
+  opacity: .1 !important;
+
+ 
+} 
+::ng-deep .owl-item{
+  transition: all  1s;
+}
+::ng-deep .owl-item.center .testimonial-slide .testimonial-name {
+  color :white !important;
+  transition: all  .5s;
+
+}
+::ng-deep .owl-item.center .testimonial-slide .testimonial-text {
+  color :#174A77 !important;
+  transition: all  .5s;
+
+}
+::ng-deep .owl-item.center .testimonial-slide {
+  background-color:#37A6DE !important;
+  transition: all  .5s;
+
+}
+::ng-deep .owl-item.center .testimonial-slide .shape {
+  background-color:#37A6DE !important;
+  transition: all  .5s;
+}
+::ng-deep .owl-item.center .testimonial-slide .testimonial {
+  color :#FFF5F5 !important
+}
+
+.testimonial-heading{
+  color: #5DB5DF;
+font-family: Alexandria;
+font-size: clamp(20px, 3vw, 35px);
+font-style: normal;
+font-weight: 700;
+line-height: clamp(20px, 3vw, 50px); /* 142.857% */
+text-transform: capitalize;
+}

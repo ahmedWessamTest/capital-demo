@@ -1,0 +1,47 @@
+
+  .navbar-main {
+    /* Add transition for top/margin-top if you want it to move up smoothly */
+    transition: margin-top 0.3s ease-out;
+  }
+  
+  .header-top-bar {
+    transition: height 0.3s ease;
+    height: 64px;
+    min-height: 0;
+  }
+
+  .header-top-bar.scrolled {
+    height: 0;
+    overflow: hidden;
+  }
+
+  .navbar-main {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: white;
+  }
+
+
+  .active-link {
+    color: #79C7EE;
+    font-weight: bold;
+    position:relative;
+    
+  }
+  .active-link::after{
+    position:absolute;
+    content:"";
+    width:30%;
+    height:8px;
+    border-radius: 20px;
+    background-color:#79C7EE;
+    bottom:-50%;
+    left:50%;
+    transform: translateX(-50%);
+  }
+  
+  .mobile-active-link {
+    color: #79C7EE;
+    font-weight: bold;
+  }

@@ -1,0 +1,379 @@
+<div class=" text-center lg:text-start">
+  <div class=" bg-bage !z-[10] pt-10 px-4 md:px-8 lg:px-20 w-full">
+    <!-- Insurance Easier Section -->
+    <div class="flex items-center justify-center mb-4 lg:mb-0">
+      <div>
+        <div class="lg:flex text-center lg:text-start flex-col gap-8 text-semi-black">
+          <div *ngIf="isLoading" class="animate-pulse">
+            <div class="h-10 bg-gray-200 rounded w-3/4 mx-auto md:mx-0"></div>
+          </div>
+          <div
+            *ngIf="!isLoading"
+            class="max-w-full rtl:text-right lg:max-w-[417px] leading-[35px] md:leading-[45px] text-2xl md:text-3xl lg:text-4xl"
+          >
+            {{ lang === "ar" ? aboutDownload?.ar_title : aboutDownload?.en_title }}
+          </div>
+          <div *ngIf="isLoading" class="animate-pulse">
+            <div class="h-6 bg-gray-200 rounded w-full"></div>
+            <div class="h-6 bg-gray-200 rounded w-5/6 mt-2"></div>
+          </div>
+          <div
+            *ngIf="!isLoading"
+            class="text-lg md:text-xl max-w-full lg:max-w-[780px]"
+          >
+            {{ lang === "ar" ? aboutDownload?.ar_text : aboutDownload?.en_text }}
+          </div>
+        </div>
+        <div
+          class="flex flex-col gap-6 md:gap-8 mt-8 md:mt-16 justify-center max-w-full md:max-w-[380px] mx-auto lg:mx-0"
+        >
+          <div *ngIf="isLoading" class="animate-pulse">
+            <div class="h-6 bg-gray-200 rounded w-1/4 mx-auto"></div>
+          </div>
+          <div
+            *ngIf="!isLoading"
+            class="text-lg md:text-xl font-semibold text-center leading-[30px] text-semi-black"
+          >
+            {{ "pages.footer.data.downloadapp" | translate }}
+          </div>
+          <div class="flex gap-1 justify-center lg:justify-start">
+            <ng-container *ngIf="aboutDownload?.ios_download_link; else noIosLink">
+              <a [href]="aboutDownload.ios_download_link" target="_blank">
+                <img
+                  loading="lazy"
+                  src="assets/footer/apple.png"
+                  alt="Download from App Store"
+                  class="w-auto h-12 md:h-14"
+                />
+              </a>
+            </ng-container>
+            <ng-template #noIosLink></ng-template>
+            <ng-container
+              *ngIf="aboutDownload?.android_download_link; else noAndroidLink"
+            >
+              <a [href]="aboutDownload.android_download_link" target="_blank">
+                <img
+                  loading="lazy"
+                  src="assets/footer/google.png"
+                  alt="Download from Google Play"
+                  class="w-auto h-12 md:h-14"
+                />
+              </a>
+            </ng-container>
+            <ng-template #noAndroidLink></ng-template>
+          </div>
+        </div>
+      </div>
+<div >
+  @if(lang === "ar"){
+    <img  src="assets/footer/mobile-hand-ar.webp" class="w-100 -mb-30 hidden lg:block" alt="">
+  } @else {
+    <img  src="assets/footer/mobite-hand-en.webp" class="w-100 -mb-10 hidden lg:block" alt="">
+  }
+</div>
+    </div>
+<!-- wavy footer -->
+</div>
+<div class="h-24 lg:h-64 footer-bg-wave">
+</div>
+<div class="footer-bg  z-10 relative">
+  <div
+    class="flex flex-col lg:flex-row lg:justify-around lg:items-center w-full  mb-15 text-white gap-8 lg:gap-4"
+  >
+    <div
+      class="flex flex-col gap-8 md:gap-12 text-semi-black lg:text-white max-w-full lg:max-w-[420px]"
+    >
+      <div class="mb-4">
+        <img
+          loading="lazy"
+          src="white-logo.png"
+          alt="footer-logo"
+          class="hidden lg:block w-24 h-24 object-cover"
+        />
+        <img
+          loading="lazy"
+          src="logo.webp"
+          alt="footer-logo"
+          class="block mx-auto lg:hidden w-24 h-24 object-cover"
+        />
+      </div>
+      <div *ngIf="isLoading" class="animate-pulse">
+        <div class="h-6 bg-gray-200 rounded w-full"></div>
+        <div class="h-6 bg-gray-200 rounded w-5/6 mt-2"></div>
+      </div>
+      <div
+        *ngIf="!isLoading"
+        class="leading-[26px] md:leading-[35px] text-center lg:text-start text-lg md:text-[23px] word-spacing-ar"
+      >
+        {{ "pages.footer.data.companyInfo" | translate }}
+      </div>
+      <div
+        class="flex flex-col sm:items-center w-full gap-4 sm:gap-8 lg:max-w-[400px] lg:justify-between"
+      >
+        <div>
+          <a
+            [routerLink]="['/' + lang, 'privacy-policy']"
+            class="hover:opacity-80 text-lg md:text-[23px] font-bold underline underline-offset-4 text-nowrap"
+          >
+            {{ lang === "ar" ? "سياسة الخصوصية" : "Privacy Policy" }}
+          </a>
+        </div>
+        <div class="flex justify-center lg:justify-start gap-4 md:gap-2">
+          <ng-container *ngFor="let social of footerData.socialLinks">
+            <ng-container *ngIf="social.url; else noSocialLink">
+              <a
+                [href]="social.url"
+                [attr.aria-label]="social.name"
+                class="hover:shadow-2xl"
+                target="_blank"
+              >
+                <img
+                  loading="lazy"
+                  [src]="social.icon"
+                  [alt]="social.name"
+                  class="w-[32px] h-[32px] object-cover"
+                />
+              </a>
+            </ng-container>
+            <ng-template #noSocialLink></ng-template>
+          </ng-container>
+          <ng-container *ngIf="footerData.contact.whatsapp; else noWhatsApp">
+            <a
+              href="https://wa.me/{{ footerData.contact.whatsapp }}"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="flex items-center justify-center hover:opacity-80 bg-white rounded-[5px]"
+            >
+              <img
+                src="/assets/icons/whats-footer.png"
+                alt="WhatsApp Icon"
+                class="w-[26px] p-[2px] h-[26px]"
+              />
+            </a>
+          </ng-container>
+          <ng-template #noWhatsApp></ng-template>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="flex flex-col gap-4 w-full lg:max-w-[540px] text-primary-400 bg-white p-6 md:p-8 rounded-[30px] md:rounded-[60px] order-3 lg:order-2"
+    >
+      <div *ngIf="isLoading" class="animate-pulse">
+        <div class="h-6 bg-gray-200 rounded w-3/4"></div>
+      </div>
+      <ng-container
+        *ngIf="!isLoading && footerData.contact.email; else noEmail"
+      >
+        <div class="flex gap-2 md:gap-4 items-center">
+          <a
+            href="mailto:{{ footerData.contact.email }}"
+            class="mt-1 text-xl flex gap-2"
+          >
+            <img
+              loading="lazy"
+              src="assets/footer/email.svg"
+              alt="Email"
+              class="w-6 h-6"
+            />
+            <div class="text-sm md:text-lg md:text-[23px] break-all">
+              {{ "pages.footer.data.contact.email" | translate }}
+            </div>
+          </a>
+        </div>
+      </ng-container>
+      <ng-template #noEmail></ng-template>
+      <div *ngIf="isLoading" class="animate-pulse">
+        <div class="h-6 bg-gray-200 rounded w-3/4"></div>
+      </div>
+      <ng-container
+        *ngIf="
+          !isLoading &&
+            footerData.contact.ar_address &&
+            footerData.contact.en_address;
+          else noAddress
+        "
+      >
+        <div class="flex gap-4 items-center">
+          <a
+            href="https://maps.google.com/?q={{
+              lang === 'ar'
+                ? footerData.contact.ar_address
+                : footerData.contact.en_address
+            }}"
+            target="_blank"
+            class="mt-1 text-xl flex gap-2"
+          >
+            <img
+              loading="lazy"
+              src="assets/footer/location.svg"
+              alt="Location"
+              class="w-6 h-6"
+            />
+            <div class="text-sm md:text-lg md:text-[23px]">
+              {{
+                lang === "ar"
+                ? footerData.contact.ar_address
+                : footerData.contact.en_address
+              }}
+            </div>
+          </a>
+        </div>
+      </ng-container>
+      <ng-template #noAddress></ng-template>
+      <div
+        class="flex flex-wrap gap-4 sm:gap-8 lg:gap-6 items-start sm:items-center"
+      >
+        <div *ngIf="isLoading" class="animate-pulse">
+          <div class="h-6 bg-gray-200 rounded w-1/4"></div>
+        </div>
+        <ng-container
+          *ngIf="!isLoading && footerData.contact.phone1; else noPhone1"
+        >
+          <div class="flex gap-2 items-center">
+            <a [href]="'tel:'+(footerData.contact.phone1 | phoneFormat)" class="text-xl flex gap-2">
+              <img
+                loading="lazy"
+                src="assets/footer/phone.svg"
+                alt="Phone"
+                class="w-6 h-6"
+              />
+              <div  class="text-sm md:text-lg md:text-[23px] inline">
+                {{ footerData.contact.phone1 }}
+              </div>
+            </a>
+          </div>
+        </ng-container>
+        <ng-template #noPhone1></ng-template>
+        <div *ngIf="isLoading" class="animate-pulse">
+          <div class="h-6 bg-gray-200 rounded w-1/4"></div>
+        </div>
+        <ng-container
+          *ngIf="!isLoading && footerData.contact.phone2; else noPhone2"
+        >
+          <div class="flex gap-2 items-center">
+            <a [href]="'tel:' + (footerData.contact.phone2 | phoneFormat) " class="text-xl flex gap-2">
+              <img
+                loading="lazy"
+                src="assets/footer/phone.svg"
+                alt="Phone"
+                class="w-6 h-6"
+              />
+              <div class="text-sm md:text-lg md:text-[23px] inline">
+                {{ footerData.contact.phone2 }}
+              </div>
+            </a>
+          </div>
+        </ng-container>
+        <ng-template #noPhone2></ng-template>
+        <div *ngIf="isLoading" class="animate-pulse">
+          <div class="h-6 bg-gray-200 rounded w-1/4"></div>
+        </div>
+        <ng-container
+          *ngIf="!isLoading && footerData.contact.phone3; else noPhone3"
+        >
+          <div class="flex gap-2 items-center">
+            <a [href]="'tel:' + (footerData.contact.phone3 | phoneFormat) " class="text-xl flex gap-2">
+              <img
+                loading="lazy"
+                src="assets/footer/phone.svg"
+                alt="Phone"
+                class="w-6 h-6"
+              />
+              <div class="text-sm md:text-lg md:text-[23px] inline">
+                {{ footerData.contact.phone3 }}
+              </div>
+            </a>
+          </div>
+        </ng-container>
+        <ng-template #noPhone3></ng-template>
+        <div *ngIf="isLoading" class="animate-pulse">
+          <div class="h-6 bg-gray-200 rounded w-1/4"></div>
+        </div>
+        <ng-container
+          *ngIf="!isLoading && footerData.contact.phone4; else noPhone4"
+        >
+          <div class="flex gap-2 items-center">
+            <a [href]="'tel:' + (footerData.contact.phone4 | phoneFormat)" class="text-xl flex gap-2">
+              <img
+                loading="lazy"
+                src="assets/footer/phone.svg"
+                alt="Phone"
+                class="w-6 h-6"
+              />
+              <div class="text-sm md:text-lg md:text-[23px] ">
+                {{ footerData.contact.phone4 }}
+              </div>
+            </a>
+          </div>
+        </ng-container>
+        <ng-template #noPhone4></ng-template>
+      </div>
+    </div>
+
+    <div class="order-2 lg:order-3 text-semi-black lg:text-white">
+      <div *ngIf="isLoading" class="animate-pulse">
+        <div class="h-6 bg-gray-200 rounded w-1/4"></div>
+      </div>
+      <div *ngIf="!isLoading" class="mb-4 font-bold text-lg md:text-xl">
+        {{ lang === "ar" ? "استكشف" : "Explore" }}
+      </div>
+      <div *ngIf="isLoading" class="animate-pulse">
+        <div class="h-6 bg-gray-200 rounded w-1/2 mt-2"></div>
+        <div class="h-6 bg-gray-200 rounded w-1/2 mt-2"></div>
+        <div class="h-6 bg-gray-200 rounded w-1/2 mt-2"></div>
+        <div class="h-6 bg-gray-200 rounded w-1/2 mt-2"></div>
+        <div class="h-6 bg-gray-200 rounded w-1/2 mt-2"></div>
+      </div>
+      <div
+        *ngIf="!isLoading"
+        class="flex gap-2 flex-col text-base md:text-lg"
+      >
+        <ng-container
+          *ngFor="let nav of footerData.navigation; let i = index"
+        >
+          <ng-container *ngIf="nav.path; else noNavPath">
+            <a
+              [routerLink]="['/' + lang, nav.path]"
+              class="hover:opacity-80 cursor-pointer"
+            >
+              {{ lang === "ar" ? nav.ar_name : nav.en_name }}
+            </a>
+          </ng-container>
+          <ng-template #noNavPath></ng-template>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="flex sm:flex-row pb-4 items-center justify-center gap-1 sm:gap-4 pt-4 md:pt-6 md:border-t md:border-white text-white"
+  >
+    <div
+      class="w-5 h-5 md:w-6 md:h-6 text-bold rounded-full border text-white md:border-white flex items-center justify-center text-xs md:text-sm"
+    >
+      c
+    </div>
+    <div *ngIf="isLoading" class="animate-pulse">
+      <div class="h-4 bg-gray-200 rounded w-1/2"></div>
+    </div>
+    <div
+      *ngIf="!isLoading"
+      class="text-sm sm:text-lg md:text-xl lg:text-2xl text-center"
+    >
+      {{ lang === "ar" ? "حقوق النشر محفوظة " : "All Copy Right " }}
+      {{ footerData.copyright.year }} By
+    </div>
+    <ng-container *ngIf="!isLoading">
+      <a href="https://digitalbondmena.com/" target="_blank">
+        <img
+          loading="lazy"
+          src="assets/footer/digital-bond.png"
+          alt="{{ lang === 'ar' ? ' ديجيتال بوند' : 'Digital Bond' }}"
+          class="w-auto h-6 md:h-8"
+        />
+      </a>
+    </ng-container>
+  </div>
+</div>
+</div>

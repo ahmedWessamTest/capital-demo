@@ -1,0 +1,319 @@
+<div
+  class="max-w-7xl mt-16 px-4 mx-auto gap-4 flex justify-between flex-wrap md:flex-nowrap padding"
+  [@fadeIn]
+  [dir]="(currentLang$ | async) === 'ar' ? 'rtl' : 'ltr'"
+>
+  <!-- Policy Card -->
+  <div class="data flex flex-col gap-8 flex-1">
+    <div
+      class="card relative min-w-[280px] md:min-w-[300px]"
+      *ngIf="!isLoading && policyDetails && policyChoices && !error"
+    >
+      <!-- Expiry Banner -->
+      <div
+        *ngIf="isExpiringSoon()"
+        class="absolute top-0 right-0 bg-gradient-to-r from-red-500 to-yellow-500 text-white text-sm font-medium py-2 px-4 mb-4 rounded-bl-md shadow-md transform rotate-6 origin-top-end"
+      >
+        {{ "pages.show_all_details.expiring_soon" | translate }}
+      </div>
+      <div class="status flex justify-between items-center flex-wrap">
+        <div>
+          <div class="flex gap-2 items-center policy-type">
+            <div class="status-dot" [ngClass]="getStatusDotClass()"></div>
+            {{ getPolicyTypeName() }}
+          </div>
+          <div class="subtext">{{ getStatus() }}</div>
+        </div>
+        <div class="w-[170px] h-[70px] z-20 hidden md:block">
+          <img
+            class="w-full h-full object-cover"
+            [src]="
+              policyType === 'medical'
+                ? '/assets/policies/medical.png'
+                : policyType === 'motor'
+                ? '/assets/policies/car.png'
+                : policyType === 'jop'
+                ? '/assets/policies/medical.png'
+                : '/assets/policies/building.png'
+            "
+            [alt]="
+              'pages.show_all_details.images.' + policyType + '_alt' | translate
+            "
+          />
+        </div>
+      </div>
+      <div class="info-grid">
+        <div *ngFor="let field of getPolicyDetailsFields()">
+          <div class="label">{{ field.label }}</div>
+          <div class="value">{{ field.value }}</div>
+        </div>
+        <div *ngIf="policyDetails.end_date" class="expiry">
+          <div class="label">
+            {{ "pages.show_all_details.labels.expiry_date" | translate }}
+          </div>
+          <div class="value">{{ formatDate(policyDetails.end_date) }}</div>
+        </div>
+      </div>
+      <div
+        class="comments-footer flex flex-col gap-4 md:flex-row md:items-center justify-between px-4 py-2"
+      >
+        <a
+          [routerLink]="[
+            '/',
+            currentLang$ | async,
+            'policies',
+            policyId,
+            policyType,
+            'comments'
+          ]"
+          class="show-all-comments"
+          >{{
+            "pages.show_all_details.buttons.show_all_comments" | translate
+          }}</a
+        >
+        <button
+          [routerLink]="[
+            '/',
+            currentLang$ | async,
+            'policies',
+            policyId,
+            policyType,
+            'comments'
+          ]"
+          class="show-all-details"
+        >
+          {{ "pages.show_all_details.buttons.go_to_comments" | translate }}
+        </button>
+      </div>
+      <img
+        src="/assets/policies/card-policy-bg.svg"
+        [alt]="'pages.show_all_details.images.card_background_alt' | translate"
+        class="car-img absolute -top-5 -end-5 w-[180px] z-10 h-[180px]"
+      />
+    </div>
+
+    <!-- Skeleton Loader -->
+    <div *ngIf="isLoading" class="card relative animate-pulse">
+      <div class="status flex justify-between items-center flex-wrap">
+        <div class="flex gap-2 items-center">
+          <div class="status-dot bg-gray-300 w-4 h-4 rounded-full"></div>
+          <div class="h-6 w-32 bg-gray-200 rounded"></div>
+        </div>
+        <div class="w-[170px] h-[70px] bg-gray-200 rounded"></div>
+      </div>
+      <div class="info-grid">
+        <div>
+          <div class="label h-4 w-20 bg-gray-200 rounded"></div>
+          <div class="value h-5 w-40 bg-gray-200 rounded"></div>
+        </div>
+        <div>
+          <div class="label h-4 w-20 bg-gray-200 rounded"></div>
+          <div class="value h-5 w-40 bg-gray-200 rounded"></div>
+        </div>
+        <div *ngIf="policyDetails.end_date" class="expiry">
+          <div class="label h-4 w-20 bg-gray-200 rounded"></div>
+          <div class="value h-5 w-40 bg-gray-200 rounded"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Error Message -->
+    <div *ngIf="error" class="text-red-600 text-center">{{ error }}</div>
+  </div>
+
+  <!-- Insurance Details -->
+  <div class="flex-1 insurance-data">
+    <div
+      class="relative min-w-[280px] md:min-w-[300px] mx-auto p-4 shadow-lg rounded-2xl font-Alexandria sm:p-6 basic max-w-[600px]"
+      style="height: auto"
+      *ngIf="!isLoading && policyDetails && policyChoices && !error"
+      [@fadeIn]
+    >
+      <div>
+        <div
+          class="absolute z-10 w-10 h-12 rounded-full top-1/2 -left-0 transform -translate-x-1/2 -translate-y-1/2 bg-white [box-shadow:inset_-4px_0_4px_-2px_rgba(0,0,0,0.2)] hidden sm:block"
+        ></div>
+        <div
+          class="absolute z-10 w-10 h-12 rounded-full top-1/2 -right-0 transform translate-x-1/2 -translate-y-1/2 bg-white [box-shadow:inset_4px_0_4px_-2px_rgba(0,0,0,0.2)] hidden sm:block"
+        ></div>
+
+        <div
+          class="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4"
+        >
+          <span class="text-[#5db5df] text-base capitalize">{{
+            policyChoices | customTranslate : "title"
+          }}</span>
+          <button class="basic-btn basic-btn-text">
+            {{
+              policyChoices.year_money
+                ? ("pages.show_all_details.labels.in_year" | translate)
+                : ("pages.show_all_details.labels.in_month" | translate)
+            }}
+          </button>
+        </div>
+
+        <div class="text-xl sm:text-2xl font-bold text-black mb-4">
+          {{
+            policyChoices.year_money ||
+              policyChoices.month_money ||
+              ("pages.show_all_details.na" | translate)
+          }}
+        </div>
+
+        <ul class="space-y-3 mb-6">
+          <li class="flex items-center justify-between">
+            <div class="flex items-center">
+              <img class="w-4 h-4" src="plan.svg" alt="" />
+              <span class="text-sm sm:text-base text-black capitalize">{{
+                "pages.show_all_details.labels.company" | translate
+              }}</span>
+            </div>
+            <span class="text-red-600 text-xs text-right">{{
+              policyChoices.company_name ||
+                ("pages.show_all_details.na" | translate)
+            }}</span>
+          </li>
+
+          <li class="flex items-center justify-between">
+            <div class="flex items-center">
+              <img class="w-4 h-4" src="plan.svg" alt="" />
+              <span class="text-sm sm:text-base text-black capitalize">{{
+                "pages.show_all_details.labels.monthly" | translate
+              }}</span>
+            </div>
+            <span class="text-red-600 text-xs text-right">{{
+              policyChoices.month_money ||
+                ("pages.show_all_details.na" | translate)
+            }}</span>
+          </li>
+
+          <!-- Dynamic fields based on policy type -->
+          <ng-container
+            *ngIf="
+              policyType === 'medical' && policyChoices.medicalchoices?.length
+            "
+          >
+            <li
+              class="flex items-center justify-between"
+              *ngFor="let choice of policyChoices.medicalchoices"
+            >
+              <div class="flex items-center">
+                <img class="w-4 h-4" src="plan.svg" alt="" />
+                <span class="text-sm sm:text-base text-black capitalize">{{
+                  choice | customTranslate : "title"
+                }}</span>
+              </div>
+              <span class="text-red-600 text-xs text-right">{{
+                choice | customTranslate : "description"
+              }}</span>
+            </li>
+          </ng-container>
+
+          <ng-container
+            *ngIf="policyType === 'motor' && policyChoices.motorchoices?.length"
+          >
+            <li
+              class="flex items-center justify-between"
+              *ngFor="let choice of policyChoices.motorchoices"
+            >
+              <div class="flex items-center">
+                <img class="w-4 h-4" src="plan.svg" alt="" />
+                <span class="text-sm sm:text-base text-black capitalize">{{
+                  choice | customTranslate : "title"
+                }}</span>
+              </div>
+              <span class="text-red-600 text-xs text-right">{{
+                choice | customTranslate : "description"
+              }}</span>
+            </li>
+          </ng-container>
+
+          <ng-container
+            *ngIf="
+              policyType === 'building' && policyChoices.buildingchoices?.length
+            "
+          >
+            <li
+              class="flex items-center justify-between"
+              *ngFor="let choice of policyChoices.buildingchoices"
+            >
+              <div class="flex items-center">
+                <img class="w-4 h-4" src="plan.svg" alt="" />
+                <span class="text-sm sm:text-base text-black capitalize">{{
+                  choice | customTranslate : "title"
+                }}</span>
+              </div>
+              <span class="text-red-600 text-xs text-right">{{
+                choice | customTranslate : "description"
+              }}</span>
+            </li>
+          </ng-container>
+
+          <ng-container
+            *ngIf="policyType === 'jop' && policyChoices.jopchoices?.length"
+          >
+            <li
+              class="flex items-center justify-between"
+              *ngFor="let choice of policyChoices.jopchoices"
+            >
+              <div class="flex items-center">
+                <img class="w-4 h-4" src="plan.svg" alt="" />
+                <span class="text-sm sm:text-base text-black capitalize">{{
+                  choice | customTranslate : "title"
+                }}</span>
+              </div>
+              <span class="text-red-600 text-xs text-right">{{
+                choice | customTranslate : "description"
+              }}</span>
+            </li>
+          </ng-container>
+
+          <!-- Fallback if no choices are available -->
+          <li
+            *ngIf="
+              (policyType === 'medical' &&
+                !policyChoices.medicalchoices?.length) ||
+              (policyType === 'motor' && !policyChoices.motorchoices?.length) ||
+              (policyType === 'building' &&
+                !policyChoices.buildingchoices?.length) ||
+              (policyType === 'jop' && !policyChoices.jopchoices?.length)
+            "
+          >
+            <span class="text-sm sm:text-base text-gray-500">{{
+              "pages.show_all_details.no_choices" | translate
+            }}</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Skeleton Loader for Insurance Details -->
+    <div
+      *ngIf="isLoading"
+      class="relative min-w-[280px] mx-auto p-4 shadow-lg rounded-2xl font-Alexandria sm:p-6 basic max-w-[600px] animate-pulse"
+      style="height: auto"
+    >
+      <div
+        class="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4"
+      >
+        <div class="h-6 w-32 bg-gray-200 rounded"></div>
+        <div class="h-8 w-24 bg-gray-200 rounded"></div>
+      </div>
+      <div class="h-8 w-20 bg-gray-200 rounded mb-4"></div>
+      <ng-container *ngFor="let _ of [1, 2, 3, 4, 5]">
+        <div class="flex items-center justify-between mb-3">
+          <div class="flex items-center">
+            <div
+              class="w-4 h-4 bg-gray-200 rounded-sm mr-3 flex-shrink-0"
+            ></div>
+            <div class="h-4 w-20 bg-gray-200 rounded"></div>
+          </div>
+          <div class="h-4 w-20 bg-gray-200 rounded"></div>
+        </div>
+      </ng-container>
+    </div>
+
+    <!-- Error Message -->
+    <div *ngIf="error" class="text-red-600 text-center">{{ error }}</div>
+  </div>
+</div>

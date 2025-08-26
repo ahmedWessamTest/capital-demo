@@ -1,0 +1,1179 @@
+<header class="w-full !z-[50] sticky -top-[1px] bg-white">
+  <div
+    class="header-top-bar !z-[2000] bg-sky-900 text-white hidden md:flex items-center"
+    [class.scrolled]="isScrolled"
+    role="banner"
+  >
+    <div
+      class="container flex flex-row justify-between items-center py-4 h-[84px]"
+    >
+      <!-- Contact Info -->
+      <div
+        class="flex flex-row justify-around w-full gap-4 md:gap-8 text-xs lg:text-sm font-['Alexandria']"
+      >
+        <!-- Email -->
+        <div
+          class="flex items-center justify-start gap-3"
+          aria-label="Contact email"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="16"
+            viewBox="0 0 24 18"
+            fill="none"
+            class="shrink-0"
+            aria-hidden="true"
+          >
+            <path
+              d="M20.668 0.184082H3.33202C1.49189 0.184082 0 1.67597 0 3.5161V14.4841C0 16.3242 1.49189 17.8161 3.33202 17.8161H20.668C22.5081 17.8161 24 16.3242 24 14.4841V3.5161C24 1.67597 22.5081 0.184082 20.668 0.184082ZM8.35153 12.0807L3.68559 16.0613C3.35648 16.3422 2.86172 16.3032 2.58089 15.9737C2.30002 15.6446 2.33906 15.1499 2.66855 14.869L7.33448 10.8884C7.66355 10.6075 8.15827 10.6466 8.43914 10.9761C8.72002 11.3051 8.68097 11.7999 8.35153 12.0807ZM12 10.5674C11.3759 10.5659 10.7709 10.3585 10.298 9.94946L10.2983 9.94983L10.2968 9.94871C10.2972 9.94908 10.2976 9.94908 10.298 9.94946L3.13884 3.73575C2.81166 3.45179 2.77683 2.95707 3.06038 2.6303C3.3443 2.30311 3.83906 2.26829 4.16578 2.55183L11.3269 8.76708C11.48 8.9033 11.7322 9.00165 12 9.0001C12.2675 9.0009 12.5154 8.90522 12.6769 8.76441L12.6803 8.76136L19.8342 2.55188C20.1609 2.26833 20.6557 2.30316 20.9396 2.63035C21.2231 2.95707 21.1883 3.45183 20.8612 3.7358L13.7001 9.95138C13.2286 10.3561 12.6245 10.5666 12 10.5674ZM21.4194 15.9737C21.1386 16.3032 20.6438 16.3422 20.3148 16.0613L15.6488 12.0807C15.3194 11.7998 15.2804 11.3051 15.5612 10.9761C15.8421 10.6466 16.3368 10.6076 16.6659 10.8884L21.3318 14.869C21.6613 15.1499 21.7003 15.6446 21.4194 15.9737Z"
+              fill="#79C7EE"
+            />
+          </svg>
+          <span
+            *ngIf="!contactData?.email"
+            class="animate-pulse bg-gray-300 h-4 w-32 rounded"
+          ></span>
+          <a
+            [href]="'mailto:' + contactData?.email"
+            class="cursor-pointer hover:underline"
+            *ngIf="contactData?.email"
+            [attr.aria-label]="'Send email to {{ contactData?.email }}'"
+            >{{ contactData?.email }}</a
+          >
+        </div>
+
+        <!-- Address -->
+        <a
+          class="flex items-center justify-start gap-3 cursor-pointer hover:underline"
+          [href]="
+            'https://www.google.com/maps/search/?api=1&query=' +
+            getEncodedAddress()
+          "
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="View address on map"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            class="shrink-0"
+            aria-hidden="true"
+          >
+            <g clip-path="url(#clip0_829_1929)">
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M12 6.75C10.7572 6.75 9.75 7.75725 9.75 9C9.75 10.2428 10.7572 11.25 12 11.25C13.2428 11.25 14.25 10.2428 14.25 9C14.25 7.75725 13.2428 6.75 12 6.75ZM12 12.75C9.92925 12.75 8.25 11.0715 8.25 9C8.25 6.9285 9.92925 5.25 12 5.25C14.0708 5.25 15.75 6.9285 15.75 9C15.75 11.0715 14.0708 12.75 12 12.75ZM12 0C7.02975 0 3 4.02975 3 9C3 12.7635 10.5037 24.0082 12 24C13.473 24.0082 21 12.7125 21 9C21 4.02975 16.9703 0 12 0Z"
+                fill="#79C7EE"
+              />
+            </g>
+            <defs>
+              <clipPath id="clip0_829_1929">
+                <rect width="24" height="24" fill="white" />
+              </clipPath>
+            </defs>
+          </svg>
+          <span
+            *ngIf="!contactData?.en_address && !contactData?.ar_address"
+            class="animate-pulse bg-gray-300 h-4 w-48 rounded"
+          ></span>
+          <span *ngIf="contactData?.en_address || contactData?.ar_address">{{
+            currentLanguage === "EN"
+              ? contactData?.en_address
+              : contactData?.ar_address
+          }}</span>
+        </a>
+
+        <!-- Phone -->
+        <div
+          class="flex items-center justify-start gap-3"
+          aria-label="Contact phone"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            class="shrink-0"
+            aria-hidden="true"
+          >
+            <path
+              d="M7.78111 16.1834C10.684 19.0863 14.2197 21.3262 17.1025 21.3262C18.3983 21.3262 19.5333 20.8742 20.4474 19.8698C20.9796 19.2771 21.3113 18.5841 21.3113 17.901C21.3113 17.3988 21.1204 16.9167 20.6382 16.5751L17.5646 14.3854C17.0925 14.064 16.7007 13.9032 16.3392 13.9032C15.8771 13.9032 15.4753 14.1644 15.0132 14.6164L14.3001 15.3195C14.1896 15.43 14.049 15.4803 13.9184 15.4803C13.7577 15.4803 13.617 15.42 13.5066 15.3698C12.8938 15.0383 11.8291 14.1243 10.8347 13.1399C9.85029 12.1555 8.93623 11.0907 8.61481 10.468C8.55455 10.3575 8.50432 10.2168 8.50432 10.0662C8.50432 9.93561 8.54452 9.80503 8.655 9.69454L9.35812 8.9613C9.81013 8.49921 10.0713 8.09743 10.0713 7.63538C10.0713 7.2738 9.91059 6.88204 9.57909 6.40997L7.41948 3.36643C7.06792 2.88428 6.57575 2.67334 6.03335 2.67334C5.37039 2.67334 4.67731 2.97467 4.09471 3.54724C3.12039 4.4814 2.68848 5.63653 2.68848 6.91217C2.68848 9.795 4.88825 13.2905 7.78111 16.1834Z"
+              fill="#79C7EE"
+            />
+          </svg>
+          <span
+            *ngIf="!contactData?.first_phone"
+            class="animate-pulse bg-gray-300 h-4 w-32 rounded"
+          ></span>
+          <a
+            [href]="'tel:' + (contactData?.first_phone | phoneFormat)"
+            class="cursor-pointer hover:underline"
+            *ngIf="contactData?.first_phone"
+            [attr.aria-label]="
+              'Call phone number {{ contactData?.first_phone }}'
+            "
+            >{{ contactData?.first_phone }}</a
+          >
+        </div>
+
+        <!-- Social Media Icons -->
+        <div
+          class="flex justify-start items-center gap-4 md:gap-2"
+          aria-label="Social media links"
+        >
+          <!-- Facebook -->
+          <a
+            [href]="contactData?.facebook || '#'"
+            target="_blank"
+            aria-label="Visit our Facebook page"
+            class="hover:opacity-80"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              aria-hidden="true"
+            >
+              <path
+                d="M19.8674 22.5H4.12491C3.7775 22.5115 3.43148 22.4508 3.10874 22.3217C2.786 22.1926 2.49356 21.9979 2.24991 21.75C2.00388 21.5081 1.81031 21.2181 1.68128 20.8981C1.55224 20.5781 1.4905 20.2349 1.49991 19.89V4.125C1.48842 3.77759 1.54914 3.43157 1.67824 3.10883C1.80733 2.78609 2.00199 2.49365 2.24991 2.25C2.49356 2.00209 2.786 1.80743 3.10874 1.67833C3.43148 1.54923 3.7775 1.48851 4.12491 1.5H19.8749C20.2223 1.48851 20.5683 1.54923 20.8911 1.67833C21.2138 1.80743 21.5063 2.00209 21.7499 2.25C21.9978 2.49365 22.1925 2.78609 22.3216 3.10883C22.4507 3.43157 22.5114 3.77759 22.4999 4.125V19.875C22.496 20.5713 22.2171 20.2378 21.724 21.7294C21.231 22.2211 20.5637 22.498 19.8674 22.5ZM13.0574 18.8925V12.6H15.1799L15.4949 10.155H13.0574V8.7825C13.0358 8.53048 13.0587 8.27662 13.1249 8.0325C13.146 7.94477 13.1815 7.86114 13.2299 7.785C13.3874 7.5 13.7999 7.3575 14.4524 7.3575H15.5774V5.205C14.9549 5.13443 14.3289 5.09938 13.7024 5.1C13.1657 5.05534 12.6273 5.16245 12.1485 5.40911C11.6698 5.65578 11.2701 6.03205 10.9949 6.495C10.6726 7.03917 10.5089 7.66267 10.5224 8.295V10.155H8.42241V12.6H10.4999V18.8925H13.0574Z"
+                fill="white"
+              />
+            </svg>
+          </a>
+
+          <!-- Instagram -->
+          <a
+            [href]="contactData?.instagram || '#'"
+            target="_blank"
+            aria-label="Visit our Instagram page"
+            class="hover:opacity-80"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              aria-hidden="true"
+            >
+              <path
+                d="M19.3689 22.0014H3.62637C3.27896 22.0129 2.93295 21.9521 2.6102 21.823C2.28746 21.6939 1.99502 21.4993 1.75137 21.2514C1.50534 21.0095 1.31178 20.7195 1.18274 20.3994C1.05371 20.0794 0.991968 19.7363 1.00137 19.3914V3.62637C0.989883 3.27896 1.05061 2.93295 1.1797 2.6102C1.3088 2.28746 1.50346 1.99502 1.75137 1.75137C1.99502 1.50346 2.28746 1.3088 2.6102 1.18274C2.93295 1.05371 3.27896 0.991968 3.62637 1.00137H19.3764C19.7238 0.989883 20.0698 1.05061 20.3925 1.1797C20.7153 1.3088 21.0077 1.50346 21.2514 1.75137C21.4993 1.99502 21.6939 2.28746 21.823 2.6102C21.9521 2.93295 22.0129 3.27896 22.0014 3.62637V19.3764C21.9974 20.0726 21.7186 20.7392 21.2255 21.2308C20.7325 21.7225 20.0652 21.9994 19.3689 22.0014ZM12.5589 18.3939V12.1014H14.6814L14.9964 9.65637H12.5589V8.28387C12.5373 8.03185 12.5601 7.77799 12.6264 7.53387C12.6475 7.44614 12.683 7.36251 12.7314 7.28637C12.8889 7.00137 13.3014 6.85887 13.9539 6.85887H15.0789V4.70637C14.4564 4.63581 13.8304 4.60075 13.2039 4.60137C12.6672 4.55671 12.1287 4.66382 11.65 4.91049C11.1713 5.15715 10.7715 5.53342 10.4964 5.99637C10.174 6.54055 10.0104 7.16404 10.0239 7.79637V9.65637H7.92387V12.1014H10.0014V18.3939H12.5589Z"
+                fill="white"
+              />
+              <path
+                d="M14.9813 8.17233C15.9551 8.12488 16.1049 9.7204 15.0363 9.58058C14.1499 9.5556 14.0375 8.1973 14.9813 8.17233Z"
+                fill="#174A77"
+              />
+              <path
+                d="M18.1723 11.9726C18.2497 6.26218 15.9626 5.5231 10.7466 5.8402C7.1536 5.56305 5.74285 8.28465 5.73288 11.5031C5.53813 14.6542 6.5094 18.6367 10.432 18.3021C15.3284 18.2148 18.3996 17.7179 18.1723 11.9726ZM9.61053 2.14483C15.2185 1.62298 21.7104 2.42698 21.7878 9.4457C21.9851 12.6767 22.0899 16.1398 20.5069 19.0712C18.8215 21.9376 16.0125 21.8177 13.0912 21.8852C10.5219 21.9875 7.8727 22.2098 5.3958 21.3683C2.87145 20.4944 2.18481 18.5893 2.23974 16.0974C2.15235 13.9526 2.06496 11.8128 2.10241 9.66543C2.22725 4.57678 4.44948 2.02748 9.61053 2.14483Z"
+                fill="white"
+              />
+              <path
+                d="M10.7467 5.8402C15.9626 5.5231 18.2473 6.26218 18.1724 11.9726C18.3996 17.7179 15.3284 18.2123 10.4345 18.3021C6.50943 18.6367 5.54065 14.6517 5.7354 11.5031C5.7429 8.28465 7.15363 5.56305 10.7467 5.8402ZM17.0737 12.1523C17.0737 8.61675 16.6393 6.74408 12.6243 6.92385C11.4308 7.0412 10.035 6.86393 8.83653 7.27093C6.42953 8.44695 6.76163 11.6804 6.98385 13.9226C7.20108 17.5456 10.2048 17.4382 13.0163 17.0337C16.4695 16.8515 17.1062 15.3608 17.0737 12.1523Z"
+                fill="#174A77"
+              />
+              <path
+                d="M12.3796 9.83272C9.83782 9.7029 9.05382 13.8901 11.8428 14.0025C14.4646 13.9401 14.8665 10.5793 12.3796 9.83272ZM11.8478 8.87142C16.2373 8.5743 15.9677 15.0612 11.8278 15.0162C7.90525 14.8964 8.2723 9.221 11.8478 8.87142Z"
+                fill="#174A77"
+              />
+              <path
+                d="M11.8453 14.0026C9.05632 13.8877 9.83785 9.70043 12.3822 9.83275C14.8666 10.5793 14.4646 13.9401 11.8453 14.0026Z"
+                fill="white"
+              />
+              <path
+                d="M12.6244 6.92387C16.6393 6.7416 17.0763 8.61675 17.0738 12.1523C17.1038 15.3608 16.4696 16.8514 13.0164 17.0337C10.2049 17.4382 7.20113 17.5456 6.9839 13.9226C6.76168 11.6779 6.43208 8.44695 8.83658 7.27092C10.0351 6.86395 11.4309 7.04122 12.6244 6.92387ZM11.8304 15.0162C15.9677 15.0612 16.2398 8.5743 11.8503 8.87142C8.27228 9.221 7.90525 14.8964 11.8304 15.0162ZM15.0363 9.58055C16.105 9.72037 15.9552 8.12735 14.9814 8.1723C14.0376 8.19727 14.15 9.55557 15.0363 9.58055Z"
+                fill="white"
+              />
+            </svg>
+          </a>
+
+          <!-- Twitter -->
+          <a
+            [href]="contactData?.twitter || '#'"
+            target="_blank"
+            aria-label="Visit our Twitter page"
+            class="hover:opacity-80"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 16 16"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                d="M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-.86 13.028h1.36L4.323 2.145H2.865l8.875 11.633Z"
+              />
+            </svg>
+          </a>
+
+          <!-- LinkedIn -->
+          <a
+            [href]="contactData?.linkedin || '#'"
+            target="_blank"
+            aria-label="Visit our LinkedIn page"
+            class="hover:opacity-80"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              aria-hidden="true"
+            >
+              <g clip-path="url(#clip0_810_497)">
+                <path
+                  d="M17 2H7C4.25 2 2 4.25 2 7V17C2 19.75 4.25 22 7 22H17C19.75 22 22 19.75 22 17V7C22 4.25 19.75 2 17 2ZM8.5 17.5H6.5V10H8.5V17.5ZM7.5 8.5C6.95 8.5 6.5 8.05 6.5 7.5C6.5 6.95 6.95 6.5 7.5 6.5C8.05 6.5 8.5 6.95 8.5 7.5C8.5 8.05 8.05 8.5 7.5 8.5ZM17.5 17.5H15.5V13.75C15.5 12.5 15 11.95 14 11.95L12 12V17.5H10V10L14 9.9C15.7 9.9 17.5 10.9 17.5 13.7V17.5Z"
+                  fill="white"
+                />
+              </g>
+              <defs>
+                <clipPath id="clip0_810_497">
+                  <rect width="24" height="24" fill="white" />
+                </clipPath>
+              </defs>
+            </svg>
+          </a>
+
+          <!-- WhatsApp -->
+          <a
+            class="!bg-white"
+            [href]="'https://wa.me/' + contactData?.whatsapp"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="hover:opacity-80 w-4 h-4 rounded-[5px]"
+            aria-label="Contact us on WhatsApp "
+          >
+            <img
+              loading="lazy"
+              src="/assets/icons/whats.png"
+              alt=""
+              class="w-full h-full bg-white p-[2px] rounded-[3px]"
+              aria-hidden="true"
+            />
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <nav class="w-full navbar-main shadow-sm relative">
+    <!-- First Row - Logo, Language, Mobile Menu -->
+    <div
+      class="mx-[3vw] flex justify-between items-center px-4 pt-6 pb-2 lg:py-0 sm:h-[60px] md:h-[142px]"
+    >
+      <!-- Logo -->
+      <div class="flex items-center">
+        <div class="relative">
+          <img
+            loading="lazy"
+            src="logo.webp"
+            alt=""
+            class="w-[60px] h-[60px] md:w-[121px] md:h-[111px]"
+          />
+        </div>
+      </div>
+
+      <!-- Desktop Nav Links (Hidden on mobile) -->
+      <div class="hidden lg:flex items-center gap-[2vw]">
+        <!-- Home -->
+        <!-- Home -->
+        <div class="relative nav-link">
+          <a
+            [routerLink]="['/', currentLanguage.toLowerCase(), 'home']"
+            routerLinkActive="active-link"
+            [routerLinkActiveOptions]="{ exact: true }"
+            class="text-[#154876] text-[1.5vw] font-['Alexandria'] capitalize hover:text-sky-400 transition"
+          >
+            {{ "home" | translate }}
+          </a>
+        </div>
+
+        <!-- About -->
+        <div class="relative nav-link text-center">
+          <a
+            [routerLink]="['/', currentLanguage.toLowerCase(), 'about']"
+            routerLinkActive="active-link"
+            class="text-sky-900 text-[1.5vw] cursor-pointer font-normal font-['Alexandria'] capitalize hover:text-sky-400 transition"
+          >
+            {{ "about" | translate }}
+          </a>
+        </div>
+        <div class="relative group nav-link flex gap-1 items-center">
+          <div
+            class="flex gap-1 items-center cursor-default text-[#154876] text-[1.5vw] font-['Alexandria'] capitalize hover:text-sky-400 transition"
+          >
+            {{ "insurance" | translate }}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="h-4 w-4 transition-transform group-hover:rotate-180"
+            >
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </div>
+
+          <!-- Desktop Dropdown Menu -->
+          <div
+            class="absolute mt-2 top-[100%] w-[221px] bg-neutral-200 rounded-2xl shadow-lg transition-all duration-300 ease-in-out opacity-0 invisible translate-y-[-10px] group-hover:opacity-100 group-hover:visible group-hover:translate-y-0"
+          >
+            <!-- Motor Insurance -->
+            <a
+              [routerLink]="[
+                '/',
+                currentLanguage.toLowerCase(),
+                'motor-insurance'
+              ]"
+              class="rounded-t-2xl hover:bg-neutral-300 hover:text-sky-400 transition cursor-pointer"
+            >
+              <div
+                class="flex items-center gap-2 px-4 py-2 text-base font-normal font-['Alexandria'] capitalize"
+              >
+                <img
+                  loading="lazy"
+                  src="drop-2.png"
+                  alt="Motor Icon"
+                  class="w-7 h-7"
+                />
+                {{ "motor_insurance" | translate }}
+              </div>
+            </a>
+
+            <!-- Property Insurance -->
+            <a
+              [routerLink]="[
+                '/',
+                currentLanguage.toLowerCase(),
+                'building-insurance'
+              ]"
+              class="hover:bg-neutral-300 hover:text-sky-400 transition cursor-pointer"
+            >
+              <div
+                class="flex items-center gap-2 px-4 py-2 text-base font-normal font-['Alexandria'] capitalize"
+              >
+                <img
+                  loading="lazy"
+                  src="drop-1.png"
+                  alt="Property Icon"
+                  class="w-7 h-7"
+                />
+                {{ "property_insurance" | translate }}
+              </div>
+            </a>
+
+            <!-- Medical Insurance -->
+            <a
+              [routerLink]="[
+                '/',
+                currentLanguage.toLowerCase(),
+                'medical-insurance'
+              ]"
+              class="rounded-b-2xl hover:bg-neutral-300 hover:text-sky-400 transition cursor-pointer pb-3"
+            >
+              <div
+                class="flex items-center gap-2 px-4 py-2 text-base font-normal font-['Alexandria'] capitalize"
+              >
+                <img
+                  loading="lazy"
+                  src="drop-3.png"
+                  alt="Medical Icon"
+                  class="w-7 h-7"
+                />
+                {{ "medical_insurance" | translate }}
+              </div>
+            </a>
+
+            <!-- Job Insurance -->
+            <a
+              [routerLink]="[
+                '/',
+                currentLanguage.toLowerCase(),
+                'job-insurance'
+              ]"
+              class="rounded-b-2xl hover:bg-neutral-300 hover:text-sky-400 transition cursor-pointer pb-3"
+            >
+              <div
+                class="flex items-center gap-2 px-4 py-2 text-base font-normal font-['Alexandria'] capitalize"
+              >
+                <img
+                  loading="lazy"
+                  src="jop.jpg"
+                  alt="Medical Icon"
+                  class="w-7 h-7"
+                />
+                {{ "jop_insurance" | translate }}
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <!-- Blogs -->
+        <div class="relative nav-link" class="text-center cursor-pointer">
+          <a
+            [routerLink]="[
+              currentLanguage.toLowerCase(),
+              currentLanguage.toLowerCase() === 'en'
+                ? 'english-blogs'
+                : 'arabic-blogs'
+            ]"
+            routerLinkActive="active-link"
+            class="text-sky-900 text-[1.5vw] font-normal font-['Alexandria'] capitalize hover:text-sky-400 transition"
+          >
+            {{ "blogs" | translate }}
+          </a>
+        </div>
+
+        <!-- Contact Us -->
+        <div class="relative nav-link" class="text-center">
+          <a
+            [routerLink]="['/', currentLanguage.toLowerCase(), 'contact']"
+            routerLinkActive="active-link"
+            class="text-sky-900 text-[1.5vw] font-normal font-['Alexandria'] capitalize hover:text-sky-400 transition"
+          >
+            {{ "contact" | translate }}
+          </a>
+        </div>
+      </div>
+
+      <!-- Right Section - Language & Mobile Menu -->
+      <div class="flex items-center space-x-4">
+        <!-- Language Selector -->
+        <div class="flex items-center gap-4">
+          <!-- Claims Button -->
+          <a [routerLink]="['/', currentLanguage.toLowerCase(), 'claims-info']">
+            <button
+              class="hidden md:block bg-primary-500 cursor-pointer text-white text-[14px] md:text-[1.5vw] font-semibold font-['Alexandria'] capitalize px-6 xl:px-8 py-3 xl:py-4 rounded-[50px] shadow-[0_4px_4px_rgba(0,0,0,0.25)] hover:bg-sky-500 transition"
+            >
+              {{ "claims" | translate }}
+            </button>
+          </a>
+
+          <a *ngIf="aboutDownload" [href]="aboutDownload" target="_blank">
+            <button
+              class="hidden md:block cursor-pointer border-1 border-primary-500 text-primary-500 text-[1.5vw] font-semibold font-['Alexandria'] capitalize px-6 xl:px-8 py-3 xl:py-4 rounded-[50px] hover:bg-primary-500 hover:text-white transition"
+            >
+              {{ "winch_request" | translate }}
+            </button>
+          </a>
+        </div>
+
+        <!-- language  -->
+        <div class="relative" #languageDropdown>
+          <button
+            (click)="selectLanguage(currentLanguage)"
+            class="text-sky-900 cursor-pointer lg:text-2xl font-normal font-['Alexandria'] capitalize hover:text-sky-400 transition flex items-center gap-1"
+          >
+            {{ currentLanguage == "EN" ? "AR" : "EN" }}
+            <!-- <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="transition-transform" [class.rotate-180]="isLanguageMenuOpen">
+          <polyline points="6 9 12 15 18 9"></polyline>
+        </svg> -->
+          </button>
+        </div>
+
+        <!-- Profile Dropdown (Shown only if authenticated) -->
+        @if (authService.isAuthenticated()) {
+        <div class="relative group nav-link">
+          <div
+            class="w-6 h-6 overflow-hidden cursor-pointer"
+            (click)="toggleProfileMenu($event)"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+            >
+              <path
+                d="M12.1198 12.7795C12.0498 12.7695 11.9598 12.7695 11.8798 12.7795C10.1198 12.7195 8.71973 11.2795 8.71973 9.50949C8.71973 7.69949 10.1798 6.22949 11.9998 6.22949C13.8098 6.22949 15.2798 7.69949 15.2798 9.50949C15.2698 11.2795 13.8798 12.7195 12.1198 12.7795Z"
+                stroke="#37A6DE"
+                stroke-width="1.3"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M18.7398 19.3805C16.9598 21.0105 14.5998 22.0005 11.9998 22.0005C9.39977 22.0005 7.03977 21.0105 5.25977 19.3805C5.35977 18.4405 5.95977 17.5205 7.02977 16.8005C9.76977 14.9805 14.2498 14.9805 16.9698 16.8005C18.0398 17.5205 18.6398 18.4405 18.7398 19.3805Z"
+                stroke="#37A6DE"
+                stroke-width="1.3"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
+                stroke="#37A6DE"
+                stroke-width="1.3"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </div>
+
+          <div
+            class="absolute w-[180px] end-0 top-[150%] z-[1000] mt-2 bg-neutral-200 rounded-2xl shadow-lg transition-all duration-300 ease-in-out"
+            [class.opacity-0]="!isProfileMenuOpen"
+            [class.opacity-100]="isProfileMenuOpen"
+            [class.invisible]="!isProfileMenuOpen"
+            [class.visible]="isProfileMenuOpen"
+            [class.translate-y-[-10px]]="!isProfileMenuOpen"
+            [class.translate-y-0]="isProfileMenuOpen"
+            *ngIf="authService.isAuthenticated()"
+          >
+            <!--  -->
+            <div
+              class="hover:bg-neutral-300 text-black hover:text-sky-400 transition cursor-pointer"
+              routerLink="['/', currentLanguage.toLowerCase(), 'profile']"
+              (click)="selectProfileOption('profile')"
+            >
+              <div
+                class="flex items-center gap-2 px-4 py-2 text-base font-normal font-['Alexandria'] capitalize"
+              >
+                <div>
+                  <svg
+                    width="28"
+                    height="28"
+                    viewBox="0 0 28 28"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <g clip-path="url(#clip0_1566_22127)">
+                      <path
+                        d="M14.0001 1.16664C11.4619 1.16664 8.9807 1.9193 6.87027 3.32944C4.75984 4.73959 3.11496 6.74388 2.14363 9.08887C1.17231 11.4339 0.918166 14.0142 1.41334 16.5036C1.90852 18.9931 3.13078 21.2797 4.92555 23.0745C6.72032 24.8693 9.00701 26.0915 11.4964 26.5867C13.9859 27.0819 16.5662 26.8277 18.9112 25.8564C21.2562 24.8851 23.2605 23.2402 24.6706 21.1298C26.0808 19.0194 26.8334 16.5382 26.8334 14C26.8411 12.3125 26.5145 10.6402 25.8723 9.07974C25.2301 7.51925 24.2851 6.10144 23.0918 4.90821C21.8986 3.71499 20.4808 2.76999 18.9203 2.12779C17.3598 1.48559 15.6875 1.15891 14.0001 1.16664ZM14.0001 24.5C11.9234 24.5 9.89332 23.8842 8.1666 22.7304C6.43988 21.5766 5.09407 19.9368 4.29935 18.0181C3.50463 16.0995 3.2967 13.9883 3.70184 11.9515C4.10699 9.91472 5.10701 8.0438 6.57547 6.57535C8.04392 5.1069 9.91484 4.10687 11.9516 3.70173C13.9884 3.29658 16.0996 3.50452 18.0183 4.29924C19.9369 5.09396 21.5768 6.43977 22.7305 8.16648C23.8843 9.8932 24.5001 11.9233 24.5001 14C24.4848 16.78 23.3736 19.4418 21.4078 21.4077C19.442 23.3735 16.7801 24.4847 14.0001 24.5Z"
+                        fill="#6CBFCE"
+                      />
+                      <path
+                        d="M14.0002 11.6666C13.6907 11.6666 13.394 11.7895 13.1752 12.0083C12.9564 12.2271 12.8335 12.5239 12.8335 12.8333V19.8333C12.8335 20.1427 12.9564 20.4395 13.1752 20.6583C13.394 20.877 13.6907 21 14.0002 21C14.3096 21 14.6063 20.877 14.8251 20.6583C15.0439 20.4395 15.1668 20.1427 15.1668 19.8333V12.8333C15.1668 12.5239 15.0439 12.2271 14.8251 12.0083C14.6063 11.7895 14.3096 11.6666 14.0002 11.6666Z"
+                        fill="#6CBFCE"
+                      />
+                      <path
+                        d="M14.0002 9.33333C14.6445 9.33333 15.1668 8.811 15.1668 8.16667C15.1668 7.52233 14.6445 7 14.0002 7C13.3558 7 12.8335 7.52233 12.8335 8.16667C12.8335 8.811 13.3558 9.33333 14.0002 9.33333Z"
+                        fill="#6CBFCE"
+                      />
+                    </g>
+                    <defs>
+                      <clipPath id="clip0_1566_22127">
+                        <rect width="28" height="28" fill="white" />
+                      </clipPath>
+                    </defs>
+                  </svg>
+                </div>
+                <div>{{ "profile" | translate }}</div>
+              </div>
+            </div>
+            <div
+              class="rounded-t-2xl hover:bg-neutral-300 hover:text-sky-400 transition cursor-pointer"
+              routerLink="['/', currentLanguage.toLowerCase(), 'policies']"
+              (click)="selectProfileOption('my-policies')"
+            >
+              <div
+                class="flex items-center gap-2 px-4 py-2 text-base font-normal font-['Alexandria'] capitalize"
+              >
+                <div>
+                  <svg
+                    width="28"
+                    height="28"
+                    viewBox="0 0 28 28"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M14 25.6667C17.1829 23.8981 19.8349 21.3104 21.6812 18.1718C23.5274 15.0332 24.5006 11.458 24.5 7.81671V7.00004L14 2.33337L3.5 7.00004V7.81671C3.49939 11.458 4.47263 15.0332 6.31884 18.1718C8.16506 21.3104 10.8171 23.8981 14 25.6667ZM12.8333 7.00004H15.1667V9.33337H12.8333V7.00004ZM12.8333 11.6667H15.1667V21H12.8333V11.6667Z"
+                      fill="#6CBFCE"
+                    />
+                  </svg>
+                </div>
+                <div>
+                  {{ "my_policies" | translate }}
+                  <span
+                    *ngIf="expiringPoliciesCount > 0"
+                    class="text-red-600 text-[12px] bg-red-500 w- h-12 rounded-full"
+                    >{{ expiringPoliciesCount }}</span
+                  >
+                </div>
+              </div>
+            </div>
+            <div
+              class="hover:bg-neutral-300 hover:text-sky-400 transition cursor-pointer"
+              routerLink="['/', currentLanguage.toLowerCase(), 'claims']"
+              (click)="selectProfileOption('my-claims')"
+            >
+              <div
+                class="flex items-center gap-2 px-4 py-2 text-base font-normal font-['Alexandria'] capitalize"
+              >
+                <div>
+                  <svg
+                    width="28"
+                    height="28"
+                    viewBox="0 0 28 28"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M14.5624 2.33317C15.3544 2.33196 16.0571 2.33088 16.7063 2.59976C17.3554 2.86865 17.8517 3.36639 18.4108 3.92724C19.5186 5.03851 20.6283 6.1481 21.7395 7.25595C22.3003 7.81508 22.7981 8.31131 23.0669 8.96044C23.3359 9.60959 23.3348 10.3124 23.3335 11.1044C23.3291 14.0396 23.3334 16.9748 23.3334 19.9102C23.3335 20.9444 23.3335 21.8355 23.2376 22.5491C23.1347 23.3138 22.9029 24.0469 22.3083 24.6416C21.7137 25.2361 20.9806 25.4681 20.2158 25.5708C19.5022 25.6667 18.6111 25.6667 17.5768 25.6666H10.4233C9.38907 25.6667 8.49794 25.6667 7.78433 25.5708C7.01957 25.4681 6.28649 25.2361 5.69188 24.6416C5.09727 24.0469 4.86541 23.3138 4.76259 22.5491C4.66665 21.8355 4.66669 20.9444 4.66675 19.9102L4.66676 8.16668C4.66676 8.14099 4.66675 8.11538 4.66675 8.08988C4.66669 7.05564 4.66665 6.16453 4.76259 5.45091C4.86541 4.68615 5.09727 3.95307 5.69189 3.35847C6.28649 2.76386 7.01957 2.53199 7.78433 2.42917C8.49793 2.33323 9.38906 2.33327 10.4233 2.33333C11.803 2.33341 13.1827 2.33529 14.5624 2.33317ZM18.325 13.175C18.7806 13.6306 18.7806 14.3693 18.325 14.8249L14.1516 18.9983C13.4236 19.7263 12.2432 19.7263 11.5152 18.9983L9.67512 17.1582C9.21951 16.7027 9.21951 15.9639 9.67512 15.5083C10.1307 15.0528 10.8694 15.0528 11.325 15.5083L12.8334 17.0167L16.6751 13.175C17.1307 12.7194 17.8694 12.7194 18.325 13.175Z"
+                      fill="#6CBFCE"
+                    />
+                  </svg>
+                </div>
+                <div>{{ "my_claims" | translate }}</div>
+              </div>
+            </div>
+            <div
+              class="rounded-b-2xl hover:bg-neutral-300 hover:text-sky-400 transition cursor-pointer pb-3"
+              [routerLink]="['/', currentLanguage.toLowerCase(), 'login']"
+              (click)="selectProfileOption('logout')"
+              role="link"
+              tabindex="0"
+            >
+              <div
+                class="flex items-center gap-2 px-4 py-2 text-base font-normal font-['Alexandria'] capitalize"
+              >
+                <div>
+                  <svg
+                    width="28"
+                    height="28"
+                    viewBox="0 0 28 28"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M17.4999 14H2.33325M2.33325 14L6.41659 10.5M2.33325 14L6.41659 17.5"
+                      stroke="#6CBFCE"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M10.5022 8.16671C10.5163 5.62917 10.6289 4.25494 11.5253 3.3585C12.5505 2.33337 14.2004 2.33337 17.5002 2.33337H18.6668C21.9666 2.33337 23.6166 2.33337 24.6417 3.3585C25.6668 4.38363 25.6668 6.03354 25.6668 9.33337V18.6667C25.6668 21.9665 25.6668 23.6164 24.6417 24.6416C23.7452 25.538 22.371 25.6506 19.8333 25.6647M10.5022 19.8334C10.5163 22.3709 10.6289 23.7451 11.5253 24.6416C12.2735 25.3897 13.3544 25.5919 15.1666 25.6465"
+                      stroke="#6CBFCE"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                    />
+                  </svg>
+                </div>
+                <div aria-label="Log Out">{{ "log_out" | translate }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        } @else {
+        <a
+          [routerLink]="['/', currentLanguage.toLowerCase(), 'login']"
+          class="text-sky-900 cursor-pointer lg:text-2xl font-normal font-['Alexandria'] capitalize hover:text-sky-400 transition"
+          aria-label="Toggle Profile Menu"
+        >
+          <div class="relative group nav-link rotate-180">
+            <div
+              class="w-6 h-6 overflow-hidden cursor-pointer"
+              (click)="toggleProfileMenu($event)"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                aria-hidden="true"
+              >
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M5.07693 5.92646C5.07693 4.38906 6.33972 3.14276 7.89745 3.14276H12C12.4248 3.14276 12.7692 3.48266 12.7692 3.90195C12.7692 4.32124 12.4248 4.66114 12 4.66114H7.89745C7.18939 4.66114 6.6154 5.22764 6.6154 5.92646V6.93871C6.6154 7.358 6.271 7.6979 5.84616 7.6979C5.42133 7.6979 5.07693 7.358 5.07693 6.93871V5.92646ZM5.84616 16.3021C6.271 16.3021 6.6154 16.642 6.6154 17.0613V18.0735C6.6154 18.7723 7.18939 19.3388 7.89745 19.3388H12C12.4248 19.3388 12.7692 19.6788 12.7692 20.098C12.7692 20.5173 12.4248 20.8572 12 20.8572H7.89745C6.33972 20.8572 5.07693 19.6109 5.07693 18.0735V17.0613C5.07693 16.642 5.42133 16.3021 5.84616 16.3021Z"
+                  fill="#174A77"
+                />
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M12.7692 4.78618C12.7692 3.90491 13.6592 3.29355 14.4966 3.59962L19.6248 5.47416C20.1277 5.658 20.4615 6.13139 20.4615 6.66071V17.3393C20.4615 17.8686 20.1277 18.342 19.6248 18.5258L14.4966 20.4004C13.6592 20.7065 12.7692 20.0951 12.7692 19.2138V4.78618ZM15.0309 2.17576C13.1887 1.5024 11.2308 2.84738 11.2308 4.78618V19.2138C11.2308 21.1526 13.1887 22.4976 15.0309 21.8242L20.1591 19.9497C21.2656 19.5452 22 18.5038 22 17.3393V6.66071C22 5.4962 21.2656 4.45475 20.1591 4.0503L15.0309 2.17576Z"
+                  fill="#174A77"
+                />
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M5.36444 9.43868C5.06404 9.14219 4.57699 9.14219 4.27658 9.43868L2.2253 11.4632C1.9249 11.7597 1.9249 12.2403 2.2253 12.5368L4.27658 14.5613C4.57699 14.8578 5.06404 14.8578 5.36444 14.5613C5.66484 14.2649 5.66484 13.7842 5.36444 13.4877L4.62632 12.7592H8.92308C9.34791 12.7592 9.69231 12.4193 9.69231 12C9.69231 11.5807 9.34791 11.2408 8.92308 11.2408H4.62632L5.36444 10.5123C5.66484 10.2158 5.66484 9.73516 5.36444 9.43868Z"
+                  fill="#174A77"
+                />
+              </svg>
+            </div>
+            <span class="sr-only">Toggle Profile Menu</span>
+          </div>
+        </a>
+        }
+      </div>
+    </div>
+
+    <!-- Second Row - Mobile Navigation Links (Tablet/Small Desktop) -->
+    <div class="relative w-full lg:hidden border-t border-white">
+      <!-- Scrollable navigation container -->
+      <div class="overflow-x-scroll w-full">
+        <div class="z-50 mx-auto flex items-center">
+          <!-- Mobile menu button -->
+          <div class="md:hidden">
+            <button
+              (click)="toggleMobileMenu()"
+              class="text-sky-900 focus:outline-none p-2 cursor-pointer"
+              [class.text-sky-400]="isMobileMenuOpen"
+            >
+              <svg
+                *ngIf="!isMobileMenuOpen"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <line x1="4" x2="20" y1="12" y2="12"></line>
+                <line x1="4" x2="20" y1="6" y2="6"></line>
+                <line x1="4" x2="20" y1="18" y2="18"></line>
+              </svg>
+            </button>
+          </div>
+
+          <!-- Navigation links -->
+          <div class="py-4 flex justify-center items-center gap-6 text-[12px]">
+            <!-- Your navigation links here (keep them the same) -->
+            <div class="relative mobile-nav-link">
+              <a
+                [routerLink]="['/', currentLanguage.toLowerCase(), 'home']"
+                routerLinkActive="mobile-active-link"
+                class="text-sky-300 font-bold font-['Alexandria'] capitalize hover:text-sky-400 transition whitespace-nowrap"
+              >
+                {{ "home" | translate }}
+              </a>
+            </div>
+
+            <!-- About Us -->
+            <div class="relative mobile-nav-link">
+              <a
+                [routerLink]="['/', currentLanguage.toLowerCase(), 'about']"
+                routerLinkActive="mobile-active-link"
+                class="text-sky-900 font-normal font-['Alexandria'] capitalize hover:text-sky-400 transition whitespace-nowrap"
+              >
+                {{ "about" | translate }}
+              </a>
+            </div>
+            <!-- Insurance with Dropdown - this is the important part -->
+            <div
+              class="relative group mobile-nav-link cursor-pointer"
+              style="position: static"
+            >
+              <div
+                class="text-sky-900 cursor-pointer font-normal font-['Alexandria'] capitalize hover:text-sky-400 transition flex items-center gap-0.5 whitespace-nowrap"
+              >
+                {{ "insurance" | translate }}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="12"
+                  height="12"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="h-2.5 w-2.5 transition-transform group-hover:rotate-180"
+                >
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </div>
+
+              <!-- Dropdown Menu - now positioned relative to the outer container -->
+              <div
+                class="absolute z-[100] left-0 mt-1 w-[180px] cursor-pointer bg-neutral-200 rounded-xl shadow-lg transition-all duration-300 ease-in-out opacity-0 invisible translate-y-[-10px] group-hover:opacity-100 group-hover:visible group-hover:translate-y-0"
+              >
+                <!-- Dropdown items (keep them the same) -->
+                <!-- Motor Insurance -->
+                <a
+                  [routerLink]="[
+                    '/',
+                    currentLanguage.toLowerCase(),
+                    'motor-insurance'
+                  ]"
+                  class="rounded-t-xl hover:bg-neutral-300 hover:text-sky-400 transition cursor-pointer block"
+                >
+                  <div
+                    class="flex items-center gap-2 px-3 py-1.5 text-xs font-normal font-['Alexandria'] capitalize"
+                  >
+                    <img
+                      loading="lazy"
+                      src="drop-2.png"
+                      alt="Motor Icon"
+                      class="w-4 h-4"
+                    />
+                    {{ "motor_insurance" | translate }}
+                  </div>
+                </a>
+
+                <!-- Property Insurance -->
+                <a
+                  [routerLink]="[
+                    '/',
+                    currentLanguage.toLowerCase(),
+                    'building-insurance'
+                  ]"
+                  class="hover:bg-neutral-300 hover:text-sky-400 transition cursor-pointer block"
+                >
+                  <div
+                    class="flex items-center gap-2 px-3 py-1.5 text-xs font-normal font-['Alexandria'] capitalize"
+                  >
+                    <img
+                      loading="lazy"
+                      src="drop-1.png"
+                      alt="Property Icon"
+                      class="w-4 h-4"
+                    />
+                    {{ "property_insurance" | translate }}
+                  </div>
+                </a>
+
+                <!-- Medical Insurance -->
+                <a
+                  [routerLink]="[
+                    '/',
+                    currentLanguage.toLowerCase(),
+                    'medical-insurance'
+                  ]"
+                  class="rounded-b-xl hover:bg-neutral-300 hover:text-sky-400 transition cursor-pointer block"
+                >
+                  <div
+                    class="flex items-center gap-2 px-3 py-1.5 text-xs font-normal font-['Alexandria'] capitalize"
+                  >
+                    <img
+                      loading="lazy"
+                      src="drop-3.png"
+                      alt="Medical Icon"
+                      class="w-4 h-4"
+                    />
+                    {{ "medical_insurance" | translate }}
+                  </div>
+                </a>
+              </div>
+            </div>
+            <!-- Blogs -->
+            <div class="relative mobile-nav-link cursor-pointer">
+              <a
+                [routerLink]="[
+                  currentLanguage.toLowerCase(),
+                  currentLanguage.toLowerCase() === 'en'
+                    ? 'english-blogs'
+                    : 'arabic-blogs'
+                ]"
+                routerLinkActive="mobile-active-link"
+                class="text-sky-900 font-normal font-['Alexandria'] capitalize hover:text-sky-400 transition whitespace-nowrap"
+              >
+                {{ "blogs" | translate }}
+              </a>
+            </div>
+
+            <!-- Contact Us -->
+            <div class="relative mobile-nav-link">
+              <a
+                [routerLink]="['/', currentLanguage.toLowerCase(), 'contact']"
+                routerLinkActive="mobile-active-link"
+                class="text-sky-900 font-normal font-['Alexandria'] capitalize hover:text-sky-400 transition whitespace-nowrap"
+              >
+                {{ "contact" | translate }}
+              </a>
+            </div>
+
+            <!-- Claims Button -->
+            <a
+              [routerLink]="['/', currentLanguage.toLowerCase(), 'claims-info']"
+            >
+              <button
+                class="hidden cursor-pointer md:block bg-sky-400 text-white font-semibold font-['Alexandria'] capitalize px-2 py-1 sm:px-3 sm:py-1.5 rounded-[25px] shadow-[0_2px_2px_rgba(0,0,0,0.25)] hover:bg-sky-500 transition text-[10px] sm:text-xs whitespace-nowrap"
+              >
+                {{ "claims" | translate }}
+              </button>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile Menu Overlay (Only for small screens) -->
+    <div *ngIf="isMobileMenuOpen" class="fixed inset-0 z-50 md:hidden flex">
+      <div
+        class="w-md flex h-[100vh] fill-height overflow-y-auto bg-white flex-col shadow-2xl"
+        (click)="$event.stopPropagation()"
+      >
+        <div class="flex items-center justify-between p-4 border-b">
+          <img
+            loading="lazy"
+            src="logo.webp"
+            alt=""
+            class="w-[50px] h-[45px]"
+          />
+          <button
+            (click)="closeMobileMenu()"
+            class="cursor-pointer text-gray-500 hover:text-gray-700"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <line x1="18" x2="6" y1="6" y2="18"></line>
+              <line x1="6" x2="18" y1="6" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+
+        <div class="py-4 overflow-y-auto">
+          <div class="space-y-1 px-4">
+            <a
+              [routerLink]="['/', currentLanguage.toLowerCase(), 'home']"
+              routerLinkActive="mobile-active-link"
+              (click)="closeMobileMenu()"
+              class="block px-3 py-3 text-base font-medium text-sky-900 hover:text-sky-400 hover:bg-sky-50 rounded-lg transition"
+            >
+              {{ "home" | translate }}
+            </a>
+
+            <a
+              [routerLink]="['/', currentLanguage.toLowerCase(), 'about']"
+              routerLinkActive="mobile-active-link"
+              (click)="closeMobileMenu()"
+              class="block px-3 py-3 text-base font-medium text-sky-900 hover:text-sky-400 hover:bg-sky-50 rounded-lg transition"
+            >
+              {{ "about" | translate }}
+            </a>
+            <!-- menu -->
+            <div class="space-y-1">
+              <button
+                (click)="toggleMobileInsuranceMenu()"
+                class="w-full cursor-pointer flex items-center justify-between px-3 py-3 text-base font-medium text-sky-900 hover:text-sky-400 hover:bg-sky-50 rounded-lg transition"
+              >
+                <span>{{ "insurance" | translate }}</span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="transition-transform"
+                  [class.rotate-180]="isMobileInsuranceOpen"
+                >
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </button>
+
+              <div
+                *ngIf="isMobileInsuranceOpen"
+                class="ml-4 space-y-1 border-l-2 border-sky-200 pl-4"
+              >
+                <a
+                  [routerLink]="[
+                    '/',
+                    currentLanguage.toLowerCase(),
+                    'motor-insurance'
+                  ]"
+                >
+                  <button
+                    (click)="selectOption('motor'); closeMobileMenu()"
+                    routerLink="['/', currentLanguage.toLowerCase(), 'motor-insurance']"
+                    class="w-full flex cursor-pointer items-center gap-2 px-3 py-2 text-sm text-gray-700 hover:text-sky-400 hover:bg-sky-50 rounded-lg transition"
+                  >
+                    <img
+                      loading="lazy"
+                      src="drop-1.png"
+                      alt="Motor Icon"
+                      class="w-4 h-4"
+                    />
+                    {{ "motor_insurance" | translate }}
+                  </button>
+                </a>
+                <a
+                  [routerLink]="[
+                    '/',
+                    currentLanguage.toLowerCase(),
+                    'building-insurance'
+                  ]"
+                >
+                  <button
+                    routerLink="['/', currentLanguage.toLowerCase(), 'building-insurance']"
+                    class="w-full flex cursor-pointer items-center gap-2 px-3 py-2 text-sm text-gray-700 hover:text-sky-400 hover:bg-sky-50 rounded-lg transition"
+                  >
+                    <img src="drop-2.png" alt="Property Icon" class="w-4 h-4" />
+                    {{ "property_insurance" | translate }}
+                  </button>
+                </a>
+                <a
+                  [routerLink]="[
+                    '/',
+                    currentLanguage.toLowerCase(),
+                    'medical-insurance'
+                  ]"
+                >
+                  <button
+                    (click)="selectOption('medical'); closeMobileMenu()"
+                    routerLink="['/', currentLanguage.toLowerCase(), 'medical-insurance']"
+                    class="w-full flex cursor-pointer items-center gap-2 px-3 py-2 text-sm text-gray-700 hover:text-sky-400 hover:bg-sky-50 rounded-lg transition"
+                  >
+                    <img
+                      loading="lazy"
+                      src="drop-3.png"
+                      alt="Medical Icon"
+                      class="w-4 h-4"
+                    />
+                    {{ "medical_insurance" | translate }}
+                  </button>
+                </a>
+              </div>
+            </div>
+
+            <a
+              [routerLink]="[
+                currentLanguage.toLowerCase(),
+                currentLanguage.toLowerCase() === 'en'
+                  ? 'english-blogs'
+                  : 'arabic-blogs'
+              ]"
+              class="cursor-pointer"
+              routerLinkActive="mobile-active-link"
+              (click)="closeMobileMenu()"
+              class="block px-3 py-3 text-base font-medium text-sky-900 hover:text-sky-400 hover:bg-sky-50 rounded-lg transition"
+            >
+              {{ "blogs" | translate }}
+            </a>
+
+            <a
+              [routerLink]="['/', currentLanguage.toLowerCase(), 'contact']"
+              routerLinkActive="mobile-active-link"
+              (click)="closeMobileMenu()"
+              class="block px-3 py-3 text-base font-medium text-sky-900 hover:text-sky-400 hover:bg-sky-50 rounded-lg transition"
+            >
+              {{ "contact" | translate }}
+            </a>
+
+            <div *ngIf="authService.isAuthenticated()" class="space-y-1">
+              <button
+                (click)="toggleMobileProfileMenu()"
+                class="w-full cursor-pointer flex items-center justify-between px-3 py-3 text-base font-medium text-sky-900 hover:text-sky-400 hover:bg-sky-50 rounded-lg transition"
+              >
+                <span> {{ "profile" | translate }} </span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="transition-transform"
+                  [class.rotate-180]="isMobileProfileOpen"
+                >
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </button>
+
+              <div
+                *ngIf="isMobileProfileOpen"
+                class="ml-4 space-y-1 border-l-2 border-sky-200 pl-4"
+              >
+                <button
+                  (click)="
+                    selectProfileOption('my-policies'); closeMobileMenu()
+                  "
+                  class="w-full cursor-pointer flex items-center gap-2 px-3 py-2 text-sm text-gray-700 hover:text-sky-400 hover:bg-sky-50 rounded-lg transition"
+                >
+                  {{ "my_policies" | translate }}
+                </button>
+                <button
+                  (click)="selectProfileOption('my-claims'); closeMobileMenu()"
+                  class="w-full cursor-pointer flex items-center gap-2 px-3 py-2 text-sm text-gray-700 hover:text-sky-400 hover:bg-sky-50 rounded-lg transition"
+                >
+                  {{ "my_claims" | translate }}
+                </button>
+                <button
+                  (click)="selectProfileOption('profile'); closeMobileMenu()"
+                  class="w-full cursor-pointer flex items-center gap-2 px-3 py-2 text-sm text-gray-700 hover:text-sky-400 hover:bg-sky-50 rounded-lg transition"
+                >
+                  {{ "profile" | translate }}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="border-t p-4 space-y-3 justify-end">
+          <button
+            (click)="closeMobileMenu()"
+            class="w-full bg-sky-400 cursor-pointer text-lg text-white font-semibold font-['Alexandria'] capitalize py-2 rounded-[20px] shadow-[0_2px_2px_rgba(0,0,0,0.25)] hover:bg-sky-500 transition"
+          >
+            {{ "claims" | translate }}
+          </button>
+          <button
+            class="w-full cursor-pointer border-2 border-primary-500 text-primary-500 text-lg xl:text-2xl font-semibold font-['Alexandria'] capitalize px-6 xl:px-8 py-2 xl:py-4 rounded-[50px] hover:bg-primary-500 hover:text-white transition"
+          >
+            {{ "winch_request" | translate }}
+          </button>
+
+          <div class="flex items-center justify-center space-x-4">
+            <span class="text-[14px] text-gray-600"
+              >{{ "language" | translate }}:</span
+            >
+            <button
+              (click)="selectLanguage2('EN')"
+              class="px-2 py-1 text-xs rounded transition cursor-pointer"
+              [class.bg-sky-400]="currentLanguage === 'EN'"
+              [class.text-white]="currentLanguage === 'EN'"
+              [class.text-sky-900]="currentLanguage !== 'EN'"
+              [class.hover:bg-sky-100]="currentLanguage !== 'EN'"
+            >
+              EN
+            </button>
+            <button
+              (click)="selectLanguage2('ar')"
+              class="px-2 py-1 text-xs rounded transition cursor-pointer"
+              [class.bg-sky-400]="currentLanguage === 'ar'"
+              [class.text-white]="currentLanguage === 'ar'"
+              [class.text-sky-900]="currentLanguage !== 'ar'"
+              [class.hover:bg-sky-100]="currentLanguage !== 'ar'"
+            >
+              AR
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="flex-1 bg-sky-300/60 blur-[3px]"
+        (click)="closeMobileMenu()"
+      ></div>
+    </div>
+  </nav>
+</header>

@@ -1,0 +1,16 @@
+<div [dir]="isArabic ? 'rtl' : 'ltr'" class="p-4 md:p-12 lg:p-14 bg-[linear-gradient(rgba(239,248,255,0.905),rgba(239,248,255,0.884)),url('assets/about/history-2.jpg')] bg-no-repeat bg-center bg-cover">
+    <div *ngIf="privacyPolicy$ | async as privacyPolicy; else loading" class="flex flex-col gap-8 items-center capitalize">
+      <div class="flex flex-col gap-4 w-full text-center">
+        <div class="text-[#5DB5DF] text-2xl md:text-35 font-bold">
+          {{ isArabic ? privacyPolicy.data.ar_title : privacyPolicy.data.en_title }}
+        </div>
+        <div class="about-text" [innerHTML]="isArabic ? privacyPolicy.data.ar_description : privacyPolicy.data.en_description"></div>
+      </div>
+    </div>
+    <ng-template #loading>
+      <div class="flex flex-col gap-8 items-center capitalize p-4">
+        <div class="w-1/2 h-8 bg-gray-200 animate-pulse rounded"></div>
+        <div class="w-full h-24 bg-gray-200 animate-pulse rounded"></div>
+      </div>
+    </ng-template>
+  </div>

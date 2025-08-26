@@ -1,0 +1,220 @@
+<div
+  class="min-h-screen bg-white p-4 sm:p-6"
+  [@fadeInOut]="isLoading ? 'loading' : 'loaded'"
+>
+  <div class="max-w-7xl mx-auto">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
+      <div class="space-y-4 sm:space-y-6">
+        <div class="space-y-3 sm:space-y-4">
+          <!-- Skeleton Loader -->
+          <div *ngIf="isLoading" class="space-y-3">
+            <div
+              *ngFor="let _ of [1, 2, 3]"
+              class="card relative animate-pulse"
+            >
+              <div class="status flex justify-between items-center flex-wrap">
+                <div class="flex gap-2 items-center">
+                  <div
+                    class="status-dot bg-gray-300 w-4 h-4 rounded-full"
+                  ></div>
+                  <div class="h-6 w-32 bg-gray-200 rounded"></div>
+                </div>
+                <div class="w-[170px] h-[70px] bg-gray-200 rounded"></div>
+              </div>
+              <div class="info-grid">
+                <div>
+                  <div class="h-4 w-20 bg-gray-200 rounded"></div>
+                  <div class="h-5 w-40 bg-gray-200 rounded"></div>
+                </div>
+                <div>
+                  <div class="h-4 w-20 bg-gray-200 rounded"></div>
+                  <div class="h-5 w-40 bg-gray-200 rounded"></div>
+                </div>
+                <div class="expiry">
+                  <div class="h-4 w-20 bg-gray-200 rounded"></div>
+                  <div class="h-5 w-40 bg-gray-200 rounded"></div>
+                </div>
+              </div>
+              <div class="flex items-center gap-2 justify-between">
+                <div class="h-8 w-32 bg-gray-200 rounded"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Policy Cards -->
+          <ng-container *ngIf="!isLoading">
+            <div class="flex gap-2 w-full">
+              <button
+                (click)="switchTab('current')"
+                [class]="
+                  activeTab === 'current'
+                    ? 'select-btn active w-1/2 relative'
+                    : 'select-btn w-1/2 relative'
+                "
+              >
+                {{ "pages.user_policies.tabs.current" | translate }}
+                <div
+                  *ngIf="expiringSoonCount > 0"
+                  class="absolute top-0 right-0 bg-gradient-to-r from-red-500 to-yellow-500 text-white text-sm font-medium py-2 px-4 mb-4 rounded-bl-md shadow-md transform rotate-6 origin-top-end"
+                >
+                  {{ expiringSoonCount }}
+                  {{
+                    expiringSoonCount === 1
+                      ? ("pages.user_policies.expiring_soon_singular"
+                        | translate)
+                      : ("pages.user_policies.expiring_soon_plural" | translate)
+                  }}
+                </div>
+              </button>
+              <button
+                (click)="switchTab('previous')"
+                [class]="
+                  activeTab === 'previous'
+                    ? 'select-btn active w-1/2 relative'
+                    : 'select-btn w-1/2 relative'
+                "
+              >
+                {{ "pages.user_policies.tabs.previous" | translate }}
+              </button>
+            </div>
+
+            <ng-container *ngIf="getAllPoliciesSorted().length === 0">
+              <div class="text-center text-gray-500 text-lg py-8">
+                {{ "pages.user_policies.no_data" | translate }}
+              </div>
+            </ng-container>
+
+            <ng-container *ngFor="let policy of getAllPoliciesSorted()">
+              <div class="card relative">
+                <!-- Expiring Soon Banner -->
+                <div
+                  *ngIf="
+                    isExpiringSoon(policy.end_date) &&
+                    getPolicyStatus(policy.type, policy) === 'Running'
+                  "
+                  class="absolute top-0 right-0 bg-yellow-400 text-black text-sm font-semibold px-3 py-1 rounded-bl-lg z-30 transform -rotate-2 shadow-md"
+                >
+                  {{ "pages.user_policies.expiring_soon" | translate }}
+                </div>
+                <div class="status flex justify-between items-center flex-wrap">
+                  <div>
+                    <div class="flex gap-2 items-center policy-type">
+                      <div
+                        class="status-dot"
+                        [ngClass]="{
+                          'bg-[#30B479]':
+                            getPolicyStatus(policy.type, policy) ===
+                              'Running' ||
+                            getPolicyStatus(policy.type, policy) ===
+                              'Pending' ||
+                            getPolicyStatus(policy.type, policy) ===
+                              'Requested',
+                          'bg-red-600':
+                            getPolicyStatus(policy.type, policy) ===
+                              'Canceled' ||
+                            getPolicyStatus(policy.type, policy) === 'Expired'
+                        }"
+                      ></div>
+
+                      @if (policy.type == 'jop') {
+                      {{ "Professional.title" | translate }}
+                      }@else {
+                      {{ getPolicyTypeName(policy.type) }}
+                      }
+                    </div>
+                    <div class="subtext">
+                      {{ getPolicyStatus(policy.type, policy) }}
+                    </div>
+                  </div>
+                  <div class="w-[170px] h-[85px] z-20">
+                    <img
+                      class="w-full h-full object-cover"
+                      [src]="
+                        policy.type === 'medical'
+                          ? '/assets/policies/medical.png'
+                          : policy.type === 'motor'
+                          ? '/assets/policies/car.png'
+                          : policy.type === 'jop'
+                          ? '/assets/policies/medical.png'
+                          : '/assets/policies/building.png'
+                      "
+                      [alt]="
+                        'pages.user_policies.images.' + policy.type + '_alt'
+                          | translate
+                      "
+                    />
+                  </div>
+                </div>
+                <div class="info-grid">
+                  <div>
+                    <div class="label">
+                      {{
+                        "pages.user_policies.labels.policy_holder" | translate
+                      }}
+                    </div>
+                    <div class="value">{{ policy.name }}</div>
+                  </div>
+                  <div>
+                    <div class="label">
+                      {{ "pages.user_policies.labels.policy_code" | translate }}
+                    </div>
+                    <div class="value">
+                      {{ getPolicyCode(policy, policy.type) }}
+                    </div>
+                  </div>
+                  <div *ngIf="policy.end_date" class="expiry">
+                    <div class="label">
+                      {{ "pages.user_policies.labels.expiry_date" | translate }}
+                    </div>
+                    <div
+                      class="value"
+                      [ngClass]="{
+                        '!text-red-600':
+                          getPolicyStatus(policy.type, policy) === 'Canceled' ||
+                          getPolicyStatus(policy.type, policy) === 'Expired'
+                      }"
+                    >
+                      {{ formatDisplayDate(policy.end_date) }}
+                    </div>
+                  </div>
+                </div>
+                <div class="flex items-center gap-2 justify-between">
+                  <button
+                    [routerLink]="[
+                      '/',
+                      currentLang$ | async,
+                      'policies',
+                      policy.id,
+                      policy.type
+                    ]"
+                    class="show-all-details w-full md:w-1/2"
+                  >
+                    {{
+                      "pages.user_policies.buttons.show_all_details" | translate
+                    }}
+                  </button>
+                </div>
+                <img
+                  src="/assets/policies/card-policy-bg.svg"
+                  [alt]="
+                    'pages.user_policies.images.card_background_alt' | translate
+                  "
+                  class="car-img absolute -top-5 -end-5 w-[180px] z-10 h-[180px]"
+                />
+              </div>
+            </ng-container>
+          </ng-container>
+        </div>
+      </div>
+      <div class="hidden lg:block sticky top-6 self-start">
+        <div class="w-full max-h-[600px] rounded-4xl overflow-hidden">
+          <img
+            class="w-full h-full object-cover object-top"
+            src="assets/claims/claims-img.jpg"
+            alt=""
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

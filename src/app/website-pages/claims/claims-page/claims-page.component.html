@@ -1,0 +1,86 @@
+<!-- claims.component.html -->
+<div class="min-h-screen bg-white p-4 sm:p-6">
+    <div class="max-w-7xl mx-auto">
+      <!-- Main grid layout - switches to column on small screens -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
+        <!-- Left Panel - Claims List -->
+        <div class="space-y-4 sm:space-y-6">
+          <!-- Tabs Navigation -->
+          <div class="flex gap-2">
+            <!-- Current Claims Tab Button -->
+            <button 
+              (click)="switchTab('current')"
+           
+             [class]="activeTab === 'current' ? 'select-btn active' : 'select-btn'">
+              Current
+            </button>
+            
+            <!-- Previous Claims Tab Button -->
+            <button 
+              (click)="switchTab('previous')"
+              [class]="activeTab === 'previous' ? 'select-btn active' : 'select-btn'"
+           >
+               
+              Previous
+            </button>
+          </div>
+  
+          <!-- Claims Cards Container -->
+          <div class="space-y-3 sm:space-y-4">
+            <!-- Claim Card - Repeats for each claim -->
+            <div class="card relative ">
+              <div class="status flex justify-between items-center flex-wrap">
+                <div>
+                  <!-- the dot is red if it is in previous  -->
+                  <div class="flex gap-2 items-center"> <div class="status-dot bg-[#30B479]"></div> Motor Insurance</div>
+                  <div class="subtext">Running</div>
+                </div>
+               <div class="w-[170px] h-[70px] z-20">
+                <img class="w-full h-full object-cover" src="/assets/policies/car.png" alt="">
+               </div>
+              </div>
+              
+          
+              <div class="info-grid">
+                <div>
+                  <div class="label">Policy Holder</div>
+                  <div class="value">Ahmed Mahmoud</div>
+                </div>
+                <div>
+                  <div class="label">Policy Code</div>
+                  <div class="value">MP04CY9999</div>
+                </div>
+                <div class="expiry">
+                  <div class="label">Expiry Date</div>
+                  <div class="value">20, April 2025</div>
+                </div>
+              </div>
+          
+             
+          <div class="flex items-center gap-2 justify-between">
+            <button class="show-all-details">Show All Details</button>
+            <!-- if the date is expired less than today -->
+            <!-- <button class="renew-now">Renew Now</button> -->
+        
+          </div>
+            
+              <img src="/assets/policies/card-policy-bg.svg" alt="Car" class="car-img absolute -top-5 -end-5 w-[180px] z-10 h-[180px]" />
+            </div>
+            
+          </div>
+        </div>
+  
+        <!-- Right Panel - Hero Image (hidden on small screens) -->
+        <div class="hidden lg:flex  ">
+            <div class=" w-full max-h-[600px] rounded-4xl overflow-hidden">
+
+                <img class="w-full h-full object-cover" src="assets/claims/claims-image.png" alt="">
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+

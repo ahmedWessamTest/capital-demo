@@ -1,0 +1,126 @@
+
+.card {
+    padding: 2rem  2rem 0  2rem;
+    border-radius: 15px;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    overflow: hidden;
+  }
+  
+  .card h2 {
+    color: #000;
+    text-align: center;
+    font-family: Alexandria;
+    font-size: 23px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 22px; /* 95.652% */
+    text-transform: capitalize;
+  }
+  
+  .status {
+    color: #000;
+    font-family: Alexandria;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: 22px; /* 137.5% */
+    text-transform: capitalize;
+  }
+  
+  .status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+  
+  .subtext {
+    color: #555;
+    margin-bottom: 16px;
+    margin-top:1rem;
+  }
+  
+  .info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    margin-bottom: 12px;
+    justify-content: start;
+  }
+  
+  .label {
+    color: #3C3C3C;
+    font-family: Alexandria;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: 22px; /* 137.5% */
+    text-transform: capitalize;
+  }
+  
+  .value {
+    color: #000;
+  font-family: Alexandria;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 22px; /* 122.222% */
+  margin-top: .8rem;
+  text-transform: capitalize;
+  }
+  
+  .expiry {
+    margin-bottom: 20px;
+  }
+  
+  .show-all-details {
+  padding:clamp(1rem,1vw,2rem) clamp(1rem,2vw,3rem);
+  flex-shrink: 0;
+  border-radius: 30px;
+  background: #37A6DE;
+  color: #FFF;
+  font-family: Alexandria;
+  font-size: clamp(18px,1.5vw,23px);
+  font-style: normal;
+  font-weight: 400;
+  text-transform: capitalize;
+  transition: .4s;
+ }
+  
+  .show-all-details:hover {
+    background-color: #199be0;
+  }
+  
+  
+
+  .show-all-comments{
+    color: #37A6DE;
+    font-family: Alexandria;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: clamp(18px,1.5vw,22px); /* 111.111% */
+    text-decoration-line: underline;
+    text-decoration-style: solid;
+    text-decoration-skip-ink: auto;
+    text-decoration-thickness: auto;
+    text-underline-offset: auto;
+    text-underline-position: from-font;
+    text-transform: capitalize;
+  }
+
+  .comments-footer {
+    margin: 0 -2rem;
+    border-radius: 0 0 15px 15px;
+    background: #F8F8F8;
+    border:1px solid #37A6DE
+  }
+  
+  .policy-type{
+    color: #000;
+    text-align: center;
+    font-family: Alexandria;
+    font-size: 23px;
+    font-style: normal;
+    font-weight: 500;
+  line-height: 22px; /* 95.652% */
+  text-transform: capitalize;}

@@ -1,0 +1,107 @@
+<div class="blog-container px-2 sm:px-4 md:px-8 lg:px-12 my-20">
+  <!-- Debug loading state (remove in production) -->
+  <div class="hidden">isLoading: {{ isLoading() }}</div>
+
+  <!-- Skeleton Loader -->
+  @if (isLoading()) {
+    <div class="flex flex-wrap justify-start gap-4 sm:gap-6" @skeletonAnimation>
+      @for (i of [1,2,3,4,5,6]; track i) {
+        <div class="blog-card-skeleton bg-white rounded-[80px] overflow-hidden shadow-sm flex flex-col h-full min-h-[467px] w-full sm:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.5rem)]">
+          <div class="image-skeleton h-[260px] w-full bg-gray-200 animate-pulse relative">
+            <div class="absolute bottom-0 left-0 w-full h-1 bg-gray-300"></div>
+          </div>
+          <div class="p-6 flex flex-col flex-grow">
+            <div class="flex justify-between mb-4">
+              <div class="flex-1 space-y-2">
+                <div class="h-1 w-16 bg-gray-200 rounded-full"></div>
+                <div class="h-6 w-3/4 bg-gray-200 rounded"></div>
+              </div>
+              <div class="flex items-center gap-2">
+                <div class="h-6 w-6 bg-gray-200 rounded-full"></div>
+                <div class="flex flex-col">
+                  <div class="h-4 w-8 bg-gray-200 rounded"></div>
+                  <div class="h-4 w-8 bg-gray-200 rounded mt-1"></div>
+                </div>
+              </div>
+            </div>
+            <div class="mt-auto pt-4">
+              <div class="h-8 w-24 bg-gray-200 rounded-full"></div>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  }
+
+  <!-- Blog Cards -->
+  @if (!isLoading()) {
+    <div class="flex flex-wrap justify-start gap-4 sm:gap-6" @cardAnimation>
+      <div *ngFor="let blog of blogsResponse?.rows?.data" 
+           [routerLink]="['/', currentLanguage.toLowerCase(), 'blog', blog.en_slug]"
+           class="blog-card w-full sm:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.5rem)] h-[467px] rounded-[80px] overflow-hidden bg-[#F3F3F3] flex flex-col cursor-pointer hover:shadow-lg transition-shadow">
+        <div class="relative image-section custom-partial-border h-[260px] w-full">
+          <div class="line2 absolute -bottom-6 start-6 z-10"></div>
+          <div class="image-skeleton h-[260px] w-full bg-gray-200 animate-pulse absolute" *ngIf="!isImageLoaded(blog.main_image)"></div>
+          <img 
+            [src]="API_CONFIG + blog.main_image" 
+            [alt]="blog.en_blog_title + ' image'" 
+            class="card-image w-full h-[260px] object-cover" 
+            loading="lazy"
+            (load)="onImageLoad(blog.main_image)"
+          />
+        </div>
+        <div class="mt-8 flex flex-col justify-between h-full">
+          <div class="flex">
+            <div class="flex gap-0 flex-col px-6 w-[75%]">
+              <div class="white-line"></div>
+              <div class="font-alexandria text-[#174A77] text-[18px] font-bold capitalize leading-[25px] sm:text-[16px]">
+                {{ blog.en_blog_title | truncate:44 }}
+              </div>
+            </div>
+            <div class="flex justify-center gap-2">
+              <div>
+                <img src="assets/blogs/calender-blue.svg" [alt]="blog.blog_date + ' calendar icon'" loading="lazy" />
+              </div>
+              <div class="date-text text-[#37A6DE] flex flex-col font-bold text-lg sm:text-base">
+                <span>{{ blog.blog_date | date:'dd' }}</span>
+                <span class="-mt-2">{{ blog.blog_date | date:'MMM' }}</span>
+              </div>
+            </div>
+          </div>
+          <div class="button-container mt-auto">
+            <div class="read-more-button">
+              <span class="button-text">read more...</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- Pagination -->
+  <div *ngIf="blogsResponse && blogsResponse.rows && blogsResponse.rows.total > blogsResponse.rows.per_page" class="pagination mt-8 flex justify-center gap-2">
+    <button 
+      *ngIf="blogsResponse.rows.prev_page_url" 
+      (click)="changePage(blogsResponse.rows.prev_page_url)"
+      class="w-[80px] cursor-pointer h-[30px] rounded-full bg-[#D9D9D9] flex items-center justify-center"
+    >
+      <span class="text-[#174A77] font-bold">Previous</span>
+    </button>
+    <button 
+      *ngFor="let link of blogsResponse?.rows?.links | slice:1:-1" 
+      [class]="link.active ? 'bg-[#174A77] text-white' : 'bg-[#D9D9D9] text-[#174A77]'"
+      [disabled]="!link.url"
+      (click)="changePage(link.url)"
+      class="w-[30px] cursor-pointer h-[30px] rounded-full flex items-center justify-center font-bold disabled:cursor-not-allowed disabled:opacity-50"
+    >
+      <span>{{ link.label }}</span>
+    </button>
+    <button 
+      [disabled]="!blogsResponse.rows.next_page_url"
+      (click)="changePage(blogsResponse.rows.next_page_url)"
+      class="w-[80px] cursor-pointer h-[30px] rounded-full bg-[#D9D9D9] flex items-center justify-center disabled:cursor-not-allowed disabled:opacity-50"
+    >
+      <span class="text-[#174A77] font-bold">Next</span>
+    </button>
+  </div>
+</div>

@@ -1,0 +1,170 @@
+<div
+  class="fixed inset-0 bg-[#4D4D4D] z-50 flex items-center justify-center"
+  [class.hidden]="!(showAlert$ | async)"
+  (click)="onBackdropClick($event)"
+  [ngClass]="isOtpType() ? 'bg-[#4d4d4d92]' : 'bg-[#4d4d4d92]'"
+  role="dialog"
+  aria-modal="true"
+  [@fadeAnimation]="(showAlert$ | async) ? 'visible' : 'hidden'"
+>
+  <div
+    class="alert-wrapper relative"
+    tabindex="-1"
+    aria-labelledby="alertTitle"
+    [attr.aria-describedby]="(alertConfig$ | async)?.message ? 'alertMessage' : null"
+    [@slideAnimation]="(showAlert$ | async) ? 'visible' : 'hidden'"
+    [@shakeAnimation]="shakeState"
+    [class.cursor-pointer]="isNotificationType()"
+    (click)="handleAlertClick($event)"
+  >
+    <div class="container md:w-[50vw] mx-auto">
+      <div
+        class="wrapper relative z-10 flex flex-col items-center justify-center py-[40px] px-6 md:px-15 max-w-[1035px] mx-auto rounded-[15px] overflow-hidden shadow-xl"
+        [class.pb-[20px]]="isNotificationType()"
+        [class.pb-[40px]]="!isNotificationType()"
+        [ngClass]="isOtpType() ? 'bg-[#FBFBFB]' : 'bg-[#FBFBFB]'"
+      >
+        <!-- Alert Images -->
+        <figure class="flex flex-col items-center mb-[35px] animate-fadeIn">
+          <img
+            *ngIf="(alertConfig$ | async)?.imagePath"
+            [src]="(alertConfig$ | async)?.imagePath"
+            [alt]="(translatedTitle$ | async) || 'Alert'"
+            class="max-w-[150px] max-h-[150px] mb-4"
+            loading="eager"
+            fetchpriority="high"
+
+          />
+          <img
+            *ngIf="(alertConfig$ | async)?.secondaryImagePath"
+            loading="eager"
+            fetchpriority="high"
+
+            [src]="(alertConfig$ | async)?.secondaryImagePath || 'assets/common/otp.gif'"
+            [alt]="(translatedTitle$ | async) || 'Secondary Alert'"
+            class="max-w-[150px] max-h-[150px]"
+          />
+          <img
+            *ngIf="!(alertConfig$ | async)?.imagePath && !(alertConfig$ | async)?.secondaryImagePath"
+            loading="eager"
+            src="assets/common/otp.gif"
+            alt="Alert"
+            fetchpriority="high"
+
+            class="max-w-[150px] max-h-[150px]"
+          />
+        </figure>
+        <img
+          src="assets/message/message-bg.png"
+          alt=""
+          loading="eager"
+          fetchpriority="high"
+          class="absolute top-0 left-0 max-w-[157px] scale-x-[-1] z-[-1] rounded-[20px] sm:rounded-[30px]"
+        />
+        <!-- Alert Title -->
+        <h3 id="alertTitle" class="text-title-size text-black mb-4 text-center animate-fadeIn">
+          {{ translatedTitle$ | async }}
+        </h3>
+        <!-- Alert Messages -->
+        @if (isGeneralType() || isCallRequestType()) {
+          @for (message of translatedMessages$ | async; track $index) {
+            <p id="alertMessage{{$index}}" class="text-center mb-4 animate-fadeIn">
+              {{ message }}
+            </p>
+          }
+        } @else if (translatedMessages$ | async) {
+          <p id="alertMessage" class="text-center mb-6 animate-fadeIn">
+            {{ translatedMessages$ | async }}
+          </p>
+        }
+        <!-- OTP Section -->
+        @if (isOtpType()) {
+          <div class="flex flex-col items-center w-full mb-6">
+            <p class="text-center mb-4">
+              {{ 'pages.auth.forgot-password.otp-message' | translate }} <span class="font-bold">{{ translatedEmail$ | async }}</span>
+            </p>
+            <div class="flex gap-2 mb-4" dir="ltr">
+              @for (digit of otpDigits; track $index) {
+                <input
+                  type="text"
+                  id="otp-digit-{{$index}}"
+                  [(ngModel)]="otpDigits[$index]"
+                  maxlength="1"
+                  dir="ltr"
+                  pattern="[0-9]"
+                  inputmode="numeric"
+                  class="w-10 h-12 text-center border border-gray-300 rounded-[10px] focus:outline-none focus:border-[#0ea5e9]"
+                  (input)="onDigitInput($event, $index); errorMessage = ''"
+                  (paste)="onPaste($event)"
+                  (keydown.backspace)="onBackspace($event, $index)"
+                />
+              }
+            </div>
+            @if (errorMessage) {
+              <p class="text-red-500 text-sm mb-1 animate-bottom">{{ errorMessage }}</p>
+            }
+            <button
+              class="block w-full md:w-auto bg-[#0ea5e9] text-white cursor-pointer border border-[#0ea5e9] py-[9px] px-[80px] text-description-size rounded-[50px] capitalize focus:outline-none hover:bg-[#88c7e5] transition-colors duration-200"
+              (click)="onVerify()"
+              [disabled]="isVerifying()"
+              [class.opacity-50]="isVerifying()"
+            >
+              @if (isVerifying()) {
+                <span>{{ 'Loading' | translate }}</span>
+              } @else {
+                <span>{{ 'pages.auth.forgot-password.button' | translate }}</span>
+              }
+            </button>
+            <div class="flex items-center gap-2 mt-4">
+              <a
+                href="javascript:void(0)"
+                class="text-[#0ea5e9] text-sm hover:underline"
+                (click)="onResend()"
+                [class.pointer-events-none]="!canResend()"
+                [class.opacity-50]="!canResend()"
+                [attr.aria-label]="'pages.auth.forgot-password.Resend_OTP' | translate"
+              >
+                {{ 'pages.auth.forgot-password.Resend_OTP' | translate }}
+              </a>
+              @if (resendTimer() > 0) {
+                <span class="text-red-500 text-sm">00:{{ resendTimer() }}s</span>
+              }
+            </div>
+          </div>
+        }
+        <!-- General or Call Request Button -->
+        @if (isGeneralType() || isCallRequestType() ) {
+          @if(translatedButtonLabel$ | async){
+          <button
+            class="block w-full md:w-auto bg-[#0ea5e9] text-white cursor-pointer border border-[#0ea5e9] py-[9px] px-[80px] text-description-size rounded-[50px] capitalize focus:outline-none hover:bg-[#88c7e5] transition-colors duration-200"
+            (click)="onButtonClick()"
+            [attr.aria-label]="translatedButtonLabel$ | async"
+          >
+            {{ translatedButtonLabel$ | async }}
+          </button>
+        }
+        }
+        <!-- Action Buttons (for confirmation alerts) -->
+        @if (!isNotificationType() && !isOtpType() && !isGeneralType() && !isCallRequestType()) {
+          <div class="flex justify-center items-center gap-4 flex-wrap mt-[30px] mb-[30px]">
+            <!-- Confirm Button -->
+            <button
+              class="block w-full md:w-auto bg-[#0ea5e9] text-white cursor-pointer border border-[#0ea5e9] py-[9px] px-[80px] text-description-size rounded-[50px] capitalize focus:outline-none hover:bg-[#88c7e5] transition-colors duration-200"
+              (click)="onConfirm()"
+              [attr.aria-label]="'Confirm' | translate"
+            >
+              {{ translatedConfirmText$ | async }}
+            </button>
+            <!-- Cancel Button -->
+            <button
+              class="block w-full md:w-auto bg-white text-black cursor-pointer border border-gray-300 py-[9px] px-[80px] text-description-size rounded-[50px] capitalize focus:outline-none hover:bg-gray-100 transition-colors duration-200"
+              (click)="onCancel()"
+            >
+              {{ translatedCancelText$ | async }}
+            </button>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</div>

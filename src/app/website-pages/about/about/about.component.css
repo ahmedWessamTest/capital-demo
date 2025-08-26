@@ -1,0 +1,64 @@
+.input-wrapper {
+    position: relative;
+    margin-bottom: 8px; /* Small space for the error message */
+  }
+  
+  .policy-btn {
+    width: 100%;
+    /* your existing styles */
+  }
+  
+  /* Optional: Style for error state */
+  .policy-btn.error {
+    border-color: #dc3545;
+  }
+  
+
+  .mission-title{
+    color: #37A6DE;
+font-family: Alexandria;
+font-size: 23px;
+font-style: normal;
+font-weight: 700;
+line-height: 30px; /* 130.435% */
+text-transform: capitalize;
+  }
+  .mission-text{
+    color: #323232;
+font-family: Alexandria;
+font-size: 18px;
+font-style: normal;
+font-weight: 600;
+line-height: 30px; /* 166.667% */
+text-transform: capitalize;
+  }
+  .small-about-title{
+    color: #5DB5DF;
+font-family: Alexandria;
+font-size: clamp(16px, 2.5vw, 23px);
+font-style: normal;
+font-weight: 600;
+line-height: 55px; /* 239.13% */
+text-transform: capitalize;
+  }
+
+  .small-about-text{
+    color: #174A77;
+text-align: center;
+font-family: Alexandria;
+font-size: 18px;
+font-style: normal;
+font-weight: 400;
+line-height: 25px; /* 138.889% */
+text-transform: capitalize;
+  }
+
+  .about-text{
+    color: #174A77;
+font-family: Alexandria;
+font-size: clamp(16px, 2.5vw, 23px);
+font-style: normal;
+font-weight: 400;
+line-height: 30px; /* 130.435% */
+text-transform: capitalize;
+  }

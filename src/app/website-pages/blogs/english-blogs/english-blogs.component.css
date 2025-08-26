@@ -1,0 +1,102 @@
+* White Line */
+.white-line {
+    width: 5rem;
+    height: 5px;
+    background-color: red;
+    margin-bottom: 1rem;
+  }
+
+
+
+  
+  /* Button Container */
+  .button-container {
+    display: flex;
+    justify-content: center;
+  }
+  
+  /* Read More Button */
+  .read-more-button {
+    width: 13rem;
+    height: 3.5rem;
+    background-color: #0c4a6e;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .read-more-button:hover {
+    background-color: #075985;
+  }
+  
+  /* Button Text */
+  .button-text {
+    color: white;
+    font-size: 1.125rem;
+    font-weight: normal;
+    font-family: 'Alexandria', sans-serif;
+    text-transform: capitalize;
+    line-height: 1.75;
+  }
+.line2{
+    width: 77px;
+height: 4px;
+flex-shrink: 0;
+background-color: #075985;
+}
+
+
+
+  /* In your CSS file (e.g., style.css or a <style> tag if testing locally) */
+.custom-partial-border {
+    border-bottom: 6px solid transparent; /* Set a transparent border to reserve space */
+    border-image: linear-gradient(to right, #f7f6f3 70%, transparent 60%) 1;
+    /*
+      Explanation:
+      - #fbbf24 is Tailwind's amber-500. Use amber-600's hex code if you prefer that exact shade.
+      - 60% indicates the solid part of the border.
+      - transparent 60% means everything after 60% will be transparent.
+      - `1` after the gradient is the border-image-slice value, stretching the image to the border.
+    */
+  }
+
+
+
+
+/* ::ng-deep .owl-item:not(.active) {
+    opacity: 0.0;
+    transition: opacity 0.5s; 
+} */
+
+
+@keyframes opacityPulse {
+    0% { opacity: 0.3; }
+    50% { opacity: 0.6; }
+    100% { opacity: 0.3; }
+  }
+
+  .blog-card-skeleton {
+    transition: opacity 0.3s ease;
+  }
+  
+  .image-skeleton::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+    animation: shimmer 1.5s infinite;
+  }
+  
+  @keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+  
+  @keyframes opacityPulse {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+  }

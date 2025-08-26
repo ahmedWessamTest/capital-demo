@@ -1,0 +1,171 @@
+<div class="flex overflow-hidden flex-col md:flex-row gap-6 md:gap-12 py-12 w-full max-w-7xl mx-auto">
+  <div class="flex px-4 flex-1 flex-col gap-4 w-full md:w-1/2 lg:w-1/3">
+    <!-- Container for skeleton and form -->
+    <div class="loader-container">
+      <!-- Skeleton Loader -->
+      @if (isLoading()) {
+        <div class="flex flex-col gap-4" @skeletonAnimation>
+          <div class="h-8 w-3/4 bg-gray-200 rounded animate-pulse"></div>
+          <div class="h-4 w-full bg-gray-200 rounded animate-pulse"></div>
+          <div class="h-12 w-full bg-gray-200 rounded-lg animate-pulse"></div>
+          <div class="h-12 w-full bg-gray-200 rounded-lg animate-pulse"></div>
+          <div class="h-12 w-full bg-gray-200 rounded-lg animate-pulse"></div>
+          <div class="h-12 w-full bg-gray-200 rounded-lg animate-pulse"></div>
+          <div class="flex justify-between">
+            <div class="h-10 w-1/3 bg-gray-200 rounded-lg animate-pulse"></div>
+            <div class="h-10 w-1/3 bg-gray-200 rounded-lg animate-pulse"></div>
+          </div>
+        </div>
+      }
+      <!-- Form -->
+      @if (!isLoading()) {
+        <form
+          [formGroup]="profileForm"
+          (ngSubmit)="onProfileSubmit()"
+          novalidate
+          @formAnimation
+          [attr.aria-label]="'pages.profile.form-aria-label' | translate"
+        >
+          <!-- Header -->
+          <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">{{ 'pages.profile.header' | translate }}</h2>
+
+          <!-- Success and Error Messages -->
+          <div *ngIf="errorMessage()" class="text-red-600 text-center mb-4">{{ errorMessage() }}</div>
+          <div *ngIf="successMessage()" class="text-green-600 text-center mb-4">{{ successMessage() }}</div>
+
+          <!-- Name Field -->
+          <div class="flex flex-col mb-2">
+            <div>
+              <input
+                formControlName="name"
+                type="text"
+                id="name"
+                class="general-input w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                [placeholder]="'pages.profile.name-placeholder' | translate"
+                (focus)="onNameFocus()"
+              />
+            </div>
+            <div class="error-container">
+              @if (profileForm.get('name')?.touched && profileForm.get('name')?.invalid) {
+                @if (profileForm.get('name')?.hasError('required')) {
+                  <span class="error-message">{{ 'pages.profile.errors.name-required' | translate }}</span>
+                }
+              }
+            </div>
+          </div>
+
+          <!-- Email Field (Read-only) -->
+          <div class="flex flex-col mb-2">
+            <div>
+              <input
+                formControlName="email"
+                type="email"
+                id="email"
+                class="general-input w-full border border-gray-300 rounded-lg px-4 py-3 bg-gray-50 text-gray-600 cursor-not-allowed"
+                [placeholder]="'pages.profile.email-placeholder' | translate"
+                readonly
+              />
+            </div>
+          </div>
+
+          <!-- Phone Field (Read-only) -->
+          <div class="flex flex-col mb-2">
+            <div>
+              <input
+                formControlName="phone"
+                type="text"
+                id="phone"
+                class="general-input w-full border border-gray-300 rounded-lg px-4 py-3 bg-gray-50 text-gray-600 cursor-not-allowed"
+                [placeholder]="'pages.profile.phone-placeholder' | translate"
+                readonly
+              />
+            </div>
+          </div>
+
+          <!-- Gender Field -->
+          <!-- <div class="flex flex-col mb-2">
+            <div class="relative">
+              <select
+                formControlName="gender"
+                id="gender"
+                class="appearance-none general-input w-full border border-gray-300 rounded-lg px-4 py-3 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="">{{ 'pages.profile.gender-placeholder' | translate }}</option>
+                <option value="male">{{ 'pages.profile.gender-male' | translate }}</option>
+                <option value="female">{{ 'pages.profile.gender-female' | translate }}</option>
+                <option value="other">{{ 'pages.profile.gender-other' | translate }}</option>
+              </select>
+              <div class="pointer-events-none absolute inset-y-0 end-6 flex items-center">
+                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                </svg>
+              </div>
+            </div>
+          </div> -->
+
+          <!-- Password Field with Edit Link -->
+          <div class="flex flex-col mb-2">
+            <div class="relative">
+              <input
+                type="password"
+                id="password"
+                value="********"
+                class="general-input w-full border border-gray-300 rounded-lg px-4 py-3 bg-gray-50 text-gray-600 cursor-not-allowed"
+                readonly
+              />
+              <a
+                [routerLink]="['/', currentLang$ | async, 'profile', 'edit-password']"
+                class="absolute inset-y-0 end-0 flex items-center pe-6 text-blue-600 hover:text-blue-700"
+                [attr.aria-label]="'pages.profile.edit-password' | translate"
+              >
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M18.3786 8.4496L11.4638 15.3646C11.1846 15.6438 10.829 15.8341 10.4418 15.9116L7.5 16.4999L8.08835 13.5581C8.16578 13.171 8.35609 12.8153 8.63528 12.5361L15.5502 5.62117M18.3786 8.4496L19.7928 7.03538C20.1833 6.64486 20.1833 6.01169 19.7928 5.62117L18.3786 4.20696C17.9881 3.81643 17.3549 3.81643 16.9644 4.20696L15.5502 5.62117M18.3786 8.4496L15.5502 5.62117" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M5 20H19" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- Save Changes and Deactivate Account -->
+          <div class="flex flex-col gap-2 md:flex-row justify-between items-center">
+            <button
+              class="general-btn"
+              type="submit"
+              [disabled]="isSaving()"
+              [class.opacity-50]="isSaving()"
+              [attr.aria-label]="'pages.profile.submit-button-aria-label' | translate"
+            >
+              @if (isSaving()) {
+                <span>{{ 'pages.profile.saving' | translate }}</span>
+              } @else {
+                {{ 'pages.profile.save-changes' | translate }}
+              }
+            </button>
+            <button
+              (click)="onDeactivateAccount()"
+              [disabled]="isDeactivating()"
+              [class.opacity-50]="isDeactivating()"
+              class="general-btn !bg-red-600  "
+              [attr.aria-label]="'pages.profile.deactivate-account-aria-label' | translate"
+            >
+              @if (isDeactivating()) {
+                <span>{{ 'pages.profile.deactivating' | translate }}</span>
+              } @else {
+                {{ 'pages.profile.deactivate-account' | translate }}
+              }
+            </button>
+          </div>
+        </form>
+      }
+    </div>
+  </div>
+
+  <div class="flex flex-1 justify-center items-start w-full md:w-1/2 lg:w-2/3">
+    <img
+      src="assets/profile/profile.jpg"
+      [alt]="'pages.auth.login.login-image_alt' | translate"
+      class="w-full hidden md:block max-h-[577px] object-cover rounded-[30px]"
+      @imageAnimation
+    />
+  </div>
+</div>

@@ -1,0 +1,116 @@
+<div class="flex md:p-4 flex-col md:flex-row gap-6 md:gap-12 py-12 w-full max-w-7xl mx-auto" @formAnimation>
+    <div class="flex px-4 flex-1 flex-col gap-4 w-full md:w-1/2 lg:w-1/3">
+      <form [formGroup]="registerForm" (ngSubmit)="submition()" novalidate @inputAnimation [@shake]="shakeState()">
+        <!-- Name -->
+        <div class="flex flex-col mb-2">
+          <div class="">
+            <input
+              formControlName="name"
+              type="text"
+              id="name"
+              class="general-input w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              [placeholder]="'pages.auth.register.personal.name-placeholder' | translate"
+              (focus)="onNameFocus()"
+            />
+          </div>
+          <div class="error-container">
+            @if (registerForm.get('name')?.touched && registerForm.get('name')?.invalid) {
+              @if (registerForm.get('name')?.hasError('required')) {
+                <span class="error-message">{{ 'pages.auth.register.personal.errors.name-required' | translate }}</span>
+              }
+            }
+          </div>
+        </div>
+  
+        <!-- Email -->
+        <div class="flex flex-col mb-2">
+          <div class="">
+            <input
+              formControlName="email"
+              type="email"
+              id="email"
+              class="general-input w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              [placeholder]="'pages.auth.register.personal.email-placeholder' | translate"
+              (focus)="onEmailFocus()"
+            />
+          </div>
+          <div class="error-container">
+            @if (registerForm.get('email')?.touched && registerForm.get('email')?.invalid) {
+              @if (registerForm.get('email')?.hasError('required')) {
+                <span class="error-message">{{ 'pages.auth.register.personal.errors.email-required' | translate }}</span>
+              } @else if (registerForm.get('email')?.hasError('email') || registerForm.get('email')?.hasError('pattern')) {
+                <span class="error-message">{{ 'pages.auth.register.personal.errors.email-invalid' | translate }}</span>
+              }
+            }
+            @if (backendErrors.email) {
+              <span class="error-message">{{ 'pages.auth.register.personal.errors.backend-email' | translate }}</span>
+            }
+          </div>
+        </div>
+  
+        <!-- Phone -->
+        <div class="flex flex-col mb-2">
+          <div class="">
+            <input
+              formControlName="phone"
+              type="text"
+              id="phone"
+              class="general-input w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              [placeholder]="'pages.auth.register.personal.phone-placeholder' | translate"
+              (focus)="onPhoneFocus()"
+            />
+          </div>
+          <div class="error-container">
+            @if (registerForm.get('phone')?.touched && registerForm.get('phone')?.invalid) {
+              @if (registerForm.get('phone')?.hasError('required')) {
+                <span class="error-message">{{ 'pages.auth.register.personal.errors.phone-required' | translate }}</span>
+              } @else if (registerForm.get('phone')?.hasError('pattern')) {
+                <span class="error-message">{{ 'pages.auth.register.personal.errors.phone-invalid' | translate }}</span>
+              }
+            }
+            @if (backendErrors.phone) {
+              <span class="error-message">{{ 'pages.auth.register.personal.errors.backend-phone' | translate }}</span>
+            }
+          </div>
+        </div>
+  
+
+  
+      
+        <!-- Submit and Login Link -->
+        <div class="flex justify-between items-center">
+          <button
+            class="general-btn bg-blue-600 text-white py-2 px-16 rounded-lg hover:bg-blue-700 transition-colors"
+            type="submit"
+            [disabled]="isLoading()"
+            [class.opacity-50]="isLoading()"
+            [attr.aria-label]="'pages.auth.register.submit-button-aria-label' | translate"
+          >
+            @if (isLoading()) {
+              <span>Loading...</span>
+            } @else {
+              <span>{{ 'pages.auth.register.button' | translate }}</span>
+            }
+          </button>
+          <a
+            [routerLink]="['/', currentLang$ | async, 'login']"
+            class="have-account"
+            [attr.aria-label]="'pages.auth.register.already-account-text' | translate"
+          >
+            {{ 'pages.auth.register.already-account' | translate }}
+          </a>
+        </div>
+      </form>
+    </div>
+  
+    <div class="hidden md:flex flex-1 justify-center items-start w-full md:w-1/2 lg:w-2/3">
+      <img
+      loading="eager"
+      fetchpriority="high"
+        src="assets/profile/profile.jpg"
+        alt="{{ 'pages.auth.register.image_alt' | translate }}"
+        class="w-full max-h-[577px] object-cover rounded-[30px]"
+        @imageAnimation
+      />
+    </div>
+  </div>

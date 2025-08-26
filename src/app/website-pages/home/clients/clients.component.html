@@ -1,0 +1,77 @@
+<!-- <section class="my-16" aria-label="Our Clients Section"> 
+  <app-heading [headingText]="'Clients' | translate" [showStartSvg]="true" [showEndSvg]="false"></app-heading>
+
+  <div class="clients-slider relative mx-auto max-w-[1280px] bg-primary-300 py-4 rounded-[100px] cursor-grab flex items-center justify-center"
+       role="region" aria-roledescription="carousel" aria-label="Client Logos Carousel"> <button class="absolute cursor-pointer z-10"
+            [ngClass]="{'left-8 md:left-12': !isRtl, 'right-8 md:right-12': isRtl}"
+            (click)="isRtl ? next() : prev()"
+            [attr.aria-label]="isRtl ? 'Next client logo' : 'Previous client logo'"> <img [src]="isRtl ? '/assets/clients/arrow-next.svg' : '/assets/clients/arrow-prev.svg'"
+           [alt]="isRtl ? 'Next arrow icon' : 'Previous arrow icon'" [ngClass]="{'rtl-flip': isRtl}"
+           loading="lazy" decoding="async"> </button>
+
+    <div class="mx-auto w-[76.25%] cursor-grab">
+      <owl-carousel-o [options]="customOptions" class="bg-red-50" #owlCarousel>
+        <ng-container *ngFor="let client of clients">
+          <ng-template carouselSlide [id]="client.name">
+            <div class="client-slide w-[120px] h-[130px]" role="group" aria-roledescription="slide"> <img class="w-full h-full"
+                   [src]="client.image"
+                   [alt]="client.alt" loading="lazy" decoding="async"> </div>
+          </ng-template>
+        </ng-container>
+      </owl-carousel-o>
+    </div>
+
+    <button class="absolute cursor-pointer z-10"
+            [ngClass]="{'right-8 md:right-12': !isRtl, 'left-8 md:left-12': isRtl}"
+            (click)="isRtl ? prev() : next()"
+            [attr.aria-label]="isRtl ? 'Previous client logo' : 'Next client logo'"> <img [src]="isRtl ? '/assets/clients/arrow-prev.svg' : '/assets/clients/arrow-next.svg'"
+           [alt]="isRtl ? 'Previous arrow icon' : 'Next arrow icon'" [ngClass]="{'rtl-flip': isRtl}"
+           loading="lazy" decoding="async"> </button>
+  </div>
+</section> -->
+
+
+<section class="my-16" aria-label="Our Clients Section">
+  <app-heading [headingText]="'Clients' | translate" [showStartSvg]="true" [showEndSvg]="false"></app-heading>
+
+  <div class="clients-slider relative mx-auto max-w-[1280px] bg-primary-300 py-4 rounded-[100px] cursor-grab flex items-center justify-center"
+       role="region" aria-roledescription="carousel" aria-label="Client Logos Carousel">
+    <button class="absolute cursor-pointer z-10"
+            [ngClass]="{'left-8 md:left-12': !isRtl, 'right-8 md:right-12': isRtl}"
+            (click)="isRtl ? next() : prev()"
+            [attr.aria-label]="isRtl ? 'Next client logo' : 'Previous client logo'">
+      <img [src]="isRtl ? '/assets/clients/arrow-next.svg' : '/assets/clients/arrow-prev.svg'"
+           [alt]="isRtl ? 'Next arrow icon' : 'Previous arrow icon'" [ngClass]="{'rtl-flip': isRtl}"
+           loading="lazy" decoding="async">
+    </button>
+
+    <div class="mx-auto w-[76.25%] cursor-grab">
+      <owl-carousel-o [options]="customOptions" class="bg-red-50" #owlCarousel>
+        <ng-container *ngFor="let client of clientsList">
+          <ng-template carouselSlide [id]="client.name">
+            <div class="client-slide w-[120px] h-[130px] relative" role="group" aria-roledescription="slide">
+              <!-- Skeleton Loader -->
+              <div *ngIf="!isImageLoaded[client.name]" class="absolute inset-0 bg-gray-200 animate-pulse rounded-lg"></div>
+              <img class="w-full h-full object-contain"
+                   [src]="client.image"
+                   [alt]="client.alt"
+                   loading="lazy"
+                   decoding="async"
+                   (load)="onImageLoad(client.name)"
+                   [ngClass]="{'opacity-0': !isImageLoaded[client.name], 'opacity-100': isImageLoaded[client.name]}">
+            </div>
+          </ng-template>
+        </ng-container>
+      </owl-carousel-o>
+    </div>
+
+    <button class="absolute cursor-pointer z-10"
+            [ngClass]="{'right-8 md:right-12': !isRtl, 'left-8 md:left-12': isRtl}"
+            (click)="isRtl ? prev() : next()"
+            [attr.aria-label]="isRtl ? 'Previous client logo' : 'Next client logo'">
+      <img [src]="isRtl ? '/assets/clients/arrow-prev.svg' : '/assets/clients/arrow-next.svg'"
+           [alt]="isRtl ? 'Previous arrow icon' : 'Next arrow icon'" [ngClass]="{'rtl-flip': isRtl}"
+           loading="lazy" decoding="async">
+    </button>
+  </div>
+</section>

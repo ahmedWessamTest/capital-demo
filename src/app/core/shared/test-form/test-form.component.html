@@ -1,0 +1,222 @@
+<div class="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg">
+  <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">اختيار المحافظة ونوع السيارة</h2>
+  
+  <form class="space-y-6">
+    <!-- اختيار المحافظة -->
+    <div class="space-y-2">
+      <label class="block text-sm font-medium text-gray-700">
+        المحافظة <span class="text-red-500">*</span>
+      </label>
+      
+      <app-policy-drop-down
+        [governorates]="governorates"
+        [displayProperty]="'name'"
+        [valueProperty]="'id'"
+        [placeholder]="'اختر المحافظة'"
+        (selected)="onGovernorateSelected($event)">
+      </app-policy-drop-down>
+      
+      <!-- رسالة الخطأ للمحافظة -->
+      <div 
+        *ngIf="governorateError" 
+        class="text-red-500 text-sm mt-1 flex items-center animate-pulse">
+        <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+        </svg>
+        {{ governorateError }}
+      </div>
+    </div>
+
+    <!-- اختيار نوع السيارة -->
+    <div class="space-y-2">
+      <label class="block text-sm font-medium text-gray-700">
+        نوع السيارة <span class="text-red-500">*</span>
+      </label>
+      
+      <app-policy-drop-down
+        [governorates]="carTypes"
+        [displayProperty]="'name'"
+        [valueProperty]="'id'"
+        [placeholder]="'اختر نوع السيارة'"
+        (selected)="onCarTypeSelected($event)">
+      </app-policy-drop-down>
+      
+      <!-- رسالة الخطأ لنوع السيارة -->
+      <div 
+        *ngIf="carTypeError" 
+        class="text-red-500 text-sm mt-1 flex items-center animate-pulse">
+        <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+        </svg>
+        {{ carTypeError }}
+      </div>
+    </div>
+
+    <!-- ملخص الاختيارات -->
+    <div class="bg-gray-50 p-4 rounded-lg border">
+      <h3 class="text-sm font-medium text-gray-700 mb-2">ملخص الاختيارات:</h3>
+      <p class="text-sm text-gray-600">{{ selectionSummary }}</p>
+    </div>
+
+    <!-- أزرار التحكم -->
+    <div class="flex justify-between items-center pt-4 border-t">
+      <button
+        type="button"
+        (click)="onReset()"
+        class="px-4 py-2 text-gray-600 bg-gray-100 rounded-md hover:bg-gray-200 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-300">
+        إعادة تعيين
+      </button>
+
+      <div class="flex space-x-3 space-x-reverse">
+        <button
+          type="button"
+          (click)="onSave()"
+          [disabled]="isLoading"
+          [class]="isFormValid ? 
+            'bg-blue-500 hover:bg-blue-600 text-white' : 
+            'bg-gray-300 text-gray-500 cursor-not-allowed'"
+          class="px-6 py-2 rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-blue-300 flex items-center">
+          
+          <!-- Loading spinner -->
+          <svg 
+            *ngIf="isLoading" 
+            class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" 
+            fill="none" 
+            viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+          
+          {{ isLoading ? 'جاري الحفظ...' : 'حفظ' }}
+        </button>
+      </div>
+    </div>
+
+    <!-- معلومات إضافية -->
+    <div class="text-xs text-gray-500 text-center pt-2">
+      <p>جميع الحقول المميزة بـ <span class="text-red-500">*</span> مطلوبة</p>
+    </div>
+  </form>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="space-y-6">
+  <div *ngFor="let group of selections; let i = index" class="flex space-x-6">
+    
+    <!-- Electricity -->
+    <label class="flex items-center px-4 py-2 border rounded-lg cursor-pointer transition"
+           [ngClass]="{
+             'border-blue-500 text-blue-500': group.value === 'Electricity'
+           }">
+      <input
+        type="radio"
+        name="energy{{ i }}"
+        value="Electricity"
+        class="hidden"
+        (change)="onSelect(i, 'Electricity')"
+        [checked]="group.value === 'Electricity'"
+      />
+      <span
+        class="w-3.5 h-3.5 mr-2 rounded-full border-2 flex items-center justify-center"
+        [ngClass]="{
+          'border-gray-400': group.value !== 'Electricity',
+          'border-blue-500 ': group.value === 'Electricity'
+        }"
+      >
+        <span *ngIf="group.value === 'Electricity'" class="w-2 h-2 bg-blue-500 rounded-full"></span>
+      </span>
+      Electricity
+    </label>
+
+    <!-- Gasoline -->
+    <label class="flex items-center px-4 py-2 border rounded-lg cursor-pointer transition"
+           [ngClass]="{
+             'border-blue-500 text-blue-500': group.value === 'Gasoline'
+           }">
+      <input
+        type="radio"
+        name="energy{{ i }}"
+        value="Gasoline"
+        class="hidden"
+        (change)="onSelect(i, 'Gasoline')"
+        [checked]="group.value === 'Gasoline'"
+      />
+      <span
+        class="w-3.5 h-3.5 mr-2 rounded-full border-2 flex items-center justify-center"
+        [ngClass]="{
+          'border-gray-400': group.value !== 'Gasoline',
+          'border-blue-500 ring-2 ring-blue-300 ring-offset-2': group.value === 'Gasoline'
+        }"
+      >
+        <span *ngIf="group.value === 'Gasoline'" class="w-2 h-2 bg-blue-500 rounded-full"></span>
+      </span>
+      Gasoline
+    </label>
+  </div>
+</div>
+
+
+
+
+<div class="flex space-x-6">
+  <label class="flex items-center px-4 py-2 border rounded-lg cursor-pointer transition"
+         [ngClass]="{
+           'border-blue-500 text-blue-500': selectedOption === 'Electricity'
+         }">
+    <input
+      type="radio"
+      name="energy"
+      value="Electricity"
+      class="hidden"
+      [(ngModel)]="selectedOption"
+    />
+    <span
+      class="w-3.5 h-3.5 mr-2 rounded-full border-2 flex items-center justify-center"
+      [ngClass]="{
+        'border-gray-400': selectedOption !== 'Electricity',
+        'border-blue-500 ring-2 ring-blue-300 ring-offset-2': selectedOption === 'Electricity'
+      }"
+    >
+      <span *ngIf="selectedOption === 'Electricity'" class="w-2 h-2 bg-blue-500 rounded-full"></span>
+    </span>
+    Electricity
+  </label>
+
+  <label class="flex items-center px-4 py-2 border rounded-lg cursor-pointer transition"
+         [ngClass]="{
+           'border-blue-500 text-blue-500': selectedOption === 'Gasoline'
+         }">
+    <input
+      type="radio"
+      name="energy"
+      value="Gasoline"
+      class="hidden"
+      [(ngModel)]="selectedOption"
+    />
+    <span
+      class="w-3.5 h-3.5 mr-2 rounded-full border-2 flex items-center justify-center"
+      [ngClass]="{
+        'border-gray-400': selectedOption !== 'Gasoline',
+        'border-blue-500 ring-2 ring-blue-300 ring-offset-2': selectedOption === 'Gasoline'
+      }"
+    >
+      <span *ngIf="selectedOption === 'Gasoline'" class="w-2 h-2 bg-blue-500 rounded-full"></span>
+    </span>
+    Gasoline
+  </label>
+</div>
+
+<div class="mt-4 text-lg font-semibold text-gray-700" *ngIf="selectedOption">
+  ✅ أنت اخترت: <span class="text-blue-600">{{ selectedOption }}</span>
+</div>

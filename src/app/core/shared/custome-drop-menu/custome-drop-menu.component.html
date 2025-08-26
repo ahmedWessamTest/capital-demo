@@ -1,0 +1,55 @@
+<div class="relative">
+  <!-- Selected display -->
+  <div
+    class="w-[100%] p-4 rounded-[30px] px-[32px] h-[73px] cursor-pointer flex justify-between items-center bg-white shadow"
+    (click)="toggleDropdown()">
+    <span *ngIf="selectedOption; else placeholder" class="flex gap-4">
+      <div>+</div>
+      <div>{{ selectedOption.title }}</div>
+      <div>(Policy Code: {{ selectedOption.code }})</div>
+    </span>
+    <ng-template #placeholder>
+      Select an option
+    </ng-template>
+    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+    </svg>
+  </div>
+
+  <!-- Dropdown options -->
+  <div
+    *ngIf="isOpen"
+    class="absolute w-[100%] bg-white rounded-[30px] max-h-[250px] overflow-y-auto shadow mt-1 z-10">
+    <div *ngIf="isLoading" class="px-4 py-2 text-center text-gray-500">
+      Loading...
+    </div>
+    <div *ngIf="!isLoading && options.length === 0" class="px-4 py-2 text-center text-gray-500">
+      No policies available
+    </div>
+    <ng-container *ngIf="!isLoading && options.length > 0">
+      <div
+        *ngFor="let option of options"
+        class="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+        <div class="flex justify-around" (click)="selectOption(option)">
+          <div class="text-xl text-green-500 font-bold">+</div>
+          <div class="font-bold">{{ option.title }}</div>
+          <div class="text-gray-400 text-sm">Policy Code "{{ option.code }}"</div>
+          <label class="custom-checkbox-wrapper flex gap-2 items-center text-sky-400 text-sm">
+            Agree to terms
+            <input type="checkbox" class="hidden-checkbox" [(ngModel)]="option.agreed" />
+            <span class="styled-checkbox cursor-pointer"></span>
+          </label>
+        </div>
+      </div>
+    </ng-container>
+    <div *ngIf="!isLoading" class="w-full p-4 flex items-center gap-4 px-[4vw]" (click)="onManualPolicyAdd()">
+      <div>
+        <img                loading="lazy"
+         src="./assets/icons/plus.png" alt="Add Icon">
+      </div>
+      <div class="flex justify-around choose-from-your-policies">
+        Add from your policies manually
+      </div>
+    </div>
+  </div>
+</div>

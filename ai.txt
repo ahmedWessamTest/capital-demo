@@ -1,0 +1,1203 @@
+i want you to be very very focuse with me 
+i will give you acomponent it use adummy data but i want you to make it dynamic with the apis 
+the idea itis amulti step form then dispaly plans then when user choose aplan it go to the payment 
+so for now iam in the morots policies 
+i want you to analyze this code well 
+import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { GovernorateOption, PolicyDropDownComponent } from '@core/shared/policy-drop-down/policy-drop-down.component';
+import { CarouselModule, OwlOptions } from 'ngx-owl-carousel-o';
+
+@Component({
+  selector: 'app-motor-policy',
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule, PolicyDropDownComponent, CarouselModule],
+  templateUrl: './motor-policy.component.html',
+  styleUrls: ['./motor-policy.component.css']
+})
+export class MotorPolicyComponent {
+  claimForm: FormGroup;
+  showForm = false;
+  step = 0;
+  progress = 16.67;
+  selectedPlan: any = null;
+
+  carYears: GovernorateOption[] = Array.from({ length: new Date().getFullYear() - 1999 }, (_, i) => ({
+    id: i + 2000,
+    name: (2000 + i).toString(),
+    code: `YEAR_${2000 + i}`
+  }));
+  carBrands: GovernorateOption[] = [
+    { id: 1, name: 'تويوتا', code: 'TOY' },
+    { id: 2, name: 'هيونداي', code: 'HYU' },
+    { id: 3, name: 'نيسان', code: 'NIS' },
+    { id: 4, name: 'شيفروليه', code: 'CHE' },
+    { id: 5, name: 'كيا', code: 'KIA' },
+    { id: 6, name: 'هوندا', code: 'HON' },
+    { id: 7, name: 'فولكس واجن', code: 'VOL' },
+    { id: 8, name: 'بيجو', code: 'PEU' },
+    { id: 9, name: 'رينو', code: 'REN' },
+    { id: 10, name: 'فيات', code: 'FIA' },
+    { id: 11, name: 'سكودا', code: 'SKO' },
+    { id: 12, name: 'مازدا', code: 'MAZ' }
+  ];
+  carModels: GovernorateOption[] = [
+    { id: 1, name: 'تويوتا كورولا', code: 'TOY_COR' },
+    { id: 2, name: 'هيونداي إلنترا', code: 'HYU_ELA' },
+    { id: 3, name: 'نيسان صني', code: 'NIS_SUN' },
+    { id: 4, name: 'شيفروليه أوبترا', code: 'CHE_OPT' },
+    { id: 5, name: 'كيا سيراتو', code: 'KIA_CER' },
+    { id: 6, name: 'هوندا سيفيك', code: 'HON_CIV' },
+    { id: 7, name: 'فولكس واجن جيتا', code: 'VOL_JET' },
+    { id: 8, name: 'بيجو 301', code: 'PEU_301' },
+    { id: 9, name: 'رينو لوجان', code: 'REN_LOG' },
+    { id: 10, name: 'فيات تيبو', code: 'FIA_TIP' },
+    { id: 11, name: 'سكودا أوكتافيا', code: 'SKO_OCT' },
+    { id: 12, name: 'مازدا 3', code: 'MAZ_3' }
+  ];
+  plans = [
+    { name: 'premium', price: '25,000', coverage: '500,000', operations: '2,000,000', hospitalStay: '1,000,000', emergencies: 'not found' },
+    { name: 'standard', price: '15,000', coverage: '300,000', operations: '1,000,000', hospitalStay: '500,000', emergencies: 'not found' },
+    { name: 'basic', price: '10,000', coverage: '200,000', operations: '500,000', hospitalStay: '250,000', emergencies: 'not found' },
+    { name: 'basic', price: '10,000', coverage: '200,000', operations: '500,000', hospitalStay: '250,000', emergencies: 'not found' }
+  ];
+  steps = [
+    { title: 'personal information' },
+    { title: 'fuel type' },
+    { title: 'car price' },
+    { title: 'car year' },
+    { title: 'car brand' },
+    { title: 'car model' },
+    { title: 'select plan' },
+    { title: 'payment' }
+  ];
+
+  customOptions: OwlOptions = {
+    loop: true,
+    mouseDrag: true,
+    touchDrag: true,
+    pullDrag: true,
+    dots: false,
+    navSpeed: 700,
+    smartSpeed: 700,
+    navText: ['<', '>'],
+    nav: true,
+    center: true,
+    autoplay: true,
+    margin: 16,
+    responsive: {
+      0: { items: 1, nav: true },
+      400: { items: 1, nav: true },
+      600: { items: 2, nav: true },
+      1000: { items: 3, nav: true }
+    }
+  };
+
+  constructor(private fb: FormBuilder) {
+    this.claimForm = this.fb.group({
+      name: ['faried', Validators.required],
+      phone: ['1234567899', [Validators.required, Validators.pattern(/^\d{10}$/)]],
+      email: ['faried@gmail.com', [Validators.required, Validators.email]],
+      fuelType: ['Gasoline', Validators.required],
+      carPrice: ['500', [Validators.required, Validators.min(0)]],
+      carYear: ['2015', Validators.required],
+      carBrand: ['Toyota', Validators.required],
+      carModel: ['Toyota Corolla', Validators.required],
+      paymentType: ['Full Payment', Validators.required],
+      paymentMethod: ['Cash', Validators.required]
+    });
+  }
+
+  onGovernorateSelected(governorate: GovernorateOption) {
+    this.claimForm.get('governorate')?.setValue(governorate ? governorate.id : '');
+    console.log('Selected Governorate:', governorate);
+  }
+
+  onCarYearSelected(year: GovernorateOption) {
+    this.claimForm.get('carYear')?.setValue(year ? year.id : '');
+    console.log('Selected Car Year:', year);
+  }
+
+  onCarBrandSelected(brand: GovernorateOption) {
+    this.claimForm.get('carBrand')?.setValue(brand ? brand.id : '');
+    console.log('Selected Car Brand:', brand);
+  }
+
+  onCarModelSelected(model: GovernorateOption) {
+    this.claimForm.get('carModel')?.setValue(model ? model.id : '');
+    console.log('Selected Car Model:', model);
+  }
+
+  nextStep() {
+    if (this.step === 0 && this.claimForm.get('name')?.valid && this.claimForm.get('phone')?.valid && this.claimForm.get('email')?.valid) {
+      console.log('Step 1 values:', this.claimForm.value);
+      this.step++;
+      this.progress = 33.33;
+    } else if (this.step === 1 && this.claimForm.get('fuelType')?.valid) {
+      console.log('Step 2 values:', this.claimForm.value);
+      this.step++;
+      this.progress = 50;
+    } else if (this.step === 2 && this.claimForm.get('carPrice')?.valid) {
+      console.log('Step 3 values:', this.claimForm.value);
+      this.step++;
+      this.progress = 66.67;
+    } else if (this.step === 3 && this.claimForm.get('carYear')?.valid) {
+      console.log('Step 4 values:', this.claimForm.value);
+      this.step++;
+      this.progress = 83.33;
+    } else if (this.step === 4 && this.claimForm.get('carBrand')?.valid) {
+      console.log('Step 5 values:', this.claimForm.value);
+      this.step++;
+      this.progress = 100;
+    } else if (this.step === 5 && this.claimForm.get('carModel')?.valid) {
+      console.log('Step 6 values:', this.claimForm.value);
+      this.step++;
+      this.progress = 100;
+      alert('Please select a plan');
+    }
+    this.claimForm.markAllAsTouched();
+  }
+
+  selectPlan(index: number) {
+    this.selectedPlan = this.plans[index];
+    console.log('Selected plan:', this.selectedPlan);
+    this.step++;
+  }
+
+  pay() {
+    console.log('Payment values:', this.claimForm.value);
+    alert('Payment successful!');
+  }
+} <div class="bg-white my-10 relative">
+    <img src="assets/policies/bg.png" alt="Background Image" class="absolute object-contain bottom-0 h-[700px] -right-20 w-[400px]" style="z-index: 2;">
+    
+    <div class="mx-5 md:mx-10 lg:mx-20 overflow-hidden my-20 relative flex flex-col md:flex-row gap-4 mb-12 bg-gradient-to-br from-[#F2F2F2] from-[15.48%] via-[#DBEFFD] via-[63.88%] to-[#DBEFFD] rounded-lg shadow-lg">
+      <div class="z-10 policy-top-card p-6 md:p-8 lg:p-12 flex flex-col gap-4 justify-center w-full md:w-1/2">
+        <h2 class="text-xl md:text-2xl lg:text-3xl font-bold text-gray-800">Protect Your Property with Confidence</h2>
+        <p class="text-sm md:text-base text-gray-600">Medical insurance covers all aspects of your health care, from consultations and medications to maternity and emergency surgery coverage.</p>
+        <button class="main-btn bg-[#00AEEF] text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors text-sm md:text-base" (click)="showForm = !showForm">Claim Data</button>
+      </div>
+      <div class="h-64 md:h-auto w-full md:w-1/2 flex justify-center items-end">
+        <img class="w-full h-full object-contain md:object-cover" src="assets/policies/medical-policy.png" alt="Medical Policy">
+      </div>
+      <img *ngIf="showForm" src="assets/common/gradient.png" class="absolute bottom-0 z-0 -left-10 w-full max-w-[300px]" alt="">
+    </div>
+  
+    <div *ngIf="showForm" class="mx-5 md:mx-10 lg:mx-20 min-h-[500px]">
+      <div class="absolute inset-0 bg-transparent opacity-50" style="z-index: 3;"></div>
+      <div class="relative z-10 p-4">
+        <div class="flex flex-col sm:flex-row items-center gap-4">
+          <div class="w-[78px] h-[78px] sm:w-[64px] sm:h-[64px] md:w-[78px] md:h-[78px]">
+            <img src="assets/ai/ai-avatar.jpg" alt="ai avatar" class="w-full h-full object-cover rounded-full">
+          </div>
+          <div class="flex flex-col gap-2 text-center sm:text-left">
+            <p class="text-[#000] font-Alexandria text-[16px] sm:text-[18px] md:text-[20px] font-normal leading-[24px] sm:leading-[30px]">
+              👋 Hey there! Ready to protect your ride?
+            </p>
+            <p class="text-[#F00] font-Alexandria text-[16px] sm:text-[18px] md:text-[20px] font-medium leading-[24px] sm:leading-[30px]">
+              Let’s get you covered in just a few simple steps. Fast, smart, and personalized ⚡
+            </p>
+          </div>
+        </div>
+  
+        <div class="my-10 flex flex-col sm:flex-row justify-between items-center gap-4 w-full">
+          <div class="w-full sm:flex-1 h-[20px] md:h-[23px] bg-[#EDF9FF] rounded-full overflow-hidden">
+            <div class="h-full bg-[#00AEEF] rounded-full transition-all duration-300" [style.width.%]="progress"></div>
+          </div>
+          <p class="text-[#37A6DE] text-center sm:text-right font-Alexandria text-[16px] sm:text-[18px] font-normal leading-6 sm:leading-[30px] whitespace-nowrap">
+            {{ steps[step].title }}
+          </p>
+        </div>
+  
+        <form [formGroup]="claimForm" (ngSubmit)="nextStep()" class="flex flex-col gap-4">
+          <div *ngIf="step === 0" class="flex flex-col gap-4">
+            <div class="flex flex-col gap-4 mb-[35px] capitalize">
+              <div class="text-[#3C3C3C] font-Alexandria text-[18px] font-[400] leading-5">can i know</div>
+              <div class="text-[#000] font-Alexandria text-[23px] font-[400] leading-5">your information</div>
+              <div class="text-[#3C3C3C] font-Alexandria text-[18px] font-[400] leading-5">because it will make a big difference in insurance</div>
+            </div>
+            <div class="flex flex-col gap-4">
+              <div>
+                <input class="general-input" type="text" placeholder="Enter your name" formControlName="name">
+                <div *ngIf="claimForm.get('name')?.invalid && claimForm.get('name')?.touched" class="text-red-500 text-sm">Name is required</div>
+              </div>
+              <div>
+                <input class="general-input" type="tel" placeholder="Enter your phone number" formControlName="phone">
+                <div *ngIf="claimForm.get('phone')?.invalid && claimForm.get('phone')?.touched" class="text-red-500 text-sm">Valid phone number is required</div>
+              </div>
+              <div>
+                <input class="general-input" type="email" placeholder="Enter your email" formControlName="email">
+                <div *ngIf="claimForm.get('email')?.invalid && claimForm.get('email')?.touched" class="text-red-500 text-sm">Valid email is required</div>
+              </div>
+
+            </div>
+          </div>
+  
+          <div *ngIf="step === 1" class="flex flex-col gap-4">
+            <div class="text-[#3C3C3C] font-Alexandria text-[18px] font-[400] leading-5">please select</div>
+            <div class="text-[#000] font-Alexandria text-[23px] font-[400] leading-5">fuel type</div>
+            <div class="flex space-x-6">
+              <label class="flex items-center px-4 py-2 border rounded-lg cursor-pointer transition" [ngClass]="{'border-blue-500 text-blue-500': claimForm.get('fuelType')?.value === 'Gasoline'}">
+                <input type="radio" name="fuelType" value="Gasoline" formControlName="fuelType" class="hidden">
+                <span class="w-3.5 h-3.5 mr-2 rounded-full border-2 flex items-center justify-center" [ngClass]="{'border-blue-500': claimForm.get('fuelType')?.value === 'Gasoline', 'border-gray-400': claimForm.get('fuelType')?.value !== 'Gasoline'}">
+                  <span *ngIf="claimForm.get('fuelType')?.value === 'Gasoline'" class="w-2 h-2 bg-blue-500 rounded-full"></span>
+                </span>
+                Gasoline
+              </label>
+              <label class="flex items-center px-4 py-2 border rounded-lg cursor-pointer transition" [ngClass]="{'border-blue-500 text-blue-500': claimForm.get('fuelType')?.value === 'Electricity'}">
+                <input type="radio" name="fuelType" value="Electricity" formControlName="fuelType" class="hidden">
+                <span class="w-3.5 h-3.5 mr-2 rounded-full border-2 flex items-center justify-center" [ngClass]="{'border-blue-500': claimForm.get('fuelType')?.value === 'Electricity', 'border-gray-400': claimForm.get('fuelType')?.value !== 'Electricity'}">
+                  <span *ngIf="claimForm.get('fuelType')?.value === 'Electricity'" class="w-2 h-2 bg-blue-500 rounded-full"></span>
+                </span>
+                Electricity
+              </label>
+            </div>
+            <div *ngIf="claimForm.get('fuelType')?.invalid && claimForm.get('fuelType')?.touched" class="text-red-500 text-sm">Fuel type is required</div>
+          </div>
+  
+          <div *ngIf="step === 2" class="flex flex-col gap-4">
+            <div class="text-[#3C3C3C] font-Alexandria text-[18px] font-[400] leading-5">please provide</div>
+            <div class="text-[#000] font-Alexandria text-[23px] font-[400] leading-5">car price</div>
+            <div>
+              <input class="general-input" type="number" placeholder="Enter car price" formControlName="carPrice">
+              <div *ngIf="claimForm.get('carPrice')?.invalid && claimForm.get('carPrice')?.touched" class="text-red-500 text-sm">Valid car price is required</div>
+            </div>
+          </div>
+  
+          <div *ngIf="step === 3" class="flex flex-col gap-4">
+            <div class="text-[#3C3C3C] font-Alexandria text-[18px] font-[400] leading-5">please select</div>
+            <div class="text-[#000] font-Alexandria text-[23px] font-[400] leading-5">car year</div>
+            <div>
+              <app-policy-drop-down
+                [governorates]="carYears"
+                [displayProperty]="'name'"
+                [valueProperty]="'id'"
+                [placeholder]="'اختر سنة السيارة'"
+                (selected)="onCarYearSelected($event)">
+              </app-policy-drop-down>
+              <div *ngIf="claimForm.get('carYear')?.invalid && claimForm.get('carYear')?.touched" class="text-red-500 text-sm">Car year is required</div>
+            </div>
+          </div>
+  
+          <div *ngIf="step === 4" class="flex flex-col gap-4">
+            <div class="text-[#3C3C3C] font-Alexandria text-[18px] font-[400] leading-5">please select</div>
+            <div class="text-[#000] font-Alexandria text-[23px] font-[400] leading-5">car brand</div>
+            <div>
+              <app-policy-drop-down
+                [governorates]="carBrands"
+                [displayProperty]="'name'"
+                [valueProperty]="'id'"
+                [placeholder]="'اختر ماركة السيارة'"
+                (selected)="onCarBrandSelected($event)">
+              </app-policy-drop-down>
+              <div *ngIf="claimForm.get('carBrand')?.invalid && claimForm.get('carBrand')?.touched" class="text-red-500 text-sm">Car brand is required</div>
+            </div>
+          </div>
+  
+          <div *ngIf="step === 5" class="flex flex-col gap-4">
+            <div class="text-[#3C3C3C] font-Alexandria text-[18px] font-[400] leading-5">please select</div>
+            <div class="text-[#000] font-Alexandria text-[23px] font-[400] leading-5">car model</div>
+            <div>
+              <app-policy-drop-down
+                [governorates]="carModels"
+                [displayProperty]="'name'"
+                [valueProperty]="'id'"
+                [placeholder]="'اختر موديل السيارة'"
+                (selected)="onCarModelSelected($event)">
+              </app-policy-drop-down>
+              <div *ngIf="claimForm.get('carModel')?.invalid && claimForm.get('carModel')?.touched" class="text-red-500 text-sm">Car model is required</div>
+            </div>
+          </div>
+  
+          <div *ngIf="step === 6" class="flex flex-col gap-6">
+            <div class="text-[#3C3C3C] font-Alexandria text-[18px] font-[400] leading-5">please select</div>
+            <div class="text-[#000] font-Alexandria text-[23px] font-[400] leading-5">your plan</div>
+            <div *ngIf="plans.length <= 3" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div *ngFor="let plan of plans; let i = index" class="w-full bg-red-300 max-w-md mx-auto p-6 shadow-lg rounded-2xl font-Alexandria">
+                <div class="flex justify-between items-center mb-4">
+                  <span class="text-cyan-600 text-base capitalize">{{ plan.name }}</span>
+                  <div class="flex items-center space-x-1 bg-orange-50 rounded-2xl px-3 py-1">
+                    <span class="text-black text-xs">in year</span>
+                  </div>
+                </div>
+                <div class="text-2xl font-bold text-black mb-6">{{ plan.price }} L.E</div>
+                <ul class="space-y-4 mb-6">
+                  <li class="flex items-center">
+                    <div class="w-4 h-4 bg-black rounded-sm mr-3"></div>
+                    <span class="text-base text-black capitalize">coverage</span>
+                    <span class="ml-auto text-red-600 text-xs text-right">{{ plan.coverage }} L.E</span>
+                  </li>
+                  <li class="flex items-center">
+                    <div class="w-4 h-4 bg-black rounded-sm mr-3"></div>
+                    <span class="text-base text-black capitalize">operations</span>
+                    <span class="ml-auto text-red-600 text-xs text-right">{{ plan.operations }} L.E</span>
+                  </li>
+                  <li class="flex items-center">
+                    <div class="w-4 h-4 bg-black rounded-sm mr-3"></div>
+                    <span class="text-base text-black capitalize">hospital stay</span>
+                    <span class="ml-auto text-red-600 text-xs text-right">{{ plan.hospitalStay }} L.E</span>
+                  </li>
+                  <li class="flex items-center">
+                    <div class="w-4 h-4 bg-black rounded-sm mr-3"></div>
+                    <span class="text-base text-black capitalize">emergencies</span>
+                    <span class="ml-auto text-red-600 text-xs text-right">{{ plan.emergencies }}</span>
+                  </li>
+                  <li class="flex items-center">
+                    <div class="w-4 h-4 bg-black rounded-sm mr-3"></div>
+                    <span class="text-base text-black capitalize">medical network</span>
+                  </li>
+                </ul>
+                <button class="w-full py-3 bg-sky-400 text-white rounded-2xl font-normal text-base capitalize hover:bg-sky-500 transition" (click)="selectPlan(i)">Select the document</button>
+              </div>
+            </div>
+            <div *ngIf="plans.length > 3" class="blogs-slider">
+              <owl-carousel-o [options]="customOptions">
+                <ng-container *ngFor="let plan of plans; let i = index">
+                  <ng-template carouselSlide>
+                    <div class="blog-slide w-full bg-red-300 max-w-md mx-auto p-6 shadow-lg rounded-2xl font-Alexandria">
+                      <div class="flex justify-between items-center mb-4">
+                        <span class="text-cyan-600 text-base capitalize">{{ plan.name }}</span>
+                        <div class="flex items-center space-x-1 bg-orange-50 rounded-2xl px-3 py-1">
+                          <span class="text-black text-xs">in year</span>
+                        </div>
+                      </div>
+                      <div class="text-2xl font-bold text-black mb-6">{{ plan.price }} L.E</div>
+                      <ul class="space-y-4 mb-6">
+                        <li class="flex items-center">
+                          <div class="w-4 h-4 bg-black rounded-sm mr-3"></div>
+                          <span class="text-base text-black capitalize">coverage</span>
+                          <span class="ml-auto text-red-600 text-xs text-right">{{ plan.coverage }} L.E</span>
+                        </li>
+                        <li class="flex items-center">
+                          <div class="w-4 h-4 bg-black rounded-sm mr-3"></div>
+                          <span class="text-base text-black capitalize">operations</span>
+                          <span class="ml-auto text-red-600 text-xs text-right">{{ plan.operations }} L.E</span>
+                        </li>
+                        <li class="flex items-center">
+                          <div class="w-4 h-4 bg-black rounded-sm mr-3"></div>
+                          <span class="text-base text-black capitalize">hospital stay</span>
+                          <span class="ml-auto text-red-600 text-xs text-right">{{ plan.hospitalStay }} L.E</span>
+                        </li>
+                        <li class="flex items-center">
+                          <div class="w-4 h-4 bg-black rounded-sm mr-3"></div>
+                          <span class="text-base text-black capitalize">emergencies</span>
+                          <span class="ml-auto text-red-600 text-xs text-right">{{ plan.emergencies }}</span>
+                        </li>
+                        <li class="flex items-center">
+                          <div class="w-4 h-4 bg-black rounded-sm mr-3"></div>
+                          <span class="text-base text-black capitalize">medical network</span>
+                        </li>
+                      </ul>
+                      <button class="w-full py-3 bg-sky-400 text-white rounded-2xl font-normal text-base capitalize hover:bg-sky-500 transition" (click)="selectPlan(i)">Select the document</button>
+                    </div>
+                  </ng-template>
+                </ng-container>
+              </owl-carousel-o>
+            </div>
+          </div>
+  
+          <div *ngIf="step === 7" class="flex flex-col md:flex-row gap-6">
+            <div class="w-full md:w-1/2">
+              <div class="text-[#3C3C3C] font-Alexandria text-[18px] font-[400] leading-5">your selected plan</div>
+              <div class="text-[#000] font-Alexandria text-[23px] font-[400] leading-5 mb-4">plan details</div>
+              <div class="w-full max-w-md mx-auto p-6 bg-white shadow-lg rounded-2xl font-Alexandria">
+                <div class="flex justify-between items-center mb-4">
+                  <span class="text-cyan-600 text-base capitalize">{{ selectedPlan.name }}</span>
+                  <div class="flex items-center space-x-1 bg-orange-50 rounded-2xl px-3 py-1">
+                    <span class="text-black text-xs">in year</span>
+                  </div>
+                </div>
+                <div class="text-2xl font-bold text-black mb-6">{{ selectedPlan.price }} L.E</div>
+                <ul class="space-y-4 mb-6">
+                  <li class="flex items-center">
+                    <div class="w-4 h-4 bg-black rounded-sm mr-3"></div>
+                    <span class="text-base text-black capitalize">coverage</span>
+                    <span class="ml-auto text-red-600 text-xs text-right">{{ selectedPlan.coverage }} L.E</span>
+                  </li>
+                  <li class="flex items-center">
+                    <div class="w-4 h-4 bg-black rounded-sm mr-3"></div>
+                    <span class="text-base text-black capitalize">operations</span>
+                    <span class="ml-auto text-red-600 text-xs text-right">{{ selectedPlan.operations }} L.E</span>
+                  </li>
+                  <li class="flex items-center">
+                    <div class="w-4 h-4 bg-black rounded-sm mr-3"></div>
+                    <span class="text-base text-black capitalize">hospital stay</span>
+                    <span class="ml-auto text-red-600 text-xs text-right">{{ selectedPlan.hospitalStay }} L.E</span>
+                  </li>
+                  <li class="flex items-center">
+                    <div class="w-4 h-4 bg-black rounded-sm mr-3"></div>
+                    <span class="text-base text-black capitalize">emergencies</span>
+                    <span class="ml-auto text-red-600 text-xs text-right">{{ selectedPlan.emergencies }}</span>
+                  </li>
+                  <li class="flex items-center">
+                    <div class="w-4 h-4 bg-black rounded-sm mr-3"></div>
+                    <span class="text-base text-black capitalize">medical network</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="w-full md:w-1/2 flex flex-col gap-4">
+              <div class="text-[#3C3C3C] font-Alexandria text-[18px] font-[400] leading-5">how to pay?</div>
+              <div class="text-[#000] font-Alexandria text-[23px] font-[400] leading-5 mb-4">payment details</div>
+              <div class="flex flex-col gap-4">
+                <div>
+                  <label class="flex items-center px-4 py-2 border rounded-lg cursor-pointer transition" [ngClass]="{'border-blue-500 text-blue-500': claimForm.get('paymentType')?.value === 'Full Payment'}">
+                    <input type="radio" name="paymentType" value="Full Payment" formControlName="paymentType" class="hidden">
+                    <span class="w-3.5 h-3.5 mr-2 rounded-full border-2 flex items-center justify-center" [ngClass]="{'border-blue-500': claimForm.get('paymentType')?.value === 'Full Payment', 'border-gray-400': claimForm.get('paymentType')?.value !== 'Full Payment'}">
+                      <span *ngIf="claimForm.get('paymentType')?.value === 'Full Payment'" class="w-2 h-2 bg-blue-500 rounded-full"></span>
+                    </span>
+                    Full Payment
+                  </label>
+                </div>
+                <div class="text-[#3C3C3C] font-Alexandria text-[18px] font-[400] leading-5">available payment methods</div>
+                <div>
+                  <label class="flex items-center px-4 py-2 border rounded-lg cursor-pointer transition" [ngClass]="{'border-blue-500 text-blue-500': claimForm.get('paymentMethod')?.value === 'Cash'}">
+                    <input type="radio" name="paymentMethod" value="Cash" formControlName="paymentMethod" class="hidden">
+                    <span class="w-3.5 h-3.5 mr-2 rounded-full border-2 flex items-center justify-center" [ngClass]="{'border-blue-500': claimForm.get('paymentMethod')?.value === 'Cash', 'border-gray-400': claimForm.get('paymentMethod')?.value !== 'Cash'}">
+                      <span *ngIf="claimForm.get('paymentMethod')?.value === 'Cash'" class="w-2 h-2 bg-blue-500 rounded-full"></span>
+                    </span>
+                    Cash
+                  </label>
+                </div>
+              </div>
+              <button class="general-btn bg-[#00AEEF] text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors" (click)="pay()">Pay</button>
+            </div>
+          </div>
+  
+          <button *ngIf="step < 6" type="submit" class="general-btn bg-[#00AEEF] text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors">Next</button>
+        </form>
+  
+        <div class="rounded-2xl my-10 py-6 md:py-0 min-h-[130px] z-[1000] shadow-lg flex gap-12 flex-wrap max-w-[700px] bg-white items-center px-6 justify-center">
+          <img src="assets/policies/comp-3.png" alt="" class="w-[185px] h-[50px] object-cover">
+          <img src="assets/policies/comp-2.png" alt="" class="w-[185px] h-[50px] object-cover">
+          <img src="assets/policies/comp-1.png" alt="" class="w-[185px] h-[50px] object-cover">
+        </div>
+      </div>
+    </div>
+  </div>  then at the first you take teh persolnal information 
+if the user is registered fill it directly and get the the data from this service import { HttpClient } from '@angular/common/http';
+import { inject, Injectable, signal, PLATFORM_ID } from '@angular/core';
+import { Router } from '@angular/router';
+import { Observable, of, tap } from 'rxjs';
+import { AuthStorageService } from './auth-storage.service';
+import { LanguageService } from '../language.service';
+import { API_CONFIG } from '../../conf/api.config';
+import { isPlatformBrowser } from '@angular/common'; // Import isPlatformBrowser
+
+export interface ILogin {
+  email: string;
+  password: string;
+}
+
+export interface IRegister {
+  name: string;
+  email: string;
+  phone: string;
+}
+
+interface AuthResponse {
+  access_token: string;
+  expires_in?: number;
+  token_type?: string;
+  user?: any;
+  [key: string]: any;
+}
+
+// Interfaces for specific API responses if they differ
+interface ForgotPasswordResponse {
+  success?: string; // Backend might send 'success' or 'error' message
+  error?: string;
+  message?: string; // General message
+}
+
+interface VerifyOtpResponse {
+  error?: string; // e.g., 'Correct OTP.', 'Invalid OTP.'
+  message?: string; // General message
+}
+
+interface ResetPasswordResponse {
+  success?: string;
+  error?: string;
+  message?: string;
+}
+
+@Injectable({
+  providedIn: 'root',
+})
+export class AuthService {
+  private _http = inject(HttpClient);
+  private baseUrl = API_CONFIG.BASE_URL;
+  private authStorage = inject(AuthStorageService);
+  private _router = inject(Router);
+  private _languageService = inject(LanguageService);
+  private platformId = inject(PLATFORM_ID); // Inject PLATFORM_ID
+
+  private resetEmail: string = '';
+  private resetOtp: string = '';
+  private readonly OTP_VERIFIED_TIMESTAMP_KEY = 'otpVerifiedTimestamp'; // Key for the timestamp
+
+  // Helper to check if running in browser
+  private get isBrowser(): boolean {
+    return isPlatformBrowser(this.platformId);
+  }
+
+  // Authentication state using signal
+  private isAuthenticatedValue = signal<boolean>(this.checkAuthStatus());
+
+  constructor() {
+    // No specific initialization needed here for OTP timestamp, it's handled on retrieval
+  }
+
+  login(data: ILogin): Observable<AuthResponse> {
+    const formData = new FormData();
+    formData.append('email', data.email);
+    formData.append('password', data.password);
+
+    return this._http
+      .post<AuthResponse>(`${this.baseUrl}${API_CONFIG.AUTH.LOGIN}`, formData)
+      .pipe(
+        tap((response) => {
+          if (response.access_token) {
+            // Default expiration to 24 hours if not provided by backend
+            const expiresIn = response.expires_in || 24 * 60 * 60;
+            this.authStorage.saveToken(response.access_token, expiresIn);
+
+            // Save user data to local storage
+            if (response.user) {
+              this.authStorage.saveUserData(response.user);
+            }
+
+            this.isAuthenticatedValue.set(true);
+          }
+        })
+      );
+  }
+
+  register(data: IRegister): Observable<AuthResponse> { // Changed return type to AuthResponse for consistency
+    const formData = new FormData();
+    formData.append('name', data.name);
+    formData.append('email', data.email);
+    formData.append('phone', data.phone);
+
+    return this._http
+      .post<AuthResponse>(
+        `${this.baseUrl}${API_CONFIG.AUTH.REGISTER}`,
+        formData
+      )
+      .pipe(
+        tap((response: AuthResponse) => {
+          if (response && response.access_token) {
+            this.authStorage.saveToken(
+              response.access_token,
+              response.expires_in || 24 * 60 * 60
+            );
+
+            // Save user data to local storage
+            if (response.user) {
+              this.authStorage.saveUserData(response.user);
+            }
+
+            this.isAuthenticatedValue.set(true);
+          }
+        })
+      );
+  }
+
+  logout(): Observable<any> {
+    this.authStorage.logout();
+    this.isAuthenticatedValue.set(false);
+
+    // Clear any reset password specific data on logout
+    this.clearResetEmail();
+    this.clearResetOtp();
+    this.clearOtpVerificationTime(); // Clear OTP timestamp on logout
+
+    let lang = '';
+    this._languageService.currentLanguage$.subscribe((next) => (lang = next));
+    this._router.navigate(['/', lang]);
+
+    return of({ success: true });
+  }
+
+  isAuthenticated(): boolean {
+    return this.isAuthenticatedValue();
+  }
+
+  getToken(): string | null {
+    return this.authStorage.getToken();
+  }
+
+  authenticationState() {
+    return this.isAuthenticatedValue.asReadonly();
+  }
+
+  private checkAuthStatus(): boolean {
+    return !!this.authStorage.getToken();
+  }
+
+  getUserData(): any {
+    return this.authStorage.getUserData();
+  }
+
+  getUserId(): string {
+    return this.authStorage.getUserData()?.id.toString() || '';
+  }
+
+  // --- Password Reset Flow Methods ---
+
+  sendOTp(email: string): Observable<ForgotPasswordResponse> { // Explicitly type response
+    const formData = new FormData();
+    formData.append('email', email);
+
+    return this._http.post<ForgotPasswordResponse>(`${this.baseUrl}${API_CONFIG.AUTH.FORGET_PASSWORD}`, formData);
+  }
+
+  verifyOtp(data: { email: string; otp: string }): Observable<VerifyOtpResponse> { // Explicitly type response
+    const formData = new FormData();
+    formData.append('email', data.email);
+    formData.append('reset_code', data.otp);
+
+    return this._http.post<VerifyOtpResponse>(`${this.baseUrl}${API_CONFIG.AUTH.RESET_PASSWORD}`, formData)
+      .pipe(
+        tap((response) => {
+          // Assuming your backend sends a specific string like 'Correct OTP.' on success
+          // You might need to adjust this condition based on your actual backend response
+          if (response.error === 'Correct OTP.') { // Or response.success for success messages
+            this.storeOtpVerificationTime(); // Store timestamp on successful OTP verification
+          }
+        })
+      );
+  }
+
+  resetPassword(data: any): Observable<ResetPasswordResponse> { // Explicitly type response
+    const formData = new FormData();
+    // Get email from where it's correctly stored for the reset process (your service property)
+    const emailToUse = this.getResetEmail();
+    if (!emailToUse) {
+      // Handle scenario where email isn't set, though it should be by forgot-password component
+      console.error('Reset password email is not set in AuthService.');
+      // You might want to return an Observable.throw or Observable.of with an error here
+      return of({ error: 'Reset email not found', message: 'Please start the password reset process again.' });
+    }
+
+    formData.append('email', emailToUse); // Use the stored email
+    formData.append('password', data.password);
+    formData.append('password_confirmation', data.password_confirmation);
+    formData.append('reset_code', data.otp || this.getResetOtp()); // Use stored OTP if not provided in data
+
+    return this._http.post<ResetPasswordResponse>(`${this.baseUrl}${API_CONFIG.AUTH.RESET_PASSWORD}`, formData)
+      .pipe(
+        tap(() => {
+          // Clear all reset-related data after successful password reset
+          this.clearResetEmail();
+          this.clearResetOtp();
+          this.clearOtpVerificationTime(); // Clear OTP timestamp after successful password reset
+        })
+      );
+  }
+
+  // --- Helper Methods for Password Reset State (In-Memory for resetEmail/resetOtp, LocalStorage for Timestamp) ---
+
+  storeResetEmail(email: string): void {
+    this.resetEmail = email; // Stored in-memory, as per your original code
+  }
+
+  getResetEmail(): string {
+    return this.resetEmail; // Retrieves from in-memory
+  }
+
+  clearResetEmail(): void {
+    this.resetEmail = ''; // Clears in-memory
+  }
+
+  storeResetOtp(otp: string): void {
+    this.resetOtp = otp; // Stored in-memory, as per your original code
+  }
+
+  getResetOtp(): string {
+    return this.resetOtp; // Retrieves from in-memory
+  }
+
+  clearResetOtp(): void {
+    this.resetOtp = ''; // Clears in-memory
+  }
+
+  // --- OTP Verification Time Management (for the Guard) ---
+
+  storeOtpVerificationTime(): void {
+    if (this.isBrowser) { // Ensure running in browser before localStorage operation
+      localStorage.setItem(this.OTP_VERIFIED_TIMESTAMP_KEY, Date.now().toString());
+    }
+  }
+
+  getOtpVerifiedTime(): number | null {
+    if (this.isBrowser) { // Ensure running in browser before localStorage operation
+      const storedTime = localStorage.getItem(this.OTP_VERIFIED_TIMESTAMP_KEY);
+      return storedTime ? parseInt(storedTime, 10) : null;
+    }
+    return null; // Return null if not in browser
+  }
+
+  clearOtpVerificationTime(): void {
+    if (this.isBrowser) { // Ensure running in browser before localStorage operation
+      localStorage.removeItem(this.OTP_VERIFIED_TIMESTAMP_KEY);
+    }
+  }
+
+  // Helper to get current language for redirects
+  getCurrentLang(): string {
+    return this._languageService.getCurrentLanguage();
+  }
+} import { isPlatformBrowser } from '@angular/common';
+import { inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { Router } from '@angular/router';
+
+interface TokenData {
+  token: string;
+  expiresAt: number;
+}
+
+export interface UserData {
+  id: number;
+  name: string;
+  email: string;
+  phone: string;
+  role: string;
+  admin_status: number;
+  verify_status: number;
+  deactive_status: number;
+  delete_status: number;
+  created_at: string;
+  updated_at: string;
+}
+
+@Injectable({
+  providedIn: 'root',
+})
+export class AuthStorageService {
+  private readonly TOKEN_KEY = 'auth_token';
+  private readonly USER_DATA_KEY = 'user_data';
+  private readonly router = inject(Router);
+  private readonly platformId = inject(PLATFORM_ID);
+
+  private get isBrowser(): boolean {
+    return isPlatformBrowser(this.platformId);
+  }
+
+  saveToken(token: string, expiresIn: number): void {
+    if (!this.isBrowser) return;
+
+    const expiresAt = new Date().getTime() + expiresIn * 1000;
+    const tokenData: TokenData = { token, expiresAt };
+    localStorage.setItem(this.TOKEN_KEY, JSON.stringify(tokenData));
+  }
+
+  saveUserData(userData: UserData): void {
+    if (!this.isBrowser) return;
+
+    localStorage.setItem(this.USER_DATA_KEY, JSON.stringify(userData));
+  }
+
+  getUserData(): UserData | null {
+    if (!this.isBrowser) return null;
+
+    const userDataStr = localStorage.getItem(this.USER_DATA_KEY);
+    if (!userDataStr) return null;
+
+    try {
+      return JSON.parse(userDataStr);
+    } catch (error) {
+      this.removeUserData();
+      return null;
+    }
+  }
+
+  removeUserData(): void {
+    if (!this.isBrowser) return;
+
+    localStorage.removeItem(this.USER_DATA_KEY);
+  }
+
+  getToken(): string | null {
+    if (!this.isBrowser) return null;
+
+    const tokenDataStr = localStorage.getItem(this.TOKEN_KEY);
+    if (!tokenDataStr) return null;
+
+    try {
+      const tokenData: TokenData = JSON.parse(tokenDataStr);
+
+      // Check if token is expired
+      if (new Date().getTime() > tokenData.expiresAt) {
+        this.removeToken();
+        return null;
+      }
+
+      return tokenData.token;
+    } catch (error) {
+      this.removeToken();
+      return null;
+    }
+  }
+
+  removeToken(): void {
+    if (!this.isBrowser) return;
+
+    localStorage.removeItem(this.TOKEN_KEY);
+  }
+
+  isAuthenticated(): boolean {
+    if (!this.isBrowser) return false;
+
+    const token = this.getToken();
+    return token !== null;
+  }
+
+  logout(): void {
+    this.removeToken();
+    this.removeUserData();
+    if (this.isBrowser) {
+      this.router.navigate(['/']);
+    }
+  }
+}
+
+ten the years and the types and the brands and teh models get them from this api 
+this si the data it returning so in each type the types make it instead of electric and gasoline 
+then the brands make it as adrop down then dependign on the brand the user choose the next step will hav the moodels in this brand 
+in each dorp down add an other option 
+then in the yeras display adrop down with the years array 
+
+
+ Experience with micro-frontend architecture. 
+ Familiarity with Webpack, Vite, or similar bundlers. 
+ Knowledge of accessibility standards (WCAG). 
+ Experience with performance profiling and optimization
+
+
+
+
+
+تعالوا ناخد لفه كده في ال Server Side Rendering  الخاص ب Angular 
+ 
+ال SSR  ظهر من زمان من Angular Universal 
+الكان بيحصل ان Server بيشغل Angular   علي ال Server  بيبني صفحة HTML  جاهزة  ويرجعها لل Browser  كده ده طبعا معناه ان ال User  بيشوف الصفحة أسرع لانها جايه جاهزة حتى لو ال Javascript مش شغال لسه بس هوا فعلا شايف المحتوى ادام عينيه
+
+===========
+
+قبل Angular 16  من وجهة نظري ال SSR  كان حاجه ومن أول ال Version 16  الموضوع اتحسن بشكل ملحوظ وبدأ يكون في تطوير في الجزء ده مع كل Version 
+طيب ايه الكان بيحصل قبل Angular 16  او بمعنى تاني قبل ما يكون في Client side hydration 
+كان ال Server  بيبعت ال HTML  لل Browser  ال Browser  بيعرض الصفحة ودي حاجه كويسة
+ بعدين Angular  يبدأ يشتغل في ال Browser  وبيلاقي ال DOM بس هوا مش فاهم انه راجع من ال Server  ف كان بيمسح كل حاجه ويبني من جديد ف كان بيحصل Flicker  و ده معناه ان ال DOM  اتبني مرتين مره في ال Server و مره عندي في ال Client 
+طيب ليه Angular  كان بيمسح كل حاجه عشان هوا ما كنش بيعرف يربط ال DOM  بالكود عنده في ال Client 
+ف كان بيضطر يبني من البداية خالص
+طيب بعد ال Hydration  بقى في Angular 16  خلاص بقى قادر يربط ال   DOM  الاستقبله من ال Server بال Components العنده وبيعرف يربط ال Typescript logic  وما بقاش يحذف حاجه من ال DOM  هوا خلاص بيبقي بستخدم دايما ال DOM  الاستقبله  (Initial payload) 
+وده ممكن تعمله test  وتشوفه بعينك لو استخدم ال ِApplication  مره بال Hydration  ومره من غير 
+لو رحت فتحت ال Network  وعملت ريفرش للصفحة الانت واقف عليها هتلاقيه بيعمل call تان يلل server 
+لكن لو فعلت ال Hydration  و عملت ريفرش هتلاقي مافيش حاجه في ال Network  وان Angular خلاص بيستخدم ال HTML  او ال DOM  الاستلمه مش هيعيد البناء تاني.
+ 
+=============
+
+نقطة توضحية بس أنت لو عملت Build  لابليكيشن SSR  هتلاقي ال dis folder  بتاعك جواه  two folders  واحد اسمه Browser  وده ال client side app  والتاني اسمه Server  وده ال server side app  ده معناه في اتنين Applications  بتاع ال Server  البيبعت لي الصفحات والمحتوى  والتاني بتاع ال client side  الفيه بستلم ملفات ال Javascript  وبيكون فيها event listener 
+طيب ده كده معناه ان ممكن حد يفكر ويقول ايه ده ممكن استلم صفحة وتبقي ظاهره ادام عيني بس مش قادر اتفاعل معاها يعني مش قادر اعمل click  عليها – هقولك فعلا ده ممكن يحصل وده بيبقي اسمه التأثير علي  Time To Interactive (TTI) ساعات بيبقي الوقت ده طويل وما اقدرش اتفاعل علي طول أكييد لو فكرت للحظه هتعرف ان ده ممكن يحصل لو ال Javascript  المستنيه الBrowser  كبير وبياخد وقت – زي مثلا لو في صفحة Dashboard  او E-commerce  المشكلة دي ممكن تظهر معاك بوضوح 
+أكييد Angular  ما سكتش وبدأ يحاول يطور في الجزء ده عشان يوصل لحل وأول تطوير حصل كان في ال Version   البعديه علي طول Version 17
+
+خلينا نتكلم عن مراحل التطوير الحصلت في البوست الجاي
+
+
+
+
+لو جالك عميل بفكرة مشروع بس، وانت الـ Frontend الوحيد في الصورة.. تعمل إيه؟
+
+العميل معندوش UI، ولا backend، ولا تحليل… بس عنده “فكرة”.
+وأنت المفروض تبني منتج حقيقي.
+
+في الزمن اللي الأدوات فيه كتير والفرص مفتوحة…
+اللي هيفرقك هو إنك تبقى شاطر في التنظيم، وذكي في اختيار الأدوات، ومسؤول في التنفيذ.
+
+خطوات عملية تمشي عليها وتحول الفكرة لمنتج فعلي:
+
+الخطوة 1: افهم الفكرة بوضوح… ووسع مدارك العميل
+
+اسأل أسئلة زى:
+ • المستخدم هيعمل إيه جوه الأبلكيشن؟
+ • إيه أهم 3 features لازم نبدأ بيهم؟
+ • هل عنده منافسين؟ ممكن نحللهم؟
+
+بعد ما تسمع، ارسم الكلام في صورة User Journey بسيطة باستخدام أدوات زي:
+ • Whimsical أو Miro أو حتى ورقة وقلم!
+
+الخطوة 2: حول الأفكار لتصميم أولي باستخدام AI
+
+بدل ما تستنى مصمم UI/UX:
+
+استخدم أدوات زي:
+ • Galileo AI: بتكتب وصف نصي، يطلعلك تصميم جاهز.
+ • Uizard: حول الwireframes لتصميم فعلي.
+ • Figma + Plugins: زي Jambot أو Autoflow لتوليد screens سريعة.
+
+خد التصميم كمسودة وراجع العميل فيها، وعدل عليه بناءً على تعليقه.
+
+الخطوة 3: نظم بياناتك وقرر شكل الـ Backend
+
+سأل نفسك:
+ • إيه الكيانات (Entities) الأساسية؟ (User, Order, Product …)
+ • مين هيعمل إيه؟ (Auth, Uploads, Notifications؟)
+
+لو مفيش Backend Dev، استخدم:
+ • Appwrite: يوفر كل حاجة من Auth لملفات لـ Database.
+ • Supabase: شبه Firebase، مع PostgreSQL جاهز.
+
+وكل ده بلغة واحدة (JS/TS) وممكن تضيف Functions حسب الحاجة.
+
+
+
+الخطوة 4: حدد Tech Stack ذكي ينجزك
+
+مثال عملي:
+ • Frontend: React أو Next.js + TailwindCSS
+ • State Management: Zustand أو Context API (بسيط وسريع)
+ • Backend: Appwrite أو Supabase
+ • AI Tools: ChatGPT لـ logic، Midjourney أو DALL·E للصور
+ • Hosting: Vercel أو Netlify
+
+الخطوة 5: اشتغل كأنك الـ Product Owner
+
+حط خطة:
+ • Week 1: تصميم وتجهيز البيانات
+ • Week 2: Auth + أول Feature
+ • Week 3: باقي الـ Features
+ • Week 4: Testing + Launch
+
+استخدم Trello أو Notion عشان تتابع التقدم، وشارك العميل بالتحديثات.
+
+⸻
+
+الخلاصة:
+
+النهارده مش لازم تبقى “شركة كاملة” عشان تطلع MVP محترم.
+كل حاجة بقت متاحة… بس بشرط:
+
+✅ تتعلم
+✅ تختار صح
+✅ تتحمل مسئولية كل قرار
+
+لو عملت كده، هتبقى مش بس منفذ…
+هتبقى شريك نجاح، وقصة نجاح بنفسك
+
+
+I have never seen a JavaScript interview where the interviewer did not ask this question, and I have also never received a satisfactory answer from candidates in the interviews I have conducted so far.
+
+So, today I am trying to explain all the things related to hoisting in this one post.
+
+I'm sure this post will be a worthwhile read for today. But be ready to like, repost this post, and follow me for more content just like this one.
+
+So without any further do. Let’s just deep dive into it:
+
+First of all, what is hoisting - A simple explanation:
+
+Hoisting is a JavaScript mechanism where variables and function declarations are moved to the top of their scope (not the top of the script) before code execution.
+
+This means that no matter where functions and variables are declared, they are moved to the top of their scope regardless of whether their scope is global or local.
+
+However, this mechanism only moves the declaration. The assignments are left in place.
+
+According to the MDN documentation, there are four types of hoisting:
+
+Type 1: Being able to use a variable's value in its scope before the line it is declared. (Value hoisting)
+
+Type 2: Being able to reference a variable in its scope before the line it is declared, without throwing a ReferenceError, but the value is always undefined. (Declaration hoisting)
+
+Type 3: The declaration of the variable causes behaviour changes in its scope before the line in which it is declared.
+
+Type 4: The side effects of a declaration are produced before evaluating the rest of the code that contains it.
+
+The below declarations are hoisted with type 1 behaviour:
+
+- function        (simple function)
+- function*       (generator function)
+- async function   (async function)
+- async function*  (async generator function)
+
+var declarations are hoisted with type 2 behaviour
+
+let, const and class declarations are hoisted with type 3 behaviour
+
+import declarations are hoisted with type 1 and type 4 behaviour.
+
+The behaviour of variables, when hoisted, depends on the keyword you declare them with, as each keyword behaves differently.
+
+JavaScript also hoists variables declared with the let and const keywords (some people say let and const cannot be hoisted). However, unlike variables declared with the var keyword, they are not initialized with an undefined value.
+
+Why hoist at all??? 🤔
+
+Why wouldn't you just force everyone to declare variables, functions and classes at the top of their scope?
+
+So the main reason for introducing hoisting in javascript is interpreter performance reasons:
+
+By moving function declarations to the top of their scope before execution, the interpreter can avoid the need to search for the declaration of the function each time it is called.
+
+Instead, it can simply execute the function directly from memory, which can be faster and more efficient.
+
+I think all the above explanations would be very helpful for your future interview answers.
+
+
+
+
+
+سألت مره في انترفيو سؤال كان بالنسبالي غريب مع ان الCase بديهية جدا 😅
+
+كان سؤال في الAPI Testing،
+
+ لو بتعمل تيست لE-commerce App و خصوصا الPay Functionality ، لو دوست Pay و النت قطع، شبكة كانت وحشه أو الApp حصله Freeze أو حصل أي حاجه و الريكويست متبعتش للServer ف اضطريت تدوس Pay أكتر من مره هتعمل ايه؟ 
+
+مش كده الRequest اتبعت أكتر من مره و العميل هيكون دفع أكتر من مره؟ 😅
+
+ساعتها وقفت و قعدت أفكر و لقيتها Case منطقية جدا و عمرها ما جت في دماغي و ولا أعرف ازاي أعمل تيست لحاجه زي دي في الApi 😅
+
+و من هنا عرفت مفهوم الIdempotency in APIs ، يعني ايه بقى المفهوم ده؟
+
+و ده ب اختصار معناه انك لو عملت الRequest أكتر من مره ف "تأثير" الRequest أكنه اتعمل مره واحده بس. 😅
+
+و ده بظبط اللي بيجاوب على الCase اللي فوق.
+
+مفهوم الIdempotency بيمنع كوارث خصوصا في الFintech، البنوك أو أي حاجه فيها تعاملات مالية.
+
+ياريت تبقى تحط Idempotency as a factor في الApi Testing.
+
+و خلي بالك الIdempotency مهم جدا مع الNon-safe operations، طب ايه هما الNon-safe opertations؟ 
+
+- Post
+
+يعني لو أخدت أي أكشن و الريكويست متبعتش للServer و اضطريت تعمله تاني و ده ممكن يسبب مشاكل/خسارة يبقى هنا محتاج تحط الIdempotency Key 
+
+زي مثلا لو محتاج ت-Create an order و الRequest متبعتش ف هتضطر تبعته تاني، ف كده انت عملت الاوردر مرتين ف كده انت محتاج تراعي مفهوم الIdempotency.
+
+لو حسيت انك استفادت و لو جزء بسيط ف ياريت متنسانيش من دعواتك
+
+
+
+
+لو آخر مرة استخدمت ngOnInit في مشروعك، فـ تعال أقولك ليه لازم تعيد حساباتك.
+
+ ✅Angular دخل عصر الـ Signals
+ ✅ بقى ينفع تبني Project كامل بـ Standalone Components بس
+ ✅ Form Handling بقى فيه مرونة أكتر مع ControlContainer و Template Inputs
+ ✅ Routing بقى أسهل وأخف
+ ✅ Dependency Injection بقى ليه حلول أحسن من قبل كده
+ ✅ State management بقى Native من غير ما تروح تجيب NGRX كل مرة
+ ✅ Performance؟ اتضربت 10x مع View Engine updates + hydration
+يعني باختصار... Angular اللي في دماغك اتغير.
+
+💡 لو لسه بتشتغل بنفس الباترن بتاع:
+كل Component جوه Module
+Reactive Forms بـ FormBuilder بس
+State Management عن طريق Services
+استخدام ngOnInit في كل مكان
+نفس طريقة Routing القديمة
+
+فـ أنت بتستخدم Angular اللي اتكتب بيه مشاريع 2018–2020… ومش دايمًا هينفع مع التريندات الجديدة أو الـ Hiring requirements اللي بقت طالبة Devs مواكبين التغيير.
+
+✔️ إزاي تبدأ تواكب الجديد؟
+جرب تبني Feature كاملة بـ Standalone Components
+اقرأ عن Signals وازاي تكتب Reactive Logic من غير RxJS
+تابع changelogs الرسمية مش لازم تحفظها، بس على الأقل تبقى عارف هي موجودة
+ابدأ refactor بسيط على مشروعك الحالي خطوة خطوة.
+
+🔥 تفتكر Angular بيرجع تاني بقوة؟ ولا خلاص المجال بقى لـ React و Svelte؟ 
+
+شاركني رأيك
+
+
+
+
+
+إزاي تبني مشروع فرونت إند قابل للتوسع من أول يوم؟
+
+
+مشكلتك مش في كودك مشكلتك إنك بنيت مشروع على أساس هش.
+
+أغلب مشاريع الفرونت إند بتبدأ بفكرة بسيطة:
+كم صفحة، شوية Components، شوية API calls…
+فالمبرمج يقول:
+“مش محتاج تنظيم… لسه المشروع صغير.”
+وبعد شوية، المشروع يكبر، عدد الصفحات يزيد، يظهر زميل جديد في الفريق،
+ومرة واحدة… الكود بقى فوضى، أي تعديل ممكن يكسر كل حاجة،
+وساعتها تكتشف إنك كنت محتاج Frontend Architecture من أول يوم.
+
+طب يعني إيه تبني مشروع قابل للتوسع؟
+
+يعني تجهز الكود عشان يكبر، من غير ما تضطر تعيد بناءه كل ما تضيف ميزة جديدة.
+يعني تحط قواعد واضحة، تخلي الكود منظم، وقابل للتعديل، وسهل الفهم لأي حد يدخل عليه بعدك.
+
+خليني أديك خريطة تمشي عليها:
+
+1 - Folder Structure مرتب من أول لحظة
+
+حتى لو المشروع لسه صغير، عامل حسابك إنه هيكبر.
+ابدأ ببنية منظمة زي دي:
+
+/components → UI components العامة 
+/pages → كل صفحة بتاعت route 
+/hooks → أي منطق reusable 
+/services → API interaction 
+/store → global state management (Zustand, Redux…) 
+/utils → helper functions 
+/types → TypeScript types/interfaces 
+/assets → الصور والخطوط 
+/constants → القيم الثابتة
+
+2 - Separation of Concerns
+
+افصل كل حاجة في مكانها:
+- الـ API Requests → في services
+- الـ Business Logic → في hooks
+- الـ UI → في components
+- الـ Global State → في store
+ما تحطش كل ده في نفس الملف.
+
+3 - استخدم State Management بحكمة
+
+ابدأ بحاجة خفيفة زي React Context أو Zustand أو React Query.
+ولو المشروع كبر جدًا واحتاجت حاجة أعقد، روح لـ Redux Toolkit، بس ما تبدأش بيه لمجرد “الناس بتستخدمه”.
+
+4 - خليك Consistent
+
+سواء في:
+- تسمية الملفات
+- شكل الـ components
+- ترتيب الـ props
+- استخدام camelCase ولا snake_case
+الـ consistency بيخلي أي حد يقرأ كودك يحسه مألوف حتى لو بيشوفه لأول مرة.
+
+5 - فكّر في إعادة الاستخدام من البداية
+
+أي Component تكتبه، خليه مرن وقابل للتخصيص بـ props.
+مثال بسيط؟
+بدل ما تعمل Button عادي، اعمله Generic يقبل نوع، حجم، أيقونة، و Event handler.
+
+6 - اعمل Abstractions لأي حاجة ممكن تتكرر
+
+بدل ما تكتب نفس request في كل صفحة، اعمل Service يلم الموضوع.
+بدل ما كل صفحة تعمل loading / error بنفس الشكل، اعمل component موحد للـ states دي.
+
+طب النتيجة إيه؟
+- أي Feature جديدة بتتضاف بسهولة
+- مفيش duplicated code
+- الكود قابل للصيانة
+- أي مبرمج جديد يدخل يشتغل معاك، يقدر يفهم المشروع
+- لما تيجي تعمل Refactor أو Migration (زي React → Next.js)، الدنيا تبقى سالكة
+
+الخلاصة:
+
+لو بتبني بيت، لازم تبدأ بأساس قوي، مش تفرش الأول.
+نفس الكلام في الفرونت إند:
+ما تبدأش كتابة Features قبل ما تحط قواعد المشروع.
+
+ابدأ دايمًا بسيط، بس منظم…
+وافتكر:
+الكود اللي تعبت في تنظيمه النهاردة، هو الكود اللي هتشكر نفسك عليه بكرة
+
+
+

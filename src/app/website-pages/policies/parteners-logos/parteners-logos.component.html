@@ -1,0 +1,73 @@
+@if (partners.length > 0){
+
+<section
+  class="cursor-grab my-5 mx-5 md:mx-10 lg:mx-20"
+  aria-label="Partners Logos Section"
+>
+  <div
+    class="cursor-grab rounded-2xl max-w-[700px] py-6 md:py-0 min-h-[130px] z-[1000] shadow-lg bg-white"
+  >
+    <div class="cursor-grab flex justify-center items-center min-h-[130px]">
+      <owl-carousel-o
+        [options]="customOptions"
+        #owlCarousel
+        class="w-full h-full"
+      >
+        <ng-container *ngIf="partners.length > 0; else loading">
+          <ng-template
+            *ngFor="let partner of partners"
+            carouselSlide
+            [id]="partner.en_name"
+          >
+            <div
+              class="partner-slide h-full flex justify-center items-center px-3"
+              role="group"
+              aria-roledescription="slide"
+            >
+              <!-- Loading skeleton -->
+              <div
+                *ngIf="shouldShowLoading(partner.id)"
+                class="w-[185px] h-[50px] bg-gray-200 animate-pulse rounded-lg flex items-center justify-center"
+              >
+                <span class="text-xs text-gray-400">Loading...</span>
+              </div>
+              <!-- Image container -->
+              <div
+                class="w-[185px] h-[50px] flex items-center justify-center bg-transparent relative"
+                [class.opacity-0]="shouldShowLoading(partner.id)"
+                [class.opacity-100]="isImageLoaded[partner.id]"
+              >
+                <img
+                  class="max-w-[185px] max-h-[50px] w-auto h-auto object-contain transition-opacity duration-300"
+                  [src]="partner.image"
+                  [alt]="partner.alt"
+                  loading="lazy"
+                  decoding="async"
+                  (load)="onImageLoad(partner.id)"
+                  (error)="onImageError(partner.id)"
+                />
+              </div>
+            </div>
+          </ng-template>
+        </ng-container>
+        <!-- Loading template -->
+        <ng-template #loading>
+          <ng-template *ngFor="let item of [1, 2, 3, 4]" carouselSlide>
+            <div
+              class="partner-slide h-full flex justify-center items-center px-3"
+              role="group"
+              aria-roledescription="slide"
+            >
+              <div
+                class="w-[185px] h-[50px] bg-gray-200 animate-pulse rounded-lg flex items-center justify-center"
+              >
+                <span class="text-xs text-gray-400">Loading...</span>
+              </div>
+            </div>
+          </ng-template>
+        </ng-template>
+      </owl-carousel-o>
+    </div>
+  </div>
+</section>
+}

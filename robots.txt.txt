@@ -1,0 +1,89 @@
+# Allow all search engines to crawl the site
+User-agent: *
+
+# Allow everything by default
+Disallow:
+
+# Disallow private or sensitive folders (adjust paths if needed)
+Disallow: /assets/
+Disallow: /admin/
+Disallow: /login/
+Disallow: /register/
+
+# Allow fonts (if stored in /assets/font/)
+Allow: /assets/font/
+
+
+
+
+
+update the second title an main title in motors and property 
+add skelton loading to them 
+
+add disable when the form claim is logged in 
+
+
+add the icon to teh plans 
+
+there is adelay in the about component when convert from english to arabic ? done 
+
+
+
+the scroll width done 
+title for claims and title for blogs done  
+
+
+calender icon for the blogs done 
+
+
+
+
+
+
+
+invalid date in teh blogs 
+
+
+ناقص الميتا تايتل وديسكريبشن بتوع البلوليسي والهوم 
+البلوجز ق
+الصورة وانت بتعمل تحديث جديد 
+
+
+ناقص تتاكد ان الموديلز مش معتمده علي البراندز 
+وتعمل الفاليديشن بتاعة الفول نيم والتليفون والبرايس انه ميقبلش سوالب وموضوع العربي وموضوع الالاسكيلتون لودر 
+
+
+make any thing in teh blogs open with out clicking on read more done  
+
+
+change the image of teh about section done
+
+
+
+
+counters in the bill instaed of teh categories done 
+
+
+all copy right insted of copy right  done
+
+and make the spacing in the footer doen 
+
+
+whatsapp icon more bigger doen 
+
+
+if there is no testimonials remove it done 
+
+
+in teh about make each line end in the same  done 
+
+
+make the top bar more short  done 
+
+
+
+change the categories data  done 
+
+
+
+

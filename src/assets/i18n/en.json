@@ -1,0 +1,1006 @@
+{
+  "home": "Home",
+  "parteners": "Parteners",
+  "Professional.title": "Professional",
+  "insurance_categories": "Insurance Categories",
+  "Clients": "Clients",
+  "about": "About Us",
+  "GET_IN_TOUCH": "Get In Touch",
+  "insurance": "Insurance",
+  "testimonials": "Testimonials",
+  "what_say": " what our customer are talking about",
+  "number_solid": " number of solid policies",
+  "blogs": "Blogs",
+  "contact": "Contact Us",
+  "motor_insurance": "Motor Insurance",
+  "property_insurance": "Property Insurance",
+  "medical_insurance": "Medical Insurance",
+  "jop_insurance": "Job Insurance",
+  "my_policies": "My Policies",
+  "my_claims": "My Claims",
+  "profile": "Profile",
+  "log_out": "Log Out",
+  "winch_request": "Request a winch",
+  "claims": "Claims",
+  "email": "info@capital-ib.com",
+  "address": "20 El Tahrir St. Dokki, Giza, Egypt",
+  "phone": "+20 1212262420",
+  "language": "Language",
+  "Loading": "loading",
+  "Login_failed": "Login failed",
+  "Login_successful": "logged successfully",
+  "Registration_successful": "Registration successful",
+  "No_articles": "No articles",
+  "Reset_password_successful": "Reset password successful",
+  "OTP_sent_successful": "OTP sent successfully",
+  "Invalid_OTP": "Invalid OTP. Please try again.",
+  "OTP_resent_successful": "OTP resent successfully",
+  "Failed_to_resend_OTP": "Failed to resend OTP. Please try again.",
+  "form_success": "Your message has been sent successfully.",
+  "form_success_message": "Your message has been sent and we will contact you as soon as possible to help you.",
+  "form_thanks": "Thanks for your message.",
+  "back_to_home": "Back to Home",
+
+  "pages": {
+    "tool": {
+      "PHONE_VALID_ERROR": "Please enter a valid 11-digit phone number."
+    },
+    "comments": {
+      "na": "N/A",
+      "header": "Comments And Updates",
+      "no_comments": "No comments available for this policy.",
+      "view_file": "View Attached File",
+      "attach_files": "Attach files",
+      "send": "Send",
+      "sending": "Sending...",
+      "placeholder": {
+        "add_comment": "Add A Comment",
+        "no_comments": "No comments available to reply to.",
+        "disabled": "Commenting is disabled as the policy is not pending."
+      },
+      "images": {
+        "admin_avatar": "Admin Avatar",
+        "user_avatar": "User Avatar",
+        "file_preview": "File Preview"
+      },
+      "errors": {
+        "invalid_policy": "Invalid policy ID or type",
+        "load_comments": "Failed to load comments",
+        "not_authenticated": "User not authenticated",
+        "submit_comment": "Failed to submit comment"
+      }
+    },
+    "footer": {
+      "data": {
+        "title": "Your insurance easier with Capital",
+        "description": "For a better user experience and instant notifications, our notifications keep you informed so you're always ok. Our exclusive offers are available only on the app.",
+        "companyInfo": "Working with leading international and local insurance providers in Egypt. We provide global, regional and local insurance for everyone.",
+        "downloadapp": "Download Now",
+        "explore": "Explore",
+        "privacyPolicy": "Privacy Policy",
+        "contact": {
+          "email": "info@capital-ib.com",
+          "en_address": "20 El Tahrir St, Dokki, Giza, Egypt",
+          "phone1": "+20 1212242420",
+          "phone2": "+20 1212242420",
+          "phone3": "+20 1212242420",
+          "phone4": "+20 1212242420"
+        },
+        "navigation": {
+          "home": "home",
+          "insurance": "insurance",
+          "contact": "contact",
+          "blog": "english-blogs",
+          "about": "about"
+        },
+        "socialLinks": [
+          {
+            "name": "Facebook",
+            "url": "#",
+            "icon": "/assets/footer/facebook.svg"
+          },
+          {
+            "name": "Instagram",
+            "url": "#",
+            "icon": "/assets/footer/insta.svg"
+          },
+          { "name": "Twitter", "url": "#", "icon": "/assets/footer/x.svg" },
+          { "name": "LinkedIn", "url": "#", "icon": "/assets/footer/lin.svg" }
+        ],
+        "copyright": {
+          "year": 2025,
+          "company": "Digital Bond",
+          "text": "All Copyright {{year}} by"
+        }
+      }
+    },
+    "claims": {
+      "na": "N/A",
+      "tabs": {
+        "current": "Current",
+        "previous": "Previous"
+      },
+      "pending_count": "{{count}} {{count === 1 ? 'Claim' : 'Claims'}} Pending!",
+      "status": {
+        "pending": "Pending",
+        "requested": "Requested",
+        "confirmed": "Confirmed",
+        "canceled": "Canceled"
+      },
+      "types": {
+        "medical": "Medical Claim",
+        "motor": "Motor Claim",
+        "building": "Building Claim",
+        "jop": "Job Claim"
+      },
+      "labels": {
+        "claimant": "Claimant",
+        "claim_number": "Claim Number",
+        "claim_date": "Claim Date"
+      },
+      "buttons": {
+        "go_to_comments": "Go To Comments"
+      },
+      "images": {
+        "medical_alt": "Medical Claim Image",
+        "motor_alt": "Motor Claim Image",
+        "building_alt": "Building Claim Image",
+        "jop_alt": "Job Claim Image",
+        "card_background_alt": "Card Background Image",
+        "claims_image": "Claims Image"
+      }
+    },
+    "contact": {
+      "form_success": "Your message has been sent successfully.",
+      "form_success_message": "Your message has been sent and we will contact you as soon as possible to help you.",
+      "form_thanks": "Thanks for your message.",
+      "back_to_home": "Back to Home",
+
+      "EMAIL": "Email",
+      "PHONE": "Phone",
+      "OUR_LOCATION": "Our Location",
+      "LETS_STAY_IN_TOUCH": "Let's Stay in Touch",
+      "CONTACT_FORM_DESCRIPTION": "We'd love to hear from you! Please fill out the form below to get in touch with us.",
+      "FULL_NAME_PLACEHOLDER": "Full Name",
+      "EMAIL_ADDRESS_PLACEHOLDER": "Email Address",
+      "PHONE_NUMBER_PLACEHOLDER": "Phone Number",
+      "YOUR_MESSAGE_PLACEHOLDER": "Your Message",
+      "SUBMIT_MESSAGE": "Submit Message",
+      "FULL_NAME_REQUIRED_ERROR": "Full name is required",
+      "FULL_NAME_MINLENGTH_ERROR": "Full name must be at least 2 characters long",
+      "EMAIL_REQUIRED_ERROR": "Email is required",
+      "EMAIL_VALID_ERROR": "Please enter a valid email address",
+      "PHONE_REQUIRED_ERROR": "Phone number is required",
+      "PHONE_VALID_ERROR": "Please enter a valid phone number",
+      "MESSAGE_REQUIRED_ERROR": "Message is required",
+      "MESSAGE_MINLENGTH_ERROR": "Message must be at least 10 characters long"
+    },
+    "show_all_details": {
+      "na": "N/A",
+      "jop_title": "Job Title",
+      "jop_price": "Job Price",
+      "jop_main_id": "Upload Main ID",
+      "jop_second_id": "Upload Second ID",
+      "expiring_soon": "Expiring Soon!",
+      "no_choices": "No additional choices available for this policy.",
+      "status": {
+        "pending": "Pending",
+        "confirmed": "Confirmed",
+        "canceled": "Canceled",
+        "requested": "Requested",
+        "running": "Running",
+        "expired": "Expired",
+        "expired_canceled": "Expired/Canceled"
+      },
+      "types": {
+        "medical": "Medical Insurance",
+        "motor": "Motor Insurance",
+        "building": "Building Insurance",
+        "jop": "Job Insurance"
+      },
+      "labels": {
+        "company": "Company",
+        "monthly": "Monthly",
+        "expiry_date": "Expiry Date",
+        "status": "Status",
+        "car_type": "Car Type",
+        "car_model": "Car Model",
+        "car_year": "Car Year",
+        "car_brand": "Car Brand",
+        "car_price": "Car Price",
+        "duration": "Duration",
+        "name": "Policy Holder",
+        "building_type": "Property Type",
+        "building_country": "Country",
+        "medical_insurance_number": "Policy Code",
+        "motor_insurance_number": "Policy Code",
+        "building_insurance_number": "Policy Code",
+        "payment_method": "Payment Method",
+        "admin_building_insurance_number": "Admin Policy Code",
+        "email": "Email",
+        "phone": "Phone",
+        "building_price": "Building Price",
+        "in_year": " Year",
+        "gender": "Gender",
+        "jop_title": "Job Title",
+        "jop_price": "Job Price",
+        "jop_main_id": " Main ID",
+        "jop_second_id": " Second ID",
+        "jop_insurance_number": "Policy Code"
+      },
+      "duration": {
+        "singular": "{{count}} year",
+        "plural": "{{count}} years"
+      },
+      "buttons": {
+        "show_all_comments": "Show All Comments",
+        "go_to_comments": "Go To Comments",
+        "in_year": "In Year",
+        "in_month": "In Month"
+      },
+      "images": {
+        "medical_alt": "Medical Insurance Image",
+        "motor_alt": "Motor Insurance Image",
+        "building_alt": "Building Insurance Image",
+        "jop_alt": "Job Insurance Image",
+        "card_background_alt": "Card Background Image"
+      },
+      "errors": {
+        "invalid_policy": "Invalid policy ID or type",
+        "load_policy_details": "Failed to load policy details",
+        "load_policy_choices": "Failed to load policy choices"
+      }
+    },
+    "edit-password": {
+      "header": "Update Password",
+      "form-aria-label": "Update Password Form",
+      "new-password-placeholder": "New Password",
+      "confirm-password-placeholder": "Confirm New Password",
+      "update-password": "Update Password",
+      "updating": "Updating...",
+      "back-to-profile": "Back to Profile",
+      "submit-button-aria-label": "Update Password Button",
+      "back-to-profile-aria-label": "Back to Profile Button",
+      "image_alt": "A person updating their password on a computer",
+      "errors": {
+        "form-invalid": "Please correct the form errors.",
+        "new-password-required": "New password is required.",
+        "new-password-minlength": "Password must be at least 6 characters.",
+        "confirm-password-required": "Confirm password is required.",
+        "password-mismatch": "Passwords do not match.",
+        "update-failed": "Failed to update password. Please try again.",
+        "update-failed-title": "Password Update Failed"
+      },
+      "success": {
+        "update": "Password updated successfully!",
+        "update-title": "Password Updated"
+      }
+    },
+    "profile": {
+      "header": "Your Profile",
+      "loading": "Loading profile...",
+      "name-placeholder": "Enter your name",
+      "email-placeholder": "Your email",
+      "phone-placeholder": "Your phone number",
+      "gender-placeholder": "Select gender",
+      "gender-male": "Male",
+      "gender-female": "Female",
+      "gender-other": "Other",
+      "birth-date-placeholder": "Select birth date",
+      "edit-password": "Edit Password",
+      "save-changes": "Save Changes",
+      "saving": "Saving...",
+      "deactivate-account": "Deactivate Account",
+      "deactivating": "Deactivating...",
+      "submit-button-aria-label": "Save profile changes",
+      "deactivate-account-aria-label": "Deactivate your account",
+      "confirm-deactivate": "Are you sure you want to deactivate your account? This action cannot be undone.",
+      "success": {
+        "update": "Profile updated successfully!",
+        "deactivate": "Account deactivated successfully."
+      },
+      "errors": {
+        "name-required": "Name is required",
+        "form-invalid": "Please fill out the form correctly",
+        "load-failed": "Failed to load profile. Please try again.",
+        "update-failed": "Failed to update profile. Please try again.",
+        "deactivate-failed": "Failed to deactivate account. Please try again."
+      }
+    },
+    "auth": {
+      "success-message": "now you can reset your password ",
+
+      "login": {
+        "description": "Sign in to your account",
+        "login-form": {
+          "haveAccount": "Don't have an account?",
+          "password": "Password",
+          "password-placeholder": "Enter your password",
+          "phone-number": "Email or Phone Number",
+          "phone-number-placeholder": "Enter your email or phone number",
+          "remember-me": "Remember me",
+          "forgot-password": "Forgot password",
+          "submit-button-aria-label": "button aria label",
+          "button": "Login",
+          "errors": {
+            "login-required": "Email or phone number is required",
+            "login-invalid": "Invalid email or phone number",
+            "password-required": "Password is required",
+            "password-minlength": "Password must be at least 8 characters long"
+          }
+        },
+        "title": "Login | Capital"
+      },
+      "register": {
+        "title": "Register | Capital",
+        "description": "Create your account",
+        "already-account": "Do you have an account?",
+        "submit-button-aria-label": "Register button",
+        "image_alt": "Register Welcome Image",
+        "button": "Register",
+        "personal": {
+          "title": "Register - Personal Info | Capital",
+          "description": "Create your account - Personal Information",
+          "name-placeholder": "Enter your name",
+          "email-placeholder": "Enter your email",
+          "phone-placeholder": "Enter your phone number",
+          "errors": {
+            "name-required": "Name is required",
+            "email-required": "Email is required",
+            "email-invalid": "Invalid email address",
+            "phone-required": "Phone number is required",
+            "phone-invalid": "Invalid phone number",
+            "backend-email": "The email has already been taken",
+            "backend-phone": "The phone has already been taken"
+          }
+        },
+        "password": {
+          "title": "Register - Password | Capital",
+          "description": "Create your account - Set Password",
+          "password-placeholder": "Enter your password",
+          "confirm-password-placeholder": "Confirm your password",
+          "show-password": "Show Password",
+          "hide-password": "Hide Password",
+          "errors": {
+            "password-required": "Password is required",
+            "password-minlength": "Password must be at least 8 characters long",
+            "password-pattern": "Password must have contain at least one uppercase letter, one lowercase letter, one number, and one special character",
+            "confirm-password-required": "Confirm password required",
+            "confirm-password-mismatch": "Passwords must match"
+          }
+        }
+      },
+      "forgot-password": {
+        "title": "Forgot Password | Capital",
+        "description": "Reset your password",
+        "email-placeholder": "Enter your email",
+        "submit-button-aria-label": "Send OTP button",
+        "button": "Send OTP",
+        "image_alt": "Forgot Password Image",
+        "back-to-login": "Back to Login",
+        "otp-message": "A 6-digit code was sent to your email",
+        "otp-title": "OTP resent_successful",
+        "Resend_OTP": "Resend OTP",
+        "Verify": "Verify",
+        "errors": {
+          "email-required": "Email is required",
+          "email-invalid": "Invalid email address"
+        }
+      },
+      "reset-password": {
+        "title": "Reset Password | Capital",
+        "descriptionpli": "Set a new password",
+        "email-placeholder": "Your email",
+        "password-placeholder": "Enter your new password",
+        "confirm-password-placeholder": "Confirm your new password",
+        "submit-button-aria-label": "Reset Password button",
+        "button": "Reset Password",
+        "image_alt": "Reset Password Image",
+        "back-to-login": "Back to Login",
+        "success-message": "now you can reset your password ",
+        "errors": {
+          "password-required": "Password is required",
+          "password-minlength": "Password must be at least 8 characters long",
+          "password-pattern": "Password must contain uppercase, lowercase, number, and special character",
+          "confirm-password-required": "Confirm password required",
+          "confirm-password-mismatch": "Passwords must match",
+          "otp-expired": "Your OTP verification has expired. Please request a new one.",
+          "access-denied": "Access denied. Please verify your OTP first."
+        }
+      }
+    },
+    "motor_policy": {
+      "header": "Motor Insurance Policy",
+      "description": "Protect your vehicle with our comprehensive motor insurance plans tailored to your needs.",
+      "claim_data_button": "Purchase",
+      "ai_greeting": "Hello! I'm here to guide you through the motor insurance process.",
+      "ai_subtext": "Let's get started with your policy details.",
+      "background_image_alt": "Background image for motor policy",
+      "motor_policy_image_alt": "Motor policy illustration",
+      "gradient_image_alt": "Gradient overlay",
+      "ai_avatar_alt": "AI assistant avatar",
+      "company_logo_1_alt": "Company 1 logo",
+      "company_logo_2_alt": "Company 2 logo",
+      "company_logo_3_alt": "Company 3 logo",
+      "steps": {
+        "personal_information": "Step 1: Personal Information",
+        "car_type": "Step 2: Car Type",
+        "car_price": "Step 3: Car Price",
+        "car_year": "Step 4: Car Year",
+        "car_brand": "Step 5: Car Brand",
+        "car_model": "Step 6: Car Model",
+        "select_plan": "Step 7: Select Plan",
+        "payment": "Step 8: Payment"
+      },
+      "alerts": {
+        "building_request": "🛠️ We’re building your request behind the scenes. Get ready.",
+        "call_request_success": "Call request sent successfully",
+        "call_request_contact": "Your call request has been sent and you will be contacted as soon as possible through your phone number {phone}",
+        "building_request_contact": "Your call request has been sent and you will be contacted as soon as possible through your phone number {phone}",
+        "call_request_thanks": "Thank you for your interest in Capital Insurance",
+        "back_button": "Back",
+        "building_request_thanks": "Thank you for your interest in Capital Insurance",
+        "policy_submitted": "Insurance submitted successfully",
+        "policy_review": "Your request will be carefully reviewed and a customer service representative will contact you",
+        "request_code": "Request code: #{id}"
+      },
+      "errors": {
+        "data_fetch_failed": "Failed to fetch motor data",
+        "lead_creation_failed": "Failed to create lead",
+        "lead_update_failed": "Failed to update lead",
+        "policy_submission_failed": "Failed to submit policy",
+        "no_plan_selected": "No plan selected"
+      },
+      "form": {
+        "other_model_placeholder": "Enter other model",
+        "other_year_placeholder": "Enter other year",
+        "other_brand_placeholder": "Enter other brand",
+        "other_year_required": "Other year is required",
+        "other_brand_required": "Other brand is required",
+        "other_model_required": "Other model is required",
+        "other_year_max": "Car year cannot be later than 2026",
+        "personal_information": {
+          "prompt_0": "Can I know",
+          "prompt_1": "Your Information",
+          "prompt_2": "Becouse It Will Make A big Different In Your Insurance",
+          "name_placeholder": "Enter your full name",
+          "phone_placeholder": "Enter your phone number",
+          "email_placeholder": "Enter your email address",
+          "loading": "Loading...",
+          "errors": {
+            "name_required": "Name is required",
+            "phone_required": "Phone number is required",
+            "email_required": "Email is required",
+            "email_invalid": "Invalid email format"
+          }
+        },
+        "car_type": {
+          "prompt_0": "Can I know",
+          "prompt_1": "Your Motor Information",
+          "prompt_2": "Becouse It Will Make A big Different In Your Insurance",
+          "errors": {
+            "car_type_required": "Car type is required"
+          }
+        },
+        "car_price": {
+          "prompt_0": "Can I know",
+          "prompt_1": "The Price Of This Car, It Will Make A big Difference ",
+          "prompt_2": "Value of Your Car Determines The Percentage It Falls Into",
+          "placeholder": "Enter car price in EGP",
+          "need_call_button": "Need a Call",
+          "errors": {
+            "car_price_required": "Car price is required",
+            "car_price_min": "Car price must be at least 100,000 EGP"
+          }
+        },
+        "car_year": {
+          "prompt_0": "Can I know",
+          "prompt_1": "The Year The Car Was Manufactured",
+          "prompt_2": "Becouse It Will Make A big Different In Your Insurance",
+          "placeholder": "Select car year",
+          "errors": {
+            "car_year_required": "Car year is required",
+            "other_year_min": "Car year must be at least 1900",
+            "other_year_max": "Car year cannot be later than 2026"
+          }
+        },
+        "car_brand": {
+          "prompt_0": "Can I know",
+
+          "prompt_1": "What Kind Of Car You Have",
+          "prompt_2": "Becouse It Will Make A big Different In Your Insurance",
+          "placeholder": "Select car brand",
+          "errors": {
+            "car_brand_required": "Car brand is required"
+          }
+        },
+        "car_model": {
+          "prompt_0": "Can I know",
+          "prompt_1": "What is the model of your car?",
+          "prompt_2": "Select your car model",
+          "placeholder": "Select car model",
+          "errors": {
+            "car_model_required": "Car model is required"
+          }
+        },
+
+        "select_plan": {
+          "prompt_1": "Choose the best plan for you.",
+          "prompt_2": "Select your insurance plan",
+          "no_plans": "No plans available at the moment.",
+          "in_year": "Per Year",
+          "company": "Company",
+          "monthly": "Monthly",
+          "select_plan_button": "Select This Plan"
+        },
+        "coverage_and_benefits": {
+          "title": "Coverage & Benefits",
+          "subtitle": "Your peace of mind starts here",
+          "description": "Over 89 motor insurance policies covering your healthcare needs at every stage, from consultation to major surgeries"
+        },
+        "payment": {
+          "selected_plan_title": "Selected Plan",
+          "plan_details": "Review your plan details",
+          "no_plan_selected": "No plan selected",
+          "payment_prompt_1": "How would you like to pay?",
+          "payment_prompt_2": "Choose your payment options",
+          "full_payment": "Full Payment",
+          "payment_methods": "Payment Methods",
+          "cash": "Cash",
+          "pay_button": "Pay Now"
+        },
+        "next_button": "Next"
+      }
+    },
+    "building_policy": {
+      "header": "Building Insurance",
+      "description": "Protect your property with our comprehensive building insurance plans.",
+      "claim_data_button": "Purchase",
+      "ai_greeting": "Hello! I'm here to help you get the best building insurance.",
+      "ai_subtext": "Let's find the perfect plan for your property.",
+      "background_image_alt": "Background decoration for building insurance form",
+      "building_policy_image_alt": "Building insurance illustration",
+      "gradient_image_alt": "Gradient background decoration",
+      "ai_avatar_alt": "AI assistant avatar",
+      "company_logo_1_alt": "Insurance company 1 logo",
+      "company_logo_2_alt": "Insurance company 2 logo",
+      "company_logo_3_alt": "Insurance company 3 logo",
+      "form": {
+        "personal_information": {
+          "prompt_0": "Can I Know",
+
+          "prompt_1": "Your Information",
+          "prompt_2": "Becouse It Will Make A big Difference",
+          "name_placeholder": "Enter your full name",
+          "phone_placeholder": "Enter your phone number",
+          "email_placeholder": "Enter your email address",
+          "loading": "Loading...",
+          "errors": {
+            "name_required": "Name is required",
+            "phone_required": "Valid phone number is required",
+            "email_required": "Email is required",
+            "email_invalid": "Invalid email format"
+          }
+        },
+        "build_type": {
+          "prompt_0": "Can I Know",
+          "prompt_1": "Are you Owner Or Tenant",
+          "prompt_2": "This Will Make Abig Difference To Us",
+          "errors": {
+            "build_type_required": "Building type is required"
+          }
+        },
+        "country": {
+          "prompt_0": "Can I Know",
+          "prompt_1": "The Name OF Governorate",
+          "prompt_2": "This Will Make A big Difference To Us",
+          "placeholder": "Select governorate",
+          "errors": {
+            "country_required": "Country is required"
+          }
+        },
+        "building_value": {
+          "prompt_0": "Can I Know",
+          "prompt_1": "Enter the property value, not less than 500,000 to 3,000,000 EGP",
+          "prompt_2": "Enter the building value",
+          "placeholder": "Enter value (minimum 500,000 EGP)",
+          "need_call_button": "Need a call?",
+          "errors": {
+            "building_value_required": "Building value is required",
+            "building_value_min": "Value must be at least 500,000 EGP"
+          }
+        },
+        "select_plan": {
+          "prompt_1": "Choose the best plan for your building",
+          "prompt_2": "Select an insurance plan",
+          "no_plans": "No plans available",
+          "company": "Company",
+          "monthly": "Monthly Payment",
+          "in_year": "Per Year",
+          "select_plan_button": "Select Plan"
+        },
+        "payment": {
+          "selected_plan_title": "Selected Plan",
+          "plan_details": "Review your plan details",
+          "no_plan_selected": "No plan selected",
+          "payment_prompt_1": "How would you like to pay?",
+          "payment_prompt_2": "Select payment options",
+          "full_payment": "Full Payment",
+          "payment_methods": "Payment Methods",
+          "cash": "Cash",
+          "pay_button": "Pay Now"
+        },
+        "next_button": "Next"
+      },
+      "alerts": {
+        "building_request": "We are processing your building insurance request",
+        "building_request_contact": "Our team will contact you soon",
+        "building_request_thanks": "Thank you for choosing us!",
+        "call_request_success": "Call request submitted successfully",
+        "call_request_contact": "We will contact you shortly",
+        "call_request_thanks": "Thank you for your request!",
+        "policy_submitted": "Policy submitted successfully",
+        "policy_review": "Your policy is under review",
+        "request_code": "Request code: ",
+        "back_button": "Continue"
+      },
+      "errors": {
+        "data_fetch_failed": "Failed to fetch building data",
+        "lead_creation_failed": "Failed to create lead",
+        "lead_update_failed": "Failed to update lead",
+        "policy_submission_failed": "Failed to submit policy",
+        "no_plan_selected": "Please select a plan"
+      }
+    },
+    "medical_policy": {
+      "header": "Medical Insurance",
+      "description": "Secure your health with our comprehensive medical insurance plans tailored to your needs.",
+      "claim_data_button": "Purchase Now",
+      "medical_policy_image_alt": "Medical insurance illustration",
+      "gradient_image_alt": "Gradient background",
+      "background_image_alt": "Medical background image",
+      "ai_avatar_alt": "AI assistant avatar",
+      "policy_network_button": "Policy Network",
+      "ai_greeting": "Hello! I'm here to guide you through your medical insurance application.",
+      "ai_subtext": "Let's get started with some basic information.",
+      "company_logo_1_alt": "Company 1 logo",
+      "company_logo_2_alt": "Company 2 logo",
+      "company_logo_3_alt": "Company 3 logo",
+      "form": {
+        "personal_information": {
+          "prompt_0": "Can I Know",
+          "prompt_1": "your information.",
+          "prompt_2": "because it will make a big different in insurance",
+          "name_placeholder": "Enter your full name",
+          "phone_placeholder": "Enter your phone number",
+          "email_placeholder": "Enter your email address",
+          "loading": "Loading...",
+          "errors": {
+            "name_required": "Name is required",
+            "phone_required": "Valid phone number is required",
+            "email_required": "Email is required",
+            "email_invalid": "Please enter a valid email address"
+          }
+        },
+        "birthdate": {
+          "prompt_0": "Can I Know",
+          "prompt_1": "date of birth.",
+          "prompt_2": "age is reqired to determine the policy price",
+          "placeholder": "Select your birthdate",
+          "need_call_button": "Need a Call?",
+          "errors": {
+            "birthdate_required": "Birthdate is required"
+          }
+        },
+        "gender": {
+          "prompt_0": "Can I Know",
+          "prompt_1": "your gender.",
+          "prompt_2": "because women differ from men in diseases",
+          "errors": {
+            "gender_required": "Gender is required"
+          }
+        },
+        "select_plan": {
+          "prompt_1": "Step 4",
+          "prompt_2": "Select Your Plan",
+          "no_plans": "No plans available at the moment.",
+          "in_year": "Per Year",
+          "company": "Company",
+          "monthly": "Monthly Payment",
+          "select_plan_button": "Select This Plan"
+        },
+        "payment": {
+          "selected_plan_title": "Selected Plan",
+          "plan_details": "Review Your Plan",
+          "no_plan_selected": "No plan selected",
+          "payment_prompt_1": "Step 5",
+          "payment_prompt_2": "Payment Details",
+          "full_payment": "Full Payment",
+          "payment_methods": "Payment Methods",
+          "cash": "Cash",
+          "pay_button": "Pay Now"
+        },
+        "next_button": "Next"
+      },
+      "alerts": {
+        "call_request_success": "Your call request has been submitted successfully!",
+        "call_request_contact": "Our team will contact you soon to assist with your medical insurance needs.",
+        "call_request_thanks": "Thank you for choosing us!",
+        "building_request": "We are building your medical insurance request...",
+        "building_request_contact": "Our team will review your request and contact you soon.",
+        "building_request_thanks": "Thank you for your patience!",
+        "policy_submitted": "Your medical insurance policy has been submitted successfully!",
+        "policy_review": "Our team will review your application and get back to you soon.",
+        "request_code": "Request Code: ",
+        "back_button": "Back to Home"
+      },
+      "errors": {
+        "data_fetch_failed": "Failed to fetch medical insurance data. Please try again later.",
+        "lead_creation_failed": "Failed to create medical insurance lead. Please try again.",
+        "lead_update_failed": "Failed to update medical insurance lead. Please try again.",
+        "policy_submission_failed": "Failed to submit medical insurance policy. Please try again.",
+        "no_plan_selected": "Please select a plan before proceeding."
+      }
+    },
+    "professional_indemnity": {
+      "header": "Professional Indemnity Insurance",
+      "description": "Protect your profession with our comprehensive professional indemnity insurance plans tailored to your needs.",
+      "claim_data_button": "Purchase Now",
+      "ai_greeting": "Hello! I'm here to guide you through the professional indemnity insurance process.",
+      "ai_subtext": "Let's get started with your policy details.",
+      "background_image_alt": "Background image for professional indemnity policy",
+      "job_policy_image_alt": "Professional indemnity policy illustration",
+      "gradient_image_alt": "Gradient overlay",
+      "ai_avatar_alt": "AI assistant avatar",
+      "company_logo_1_alt": "Company 1 logo",
+      "company_logo_2_alt": "Company 2 logo",
+      "company_logo_3_alt": "Company 3 logo",
+      "form": {
+        "position": {
+          "prompt_0": "Can I know",
+          "prompt_1": "your position or job title",
+          "prompt_2": "because this will help determine the appropriate type of coverage",
+          "placeholder": "Enter your position or job title",
+          "errors": {
+            "position_required": "Position or job title is required"
+          }
+        },
+        "sum_insured": {
+          "prompt_0": "Can I know",
+          "prompt_1": "the required sum insured amount",
+          "prompt_2": "this amount will determine the value of your insurance coverage",
+          "placeholder": "Enter sum insured amount in EGP",
+          "range_info": "Allowed range: 50,000 to 1,000,000 EGP",
+          "errors": {
+            "sum_insured_required": "Sum insured amount is required",
+            "sum_insured_min": "Minimum sum insured amount is 50,000 EGP",
+            "sum_insured_max": "Maximum sum insured amount is 1,000,000 EGP"
+          }
+        },
+        "documents": {
+          "prompt_0": "Can I know",
+          "prompt_1": "the required documents",
+          "prompt_2": "please upload the following documents to complete your insurance application",
+          "id_document_label": "Upload ID Document",
+          "occupation_document_label": "Upload Occupation Certificate",
+          "optional": "Optional",
+          "upload_text": "Click to upload or drag and drop",
+          "file_types": "JPG, PNG, PDF (Max 5MB)",
+          "file_selected": "File selected",
+          "errors": {
+            "id_document_required": "ID document is required"
+          }
+        }
+      }
+    },
+    "user_policies": {
+      "no_data": "No data found.",
+      "na": "N/A",
+      "tabs": {
+        "current": "Current",
+        "previous": "Previous"
+      },
+      "expiring_soon": "Expiring Soon",
+      "expiring_soon_singular": "Policy Expiring Soon!",
+      "expiring_soon_plural": "Policies Expiring Soon!",
+      "status": {
+        "pending": "Pending",
+
+        "canceled": "Canceled",
+        "expired": "Expired",
+        "requested": "Requested",
+        "running": "Running"
+      },
+      "types": {
+        "medical": "Medical Insurance",
+        "motor": "Motor Insurance",
+        "building": "Building Insurance",
+        "jop": "Job Insurance"
+      },
+      "labels": {
+        "policy_holder": "Policy Holder",
+        "policy_code": "Policy Code",
+        "policy_type": "Policy Type",
+        "status": "Status",
+        "gender": "Gender",
+        "expiry_date": "Expiry Date"
+      },
+      "buttons": {
+        "show_all_details": "Show All Details"
+      },
+      "images": {
+        "medical_alt": "Medical Insurance Image",
+        "motor_alt": "Motor Insurance Image",
+        "building_alt": "Building Insurance Image",
+        "jop_alt": "Job Insurance Image",
+        "card_background_alt": "Card Background Image",
+        "claims_image_alt": "Claims Image"
+      }
+    },
+    "home_form": {
+      "header": "Insurance Claim Form",
+      "next_button": "Next",
+      "submit_button": "Submit",
+      "policy_selection_description": "Please select an existing insurance policy or choose to manually enter policy details to continue with your claim.",
+      "manual_policy_description": "Please provide the required details for your insurance policy to proceed with your claim.",
+      "user_info_description": "Please provide your personal information including your full name, email address, and phone number to proceed with your insurance claim.",
+      "manual_policy_button": "Add Manual Policy",
+      "loading": "Loading...",
+      "fields": {
+        "fullName": "Full Name",
+        "email": "Email",
+        "phoneNumber": "Phone Number",
+        "selectedPolicy": "Select Policy",
+        "message": "Message",
+        "birthdate": "Birthdate (YYYY-MM-DD)",
+        "gender": "Select Gender",
+        "insurancePolicyNumber": "Insurance Policy Number",
+        "notes": "Notes/Description",
+        "car_type_id": "Select Car Type",
+        "car_brand_id": "Select Car Brand",
+        "car_model_id": "Select Car Model",
+        "car_year": "Select Car Year",
+        "car_price": "Car Price",
+        "motor_insurance_id": "Select Motor Insurance",
+        "medical_insurance_id": "Select Medical Insurance",
+        "building_type_id": "Select Building Type",
+        "building_country_id": "Select Building Country",
+        "building_price": "Building Price",
+        "building_insurance_id": "Select Building Insurance",
+        "jop_title": "Job Title",
+        "jop_price": "Monthly Salary",
+        "jop_main_id": "National ID",
+        "jop_second_id": "ID Card",
+        "custom_jop_title": "Custom Job Title"
+      },
+      "options": {
+        "male": "Male",
+        "female": "Female",
+        "other": "Other"
+      },
+      "errors": {
+        "fullName_required": "Full name is required",
+        "email_required": "Email is required",
+        "email_invalid": "Please enter a valid email address",
+        "phoneNumber_required": "Phone number is required",
+        "phone_invalid": "Please enter a valid phone number (10-15 digits)",
+        "selectedPolicy_required": "Policy is required",
+        "message_required": "Message is required",
+        "message_minlength": "Message is too short (min {{length}} characters)",
+        "birthdate_required": "Birthdate is required",
+        "birthdate_invalid": "Please enter birthdate in YYYY-MM-DD format",
+        "gender_required": "Gender is required",
+        "insurancePolicyNumber_required": "Insurance policy number is required",
+        "notes_required": "Description is required",
+        "notes_minlength": "Description is too short (min {{length}} characters)",
+        "car_type_id_required": "Car type is required",
+        "car_brand_id_required": "Car brand is required",
+        "car_model_id_required": "Car model is required",
+        "car_year_required": "Car year is required",
+        "car_year_invalid": "Please enter a valid 4-digit car year",
+        "car_price_required": "Car price is required",
+        "car_price_invalid": "Please enter a valid number (only digits allowed)",
+        "car_price_min": "Car price must be at least {{min}}",
+        "motor_insurance_id_required": "Motor insurance plan is required",
+        "medical_insurance_id_required": "Medical insurance plan is required",
+        "building_type_id_required": "Building type is required",
+        "building_country_id_required": "Building country is required",
+        "building_price_required": "Building price is required",
+        "building_price_invalid": "Please enter a valid number (only digits allowed)",
+        "building_price_min": "Building price must be at least {{min}}",
+        "building_insurance_id_required": "Building insurance plan is required",
+        "registration_failed": "Registration failed:",
+        "email": "Email",
+        "phone": "Phone",
+        "login_prompt": "Please login with your existing account",
+        "unexpected_error": "An unexpected error occurred during registration. Please try again.",
+        "invalid_insurance_type": "Invalid insurance type selected",
+        "submission_failed": "An error occurred while submitting the form. Please try again.",
+        "price_min": "Price must be at least 100 000 Egp",
+        "insurancePolicyNumber_minlength": "Policy Number Should be At least 6 numbers",
+        "email_exist": "Email already exists",
+        "phone_exist": "Phone already exists",
+        "login": "You Should Go Login"
+      },
+      "success": {
+        "claim_submitted": "Claim submitted successfully!"
+      }
+    },
+    "calendar": {
+      "months": "January,February,March,April,May,June,July,August,September,October,November,December",
+      "weekdays": "Sun,Mon,Tue,Wed,Thu,Fri,Sat",
+      "today": "Today"
+    }
+  },
+  "dropdown": {
+    "select_option": "choose from your policies",
+    "policy_code_prefix": "Policy Code:",
+    "policy_code_prefix_short": "Policy Code",
+    "loading": "Loading...",
+    "no_policies_available": "No policies available",
+    "agree_to_terms": "Agree to terms",
+    "add_manual_policy": "add new policy manuality"
+  },
+  "ROUTES": {
+    "HOME": {
+      "TITLE": "Capital Insurance Brokerage",
+      "DESCRIPTION": "Welcome to our insurance platform"
+    },
+    "LOGIN": {
+      "TITLE": "Capital Insurance Brokerage - Login",
+      "DESCRIPTION": "Sign in to your account"
+    },
+    "REGISTER": {
+      "TITLE": "Capital Insurance Brokerage - Register",
+      "DESCRIPTION": "Create a new account"
+    },
+    "RESET_PASSWORD": {
+      "TITLE": "Capital Insurance Brokerage - Reset Password",
+      "DESCRIPTION": "Reset your account password"
+    },
+    "FORGOT_PASSWORD": {
+      "TITLE": "Capital Insurance Brokerage - Forgot Password",
+      "DESCRIPTION": "Recover your account password"
+    },
+    "EDIT_PASSWORD": {
+      "TITLE": "Capital - Change Password",
+      "DESCRIPTION": "Update your account password"
+    },
+    "MOTOR_INSURANCE": {
+      "TITLE": "Capital - Motor Insurance",
+      "DESCRIPTION": "Get comprehensive coverage for your vehicle"
+    },
+    "BUILDING_INSURANCE": {
+      "TITLE": "Capital - Building Insurance",
+      "DESCRIPTION": "Protect your property with our insurance plans"
+    },
+    "MEDICAL_INSURANCE": {
+      "TITLE": "Capital - Medical Insurance",
+      "DESCRIPTION": "Healthcare coverage for you and your family"
+    },
+    "PROFILE": {
+      "TITLE": "Capital - My Profile",
+      "DESCRIPTION": "View and manage your account information"
+    },
+    "CONTACT": {
+      "TITLE": "Capital - Contact Us",
+      "DESCRIPTION": "Get in touch with our support team"
+    },
+    "ABOUT": {
+      "TITLE": "Capital - About Us",
+      "DESCRIPTION": "Learn more about our company"
+    },
+    "BLOG": {
+      "TITLE": "Capital - Blog",
+      "DESCRIPTION": "Read our latest articles and news"
+    },
+    "ENGLISH_BLOGS": {
+      "TITLE": "Capital - English Blogs",
+      "DESCRIPTION": "Read our latest articles in English"
+    },
+    "ARABIC_BLOGS": {
+      "TITLE": "Capital - Arabic Blogs",
+      "DESCRIPTION": "Read our latest articles in Arabic"
+    }
+  }
+}

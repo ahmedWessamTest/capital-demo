@@ -1,0 +1,504 @@
+<div class="mt-22 mb-42">
+  <ng-container *ngIf="isClaim">
+    <app-heading
+      [headingText]="'claims' | translate"
+      [showStartSvg]="true"
+      [showEndSvg]="false"
+    ></app-heading>
+  </ng-container>
+
+  <div
+    class="insurance-claim-container block my-16 mb-32"
+    [dir]="translate.currentLang === 'ar' ? 'rtl' : 'ltr'"
+  >
+    <div class="main-content">
+      <div class="images-section">
+        <img
+          [ngClass]="translate.currentLang === 'ar' ? 'scale-x-[-1]' : ''"
+          loading="lazy"
+          src="/assets/message_form/form.png"
+          alt="{{ 'pages.home_form.images_alt' | translate }}"
+        />
+      </div>
+
+      <div class="form-section">
+        <div class="insurance-types">
+          <button
+            *ngFor="let type of insuranceTypes"
+            [class.active]="type.active"
+            class="insurance-type-btn"
+            (click)="selectInsuranceType(type)"
+            type="button"
+          >
+            {{ type | customTranslate : "name" }}
+          </button>
+        </div>
+
+        <form
+          [formGroup]="claimForm"
+          (ngSubmit)="onSubmit()"
+          class="claim-form"
+        >
+          <ng-container *ngIf="currentStep === 1">
+            <!-- Added info text section -->
+            <div class="form-group">
+              <div
+                class="info-text"
+                [ngClass]="{
+                  'text-right': translate.currentLang === 'ar',
+                  'text-left': translate.currentLang === 'en'
+                }"
+              >
+                <p
+                  class="text-gray-700 mb-4 about-text"
+                  style="text-transform: none !important"
+                >
+                  {{ "pages.home_form.user_info_description" | translate }}
+                </p>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="input-container">
+                <input
+                  type="text"
+                  id="fullName"
+                  formControlName="fullName"
+                  [placeholder]="
+                    formFieldsConfig['fullName'].placeholder | translate
+                  "
+                  [class.error]="isFieldInvalid('fullName')"
+                  class="form-input"
+                  (input)="restrictToLetters($event)"
+                  [ngClass]="{
+                    'text-right': translate.currentLang === 'ar',
+                    'text-left': translate.currentLang === 'en'
+                  }"
+                />
+              </div>
+              <div class="error-container">
+                <span
+                  *ngIf="getFieldError('fullName')"
+                  class="error-message"
+                  [ngClass]="{ 'order-2': translate.currentLang === 'ar' }"
+                >
+                  {{ getFieldError("fullName") }}
+                </span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="input-container">
+                <input
+                  type="tel"
+                  id="phoneNumber"
+                  formControlName="phoneNumber"
+                  [placeholder]="
+                    formFieldsConfig['phoneNumber'].placeholder | translate
+                  "
+                  [class.error]="isFieldInvalid('phoneNumber')"
+                  class="form-input"
+                  (input)="RestirctToNumbers($event)"
+                  [ngClass]="{
+                    'text-right': translate.currentLang === 'ar',
+                    'text-left': translate.currentLang === 'en'
+                  }"
+                />
+              </div>
+              <div class="error-container">
+                <span
+                  *ngIf="getFieldError('phoneNumber')"
+                  class="error-message"
+                  [ngClass]="{ 'order-2': translate.currentLang === 'ar' }"
+                >
+                  {{ getFieldError("phoneNumber") }}
+                </span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="input-container">
+                <input
+                  type="email"
+                  id="email"
+                  formControlName="email"
+                  [placeholder]="
+                    formFieldsConfig['email'].placeholder | translate
+                  "
+                  [class.error]="isFieldInvalid('email')"
+                  class="form-input"
+                  [ngClass]="{
+                    'text-right': translate.currentLang === 'ar',
+                    'text-left': translate.currentLang === 'en'
+                  }"
+                />
+              </div>
+              <div class="error-container">
+                <span
+                  *ngIf="getFieldError('email')"
+                  class="error-message"
+                  [ngClass]="{ 'order-2': translate.currentLang === 'ar' }"
+                >
+                  {{ getFieldError("email") }}
+                </span>
+              </div>
+            </div>
+
+            <button
+              type="button"
+              class="submit-btn"
+              (click)="onNextStep()"
+              [disabled]="claimForm.invalid || isLoadingNext"
+            >
+              {{
+                isLoadingNext
+                  ? ("pages.home_form.loading" | translate)
+                  : ("pages.home_form.next_button" | translate)
+              }}
+            </button>
+          </ng-container>
+
+          <ng-container *ngIf="currentStep === 2">
+            <!-- Added info text section for step 2 -->
+            <div class="form-group">
+              <div
+                class="info-text"
+                [ngClass]="{
+                  'text-right': translate.currentLang === 'ar',
+                  'text-left': translate.currentLang === 'en'
+                }"
+              >
+                <p
+                  class="text-gray-700 mb-4 about-text"
+                  style="text-transform: none !important"
+                >
+                  {{
+                    isManualPolicy
+                      ? ("pages.home_form.manual_policy_description"
+                        | translate)
+                      : ("pages.home_form.policy_selection_description"
+                        | translate)
+                  }}
+                </p>
+              </div>
+            </div>
+
+            <ng-container
+              *ngFor="let controlName of Object.keys(claimForm.controls)"
+            >
+              <ng-container
+                *ngIf="
+                  !['fullName', 'email', 'phoneNumber'].includes(controlName)
+                "
+              >
+                <div
+                  *ngIf="
+                    [
+                      'birthdate',
+                      'gender',
+                      'insurancePolicyNumber',
+                      'car_type_id',
+                      'car_brand_id',
+                      'car_model_id',
+                      'car_year',
+                      'car_price',
+                      'medical_insurance_id',
+                      'motor_insurance_id',
+                      'building_type_id',
+                      'building_country_id',
+                      'building_price',
+                      'building_insurance_id',
+                      'jop_title',
+
+                      'jop_price',
+                      'jop_main_id',
+                      'jop_second_id'
+                    ].includes(controlName)
+                  "
+                  class="form-group"
+                >
+                  <div class="input-container">
+                    <!-- Input for non-select and non-textarea fields -->
+                    <input
+                      *ngIf="
+                        formFieldsConfig[controlName].type !== 'select' &&
+                        formFieldsConfig[controlName].type !== 'textarea' &&
+                        formFieldsConfig[controlName].type !== 'file' &&
+                        !['car_price', 'jop_price'].includes(controlName)
+                      "
+                      [type]="formFieldsConfig[controlName].type || 'text'"
+                      [id]="controlName"
+                      [formControlName]="controlName"
+                      [placeholder]="
+                        formFieldsConfig[controlName].placeholder | translate
+                      "
+                      [class.error]="isFieldInvalid(controlName)"
+                      class="form-input"
+                      [ngClass]="{
+                        'text-right': translate.currentLang === 'ar',
+                        'text-left': translate.currentLang === 'en'
+                      }"
+                    />
+                    <!-- Custom input for car_price -->
+                    <input
+                      *ngIf="controlName === 'car_price'"
+                      type="text"
+                      id="car_price"
+                      formControlName="car_price"
+                      [placeholder]="
+                        formFieldsConfig['car_price'].placeholder | translate
+                      "
+                      [class.error]="isFieldInvalid('car_price')"
+                      class="form-input"
+                      (input)="RestirctToNumbers($event)"
+                      [ngClass]="{
+                        'text-right': translate.currentLang === 'ar',
+                        'text-left': translate.currentLang === 'en'
+                      }"
+                    />
+                    <!-- Custom input for jop_price -->
+                    <input
+                      *ngIf="controlName === 'jop_price'"
+                      type="number"
+                      id="jop_price"
+                      formControlName="jop_price"
+                      [placeholder]="
+                        formFieldsConfig['jop_price'].placeholder | translate
+                      "
+                      [class.error]="isFieldInvalid('jop_price')"
+                      class="form-input"
+                      min="50000"
+                      max="1000000"
+                      step="1000"
+                      [ngClass]="{
+                        'text-right': translate.currentLang === 'ar',
+                        'text-left': translate.currentLang === 'en'
+                      }"
+                    />
+                    <!-- File upload inputs for job insurance -->
+                    <div
+                      *ngIf="formFieldsConfig[controlName].type === 'file'"
+                      class="file-upload-container"
+                    >
+                      <input
+                        [id]="controlName"
+                        type="file"
+                        (change)="
+                          controlName === 'jop_main_id'
+                            ? onMainIdFileSelect($event)
+                            : onSecondIdFileSelect($event)
+                        "
+                        accept="image/*,.pdf,.doc,.docx"
+                        class="hidden"
+                      />
+                      <button
+                        type="button"
+                        (click)="triggerFileInput(controlName)"
+                        class="w-full px-4 py-3 border-2 border-dashed border-gray-300 rounded-lg text-gray-600 hover:border-blue-500 hover:text-blue-500 transition-all duration-300 flex items-center justify-center gap-2"
+                        [class.border-red-500]="isFieldInvalid(controlName)"
+                        [class.border-green-500]="
+                          (controlName === 'jop_main_id' &&
+                            selectedMainIdFile) ||
+                          (controlName === 'jop_second_id' &&
+                            selectedSecondIdFile)
+                        "
+                      >
+                        <svg
+                          class="w-5 h-5"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                          ></path>
+                        </svg>
+                        <span>
+                          {{
+                            controlName === "jop_main_id" && selectedMainIdFile
+                              ? selectedMainIdFile.name
+                              : controlName === "jop_second_id" &&
+                                selectedSecondIdFile
+                              ? selectedSecondIdFile.name
+                              : (formFieldsConfig[controlName].placeholder
+                                | translate)
+                          }}
+                        </span>
+                      </button>
+                    </div>
+                    <!-- Select for fields with options -->
+                    <div
+                      class="relative"
+                      *ngIf="formFieldsConfig[controlName].type === 'select'"
+                    >
+                      <select
+                        [id]="controlName"
+                        [formControlName]="controlName"
+                        [class.error]="isFieldInvalid(controlName)"
+                        class="form-input appearance-none pr-10"
+                        [ngClass]="{
+                          'text-right': translate.currentLang === 'ar',
+                          'text-left': translate.currentLang === 'en'
+                        }"
+                        (change)="
+                          controlName === 'car_brand_id'
+                            ? onCarBrandChange($event)
+                            : controlName === 'building_type_id'
+                            ? onBuildingTypeChange($event)
+                            : controlName === 'jop_title'
+                            ? onJobTitleChange($event)
+                            : null
+                        "
+                      >
+                        <option value="" disabled>
+                          {{
+                            formFieldsConfig[controlName].placeholder
+                              | translate
+                          }}
+                        </option>
+                        <option
+                          *ngFor="
+                            let option of formFieldsConfig[controlName].options
+                          "
+                          [value]="option.value"
+                        >
+                          {{ option.label | translate }}
+                        </option>
+                      </select>
+                      <!-- Custom arrow for select elements only -->
+                      <div
+                        class="pointer-events-none absolute inset-y-0 end-8 flex items-center"
+                      >
+                        <svg
+                          class="w-4 h-4 text-gray-600"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            d="M5.23 7.21a.75.75 0 011.06.02L10 11.293l3.71-4.06a.75.75 0 111.08 1.04l-4.25 4.65a.75.75 0 01-1.08 0l-4.25-4.65a.75.75 0 01.02-1.06z"
+                            clip-rule="evenodd"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="error-container">
+                    <span
+                      *ngIf="getFieldError(controlName)"
+                      class="error-message"
+                      [ngClass]="{ 'order-2': translate.currentLang === 'ar' }"
+                    >
+                      {{ getFieldError(controlName) }}
+                    </span>
+                  </div>
+                </div>
+
+                <!-- Custom Job Title Field (shown when Others is selected) -->
+                <div
+                  *ngIf="
+                    controlName === 'custom_jop_title' && showCustomJobTitle
+                  "
+                  class="form-group"
+                >
+                  <div class="input-container">
+                    <input
+                      type="text"
+                      id="custom_jop_title"
+                      formControlName="custom_jop_title"
+                      [placeholder]="
+                        formFieldsConfig['custom_jop_title'].placeholder
+                          | translate
+                      "
+                      [class.error]="isFieldInvalid('custom_jop_title')"
+                      class="form-input"
+                      [ngClass]="{
+                        'text-right': translate.currentLang === 'ar',
+                        'text-left': translate.currentLang === 'en'
+                      }"
+                    />
+                  </div>
+                  <div class="error-container">
+                    <span
+                      *ngIf="getFieldError('custom_jop_title')"
+                      class="error-message"
+                      [ngClass]="{ 'order-2': translate.currentLang === 'ar' }"
+                    >
+                      {{ getFieldError("custom_jop_title") }}
+                    </span>
+                  </div>
+                </div>
+
+                <!-- Other form controls (dropdown, textarea) remain unchanged -->
+                <div *ngIf="controlName === 'selectedPolicy'" class="w-full">
+                  <div class="w-full">
+                    <app-custome-drop-menu
+                      [options]="dropdownOptions"
+                      [isLoading]="isLoadingPolicies"
+                      (selected)="onSelect($event)"
+                      (manualPolicyAdd)="onManualPolicyAdd()"
+                    ></app-custome-drop-menu>
+                  </div>
+                  <div class="error-container">
+                    <span
+                      *ngIf="getFieldError('selectedPolicy')"
+                      class="error-message"
+                      [ngClass]="{ 'order-2': translate.currentLang === 'ar' }"
+                    >
+                      {{ getFieldError("selectedPolicy") }}
+                    </span>
+                  </div>
+                </div>
+
+                <div
+                  *ngIf="controlName === 'message' || controlName === 'notes'"
+                  class="w-full"
+                >
+                  <div class="w-full">
+                    <textarea
+                      [id]="controlName"
+                      [formControlName]="controlName"
+                      [placeholder]="
+                        formFieldsConfig[controlName].placeholder | translate
+                      "
+                      [class.error]="isFieldInvalid(controlName)"
+                      class="form-textarea"
+                      rows="5"
+                      [ngClass]="{
+                        'text-right': translate.currentLang === 'ar',
+                        'text-left': translate.currentLang === 'en'
+                      }"
+                    ></textarea>
+                  </div>
+                  <div class="error-container">
+                    <span
+                      *ngIf="getFieldError(controlName)"
+                      class="error-message"
+                      [ngClass]="{ 'order-2': translate.currentLang === 'ar' }"
+                    >
+                      {{ getFieldError(controlName) }}
+                    </span>
+                  </div>
+                </div>
+              </ng-container>
+            </ng-container>
+            <button
+              type="submit"
+              class="submit-btn"
+              [disabled]="isLoadingSubmit"
+            >
+              {{
+                isLoadingSubmit
+                  ? ("pages.home_form.loading" | translate)
+                  : ("pages.home_form.submit_button" | translate)
+              }}
+            </button>
+          </ng-container>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

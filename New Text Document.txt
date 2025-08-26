@@ -1,0 +1,10 @@
+car type id 
+
+
+remove the required of car type id in the create car brand 
+
+
+need schema for the website in dashboard 
+years of capital insurance experience in about as ( khalifa ) 
+add in about page teh expierence as inpt in dashboard 
+

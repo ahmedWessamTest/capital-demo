@@ -1,0 +1,215 @@
+.contact-form-heading {
+  color: #000;
+  font-family: Alexandria;
+  font-size: 35px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 45px; /* 128.571% */
+  text-transform: capitalize;
+}
+
+.contact-form-text {
+  color: #000;
+  font-family: Alexandria;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 33px; /* 183.333% */
+  text-transform: capitalize;
+}
+.test-mar{
+  margin-top:-20px;
+
+  font-weight: 700;
+
+}
+
+.submit-form-long {
+  border-radius: 30px;
+  background: #37a6de;
+  width: clamp(220px, 20vw, 258px);
+  flex-shrink: 0;
+  color: #fff;
+  font-family: Alexandria;
+  font-size: clamp(18px, 2vw, 26px);
+  font-style: normal;
+  font-weight: 400;
+
+  text-transform: capitalize;
+
+  cursor: pointer;
+}
+textarea{
+  resize: none;
+}
+
+.input {
+  border-radius: 15px;
+  border: 1px solid #676767;
+  background: #fff;
+  width: 660px;
+  height: 65px;
+  flex-shrink: 0;
+  padding: 23px 30px;
+}
+
+.contact-form-img {
+  border-radius: 50px;
+  max-width: 572px;
+  height: 759px;
+  flex-shrink: 0;
+}
+
+
+
+
+.contact-card {
+  border-radius: 30px;
+  background: #fff;
+  box-shadow: 4px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  width: 214px;
+  height: 303px;
+  flex-shrink: 0;
+}
+
+.contact-card h3 {
+  color: #040404;
+  text-align: right;
+  font-family: Alexandria;
+  font-size: 23px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  text-transform: capitalize;
+}
+.contact-card p {
+  color: #727272;
+  text-align: center;
+  font-family: Alexandria;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  text-transform: capitalize;
+}
+
+.get-in-touch {
+  color: #37a6de;
+  font-family: Alexandria;
+  font-size: 23px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 30px; /* 130.435% */
+  text-transform: capitalize;
+}
+
+.text-area {
+  border-radius: 15px;
+  border: 1px solid #676767;
+  background: #fff;
+  color: #727272;
+  height: 160px;
+  flex-shrink: 0;
+  padding: 23px 30px;
+}
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  max-width: 100%;
+  padding: 10px; /* بادينج بسيطة */
+}
+
+.map {
+  width: clamp(578px, 50vw, 578px);
+  height: clamp(303px, 20vh, 303px);
+  border-radius: clamp(15px, 1vw, 30px);
+box-shadow: 4px 4px 4px 0px rgba(0, 0, 0, 0.25);
+overflow: hidden;
+}
+
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  flex-shrink: 0;
+}
+
+.card {
+  width: clamp(214px, 20vw, 214px);
+height: clamp(303px, 20vh, 303px);
+border-radius: clamp(15px, 1vw, 30px);
+background: #FFF;
+box-shadow: 4px 4px 4px 0px rgba(0, 0, 0, 0.25);
+display:flex;
+flex-direction: column;
+gap: 1rem;
+align-items: center;
+padding:clamp(20px, 1vw, 33px) ;
+}
+.card-icon-wrapper{
+  display:flex;
+align-items: center;
+justify-content: center;
+width:100%;
+}
+.card-icon{
+  width: 60px;
+height: 60px;
+display:flex;
+align-items: center;
+justify-content: center;
+background-color: #37A6DE;
+border-radius:50%;
+align-items: center;
+justify-content: center;
+}
+.card-title{
+  color: #040404;
+text-align: center;
+font-family: Alexandria;
+font-size: clamp(23px, 2vw, 26px);
+font-style: normal;
+font-weight: 500;
+line-height: normal;
+text-transform: capitalize;
+}
+.card-title--subtext{
+  color: #727272;
+text-align: center;
+font-family: Alexandria;
+font-size: clamp(13px,1vw,16px);
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+text-transform: capitalize;
+}
+
+/* لما الشاشة تبقى صغيرة */
+@media (max-width: 1060px) {
+  .container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .map {
+    width: 90%; /* بدل عرض ثابت */
+  }
+
+  .cards {
+    flex-direction: row;
+    justify-content: center;
+  }
+}
+
+/* لما الشاشة تبقى أضيق من عرض التلات كروت */
+@media (max-width: 740px) {
+  .cards {
+    flex-direction: column;
+    align-items: center; /* مهم عشان الكروت تيجي في النص بالظبط */
+  }
+}

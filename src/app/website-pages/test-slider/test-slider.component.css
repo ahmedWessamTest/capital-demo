@@ -1,0 +1,64 @@
+.slide-container{
+
+    margin: 100px auto;
+    z-index: 10;
+    min-height:400px;
+    min-width: 160px;
+
+}
+
+
+::ng-deep .owl-item:not(.active) {
+    opacity: 0.0; /* Fades non-active slides slightly */
+    transform: scale(1.2);
+    transition: opacity 0.5s ease, transform 0.8s ease; /* Smooth transition */
+}
+
+::ng-deep .owl-item.center .slide-container {
+    transition: transform 0.8s ease, opacity 0.5s ease;
+    transform: scale(1.4);
+    z-index: 20;
+    opacity: 1; /* Ensure center slide is fully visible */
+}
+
+.text-35-res{
+    font-size: clamp(16px,3vw,310px);
+}
+
+.rounded-35-res{
+    border-radius:clamp(30px,7vw,65px)
+}
+
+
+
+::ng-deep .owl-theme .owl-dots .owl-dot span{
+    background-color: green !important;
+    opacity: .5 !important;
+    width:20px;
+    height:10px;
+    transition:all .3s;
+} 
+ 
+ 
+
+::ng-deep .owl-theme .owl-dots .owl-dot:hover span{
+    background-color: green !important;
+    opacity: .3 !important;
+    width:30px;
+    height:10px;
+} 
+
+ 
+ 
+::ng-deep .owl-theme .owl-dots .owl-dot.active span
+{
+    background-color: green !important;
+    opacity: 1 !important;
+    width:30px;
+    height:10px;
+} 
+
+
+.rtl-flip {
+    transform: scaleX(-1);
+  }

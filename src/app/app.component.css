@@ -1,0 +1,57 @@
+/* 
+
+/* *{
+    border: red 2px solid;
+} */
+ 
+
+
+
+/*  for the navigation  */
+.nav-link {
+  position: relative;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 32px;
+  height: 8px;
+  background-color: rgb(125 211 252); /* sky-300 */
+  border-radius: 5px;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+
+/* Show on hover */
+/* .nav-link:hover::after {
+  opacity: 1;
+} */
+
+/* Show when route is active */
+.nav-link:has(.active-link)::after {
+  opacity: 1;
+}
+
+/* Fallback for browsers that don't support :has() */
+.nav-link .active-link ~ .sky-box,
+.nav-link.active::after {
+  opacity: 1;
+}
+
+/* المنيو اسال هتظهرها ولا لا  */
+/* .group:hover::after {
+  opacity: 1;
+} */
+
+
+
+/* .app-container{
+  padding:4rem  
+} */
+
+
+

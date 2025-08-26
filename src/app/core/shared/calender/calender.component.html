@@ -1,0 +1,130 @@
+
+<div class="relative w-full h-[65px]">
+  <div
+    class="flex h-full ps-[30px] pe-[15px] items-center border border-gray-300 rounded-[16px] py-2 bg-white focus-within:border-[#1D9BF0] transition-colors"
+    [ngClass]="{'border-red-500': !selectedDate && showError, 'opacity-50 cursor-not-allowed': disabled}"
+    (click)="onInputClick()"
+  >
+    <div class="flex-1 flex items-center">
+      <div
+        *ngIf="selectedDate && !showCalendar"
+        class="inline-flex items-center h-full px-3 py-1 rounded-full border text-sm font-medium bg-[#1D9BF0] text-white border-[#1D9BF0] shadow-md cursor-pointer hover:bg-blue-600 transition-colors"
+      >
+        {{ displayValue }}
+      </div>
+      <input
+        *ngIf="!selectedDate || showCalendar"
+        #calendarInput
+        type="text"
+        class="flex-1 outline-none w-full text-left"
+        [placeholder]="placeholder"
+        [value]="displayValue"
+        [disabled]="disabled"
+        readonly
+        autocomplete="off"
+      />
+    </div>
+
+    <button
+      *ngIf="selectedDate"
+      (click)="clearSelection(); $event.stopPropagation()"
+      class="ml-2 text-gray-500 hover:text-red-500 transition-colors cursor-pointer"
+      type="button"
+    >
+      ✖
+    </button>
+
+    <svg
+      class="w-6 h-6 ml-2 text-gray-400 transition-transform cursor-pointer hover:text-gray-600"
+      [class.rotate-180]="showCalendar"
+      xmlns="http://www.w3.org/2000/svg"
+      width="23"
+      height="23"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+    >
+      <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+      <line x1="16" y1="2" x2="16" y2="6"></line>
+      <line x1="8" y1="2" x2="8" y2="6"></line>
+      <line x1="3" y1="10" x2="21" y2="10"></line>
+    </svg>
+  </div>
+
+  <div
+    *ngIf="showCalendar"
+    class="absolute bg-white border max-w-md right-0 rounded-md mt-1 p-2 w-full shadow-lg z-50 max-h-60 overflow-y-auto"
+    @calendarAnimation
+  >
+    <div class="calendar-container">
+      <header class="calendar-header">
+        <div class="calendar-title">
+          <p class="calendar-current-date" (click)="toggleMonthPicker()">
+            {{ months[month] | slice:0:3 }}
+          </p>
+          <p class="calendar-current-date" (click)="toggleYearPicker()">
+            {{ year }}
+          </p>
+        </div>
+        <div class="calendar-navigation">
+          <span class="nav-button" (click)="onNavigationClick('prev')">
+            ‹
+          </span>
+          <span class="nav-button" (click)="onNavigationClick('next')">
+            ›
+          </span>
+        </div>
+      </header>
+
+      <div class="month-picker" *ngIf="showMonthPicker" @pickerAnimation>
+        <div class="month-grid">
+          <div
+            *ngFor="let monthName of months; let i = index"
+            class="month-item"
+            [class.selected]="i === month"
+            (click)="selectMonth(i)"
+          >
+            {{ monthName | slice:0:3 }}
+          </div>
+        </div>
+        <button class="today-btn" (click)="goToToday()">Today</button>
+      </div>
+
+      <div class="year-picker" *ngIf="showYearPicker" @pickerAnimation>
+        <div class="year-grid">
+          <div
+            *ngFor="let y of yearsList"
+            class="year-item"
+            [class.selected]="y === year"
+            (click)="selectYear(y)"
+          >
+            {{ y }}
+          </div>
+        </div>
+        <button class="today-btn" (click)="goToToday()">Today</button>
+      </div>
+
+      <div class="calendar-body">
+        <ul class="calendar-weekdays">
+          <li *ngFor="let weekday of weekdays">{{ weekday }}</li>
+        </ul>
+        <ul class="calendar-dates">
+          <li
+            *ngFor="let day of daysInMonth"
+            [class.inactive]="day.inactive"
+            [class.active]="day.active"
+            [class.highlight]="day.highlight"
+            [class.in-range]="day.inRange"
+            (click)="onDayClick(day)"
+            (keydown)="handleKeyDown($event, day)"
+            tabindex="0"
+            [attr.data-day]="day.day"
+          >
+            {{ day.day || '' }}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

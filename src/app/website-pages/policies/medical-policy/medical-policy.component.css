@@ -1,0 +1,101 @@
+.owl-carousel .owl-item {
+    display: flex !important;
+  }
+
+
+  .policy-title{
+    color: #5DB5DF;
+font-family: Alexandria;
+font-size: clamp(25px, 5vw, 35px);
+font-style: normal;
+font-weight: 700;
+text-transform: capitalize;
+  }
+  .policy-title2{
+
+  color: #37A6DE;
+font-family: Alexandria;
+font-style: normal;
+font-weight: 600;
+text-transform: capitalize;
+
+  }
+
+  .policy-big-title{
+    color: #174A77;
+text-align: center;
+font-family: Alexandria;
+font-style: normal;
+font-weight: 500;
+line-height: 35px; /* 100% */
+text-transform: capitalize;
+  }
+
+
+  /* .network-link{
+    border-radius: clamp(20px, 1.8vw, 30px);
+    border: 1px solid #37A6DE;
+background: #FFF;
+color: #37A6DE;
+font-family: Alexandria;
+font-size: clamp(20px, 2vw, 23px);
+font-style: normal;
+font-weight: 400;
+text-transform: capitalize;
+  } */
+  .network-link {
+    color: #37A6DE;
+    font-family: Alexandria, sans-serif;
+    font-size: clamp(18px, 4vw, 23px); /* Responsive font size */
+    font-style: normal;
+    font-weight: 400;
+    line-height: clamp(40px, 8vw, 65px); /* Responsive line-height */
+    text-transform: capitalize;
+    border-radius: clamp(20px, 1.8vw, 30px);
+    border: 1px solid #37A6DE;
+    background: #FFF;
+    transition: 0.4s;
+  }
+  
+::ng-deep .blogs-slider .owl-theme .owl-nav{
+  position:absolute;
+  top:50%;
+  width:100%;
+  display: flex;
+  padding: 0 8px;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 10;
+transform: translateY(-50%);
+}
+
+::ng-deep .blogs-slider .owl-carousel .owl-nav .owl-next {
+background-color: black !important;
+width:30px;
+height:30px;
+border-radius: 50%;
+display:flex;
+justify-content: center;
+align-items: center;
+cursor: pointer;
+font-size: 20px;
+font-weight: bold;
+}
+::ng-deep .blogs-slider .owl-carousel .owl-nav .owl-prev {
+background-color: black !important;
+width:30px;
+height:30px;
+border-radius: 50%;
+display:flex;
+justify-content: center;
+align-items: center;
+cursor: pointer;
+font-size: 30px;
+font-weight: bold;
+} 
+
+
+::ng-deep  .plans .owl-carousel .owl-item img{
+    width: fit-content;
+    height: fit-content;
+}

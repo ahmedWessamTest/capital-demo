@@ -1,0 +1,81 @@
+
+<div class="blogs-slider cursor-grab px-2 md:px-12 my-20">
+  <div class="!mt-20"> 
+    <app-heading [headingText]="'blogs' | translate" class="-mt-10"></app-heading>
+  </div>
+  <owl-carousel-o [options]="customOptions" (translated)="onTranslated($event)">
+    <ng-container *ngIf="!isLoading && !isLanguageChanging; else loading">
+      <ng-container *ngFor="let item of blogItems">
+        <ng-template carouselSlide [id]="item.id">
+          <div [routerLink]="['/', currentLanguage, 'blog', (currentLanguage === 'en' ? item.en_slug : item.ar_slug)]" 
+               class="blog-slide max-w-[415px] h-[467px] blog-card rounded-[80px] overflow-hidden bg-primary-400 flex flex-col cursor-pointer hover:shadow-lg transition-shadow">
+            <div class="image-section custom-partial-border h-[260px]">
+              <img
+                [src]="item.imageSrc || 'assets/blogs/blog.jpg'"
+                alt="Blog post"
+                class="card-image w-full h-full object-cover"
+              />
+            </div>
+          
+            <div class="mt-8 flex flex-col justify-between h-full">
+              <div class="flex">
+                <div class="flex gap-0 flex-col px-6 w-[75%]">
+                  <div class="white-line"></div>
+                  <div class="font-alexandria text-white text-[18px] font-bold capitalize leading-[25px]">
+                    {{ item.title }}
+                  </div>
+                </div>
+                <div class="flex justify-center gap-2">
+                  <div>
+                    <img loading="lazy" [src]="centeredSlideId === item.id ? '/assets/blogs/calendar-grid.png' : '/assets/blogs/white-calendar.svg'" alt="Calendar icon">
+                  </div>
+                  <div class="date-text text-white flex flex-col font-bold text-lg">
+                    <span>{{ item.date | date:'dd'  }}</span>
+
+                    <span class="-mt-2">{{ this.currentLanguage === 'ar'? getShortMonth(item.date) : item.date | date : "MMM"  }}</span>
+                  </div>
+                </div>
+              </div>
+          
+              <div class="button-container mt-auto">
+                <div class="read-more-button">
+                  <span class="button-text">{{currentLanguage === "en"? "Read more...":"قرائة المزيد..."}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </ng-container>
+    </ng-container>
+
+    <ng-template #loading>
+      <ng-container *ngFor="let item of [1,2,3,4,5,6]">
+        <ng-template carouselSlide>
+          <div class="blog-slide max-w-[415px] blog-card rounded-[80px] overflow-hidden bg-primary-400" @skeletonAnimation>
+            <div class="image-section custom-partial-border h-[260px]">
+              <div class="skeleton-image skeleton-loader"></div>
+            </div>
+
+            <div class="mt-8">
+              <div class="flex">
+                <div class="flex gap-0 flex-col px-6 w-[75%]">
+                  <div class="white-line skeleton skeleton-loader"></div>
+                  <div class="skeleton-title skeleton-loader"></div>
+                </div>
+                <div class="flex justify-center gap-2">
+                  <div>
+                    <div class="skeleton-date skeleton-loader"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="button-container mt-8">
+                <div class="skeleton-button skeleton-loader"></div>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </ng-container>
+    </ng-template>
+  </owl-carousel-o>
+</div>

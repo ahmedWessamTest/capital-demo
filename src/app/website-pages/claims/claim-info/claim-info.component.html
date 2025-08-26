@@ -1,0 +1,90 @@
+<div
+  class="mx-5 mt-12 md:mx-10 lg:mx-20 overflow-hidden pt-8 pb-0 relative flex flex-col md:flex-row gap-4 mb-12 bg-gradient-to-br from-[#F2F2F2] from-[15.48%] via-[#DBEFFD] via-[63.88%] to-[#DBEFFD] rounded-lg shadow-lg"
+>
+  <!-- Text content -->
+  <div
+    class="min-w-[280px] md:min-w-[450px] z-10 policy-top-card p-6 md:p-8 lg:p-12 flex flex-col gap-4 justify-center w-full md:w-[65%] transition-all duration-300"
+  >
+    @if (currentLang === 'ar') {
+    <div
+      class="policy-big-title font-bold text-[24px] md:text-[35px] lg:text-[45px] text-gray-800"
+    >
+      {{ claimInfo?.ar_main_title }}
+    </div>
+    <p
+      class="text-sm md:text-base text-[#174A77] max-h-[350px] overflow-y-auto prose"
+      [innerHTML]="claimInfo?.ar_main_text"
+    ></p>
+    } @else{
+    <div
+      class="policy-big-title font-bold text-[24px] md:text-[35px] lg:text-[45px] text-gray-800"
+    >
+      {{ claimInfo?.en_main_title }}
+    </div>
+    <p
+      class="text-sm md:text-base text-[#174A77] max-h-[350px] overflow-y-auto prose"
+      [innerHTML]="claimInfo?.en_main_text"
+    ></p>
+    }
+  </div>
+  <img
+    (click)="goBack()"
+    class="absolute z-10 w-[40px] h-[40px] top-5 start-5 cursor-pointer hover:scale-110 transition-all duration-300"
+    src="assets/common/back.svg"
+    alt=""
+  />
+  <div class="w-full md:w-[65%] flex justify-center items-end relative">
+    <img
+      class="w-full h-auto md:h-[375px] object-cover object-top rounded-b-lg md:rounded-none"
+      src="/assets/claims/claim.png"
+      alt="{{ 'pages.medical_policy.medical_policy_image_alt' | translate }}"
+    />
+  </div>
+</div>
+
+<div
+  class="p-4 md:p-12 rounded-[20px] lg:p-20 bg-[url('assets/policies/claim-bg2.png')] bg-no-repeat bg-center bg-cover"
+>
+  <div class="flex flex-col gap-4 md:gap-12 capitalize">
+    <p class="instruction-title">
+      {{
+        currentLang === "ar"
+          ? claimInfo?.ar_second_title
+          : claimInfo?.en_second_title
+      }}
+    </p>
+    <ul class="flex flex-col gap-2 text-cliam">
+      <li>
+        <span
+          class="font-bold text-2xl prose"
+          [innerHTML]="
+            currentLang === 'ar'
+              ? claimInfo?.ar_second_text
+              : claimInfo?.en_second_text
+          "
+        ></span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="flex items-start justify-around w-full mt-8">
+    @for (feature of features; track feature.id) {
+    <div class="flex max-w-[300px] flex-col gap-4 justify-center items-center">
+      <img
+        class="w-[55px] h-[55px]"
+        src="/assets/policies/claim-icon.svg"
+        alt="claim-ifo-icon"
+      />
+      <div class="icon-text text-center">
+        {{
+          currentLang === "ar" ? feature.ar_description : feature.en_description
+        }}
+      </div>
+    </div>
+    }
+  </div>
+</div>
+
+<app-home-form [isClaim]="false"></app-home-form>
+
+<div class="h-[100px]"></div>
