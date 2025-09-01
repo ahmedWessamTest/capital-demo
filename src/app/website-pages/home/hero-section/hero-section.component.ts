@@ -65,7 +65,6 @@ export class HeroSectionComponent implements OnInit, OnDestroy, AfterViewInit, O
     autoplay: true,
     autoplayTimeout: 20000, // 10 seconds per slide
     autoplaySpeed: 0, // Transition speed for autoplay
-    autoplayHoverPause: true,
     animateOut: false,
     animateIn: false,
     smartSpeed: 0, // General transition speed

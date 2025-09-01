@@ -155,7 +155,8 @@
             <input 
               formControlName="name" 
               type="text" 
-              id="name" 
+              id="name"
+              autocomplete="name"
               (keydown)="preventNumbers($event)" 
               (input)="restrictToLetters($event)"
               class="general-input w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -177,6 +178,7 @@
 
           <div class="flex flex-col ">
             <input formControlName="email" type="email" id="email"
+            autocomplete="email"
               class="general-input w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="{{ 'pages.contact.EMAIL_ADDRESS_PLACEHOLDER' | translate }}" />
             <div class="error-container">
@@ -191,7 +193,7 @@
           </div>
 
           <div class="flex flex-col ">
-            <input formControlName="phone" type="tel" id="phone" [dir]="getDirection()  "  (input)="RestirctToNumbers($event)"
+            <input formControlName="phone" autocomplete="tel" type="tel" id="phone" [dir]="getDirection()  "  (input)="RestirctToNumbers($event)"
               class="general-input w-full   border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="{{ 'pages.contact.PHONE_NUMBER_PLACEHOLDER' | translate }}" />
             <div class="error-container">

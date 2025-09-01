@@ -5,7 +5,7 @@ import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, Validatio
 import { GovernorateOption, PolicyDropDownComponent } from '@core/shared/policy-drop-down/policy-drop-down.component';
 import { CarouselModule, OwlOptions } from 'ngx-owl-carousel-o';
 import { Observable, of, Subscription } from 'rxjs';
-import { catchError, tap, delay, map } from 'rxjs/operators';
+import { catchError, tap, delay, map, finalize } from 'rxjs/operators';
 import { UserData } from '@core/services/auth/auth-storage.service';
 import { AuthService } from '@core/services/auth/auth.service';
 import { MotorInsurance, MotorCategory, MotorInsuranceService, MotorPolicyData } from '@core/services/policies/motors-policy.service';
@@ -515,60 +515,72 @@ export class MotorPolicyComponent implements OnInit, OnDestroy {
   }
 
   private proceedWithNextStep() {
-    const formData = this.createFormData();
-    if (this.step === 0 || !this.leadId) {
-      this.motorInsuranceService.createMotorLead(formData).pipe(
-        tap(response => {
-          this.leadId = response.data.id;
-          this.step++;
-          this.progress = (this.step + 1) * 14.29;
-          if (this.step === 6) {
-            this.showPlans = false;
-            this.alertService.showGeneral({
-              messages: [
-                this.translate.instant('pages.motor_policy.alerts.building_request'),
-                this.translate.instant('pages.motor_policy.alerts.building_request_contact'),
-                this.translate.instant('pages.motor_policy.alerts.building_request_thanks')
-              ],
-              imagePath: 'assets/common/loading.gif',
-              secondaryImagePath: 'assets/common/otp.gif'
-            });
-          }
-        }),
-        catchError(err => {
-          console.error('Error creating lead:', err);
-          this.alertService.showNotification({
-            translationKeys: { message: 'pages.motor_policy.errors.lead_creation_failed' }
+  const formData = this.createFormData();
+  if (this.step === 0 || !this.leadId) {
+    this.motorInsuranceService.createMotorLead(formData).pipe(
+      tap(response => {
+        this.leadId = response.data.id;
+        this.step++;
+        this.progress = (this.step + 1) * 14.29;
+        if (this.step === 6) {
+          this.showPlans = false;
+          this.alertService.showGeneral({
+            messages: [
+              this.translate.instant('pages.motor_policy.alerts.building_request'),
+              this.translate.instant('pages.motor_policy.alerts.building_request_contact'),
+              this.translate.instant('pages.motor_policy.alerts.building_request_thanks')
+            ],
+            imagePath: 'assets/common/loading.gif',
+            secondaryImagePath: 'assets/common/otp.gif'
           });
-          return of(null);
-        }),
-        tap(() => this.isLoading = false)
-      ).subscribe();
-    } else {
-      this.motorInsuranceService.updateMotorLead(this.leadId, formData).pipe(
-        tap(() => {
-          this.step++;
-          this.progress = (this.step + 1) * 14.29;
-          if (this.step === 6) {
-            this.showPlans = false;
-            this.alertService.showGeneral({
-              messages: [this.translate.instant('pages.motor_policy.alerts.building_request')],
-              imagePath: 'assets/common/loading.gif',
-              secondaryImagePath: 'assets/common/otp.gif'
-            });
-          }
-        }),
-        catchError(err => { 
-          console.error('Error updating lead:', err);
-          this.alertService.showNotification({
-            translationKeys: { message: 'pages.motor_policy.errors.lead_update_failed' }
+        }
+      }),
+      catchError(err => {
+        console.error('Error creating lead:', err);
+        this.alertService.showNotification({
+          translationKeys: { message: 'pages.motor_policy.errors.lead_creation_failed' }
+        });
+        return of(null);
+      })
+    ).subscribe({
+      complete: () => {
+        this.isLoading = false;
+        setTimeout(()=>{
+          this.alertService.hide()
+        },1000)
+      }
+    });
+  } else {
+    this.motorInsuranceService.updateMotorLead(this.leadId, formData).pipe(
+      tap(() => {
+        this.step++;
+        this.progress = (this.step + 1) * 14.29;
+        if (this.step === 6) {
+          this.showPlans = false;
+          this.alertService.showGeneral({
+            messages: [this.translate.instant('pages.motor_policy.alerts.building_request')],
+            imagePath: 'assets/common/loading.gif',
+            secondaryImagePath: 'assets/common/otp.gif'
           });
-          return of(null);
-        }),
-        tap(() => this.isLoading = false)
-      ).subscribe();
-    }
+        }
+      }),
+      catchError(err => { 
+        console.error('Error updating lead:', err);
+        this.alertService.showNotification({
+          translationKeys: { message: 'pages.motor_policy.errors.lead_update_failed' }
+        });
+        return of(null);
+      })
+    ).subscribe({
+      complete: () => {
+        this.isLoading = false;
+        setTimeout(()=>{
+          this.alertService.hide()
+        },1000)
+      }
+    });
   }
+}
 
   pay() {
     this.proceedWithPayment();

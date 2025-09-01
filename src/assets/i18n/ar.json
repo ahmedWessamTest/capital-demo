@@ -561,7 +561,7 @@
           "no_plans": "لا توجد خطط متاحة في الوقت الحالي.",
           "in_year": "في السنة",
           "company": "الشركة",
-          "monthly": "شهريًا",
+          "yearly": "سنوي",
           "select_plan_button": "اختر هذه الخطة"
         },
         "coverage_and_benefits": {
@@ -649,7 +649,7 @@
           "prompt_2": "اختر خطة تأمين",
           "no_plans": "لا توجد خطط متاحة",
           "company": "الشركة",
-          "monthly": "الدفعة الشهرية",
+          "yearly": "الدفعة السنويه",
           "in_year": "في السنة",
           "select_plan_button": "اختر الخطة"
         },
@@ -740,7 +740,7 @@
           "no_plans": "لا توجد خطط متاحة في الوقت الحالي.",
           "in_year": "سنويًا",
           "company": "الشركة",
-          "monthly": "الدفع الشهري",
+          "yearly": "الدفع السنوي",
           "select_plan_button": "اختر هذه الخطة"
         },
         "payment": {
@@ -815,8 +815,8 @@
           "prompt_0": "ممكن اعرف",
           "prompt_1": "المستندات المطلوبة",
           "prompt_2": "يرجى رفع المستندات التالية لإتمام طلب التأمين",
-          "id_document_label": "رفع صورة الهوية",
-          "occupation_document_label": "رفع مستند يثبت المهنة",
+          "id_document_label": "صوره من بطاقة الهوية",
+          "occupation_document_label": "نسخه من رقم المهنة",
           "optional": "اختياري",
           "upload_text": "اضغط لرفع الملف أو اسحب وأفلت",
           "file_types": "JPG, PNG, PDF (الحد الأقصى 5 ميجابايت)",
@@ -825,7 +825,27 @@
             "id_document_required": "صورة الهوية مطلوبة"
           }
         }
-      }
+      },
+      "alerts": {
+  "job_request": "نحن نقوم بمعالجة طلب التأمين على عملك",
+  "job_request_contact": "سيتواصل معك فريقنا قريبًا",
+  "job_request_thanks": "شكرًا لاختيارك لنا!",
+  "call_request_success": "تم إرسال طلب الاتصال بنجاح",
+  "call_request_contact": "سوف نتواصل معك قريبًا",
+  "call_request_thanks": "شكرًا على طلبك!",
+  "policy_submitted": "تم تقديم الوثيقة بنجاح",
+  "policy_review": "وثيقتك قيد المراجعة",
+  "request_code": "رمز الطلب: ",
+  "back_button": "متابعة"
+},
+"errors": {
+  "data_fetch_failed": "فشل في جلب بيانات التأمين على العمل. يرجى المحاولة لاحقًا.",
+  "lead_creation_failed": "فشل في إنشاء طلب التأمين على العمل. يرجى المحاولة مرة أخرى.",
+  "lead_update_failed": "فشل في تحديث طلب التأمين على العمل. يرجى المحاولة مرة أخرى.",
+  "policy_submission_failed": "فشل في تقديم وثيقة التأمين على العمل. يرجى المحاولة مرة أخرى.",
+  "no_plan_selected": "يرجى اختيار خطة قبل المتابعة."
+}
+
     },
     "home_form": {
       "header": "نموذج مطالبة التأمين",

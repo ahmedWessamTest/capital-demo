@@ -1,4 +1,4 @@
-<div class="  overflow-hidden mb-20 pb-20 bg-white my-5 relative" [dir]="translate.currentLang === 'ar' ? 'rtl' : 'ltr'">
+<div class="   mb-5 bg-white my-5 relative" [dir]="translate.currentLang === 'ar' ? 'rtl' : 'ltr'">
   <div class="mx-5 md:mx-10 lg:mx-20 overflow-hidden pt-8 pb-0 relative flex flex-col md:flex-row gap-4 mb-12 bg-gradient-to-br from-[#F2F2F2] from-[15.48%] via-[#DBEFFD] via-[63.88%] to-[#DBEFFD] rounded-lg shadow-lg justify-evenly">
     <img *ngIf="showForm" (click)="showForm = !showForm" class="absolute z-10 w-[40px] h-[40px] top-[10px] start-[10px] cursor-pointer hover:scale-120 transition-all duration-300" src="assets/common/back.svg" alt="">
     <!-- Text content with separate loading state -->
@@ -477,7 +477,7 @@
                                 <li class="flex items-center justify-between">
                                   <div class="flex items-center">
                                     <img  class="w-4 h-4" src="plan.svg" alt="">
-                                    <span class="text-sm sm:text-base text-black capitalize">{{ 'pages.motor_policy.form.select_plan.monthly' | translate }}</span>
+                                    <span class="text-sm sm:text-base text-black capitalize">{{ 'pages.motor_policy.form.select_plan.yearly' | translate }}</span>
                                   </div>
                                   <span class="text-red-600 text-xs text-right">{{ plan.month_money }} EGP</span>
                                 </li>
@@ -547,7 +547,7 @@
                 <li class="flex items-center justify-between">
                   <div class="flex items-center">
                     <img  class="w-4 h-4" src="plan.svg" alt="">
-                    <span class="text-sm sm:text-base text-black capitalize">{{ 'pages.motor_policy.form.select_plan.monthly' | translate }}</span>
+                    <span class="text-sm sm:text-base text-black capitalize">{{ 'pages.motor_policy.form.select_plan.yearly' | translate }}</span>
                   </div>
                   <span class="text-red-600 text-xs text-right">{{ selectedPlan.month_money }} EGP</span>
                 </li>
@@ -635,10 +635,10 @@
 
   
 <div
-*ngIf="!showForm" class="mx-5  max-h-[933px]  overflow-y-auto md:mx-10 lg:mx-20 p-4 md:p-12   rounded-[40px]  bg-[url('assets/policies/big-cover.png')] bg-no-repeat bg-center bg-cover"
+*ngIf="!showForm" class="mx-5  max-h-[933px]  overflow-y-auto md:mx-10 lg:mx-20 py-2 px-4 md:px-12   rounded-[40px]  bg-[url('assets/policies/big-cover.png')] bg-no-repeat bg-center bg-cover"
 >
 <div
-  class="flex flex-col gap-4  md:gap-12  p-4 capitalize prose"
+  class="flex flex-col gap-1  md:gap-4  p-4 capitalize prose"
   [innerHTML]="(currentLanguage ? currentLanguage === 'ar' ? category?.ar_main_description : category?.en_main_description : '') | safeHtml"  >
 </div>
 </div>

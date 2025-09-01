@@ -45,7 +45,7 @@ export class FooterComponent implements OnInit, OnDestroy {
     navigation: [
       { en_name: 'Home Page ', ar_name: 'الرئيسية', path: 'home' },
       { en_name: 'About Us', ar_name: 'معلومات عنا', path: 'about' },
-      { en_name: 'Claims', ar_name: 'المتطلبات', path: 'claims-info' },
+      { en_name: 'Claims', ar_name: 'المطالبات', path: 'claims-info' },
       { en_name: 'Blogs', ar_name: 'المدونات', path: this.lang === 'en' ? 'english-blogs' : 'arabic-blogs' },
       { en_name: 'Get in touch', ar_name: 'اتصل بنا', path: 'contact' }
     ],

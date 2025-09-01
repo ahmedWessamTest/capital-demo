@@ -6,27 +6,30 @@
     </div>
     <div class="testimonial-heading -mt-20 w-[450px]">{{ 'what_say' | translate }}</div>
   </div>
-  <owl-carousel-o [options]="customOptions" (translated)="getData($event)" (initialized)="getData($event)" #owlTestimonials>
+  <owl-carousel-o  [options]="customOptions" (translated)="getData($event)" (initialized)="getData($event)" #owlTestimonials>
 
     <ng-container *ngFor="let testimonial of testimonials; let i = index">
-      <ng-template carouselSlide [id]="testimonial.id">
-        <div class="testimonial-slide md:gap-4 min-h-[300px] md:flex rounded-35 py-10 px-8 relative bg-[#EDF9FF] flex-col"
+      <ng-template carouselSlide [id]="`${testimonial.id}+${i}`">
+        <div class="testimonial-slide mx-auto md:gap-4 min-h-[300px] md:flex rounded-35 py-10 px-8 relative bg-[#EDF9FF] flex-col"
              [attr.aria-roledescription]="'slide'"
              [attr.aria-label]="'Testimonial ' + (i + 1) + ' by ' + getName(testimonial)"
              role="group"
              [attr.aria-labelledby]="'testimonial-name-' + testimonial.id"
              [attr.aria-describedby]="'testimonial-text-' + testimonial.id">
-
-          <div class="absolute top-10 end-8 w-[50px] h-[43px] md:w-[100px] md:h-[86px]">
-            <img class="w-full h-full object-cover"
-                 src="assets/testimonials/testimonial.png"
-                 [alt]="getName(testimonial)"
-                 loading="lazy"
-                >
-          </div>
-
-          <p class="testimonial-name text-[#79C7EE]" [id]="'testimonial-name-' + testimonial.id">{{ getName(testimonial) }}</p>
-          <p class="testimonial-text">{{ getPosition(testimonial) }}</p>
+<div class="flex justify-between">
+  <div>
+    <p class="testimonial-name text-[#79C7EE]" [id]="'testimonial-name-' + testimonial.id">{{ getName(testimonial) }}</p>
+    <p class="testimonial-text leading-1.5 ">{{ getPosition(testimonial) }}</p>
+  </div>
+  <div class="">
+    <img class="w-full h-full object-contain"
+         src="assets/testimonials/testimonial.png"
+         [alt]="getName(testimonial)"
+         loading="lazy"
+        >
+  </div>
+</div>
+          <hr class="border-[3px] w-56 text-white my-3">
           <p class="testimonial text-[#79C7EE]" [id]="'testimonial-text-' + testimonial.id">{{ getText(testimonial) }}</p>
 
           <div class="shape absolute w-21 h-16 bg-[#EDF9FF] transform rotate-45 end-12 -bottom-[14px]" aria-hidden="true"></div>

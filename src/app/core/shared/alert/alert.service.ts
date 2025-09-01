@@ -66,6 +66,7 @@ setVerificationResult(success: boolean, errorMessage?: string) {
       ...config,
       alertType: AlertType.CONFIRMATION,
     });
+    
   }
 
   // showCallRequest(config: Omit<AlertConfig, 'alertType'>) {
@@ -79,7 +80,7 @@ setVerificationResult(success: boolean, errorMessage?: string) {
     this.show({
       ...config,
       alertType: AlertType.CALL_REQUEST,
-      onDismiss: () => this.hide() // Add onDismiss to hide popup without redirect
+      onDismiss: () => config.onDismiss ?? (()=>this.hide())
     });
   }
   
@@ -87,9 +88,8 @@ setVerificationResult(success: boolean, errorMessage?: string) {
     this.alertConfig$.pipe(take(1)).subscribe((config) => {
       if (config?.onDismiss) {
         config.onDismiss();
-      } else {
+      } 
         this.hide();
-      }
     });
   }
 

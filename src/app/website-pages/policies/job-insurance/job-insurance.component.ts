@@ -38,7 +38,7 @@ import {
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { CarouselModule, OwlOptions } from 'ngx-owl-carousel-o';
 import { Observable, of, Subscription } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError, delay, finalize, tap } from 'rxjs/operators';
 import { PartnersLogosComponent } from '../parteners-logos/parteners-logos.component';
 import { JopCategory, JopInsurance } from './res/JobInsurancePolicy';
 
@@ -253,6 +253,7 @@ export class JobInsuranceComponent {
     this.alertSubscription = this.alertService.showAlert$.subscribe((show) => {
       if (!show && this.step === 4) {
         this.showPlans = true;
+        console.log("after plan");
       }
     });
   }
@@ -307,10 +308,10 @@ export class JobInsuranceComponent {
           this.cdr.markForCheck();
         }),
         catchError((err) => {
-          console.error('Error fetching building data:', err);
+          console.error('Error fetching job data:', err);
           this.alertService.showNotification({
             translationKeys: {
-              message: 'pages.building_policy.errors.data_fetch_failed',
+              message: 'pages.professional_indemnity.errors.data_fetch_failed',
             },
           });
           this.isTextContentLoading = false;
@@ -337,7 +338,7 @@ export class JobInsuranceComponent {
     this.imageLoaded = false;
     this.alertService.showNotification({
       translationKeys: {
-        message: 'pages.building_policy.errors.image_load_failed',
+        message: 'pages.professional_indemnity.errors.image_load_failed',
       },
     });
     this.cdr.markForCheck();
@@ -515,79 +516,79 @@ export class JobInsuranceComponent {
     this.claimForm.get('needCall')?.setValue('Yes');
     const formData = this.createFormData();
     const lang = this.translate.currentLang || 'en';
-    // if (this.leadId) {
-    //   this.buildingInsuranceService
-    //     .updateBuildingLead(this.leadId, formData)
-    //     .pipe(
-    //       tap(() => {
-    //         let messages = [
-    //           this.translate.instant(
-    //             'pages.building_policy.alerts.call_request_success'
-    //           ),
-    //           this.translate.instant(
-    //             'pages.building_policy.alerts.call_request_contact'
-    //           ),
-    //           this.translate.instant(
-    //             'pages.building_policy.alerts.call_request_thanks'
-    //           ),
-    //         ];
-    //         this.alertService.showCallRequest({
-    //           messages,
-    //           buttonLabel: this.translate.instant(
-    //             'pages.building_policy.alerts.back_button'
-    //           ),
-    //         });
-    //       }),
-    //       catchError((err) => {
-    //         console.error('Error updating lead with need call:', err);
-    //         this.alertService.showNotification({
-    //           translationKeys: {
-    //             message: 'pages.building_policy.errors.lead_update_failed',
-    //           },
-    //         });
-    //         return of(null);
-    //       }),
-    //       tap(() => (this.isNeedCallLoading = false))
-    //     )
-    //     .subscribe();
-    // } else {
-    //   this.buildingInsuranceService
-    //     .createBuildingLead(formData)
-    //     .pipe(
-    //       tap((response) => {
-    //         this.leadId = response.data.id;
-    //         let buttonLabel = this.translate.instant(
-    //           'pages.building_policy.alerts.back_button'
-    //         );
-    //         this.alertService.showCallRequest({
-    //           messages: [
-    //             this.translate.instant(
-    //               'pages.building_policy.alerts.call_request_success'
-    //             ),
-    //             this.translate.instant(
-    //               'pages.building_policy.alerts.call_request_contact'
-    //             ),
-    //             this.translate.instant(
-    //               'pages.building_policy.alerts.call_request_thanks'
-    //             ),
-    //           ],
-    //           buttonLabel: buttonLabel,
-    //           redirectRoute: `/${lang}/home`,
-    //         });
-    //       }),
-    //       catchError((err) => {
-    //         console.error('Error creating lead with need call:', err);
-    //         this.alertService.showNotification({
-    //           translationKeys: {
-    //             message: 'pages.building_policy.errors.lead_creation_failed',
-    //           },
-    //         });
-    //         return of(null);
-    //       }),
-    //       tap(() => (this.isNeedCallLoading = false))
-    //     )
-    //     .subscribe();
-    // }
+    if (this.leadId) {
+      this.jopPolicyService
+        .updateLead(this.leadId, formData)
+        .pipe(
+          tap((response) => {
+            let buttonLabel = this.translate.instant(
+              'pages.professional_indemnity.alerts.back_button'
+            );
+            this.alertService.showCallRequest({
+              messages: [
+                this.translate.instant(
+                  'pages.professional_indemnity.alerts.call_request_success'
+                ),
+                this.translate.instant(
+                  'pages.professional_indemnity.alerts.call_request_contact'
+                ),
+                this.translate.instant(
+                  'pages.professional_indemnity.alerts.call_request_thanks'
+                ),
+              ],
+              buttonLabel: buttonLabel,
+              redirectRoute: `/${lang}/home`,
+            });
+          }),
+          catchError((err) => {
+            console.error('Error updating lead with need call:', err);
+            this.alertService.showNotification({
+              translationKeys: {
+                message: 'pages.professional_indemnity.errors.lead_update_failed',
+              },
+            });
+            return of(null);
+          }),
+          tap(() => (this.isNeedCallLoading = false))
+        )
+        .subscribe();
+    } else {
+      this.jopPolicyService
+        .createLead(formData)
+        .pipe(
+          tap((response) => {
+            let buttonLabel = this.translate.instant(
+              'pages.professional_indemnity.alerts.back_button'
+            );
+            this.alertService.showCallRequest({
+              messages: [
+                this.translate.instant(
+                  'pages.professional_indemnity.alerts.call_request_success'
+                ),
+                this.translate.instant(
+                  'pages.professional_indemnity.alerts.call_request_contact'
+                ),
+                this.translate.instant(
+                  'pages.professional_indemnity.alerts.call_request_thanks'
+                ),
+              ],
+              buttonLabel: buttonLabel,
+              redirectRoute: `/${lang}/home`,
+            });
+          }),
+          catchError((err) => {
+            console.error('Error creating lead with need call:', err);
+            this.alertService.showNotification({
+              translationKeys: {
+                message: 'pages.professional_indemnity.errors.lead_creation_failed',
+              },
+            });
+            return of(null);
+          }),
+          tap(() => (this.isNeedCallLoading = false))
+        )
+        .subscribe();
+    }
   }
 
   nextStep() {
@@ -717,13 +718,17 @@ export class JobInsuranceComponent {
               },
             });
             return of(null);
-          }),
-          tap(() => (this.isLoading = false))
+          })
         )
-        .subscribe();
+        .subscribe({complete:()=>{
+          this.isLoading = false;
+          setTimeout(()=>{
+            this.alertService.hide();
+          },1000)
+        }});
     } else {
       this.jopPolicyService
-        .updateLead(formData, this.leadId!)
+        .updateLead( this.leadId!,formData)
         .pipe(
           tap(() => {
             this.step++;
@@ -749,10 +754,14 @@ export class JobInsuranceComponent {
               },
             });
             return of(null);
-          }),
-          tap(() => (this.isLoading = false))
+          })
         )
-        .subscribe();
+        .subscribe({complete:()=>{
+          this.isLoading = false;
+          setTimeout(()=>{
+            this.alertService.hide(); 
+          },1000)
+        }});
     }
   }
 
@@ -809,17 +818,17 @@ export class JobInsuranceComponent {
               this.alertService.showGeneral({
                 messages: [
                   this.translate.instant(
-                    'pages.building_policy.alerts.policy_submitted'
+                    'pages.professional_indemnity.alerts.policy_submitted'
                   ),
                   this.translate.instant(
-                    'pages.building_policy.alerts.policy_review'
+                    'pages.professional_indemnity.alerts.policy_review'
                   ),
                   `${this.translate.instant(
-                    'pages.building_policy.alerts.request_code'
+                    'pages.professional_indemnity.alerts.request_code'
                   )} `,
                 ],
                 buttonLabel: this.translate.instant(
-                  'pages.building_policy.alerts.back_button'
+                  'pages.professional_indemnity.alerts.back_button'
                 ),
                 redirectRoute: `/${lang}/home`,
               });
@@ -838,7 +847,7 @@ export class JobInsuranceComponent {
               this.alertService.showNotification({
                 translationKeys: {
                   message: this.translate.instant(
-                    'pages.building_policy.errors.policy_submission_failed'
+                    'pages.professional_indemnity.errors.policy_submission_failed'
                   ),
                 },
               });
@@ -860,17 +869,17 @@ export class JobInsuranceComponent {
             this.alertService.showGeneral({
               messages: [
                 this.translate.instant(
-                  'pages.building_policy.alerts.policy_submitted'
+                  'pages.professional_indemnity.alerts.policy_submitted'
                 ),
                 this.translate.instant(
-                  'pages.building_policy.alerts.policy_review'
+                  'pages.professional_indemnity.alerts.policy_review'
                 ),
                 `${this.translate.instant(
-                  'pages.building_policy.alerts.request_code'
+                  'pages.professional_indemnity.alerts.request_code'
                 )} `,
               ],
               buttonLabel: this.translate.instant(
-                'pages.building_policy.alerts.back_button'
+                'pages.professional_indemnity.alerts.back_button'
               ),
               redirectRoute: `/${lang}/home`,
             });
@@ -889,7 +898,7 @@ export class JobInsuranceComponent {
             this.alertService.showNotification({
               translationKeys: {
                 message: this.translate.instant(
-                  'pages.building_policy.errors.policy_submission_failed'
+                  'pages.professional_indemnity.errors.policy_submission_failed'
                 ),
               },
             });

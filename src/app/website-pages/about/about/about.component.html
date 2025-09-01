@@ -24,7 +24,7 @@
             {{ (lang === 'ar' ? aboutData.about.ar_main_title : aboutData.about.en_main_title ).slice(0, 100) }}
           </div>
         </div>
-        <p ngClass="{{ lang === 'ar' ? 'text-right' : 'text-left' }}" class="about-text justify-center parse overflow-y-auto h-[350px] "  [innerHTML]="lang === 'ar' ? aboutData.about.ar_main_content : aboutData.about.en_main_content"></p>
+        <p ngClass="{{ lang === 'ar' ? 'text-right' : 'text-left' }}" class="about-text justify-center parse overflow-y-auto max-h-[350px] "  [innerHTML]="lang === 'ar' ? aboutData.about.ar_main_content : aboutData.about.en_main_content"></p>
       </div>
       <div class="w-full flex flex-col gap-4 items-center md:flex-row justify-around mt-4">
         <div class="w-[235px] flex flex-col gap-3 md:gap-4 justify-center items-center">

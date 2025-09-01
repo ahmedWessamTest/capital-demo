@@ -5,7 +5,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { GovernorateOption, PolicyDropDownComponent } from '@core/shared/policy-drop-down/policy-drop-down.component';
 import { CarouselModule, OwlOptions } from 'ngx-owl-carousel-o';
 import { Observable, of, Subscription } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError, delay, finalize, tap } from 'rxjs/operators';
 import { UserData } from '@core/services/auth/auth-storage.service';
 import { AuthService } from '@core/services/auth/auth.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -453,9 +453,15 @@ export class BuildingPolicyComponent implements OnInit, OnDestroy {
             translationKeys: { message: 'pages.building_policy.errors.lead_creation_failed' }
           });
           return of(null);
-        }),
-        tap(() => this.isLoading = false)
-      ).subscribe();
+        })
+      ).subscribe({
+        complete:()=>{
+          this.isLoading = false;
+          setTimeout(()=>{
+            this.alertService.hide()
+          },1000)
+        }
+      });
     } else {
       this.buildingInsuranceService.updateBuildingLead(this.leadId, formData).pipe(
         tap(() => {
@@ -476,9 +482,13 @@ export class BuildingPolicyComponent implements OnInit, OnDestroy {
             translationKeys: { message: 'pages.building_policy.errors.lead_update_failed' }
           });
           return of(null);
-        }),
-        tap(() => this.isLoading = false)
-      ).subscribe();
+        })
+      ).subscribe({complete:()=>{
+        this.isLoading = false;
+        setTimeout(()=>{
+          this.alertService.hide()
+        },1000)
+      }});
     }
   }
 

@@ -47,8 +47,9 @@
             <ng-container *ngFor="let partner of partnerCategories; let i = index">
               <ng-template carouselSlide [id]="'partner-slide-' + i">
                 <div
-                  class="parteners-slider mx-auto max-w-[120px] flex flex-col items-center partener-img"
+                  class="parteners-slider cursor-pointer mx-auto max-w-[120px] flex flex-col items-center partener-img"
                   role="group"
+                  (click)="goToSlide('partner-slide-' + i)"
                   [attr.aria-label]="'Partner ' + (i + 1) + ' of ' + partnerCategories.length"
                 >
                   <img

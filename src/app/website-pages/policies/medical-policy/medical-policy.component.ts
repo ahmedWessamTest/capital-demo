@@ -6,7 +6,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { GovernorateOption } from '@core/shared/policy-drop-down/policy-drop-down.component';
 import { CarouselComponent, CarouselModule, OwlOptions } from 'ngx-owl-carousel-o';
 import { Observable, of, Subscription } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, delay, finalize, map, tap } from 'rxjs/operators';
 import { AuthStorageService, UserData } from '@core/services/auth/auth-storage.service';
 import { AuthService } from '@core/services/auth/auth.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -417,9 +417,13 @@ export class MedicalPolicyComponent implements OnInit, OnDestroy, AfterViewInit 
             translationKeys: { message: 'pages.medical_policy.errors.lead_creation_failed' }
           });
           return of(null);
-        }),
-        tap(() => this.isLoading = false)
-      ).subscribe();
+        })
+      ).subscribe({complete:()=>{
+        this.isLoading = false;
+        setTimeout(()=>{
+          this.alertService.hide();
+        },1000)
+      }});
     } else {
       this.medicalInsuranceService.updateMedicalLead(this.leadId, formData).pipe(
         tap(() => {
@@ -440,9 +444,15 @@ export class MedicalPolicyComponent implements OnInit, OnDestroy, AfterViewInit 
             translationKeys: { message: 'pages.medical_policy.errors.lead_update_failed' }
           });
           return of(null);
-        }),
-        tap(() => this.isLoading = false)
-      ).subscribe();
+        })
+      ).subscribe({
+        complete:()=>{
+          this.isLoading = false;
+          setTimeout(()=>{
+            this.alertService.hide();
+          },1000)
+        }
+      });
     }
   }
   

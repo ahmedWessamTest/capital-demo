@@ -38,7 +38,7 @@ export class JopPolicyService {
     );
   }
 
-  updateLead(formData: any, id: number) {
+  updateLead(id: number,formData: any) {
     return this.httpClient.post(
       `${API_CONFIG.BASE_URL}app-leads/jop-update/${id}`,
       formData

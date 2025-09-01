@@ -178,7 +178,7 @@
     "show_all_details": {
       "na": "N/A",
       "jop_title": "Job Title",
-      "jop_price": "Job Price",
+      "jop_price": "Sum Insured Amount",
       "jop_main_id": "Upload Main ID",
       "jop_second_id": "Upload Second ID",
       "expiring_soon": "Expiring Soon!",
@@ -200,7 +200,7 @@
       },
       "labels": {
         "company": "Company",
-        "monthly": "Monthly",
+        "monthly": "Yearly",
         "expiry_date": "Expiry Date",
         "status": "Status",
         "car_type": "Car Type",
@@ -223,7 +223,7 @@
         "in_year": " Year",
         "gender": "Gender",
         "jop_title": "Job Title",
-        "jop_price": "Job Price",
+        "jop_price": "Sum Insured Amount",
         "jop_main_id": " Main ID",
         "jop_second_id": " Second ID",
         "jop_insurance_number": "Policy Code"
@@ -412,7 +412,7 @@
     "motor_policy": {
       "header": "Motor Insurance Policy",
       "description": "Protect your vehicle with our comprehensive motor insurance plans tailored to your needs.",
-      "claim_data_button": "Purchase",
+      "claim_data_button": "Purchase Now",
       "ai_greeting": "Hello! I'm here to guide you through the motor insurance process.",
       "ai_subtext": "Let's get started with your policy details.",
       "background_image_alt": "Background image for motor policy",
@@ -530,7 +530,7 @@
           "no_plans": "No plans available at the moment.",
           "in_year": "Per Year",
           "company": "Company",
-          "monthly": "Monthly",
+          "yearly": "yearly",
           "select_plan_button": "Select This Plan"
         },
         "coverage_and_benefits": {
@@ -555,7 +555,7 @@
     "building_policy": {
       "header": "Building Insurance",
       "description": "Protect your property with our comprehensive building insurance plans.",
-      "claim_data_button": "Purchase",
+      "claim_data_button": "Purchase Now",
       "ai_greeting": "Hello! I'm here to help you get the best building insurance.",
       "ai_subtext": "Let's find the perfect plan for your property.",
       "background_image_alt": "Background decoration for building insurance form",
@@ -615,7 +615,7 @@
           "prompt_2": "Select an insurance plan",
           "no_plans": "No plans available",
           "company": "Company",
-          "monthly": "Monthly Payment",
+          "yearly": "Yearly Payment",
           "in_year": "Per Year",
           "select_plan_button": "Select Plan"
         },
@@ -706,7 +706,7 @@
           "no_plans": "No plans available at the moment.",
           "in_year": "Per Year",
           "company": "Company",
-          "monthly": "Monthly Payment",
+          "yearly": "Yearly Payment",
           "select_plan_button": "Select This Plan"
         },
         "payment": {
@@ -758,7 +758,7 @@
       "form": {
         "position": {
           "prompt_0": "Can I know",
-          "prompt_1": "your position or job title",
+          "prompt_1": "your position or occupation title",
           "prompt_2": "because this will help determine the appropriate type of coverage",
           "placeholder": "Enter your position or job title",
           "errors": {
@@ -781,8 +781,8 @@
           "prompt_0": "Can I know",
           "prompt_1": "the required documents",
           "prompt_2": "please upload the following documents to complete your insurance application",
-          "id_document_label": "Upload ID Document",
-          "occupation_document_label": "Upload Occupation Certificate",
+          "id_document_label": "Copy of ID",
+          "occupation_document_label": "Copy of Occupation ID",
           "optional": "Optional",
           "upload_text": "Click to upload or drag and drop",
           "file_types": "JPG, PNG, PDF (Max 5MB)",
@@ -791,6 +791,25 @@
             "id_document_required": "ID document is required"
           }
         }
+      },
+      "alerts": {
+        "job_request": "We are processing your job insurance request",
+        "job_request_contact": "Our team will contact you soon",
+        "job_request_thanks": "Thank you for choosing us!",
+        "call_request_success": "Call request submitted successfully",
+        "call_request_contact": "We will contact you shortly",
+        "call_request_thanks": "Thank you for your request!",
+        "policy_submitted": "Policy submitted successfully",
+        "policy_review": "Your policy is under review",
+        "request_code": "Request code: ",
+        "back_button": "Continue"
+      },
+      "errors": {
+        "data_fetch_failed": "Failed to fetch job insurance data. Please try again later.",
+        "lead_creation_failed": "Failed to create job insurance lead. Please try again.",
+        "lead_update_failed": "Failed to update job insurance lead. Please try again.",
+        "policy_submission_failed": "Failed to submit job insurance policy. Please try again.",
+        "no_plan_selected": "Please select a plan before proceeding."
       }
     },
     "user_policies": {
@@ -814,7 +833,7 @@
       "types": {
         "medical": "Medical Insurance",
         "motor": "Motor Insurance",
-        "building": "Building Insurance",
+        "job": "Building Insurance",
         "jop": "Job Insurance"
       },
       "labels": {

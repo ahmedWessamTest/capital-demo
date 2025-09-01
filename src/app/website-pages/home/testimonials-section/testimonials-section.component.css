@@ -11,7 +11,7 @@
 .testimonial-text {
   font-family: 'Alexandria', sans-serif;
   font-size: clamp(20px, 3vw, 23px);
-  line-height: 24px;
+  line-height: 1;
   font-weight: 400;
   text-transform: capitalize;
 }
@@ -34,35 +34,29 @@
 /* slider */
 
 .testimonial-slide{
-  margin: 50px auto;
-  /* width :638px; */
   min-width:280px;
 }
 
 
 ::ng-deep .owl-theme .owl-dots .owl-dot span{
-  background-color: #79C7EE !important;
-  opacity: 1 !important;
-
+  width: 12px;
+  height: 12px;
+  background-color: #37A6DE !important;
   transition:all .3s;
 } 
 
 
 
 ::ng-deep .owl-theme .owl-dots .owl-dot:hover span{
-  background-color: #37A6DE !important;
-  opacity: .1 !important;
-
+   background-color: #79C7EE !important;
 } 
 
 
 
 ::ng-deep .owl-theme .owl-dots .owl-dot.active span
 {
-  background-color: #37A6DE !important;
-  opacity: .1 !important;
+  background-color: #79C7EE !important;
 
- 
 } 
 ::ng-deep .owl-item{
   transition: all  1s;
@@ -74,6 +68,7 @@
 }
 ::ng-deep .owl-item.center .testimonial-slide .testimonial-text {
   color :#174A77 !important;
+  font-size: 2.1875rem;
   transition: all  .5s;
 
 }

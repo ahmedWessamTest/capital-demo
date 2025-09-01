@@ -31,7 +31,6 @@ interface LocalTestimonial {
 export class TestimonialsSectionComponent implements OnInit, OnDestroy, OnChanges {
   @ViewChild('owlTestimonials') owlTestimonials!: CarouselComponent;
   @Input() testimonialsData: Testimonial[] = [];
-
   testimonials: LocalTestimonial[] = [];
   currentLanguage: string = 'en';
   customOptions: OwlOptions = {
@@ -41,14 +40,17 @@ export class TestimonialsSectionComponent implements OnInit, OnDestroy, OnChange
     pullDrag: true,
     dots: true,
     smartSpeed: 700,
-    center: false,
+    margin:20,
+    center: true,
     nav: false,
-    margin: 20,
     autoWidth: false,
     responsive: {
       0: {
-        items: 2,
+        items: 1,
       },
+      768: {
+        items:2
+      }
     
     },
     rtl: false
@@ -189,7 +191,7 @@ export class TestimonialsSectionComponent implements OnInit, OnDestroy, OnChange
       }
     }
   }
-
+  
   getData(data: SlidesOutputData) {
     if (data && data.startPosition !== undefined) {
       this.activeTestimonialIndex = data.startPosition;

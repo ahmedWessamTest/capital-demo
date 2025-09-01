@@ -1469,6 +1469,7 @@ export class UpdatedGenericDataService implements OnChanges {
     return this.getHomeData().pipe(
       map(response => response.counters),
       tap(data => {
+        console.log(data);
         this.countersCache.set(data);
         this.updateCacheTimestamp('counters');
         this.countersSubject.next(data);

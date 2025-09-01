@@ -25,12 +25,16 @@ export class PartenersSectionComponent implements OnInit, OnDestroy, OnChanges {
     loop: true,
     nav: false,
     dots: false,
+    mouseDrag: true,
+    touchDrag: true,
+      stagePadding: 20,
+    pullDrag: true,
     autoplay: true,
     autoplayTimeout: 3000,
     autoplaySpeed: 1000,
-    autoplayHoverPause: true,
     center: true,
     autoWidth: false,
+    smartSpeed: 600,
     margin: 18,
     rtl: false,
     responsive: {
@@ -45,7 +49,9 @@ export class PartenersSectionComponent implements OnInit, OnDestroy, OnChanges {
   private languageSubscription!: Subscription;
 
   constructor(private languageService: LanguageService) { }
-
+  goToSlide(id:string) {    
+    this.owlCarousel.to(id)
+  }
   ngOnInit(): void {
     this.updatePartnerCategories();
     this.languageSubscription = this.languageService.currentLanguage$.subscribe(lang => {
