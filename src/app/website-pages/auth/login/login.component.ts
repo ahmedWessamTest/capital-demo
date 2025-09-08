@@ -96,7 +96,6 @@ export class LoginComponent implements OnInit {
     }
 
     this.isLoading.set(true);
-console.log(this.loginForm.value)
     this._authService.login(this.loginForm.value).subscribe({
       next: (response: any) => {
         this.isLoading.set(false);
@@ -118,12 +117,17 @@ console.log(this.loginForm.value)
       },
       error: (error) => {
         this.isLoading.set(false);
-        const errorMessage = error?.error?.message || 'Login failed. Please try again.';
+        const errorMessage = error?.error?.message || error?.error || 'Login failed. Please try again.';
         this._alertService.showNotification({
           translationKeys: { title: errorMessage },
         });
         this.triggerShakeAnimation();
       },
+      complete: () => {
+        setTimeout(() => {
+          this._alertService.hide();
+        }, 2000)
+      }
     });
   }
 

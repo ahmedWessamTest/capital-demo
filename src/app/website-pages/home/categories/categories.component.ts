@@ -19,7 +19,7 @@ interface InsuranceCard {
 @Component({
   selector: 'app-categories',
   standalone: true,
-  imports: [CommonModule, CarouselModule, RouterLink, HeadingComponent,TranslateModule],
+  imports: [CommonModule, CarouselModule, RouterLink, HeadingComponent, TranslateModule],
   templateUrl: './categories.component.html',
   styleUrls: ['./categories.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -47,7 +47,7 @@ interface InsuranceCard {
   ],
 })
 export class CategoriesComponent {
-  
+
   cards: InsuranceCard[] = [
     {
       id: 'motor-insurance',
@@ -57,7 +57,7 @@ export class CategoriesComponent {
       altText: 'Motor Insurance category',
       linkTitle: 'Go to Motor Insurance',
       linkAriaLabel: 'Go to Motor Insurance category',
-      link:'/motor-insurance'
+      link: '/motor-insurance'
     },
     {
       id: 'property-insurance',
@@ -67,7 +67,7 @@ export class CategoriesComponent {
       altText: 'Property Insurance category',
       linkTitle: 'Go to Property Insurance',
       linkAriaLabel: 'Go to Property Insurance category',
-      link:'/building-insurance'
+      link: '/building-insurance'
     },
     {
       id: 'medical-insurance',
@@ -76,16 +76,26 @@ export class CategoriesComponent {
       imageUrl: 'assets/categories/medical.jpg', // Replace with 'assets/categories/medical.jpg'
       altText: 'Medical Insurance category',
       linkTitle: 'Go to Medical Insurance',
-      linkAriaLabel: 'Go to Medical Insurance category' , 
-      link:'/medical-insurance'
+      linkAriaLabel: 'Go to Medical Insurance category',
+      link: '/medical-insurance'
+    },
+    {
+      id: 'job-insurance',
+      titleAr: 'التامين الوظيفي',
+      title: 'Professional Indemnity',
+      imageUrl: 'assets/categories/job.png', // Replace with 'assets/categories/medical.jpg'
+      altText: ' Professional Indemnity Insurance category',
+      linkTitle: 'Go to  Professional Indemnity ',
+      linkAriaLabel: 'Go to  Professional Indemnity Insurance category',
+      link: '/job-insurance'
     }
   ];
-  lang:string='';
-  constructor(private LanguageService:LanguageService) {
+  lang: string = '';
+  constructor(private LanguageService: LanguageService) {
     this.LanguageService.currentLanguage$.subscribe(lang => {
-      this.lang=lang;
+      this.lang = lang;
     });
-   }
+  }
 
   ngOnInit(): void {
     // Initialization logic can go here if needed

@@ -67,6 +67,25 @@ export interface MedicalPolicyData {
   address?: string;
   payment_method: string;
 }
+export interface MedicalPolicyCorporateData {
+  category_id: string;
+  user_id: string;
+  medical_insurance_id: string;
+  name: string;
+  email: string;
+  phone: string;
+  active_status: string;
+  company_name: string,
+      company_employee_number: number,
+      company_address: string,
+      company_employee_avg: number,
+      lead_type: 'corporate',
+      request_type: 'corporate',
+  // Optional fields
+  national_id?: string;
+  address?: string;
+  payment_method: string;
+}
 
 export interface MedicalDataResponse {
   category: MedicalCategory;

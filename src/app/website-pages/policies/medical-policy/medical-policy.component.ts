@@ -5,23 +5,21 @@ import { Component, OnInit, OnDestroy, ViewChild, ElementRef, QueryList, ViewChi
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { GovernorateOption } from '@core/shared/policy-drop-down/policy-drop-down.component';
 import { CarouselComponent, CarouselModule, OwlOptions } from 'ngx-owl-carousel-o';
-import { Observable, of, Subscription } from 'rxjs';
-import { catchError, delay, finalize, map, tap } from 'rxjs/operators';
-import { AuthStorageService, UserData } from '@core/services/auth/auth-storage.service';
-import { AuthService } from '@core/services/auth/auth.service';
+import { of, Subscription } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { CustomTranslatePipe } from '@core/pipes/translate.pipe';
 import { LanguageService } from '@core/services/language.service';
 import { AlertService } from '@core/shared/alert/alert.service';
 import { Router } from '@angular/router';
 import { MedicalInsurance, MedicalCategory, MedicalInsuranceService, MedicalPolicyData } from '@core/services/policies/medical-policy.service';
-import { HttpErrorResponse } from '@angular/common/http';
 import { Counter, UpdatedGenericDataService } from '@core/services/updated-general.service';
-
 
 import { SafeHtmlPipe } from '@core/pipes/safe-html.pipe';
 import { PartnersLogosComponent } from "../parteners-logos/parteners-logos.component";
 import { Meta, Title } from '@angular/platform-browser';
+import { MedicalIndividualFormComponent } from "./medical-individual-form/medical-individual-form.component";
+import { MedicalCorporateFormComponent } from "./medical-corporate-form/medical-corporate-form.component";
+import { LeadTypeConfig, LeadTypeSelectorComponent } from "@core/shared/lead-type-selector/lead-type-selector.component";
 
 @Component({
   selector: 'app-medical-policy',
@@ -32,14 +30,15 @@ import { Meta, Title } from '@angular/platform-browser';
     ReactiveFormsModule,
     CarouselModule,
     TranslateModule,
-    CustomTranslatePipe,
     PartnersLogosComponent,
-],
+    MedicalIndividualFormComponent,
+    MedicalCorporateFormComponent,
+    LeadTypeSelectorComponent
+  ],
   templateUrl: './medical-policy.component.html',
   styleUrls: ['./medical-policy.component.css']
 })
 export class MedicalPolicyComponent implements OnInit, OnDestroy, AfterViewInit {
-  claimForm: FormGroup;
   showForm = false;
   step = 0;
   progress = 20;
@@ -52,6 +51,25 @@ export class MedicalPolicyComponent implements OnInit, OnDestroy, AfterViewInit 
   isNeedCallLoading = false;
   showPlans = false;
   counters: Counter[] = [];
+  userSelectedLead: 'corporate' | 'individual' = 'individual';
+  leadType: 'corporate' | 'individual' | null = null;
+  showSelectLead: boolean = false
+  leadTypeConfig: LeadTypeConfig = {
+    title: 'pages.professional_indemnity.form.lead_type.can_i_know',
+    subtitle: 'pages.professional_indemnity.form.lead_type.individual_or_corporate',
+    description: 'pages.professional_indemnity.form.lead_type.because_it_will_make_a_big_different_in_your_steps',
+    nextButtonText: 'pages.professional_indemnity.form.lead_type.next_button',
+    options: [
+      {
+        value: 'individual',
+        translationKey: 'pages.professional_indemnity.form.lead_type.individual'
+      },
+      {
+        value: 'corporate',
+        translationKey: 'pages.professional_indemnity.form.lead_type.corporate'
+      }
+    ]
+  };
   private languageSubscription!: Subscription;
   private alertSubscription!: Subscription;
   private platformId = inject(PLATFORM_ID);
@@ -92,34 +110,20 @@ export class MedicalPolicyComponent implements OnInit, OnDestroy, AfterViewInit 
   }
   today: string;
   currentLanguage: string = 'en';
-  
+
   goBack() {
     history.back();
   }
   constructor(
-    private fb: FormBuilder,
-    private authService: AuthService,
-    private authStorage: AuthStorageService,
     private medicalInsuranceService: MedicalInsuranceService,
     public translate: TranslateService,
     public languageService: LanguageService,
     private alertService: AlertService,
     private genericDataService: UpdatedGenericDataService,
-    private router: Router,
     private cdr: ChangeDetectorRef,
     private meta: Meta,
     private title: Title
   ) {
-    this.claimForm = this.fb.group({
-      name: ['', Validators.required],
-      phone: ['', [Validators.required, Validators.pattern(/^01[0125]\d{8}$/)]],
-      email: ['', [Validators.required, Validators.email, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]],
-      birthdate: ['', Validators.required],
-      gender: ['', Validators.required],
-      paymentType: ['Full Payment', Validators.required],
-      paymentMethod: ['Cash', Validators.required],
-      needCall: ['No']
-    });
     this.today = new Date().toISOString().split('T')[0];
 
     this.languageSubscription = this.languageService.currentLanguage$.subscribe(lang => {
@@ -127,7 +131,7 @@ export class MedicalPolicyComponent implements OnInit, OnDestroy, AfterViewInit 
       this.updateCarouselDirection(lang);
 
       this.currentLanguage = lang;
-      
+
     });
 
     this.alertSubscription = this.alertService.showAlert$.subscribe(show => {
@@ -142,22 +146,6 @@ export class MedicalPolicyComponent implements OnInit, OnDestroy, AfterViewInit 
     this.isTextContentLoading = true;
     this.isImageLoading = false; // Initialize to false to trigger image load immediately
     this.imageLoaded = false;
-
-    if (typeof window !== 'undefined' && this.authService.isAuthenticated()) {
-      const userData: UserData | null = this.authService.getUserData();
-      if (userData) {
-        this.claimForm.patchValue({
-          name: userData.name,
-          email: userData.email,
-          phone: userData.phone
-        });
-        this.claimForm.get('name')?.disable();
-        this.claimForm.get('phone')?.disable();
-        this.claimForm.get('email')?.disable();
-      }
-    }
-   
-
     this.genericDataService.getCounters().subscribe(data => {
       this.counters = data.filter((counter: Counter) => counter.id === 7);
       this.cdr.markForCheck();
@@ -203,7 +191,6 @@ export class MedicalPolicyComponent implements OnInit, OnDestroy, AfterViewInit 
     this.cdr.markForCheck();
   }
 
-
   ngOnDestroy(): void {
     if (this.languageSubscription) {
       this.languageSubscription.unsubscribe();
@@ -216,8 +203,8 @@ export class MedicalPolicyComponent implements OnInit, OnDestroy, AfterViewInit 
   private updateCarouselDirection(lang: string): void {
     const isRtl = lang === 'ar';
     if (this.customOptions.rtl !== isRtl) {
-      this.customOptions = { 
-        ...this.customOptions, 
+      this.customOptions = {
+        ...this.customOptions,
         rtl: isRtl,
         navText: isRtl ? ['التالي', 'السابق'] : ['Previous', 'Next']
       };
@@ -226,402 +213,46 @@ export class MedicalPolicyComponent implements OnInit, OnDestroy, AfterViewInit 
 
   scrollToForm(): void {
     setTimeout(() => {
-      
+
       if (isPlatformBrowser(this.platformId)) {
         const formElement = document.getElementById('policy-form');
-      if (formElement) {
-        formElement.scrollIntoView({ behavior: 'smooth' });
+        if (formElement) {
+          formElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
       }
-    }
     }, 50);
   }
 
-  onGenderSelected(gender: GovernorateOption) {
-    this.claimForm.get('gender')?.setValue(gender ? gender.id : '');
-    this.claimForm.get('gender')?.markAsTouched();
-  }
-
-  onPlanSelected(plan: MedicalInsurance) {
-    this.selectedPlan = plan;
-    this.step++;
-    this.progress = 100;
-  }
-
-  private createFormData(): FormData {
-    const formData = new FormData();
-    const fields = [
-      { key: 'name', value: this.claimForm.get('name')?.value, include: this.step >= 0 },
-      { key: 'phone', value: this.claimForm.get('phone')?.value, include: this.step >= 0 },
-      { key: 'email', value: this.claimForm.get('email')?.value, include: this.step >= 0 },
-      { key: 'birthdate', value: this.claimForm.get('birthdate')?.value, include: this.step >= 1 },
-      { key: 'gender', value: this.claimForm.get('gender')?.value, include: this.step >= 2 },
-      { key: 'need_call', value: this.claimForm.get('needCall')?.value || 'No', include: this.step >= 1 }
-    ];
-
-    fields.forEach(field => {
-      if (field.include && field.value) {
-        formData.append(field.key, field.value);
-      }
-    });
-
-    return formData;
-  }
-
-  needCall() {
-    this.isNeedCallLoading = true;
-    this.claimForm.get('needCall')?.setValue('Yes');
-    const formData = this.createFormData();
-    const lang = this.translate.currentLang || 'en';
-    if (this.leadId) {
-      this.medicalInsuranceService.updateMedicalLead(this.leadId, formData).pipe(
-        tap(() => {
-          let messages = [
-            this.translate.instant('pages.medical_policy.alerts.call_request_success'),
-            this.translate.instant('pages.medical_policy.alerts.call_request_contact'),
-            this.translate.instant('pages.medical_policy.alerts.call_request_thanks')
-          ];
-          this.alertService.showCallRequest({
-            messages,
-            buttonLabel: this.translate.instant('pages.medical_policy.alerts.back_button'),
-          });
-        }),
-        catchError(err => {
-          console.error('Error updating lead with need call:', err);
-          this.alertService.showNotification({
-            translationKeys: { message: 'pages.medical_policy.errors.lead_update_failed' }
-          });
-          return of(null);
-        }),
-        tap(() => this.isNeedCallLoading = false)
-      ).subscribe();
-    } else {
-      this.medicalInsuranceService.createMedicalLead(formData).pipe(
-        tap(response => {
-          this.leadId = response.data.id;
-          let buttonLabel = this.translate.instant('pages.medical_policy.alerts.back_button');
-          this.alertService.showCallRequest({
-            messages: [
-              this.translate.instant('pages.medical_policy.alerts.call_request_success'),
-              this.translate.instant('pages.medical_policy.alerts.call_request_contact'),
-              this.translate.instant('pages.medical_policy.alerts.call_request_thanks')
-            ],
-            buttonLabel: buttonLabel,
-            redirectRoute: `/${lang}/home`
-          });
-        }),
-        catchError(err => {
-          console.error('Error creating lead with need call:', err);
-          this.alertService.showNotification({
-            translationKeys: { message: 'pages.medical_policy.errors.lead_creation_failed' }
-          });
-          return of(null);
-        }),
-        tap(() => this.isNeedCallLoading = false)
-      ).subscribe();
-    }
-  }
-
-  nextStep() {
-    const currentStepFields = this.steps[this.step].formFields;
-    currentStepFields.forEach(field => {
-      const control = this.claimForm.get(field);
-      if (control && !control.disabled) {
-        control.markAsTouched();
-      }
-    });
-  
-    const isStepValid = currentStepFields.every(field => {
-      const control = this.claimForm.get(field);
-      return control?.disabled || control?.valid;
-    });
-  
-    if (!isStepValid) {
-      return;
-    }
-  
-    if (this.isLoading) return;
-    this.isLoading = true;
-  
-    if (this.step === 0 && !this.authService.isAuthenticated()) {
-      const formData = this.claimForm.value;
-      const registerData = {
-        name: formData.name,
-        email: formData.email,
-        phone: formData.phone,
-        password: 'defaultPassword123'
-      };
-  
-      this.authService.register(registerData).pipe(
-        catchError((error: HttpErrorResponse) => {
-          console.error('Registration error:', error);
-          this.isLoading = false;
-          let errorMessage = this.translate.instant('pages.home_form.errors.registration_failed');
-  
-          if ((error.status === 422 || error.status === 400) && error.error?.errors) {
-            if (error.error.errors.email) {
-              errorMessage += `\n- ${this.translate.instant('pages.home_form.errors.email_exist')}`;
-            }
-            if (error.error.errors.phone) {
-              errorMessage += `\n- ${this.translate.instant('pages.home_form.errors.phone_exist')}`;
-            }
-            this.alertService.showGeneral({
-              messages: [errorMessage + '\n' ],
-              buttonLabel: this.translate.instant('pages.home_form.errors.login'),
-              redirectRoute: `/${this.authService.getCurrentLang()}/login`
-            });
-          } else {
-            alert(this.translate.instant('pages.home_form.errors.unexpected_error'));
-          }
-          return new Observable(observer => observer.error(error));
-        }),
-        tap((response: any) => {
-          console.log('User registered successfully:', response);
-          this.authStorage.saveUserData(response.user);
-        })
-      ).subscribe({
-        next: () => {
-          this.proceedWithNextStep();
-        },
-        error: () => {
-          this.isLoading = false;
-        }
-      });
-    } else {
-      this.proceedWithNextStep();
-    }
-  }
-  private proceedWithNextStep() {
-    const formData = this.createFormData();
-    if (this.step === 0 || !this.leadId) {
-      this.medicalInsuranceService.createMedicalLead(formData).pipe(
-        tap(response => {
-          this.leadId = response.data.id;
-          this.step++;
-          this.progress = (this.step + 1) * 20;
-          if (this.step === 3) {
-            this.showPlans = false;
-            this.alertService.showGeneral({
-              messages: [
-                this.translate.instant('pages.medical_policy.alerts.building_request'),
-                this.translate.instant('pages.medical_policy.alerts.building_request_contact'),
-                this.translate.instant('pages.medical_policy.alerts.building_request_thanks')
-              ],
-              imagePath: 'assets/common/loading.gif',
-              secondaryImagePath: 'assets/common/otp.gif'
-            });
-          }
-        }),
-        catchError(err => {
-          console.error('Error creating lead:', err);
-          this.alertService.showNotification({
-            translationKeys: { message: 'pages.medical_policy.errors.lead_creation_failed' }
-          });
-          return of(null);
-        })
-      ).subscribe({complete:()=>{
-        this.isLoading = false;
-        setTimeout(()=>{
-          this.alertService.hide();
-        },1000)
-      }});
-    } else {
-      this.medicalInsuranceService.updateMedicalLead(this.leadId, formData).pipe(
-        tap(() => {
-          this.step++;
-          this.progress = (this.step + 1) * 20;
-          if (this.step === 3) {
-            this.showPlans = false;
-            this.alertService.showGeneral({
-              messages: [this.translate.instant('pages.medical_policy.alerts.building_request')],
-              imagePath: 'assets/common/loading.gif',
-              secondaryImagePath: 'assets/common/otp.gif'
-            });
-          }
-        }),
-        catchError(err => { 
-          console.error('Error updating lead:', err);
-          this.alertService.showNotification({
-            translationKeys: { message: 'pages.medical_policy.errors.lead_update_failed' }
-          });
-          return of(null);
-        })
-      ).subscribe({
-        complete:()=>{
-          this.isLoading = false;
-          setTimeout(()=>{
-            this.alertService.hide();
-          },1000)
-        }
-      });
-    }
-  }
-  
-  pay() {
-    this.proceedWithPayment();
-  }
-  
-  private proceedWithPayment() {
-    const policyData: MedicalPolicyData = {
-      category_id: String(this.category!.id),
-      user_id: this.authService.getUserId() || '0',
-      medical_insurance_id: String(this.selectedPlan!.id),
-      name: this.claimForm.get('name')?.value,
-      email: this.claimForm.get('email')?.value,
-      phone: this.claimForm.get('phone')?.value,
-      active_status: 'requested',
-      payment_method: 'Cash',
-      birthdate: this.claimForm.get('birthdate')?.value,
-      gender: this.claimForm.get('gender')?.value
-    };
-  
-    const lang = this.translate.currentLang || 'en';
-    this.medicalInsuranceService.submitMedicalPolicy(policyData).pipe(
-      tap(response => {
-        console.log('Policy submitted:', response);
-        this.alertService.showGeneral({
-          messages: [
-            this.translate.instant('pages.medical_policy.alerts.policy_submitted'),
-            this.translate.instant('pages.medical_policy.alerts.policy_review'),
-            `${this.translate.instant('pages.medical_policy.alerts.request_code')} ${response.data.id}`
-          ],
-          buttonLabel: this.translate.instant('pages.medical_policy.alerts.back_button'),
-          redirectRoute: `/${lang}/home`
-        });
-        this.claimForm.reset();
-        this.step = 0;
-        this.plans = [];
-        this.category = null;
-        this.progress = 20;
-        this.selectedPlan = null;
-        this.leadId = null;
-        this.router.navigate(['/', lang, 'home']);
-      }),
-      catchError(err => {
-        console.error('Error submitting policy:', err);
-        this.alertService.showNotification({
-          translationKeys: { message: this.translate.instant('pages.medical_policy.errors.policy_submission_failed') }
-        });
-        return of(null);
-      }),
-      tap(() => this.isLoading = false)
-    ).subscribe();
-  }
-
-  isValidUrl(str: string): boolean {
-    try {
-      new URL(str);
-      return true;
-    } catch {
-      return false;
-    }
-  }
-
-  isNumber(str: string): boolean {
-    return !isNaN(Number(str)) && str.trim() !== '';
-  }
-
-  preventPaste(event: Event): void {
-    event.preventDefault();
-  }
-
-  preventNonNumeric(event: KeyboardEvent): void {
-    const allowedKeys = ['Backspace', 'Tab', 'ArrowLeft', 'ArrowRight', 'Delete'];
-    if (!/[0-9]/.test(event.key) && !allowedKeys.includes(event.key)) {
-      event.preventDefault();
-    }
-  }
-
   @ViewChild('owlCarousel') owlCarousel!: CarouselComponent;
-
-  prev(): void {
-    this.owlCarousel.prev();
-  }
-
-  next(): void {
-    this.owlCarousel.next();
-  }
 
   @ViewChildren('planCard') planCards!: QueryList<ElementRef>;
 
   ngAfterViewInit() {
     setTimeout(() => {
       if (isPlatformBrowser(this.platformId)) {
-      const elements = document.querySelectorAll<HTMLElement>('.plan-card');
-      let maxHeight = 0;
+        const elements = document.querySelectorAll<HTMLElement>('.plan-card');
+        let maxHeight = 0;
 
-      elements.forEach(el => {
-        el.style.height = 'auto';
-        const height = el.offsetHeight;
-        if (height > maxHeight) {
-          maxHeight = height;
-        }
-      });
+        elements.forEach(el => {
+          el.style.height = 'auto';
+          const height = el.offsetHeight;
+          if (height > maxHeight) {
+            maxHeight = height;
+          }
+        });
 
-      elements.forEach(el => {
-        el.style.height = `${maxHeight}px`;
-      });
-    }
+        elements.forEach(el => {
+          el.style.height = `${maxHeight}px`;
+        });
+      }
     }, 100);
   }
 
-  private checkAuthenticationBeforeProceeding(): Observable<boolean> {
-    if (!this.authService.isAuthenticated()) {
-      const formData = this.claimForm.value;
-      const registerData = {
-        name: formData.name,
-        email: formData.email,
-        phone: formData.phone,
-        password: 'defaultPassword123'
-      };
-  
-      return this.authService.register(registerData).pipe(
-        catchError((error: HttpErrorResponse) => {
-          console.error('Registration error:', error);
-          let errorMessage = this.translate.instant('pages.home_form.errors.registration_failed');
-          
-          if ((error.status === 422 || error.status === 400) && error.error?.errors) {
-            if (error.error.errors.email) {
-              errorMessage += `\n- ${this.translate.instant('pages.home_form.errors.email')}: ${error.error.errors.email[0]}`;
-            }
-            if (error.error.errors.phone) {
-              errorMessage += `\n- ${this.translate.instant('pages.home_form.errors.phone')}: ${error.error.errors.phone[0]}`;
-            }
-            alert(errorMessage + '\n' + this.translate.instant('pages.home_form.errors.login_prompt'));
-            this.router.navigate(['/', this.authService.getCurrentLang(), 'login']);
-          } else {
-            alert(this.translate.instant('pages.home_form.errors.unexpected_error'));
-          }
-          return new Observable(observer => observer.error(error));
-        }),
-        tap((response: any) => {
-          console.log('User registered successfully:', response);
-          this.authStorage.saveUserData(response.user);
-        }),
-        map(() => true)
-      );
-    }
-    return of(true);
+  onLeadTypeSelected(value: any): void {
+    this.userSelectedLead = value;
   }
-
-  RestirctToNumbers(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    const value = input.value;
-    // Remove any numbers from the input value
-    const filteredValue = value.replace(/[^0-9]/g, '');
-    if (value !== filteredValue) {
-      input.value = filteredValue;
-      this.claimForm.get('phone')?.setValue(filteredValue);
-    }
+  selectFrom() {
+    this.leadType = this.userSelectedLead;
+    this.showSelectLead = false;
   }
-  restrictToLetters(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    const value = input.value;
-    // Remove any numbers from the input value
-    const filteredValue = value.replace(/[0-9]/g, '');
-    if (value !== filteredValue) {
-      input.value = filteredValue;
-      this.claimForm.get('fullName')?.setValue(filteredValue); // Changed 'name' to 'fullName'
-    }
-  }
-  
 }

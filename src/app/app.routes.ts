@@ -214,6 +214,20 @@ export const routes: Routes = [
           ).then((c) => c.ShowAllDetailsComponent),
       },
       {
+        path: 'policies/:policyId/:policyType/corporate-details',
+        loadComponent: () =>
+          import(
+            './website-pages/claims/show-all-details/show-all-corporate-details/show-all-corporate-details.component'
+          ).then((c) => c.ShowAllCorporateDetailsComponent),
+      },
+      {
+        path: 'policies/:policyId/:policyType/corporate-details/add',
+        loadComponent: () =>
+          import(
+            './website-pages/claims/show-all-details/add-corporate-unit-form/add-corporate-unit-form.component'
+          ).then((c) => c.AddCorporateUnitFormComponent),
+      },
+      {
         path: 'policies/:policyId/:policyType/comments',
         loadComponent: () =>
           import(

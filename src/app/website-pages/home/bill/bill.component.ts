@@ -43,29 +43,29 @@ export interface Category {
   template: `
     <section class="overflow-hidden  w-full px-4 relative bg-white md:px-12 my-12" aria-labelledby="bill-heading">
       <div class="relative z-10">
-        <app-heading 
+        <app-heading
           id="bill-heading"
-          [headingText]="'number_solid' | translate" 
-          [showStartSvg]="false" 
+          [headingText]="'number_solid' | translate"
+          [showStartSvg]="false"
           [showEndSvg]="true">
         </app-heading>
-        
+
         <div class="mx-auto flex justify-center max-w-[1300px] p-4 rounded-[100px] bg-[#EDF9FF]">
           <div class="p-6 w-full" [ngStyle]="{ 'height': isLargeScreen ? '200px' : 'auto' }">
-            <ul class="counter flex flex-col md:flex-row md:justify-between h-full" role="list">
+            <ul class="counter flex flex-col lg:flex-row lg:justify-between h-full" role="list">
               <li
                 *ngFor="let item of billItems; let i = index"
-                class="flex flex-col items-center justify-center p-4 rounded-xl mb-4 md:mb-0 md:mr-4 last:md:mr-0"
+                class="flex flex-col items-center justify-center p-4 rounded-xl mb-4 lg:mb-0 lg:mr-4 last:lg:mr-0"
                 [ngStyle]="{ 'max-height': '180px', 'flex': isLargeScreen ? '1 1 0%' : 'none' }"
                 #itemRef
                 role="listitem"
               >
                 <span class="number font-bold" aria-hidden="true">+{{ item.currentNumber | number:'1.0-0' }}</span>
                 <span class="text">{{ item.text }}</span>
-                <img 
-                  [src]="item.imageUrl" 
-                  [alt]="item.text + ' icon'" 
-                  class="w-[50px] my-1 h-[50px] object-cover" 
+                <img
+                  [src]="item.imageUrl"
+                  [alt]="item.text + ' icon'"
+                  class="w-[50px] my-1 h-[50px] object-cover"
                   loading="lazy"
                 />
               </li>
@@ -86,7 +86,7 @@ export interface Category {
     .number {
       color: #37A6DE;
       font-family: Alexandria;
-      font-size: clamp(40px, 5vw, 60px);
+      font-size: clamp(35px, 5vw, 50px);
       font-style: normal;
       line-height: 65px;
       text-transform: capitalize;
@@ -95,7 +95,7 @@ export interface Category {
       color: #5DB5DF;
       text-align: center;
       font-family: Alexandria;
-      font-size: clamp(16px, 2vw, 23px);
+      font-size: clamp(14px, 2vw, 16px);
       font-style: normal;
       font-weight: 400;
       line-height: 55px;
@@ -115,12 +115,12 @@ export class BillComponent implements OnInit, AfterViewInit, OnDestroy {
   counters: Counter[] = [];
 
   @ViewChildren('itemRef', { read: ElementRef }) itemElements!: QueryList<ElementRef>;
-  
+
   GenericDataService = inject(UpdatedGenericDataService);
   translate = inject(TranslateService);
   languageService = inject(LanguageService);
   cdr = inject(ChangeDetectorRef);
-  
+
   currentLang: string = 'en';
   categories: Category[] = [];
 
@@ -135,7 +135,7 @@ export class BillComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit(): void {
     // Get initial language from LanguageService
     this.currentLang = this.languageService.getCurrentLanguage();
-    
+
     // Combine both language changes and categories data
     this.subscription.add(
       combineLatest([
@@ -151,7 +151,7 @@ export class BillComponent implements OnInit, AfterViewInit, OnDestroy {
       })
     );
 
-    
+
   }
 
   updateBillItems() {
@@ -163,7 +163,7 @@ export class BillComponent implements OnInit, AfterViewInit, OnDestroy {
       id: `item${index + 1}`,
       targetNumber: Number(counter.counter_value) || 0,
       text: this.currentLang === 'ar' ? counter.ar_name : counter.en_name,
-      imageUrl: `assets/policies/${['medical-icon.png',  'car-icon.png','building-icon.png',][index % 3]}`,
+      imageUrl: `assets/policies/${['medical-icon.png', 'job-icon.png', 'car-icon.png', 'building-icon.png'][index % 4]}`,
       currentNumber: 0,
       hasAnimated: false
     }));
@@ -252,7 +252,7 @@ export class BillComponent implements OnInit, AfterViewInit, OnDestroy {
           { ...this.billItems[itemIndex], currentNumber: newCurrentNumber },
           ...this.billItems.slice(itemIndex + 1)
         ];
-        
+
         // Trigger change detection for the animation
         this.cdr.markForCheck();
       }
@@ -267,7 +267,7 @@ export class BillComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private checkScreenSize(): void {
     if (this.isBrowser) {
-      this.isLargeScreen = window.innerWidth >= 768;
+      this.isLargeScreen = window.innerWidth >= 1024;
       this.cdr.markForCheck();
     }
   }

@@ -89,7 +89,30 @@ export interface BuildingPolicyData {
   building_country?: string;
   payment_method: string;
 }
-
+export interface BuildingCorporatePolicyData {
+  category_id: string;
+  user_id: string;
+  building_insurance_id: string;
+  name: string;
+  email: string;
+  phone: string;
+  active_status: string;
+  // Optional fields
+  building_type_id?: string;
+  building_country_id?: string;
+  building_area?: string;
+  building_age?: string;
+  building_price?: string;
+  building_type?: string;
+  building_country?: string;
+  payment_method: string;
+  company_name:string;
+  company_address:string;
+  company_building_number:number
+  company_building_total_money:number,
+  lead_type: 'corporate' | null,
+  request_type: 'corporate' | null,
+}
 export interface BuildingDataResponse {
   category: BuildingCategory;
   types: BuildType[];

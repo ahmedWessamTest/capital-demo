@@ -36,7 +36,33 @@
   "OTP_resent_successful": "تم إعادة إرسال رمز التحقق بنجاح",
   "Failed_to_resend_OTP": "فشل إعادة إرسال رمز التحقق. حاول مرة أخرى.",
   "contact": "اتصل بنا",
+  "common":{
+"delete":"حذف",
+"cancel":"الغاء",
+"success": "تم بنجاح",
+  "ok": "موافق"
+},
   "pages": {
+  "add_emp_form": {
+    "title": "إضافة موظف جديد",
+    "name": "الاسم بالكامل",
+    "Enter_employee_name": "أدخل اسم الموظف",
+    "phone": "رقم الهاتف",
+    "phone_placeholder": "01xxxxxxxxx",
+    "email": "البريد الإلكتروني",
+    "email_placeholder": "example@email.com",
+    "submit": "إرسال",
+    "submitting": "جاري الإرسال...",
+    "alert": {
+      "emp_added_success": "تمت إضافة الموظف بنجاح"
+    },
+    "errors": {
+      "name": "الاسم مطلوب (بحد أدنى 3 أحرف).",
+      "phone": "من فضلك أدخل رقم هاتف صحيح (11 رقم ويبدأ بـ 01).",
+      "email": "من فضلك أدخل بريد إلكتروني صحيح.",
+      "exists": "رقم الهاتف أو البريد الإلكتروني موجود بالفعل"
+    }
+},
     "tool": {
       "PHONE_VALID_ERROR": "يرجى إدخال رقم هاتف صحيح مكون من 11 رقمًا."
     },
@@ -153,10 +179,19 @@
         "building": "تأمين المباني",
         "jop": "تأمين العمل"
       },
+      "request_type": {
+      "corporate": "شركه",
+      "individual": "فرد"
+    },
       "labels": {
         "policy_holder": "حامل الوثيقة",
         "policy_code": "رمز الوثيقة",
-        "expiry_date": "تاريخ الانتهاء"
+        "expiry_date": "تاريخ الانتهاء",
+        "request_type":"نوع الطلب",
+                "company_employee_number":"عدد الموظفين",
+                "company_building_number":"عدد الباني"
+
+
       },
       "buttons": {
         "show_all_details": "عرض جميع التفاصيل"
@@ -233,6 +268,8 @@
       }
     },
     "show_all_details": {
+            "title":"ادارة الموظفين",
+                  "no_data":"اضف موظفين",
       "na": "غير متوفر",
       "jop_title": "المسمي الوظيفي",
       "jop_price": "سعر العمل",
@@ -248,6 +285,15 @@
         "running": "جارية",
         "expired_canceled": "منتهية/ملغاة"
       },
+      "cols":{
+"username":"اسم السمتخدم",
+"control":"تحكم"
+      },
+      "delete_alert": {
+  "delete_item": "حذف العنصر",
+  "are_you_sure": "هل أنت متأكد أنك تريد حذف هذا العنصر؟",
+  "yes_delete": "نعم، احذف"
+},
       "types": {
         "medical": "التأمين الطبي",
         "motor": "تأمين السيارات",
@@ -256,6 +302,17 @@
       },
 
       "labels": {
+        "company_employee_total_money": "مبلغ التأمين الإجمالي",
+                "total_month_money":"مبلغ التامين الشهري",
+                        "company_building_total_money":"اجمالي اسعار المباني",
+                        "company_building_number":"عدد المباني",
+
+"total_year_money":"مبلغ التامين السنوي0",
+"company_name": "اسم الشركة",
+"company_employee_number": "عدد الموظفين",
+"company_employee_avg": "متوسط أعمار الموظفين",
+"company_address": "عنوان الشركة",
+"request_type": "نوع الطلب",
         "car_type": "نوع السيارة",
         "car_model": "موديل السيارة",
         "car_year": "سنة الصنع",
@@ -293,7 +350,11 @@
         "show_all_comments": "عرض جميع التعليقات",
         "go_to_comments": "الذهاب إلى التعليقات",
         "in_year": "في السنة",
-        "in_month": "في الشهر"
+        "in_month": "في الشهر",
+        "add_employee":"اضافة موظف",
+        "view_employee":"عرض الموظفين"
+
+
       },
       "images": {
         "medical_alt": "صورة التأمين الطبي",
@@ -664,7 +725,26 @@
           "cash": "نقدًا",
           "pay_button": "ادفع الآن"
         },
-        "next_button": "التالي"
+        "next_button": "التالي",
+        "company": {
+  "building_number": {
+    "prompt_0": "هل يمكنني معرفة",
+    "prompt_1": "عدد الوحدات",
+    "placeholder": "أدخل عدد الوحدات",
+    "errors": {
+      "building_number_required": "عدد الوحدات مطلوب",
+      "building_number_min": "عدد الوحدات يجب أن يكون على الأقل 1"
+    }
+  },
+  "unit_price": {
+    "prompt_0": "هل يمكنني معرفة",
+    "prompt_1": "أسعار الوحدات",
+    "placeholder": "أدخل أسعار الوحدات",
+    "errors": {
+      "unit_prices_required": "أسعار الوحدات مطلوبة"
+    }
+  }
+}
       },
       "alerts": {
         "building_request": "نحن نعالج طلب تأمين المبنى الخاص بك",
@@ -824,7 +904,63 @@
           "errors": {
             "id_document_required": "صورة الهوية مطلوبة"
           }
-        }
+        },
+        "lead_type": {
+  "can_i_know": "هل يمكنني أن أعرف؟",
+  "individual_or_corporate": "فرد أم شركة",
+  "because_it_will_make_a_big_different_in_your_steps": "لأن ذلك سيحدث فرقًا كبيرًا في خطواتك",
+  "individual":"فرد",
+  "corporate":"شركة"
+},
+"company": {
+  "name": {
+    "prompt_0": "هل يمكنني أن أعرف",
+    "prompt_1": "اسم شركتك",
+    "placeholder": "اسم الشركة",
+    "errors": {
+      "name_required": "اسم الشركة مطلوب"
+    }
+  },
+  "address": {
+    "prompt_0": "هل يمكنني أن أعرف",
+    "prompt_1": "موقع شركتك",
+    "placeholder": "موقع الشركة",
+    "errors": {
+      "address_required": "موقع الشركة مطلوب"
+    }
+  },
+  "number_emp": {
+    "prompt_0": "هل يمكنني أن أعرف",
+    "prompt_1": "عدد الموظفين",
+    "placeholder": "عدد موظفي الشركة",
+    "errors": {
+      "number_emp_required": "عدد الموظفين مطلوب",
+      "number_emp_min": "عدد الموظفين يجب ألا يقل عن 1"
+    }
+  },
+  "avg_age": {
+    "prompt_0": "هل يمكنني أن أعرف",
+    "prompt_1": "متوسط أعمار الموظفين",
+    "placeholder": "متوسط العمر",
+    "errors": {
+      "avg_age_required": "متوسط أعمار الموظفين مطلوب",
+      "avg_age_min": "متوسط الأعمار يجب ألا يقل عن 18"
+    }
+  },
+  "total_money": {
+    "prompt_0": "هل يمكنني أن أعرف",
+    "prompt_1": "مبلغ التأمين الإجمالي",
+    "prompt_2": "هذا المبلغ سيحدد قيمة التغطية التأمينية الخاصة بك",
+    "placeholder": "مبلغ التأمين الإجمالي",
+    "range_info": "النطاق المسموح: من 50,000 إلى 1,000,000 جنيه مصري",
+    "errors": {
+      "total_money_required": "مبلغ التأمين مطلوب",
+      "total_money_min": "الحد الأدنى لمبلغ التأمين هو 50,000 جنيه مصري",
+      "total_money_max": "الحد الأقصى لمبلغ التأمين هو 1,000,000 جنيه مصري"
+    }
+  }
+}
+
       },
       "alerts": {
   "job_request": "نحن نقوم بمعالجة طلب التأمين على عملك",

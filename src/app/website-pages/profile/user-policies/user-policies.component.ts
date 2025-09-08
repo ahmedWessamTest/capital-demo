@@ -21,11 +21,12 @@ import {
   UserPoliciesResponse,
 } from '@core/services/profile/user-policies.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { CarouselModule } from "ngx-owl-carousel-o";
 
 @Component({
   selector: 'app-user-policies',
   standalone: true,
-  imports: [CommonModule, RouterModule, TranslateModule],
+  imports: [CommonModule, RouterModule, TranslateModule, CarouselModule],
   templateUrl: './user-policies.component.html',
   styleUrls: ['./user-policies.component.css'],
   animations: [
@@ -82,6 +83,8 @@ export class UserPoliciesComponent implements OnInit {
     this.policiesService.getUserPolicies(userId).subscribe({
       next: (data) => {
         this.policies = data;
+        console.log(this.policies);
+        
         this.expiringSoonCount = this.calculateExpiringSoonCount();
         this.isLoading = false;
         this.cdr.markForCheck(); // Add this
@@ -94,6 +97,8 @@ export class UserPoliciesComponent implements OnInit {
   }
 
   private calculateExpiringSoonCount(): number {
+    console.log(this.policies);
+    
     return [
       ...this.policies.medical.filter(
         (policy) =>
@@ -171,19 +176,31 @@ export class UserPoliciesComponent implements OnInit {
       ...this.policies.jop.map((p) => ({ ...p, type: 'jop' as const })),
     ];
 
+    console.log(allPolicies);
     // Filter based on active tab
     const filtered = allPolicies.filter((policy) => {
-      const isCanceled = policy.active_status === 'canceled';
-      const isPending = policy.active_status === 'pending';
-      const isRequested = policy.active_status === 'requested';
-      const endDate = this.formatInputDate(policy.end_date);
+  const isCanceled = policy.active_status === 'canceled';
+  const isPending = policy.active_status === 'pending';
+  const isRequested = policy.active_status === 'requested';
+  const isConfirmed = policy.active_status === "confirmed";
 
-      if (this.activeTab === 'current') {
-        return isPending || isRequested || (endDate && endDate >= new Date());
-      } else {
-        return isCanceled || (endDate && endDate < new Date());
-      }
-    });
+  const endDate = this.formatInputDate(policy.end_date);
+
+  if (this.activeTab === 'current') {
+    return (
+      isPending ||
+      isRequested ||
+      (isConfirmed && endDate !== null) || // confirmed with endDate
+      (endDate && endDate >= new Date())
+    );
+  } else {
+    return (
+      isCanceled ||
+      (isConfirmed && !endDate) || // confirmed with null endDate يروح هنا
+      (endDate && endDate < new Date())
+    );
+  }
+});
 
     // Sort by date (newest first)
     return filtered.sort((a, b) => {
@@ -200,6 +217,7 @@ export class UserPoliciesComponent implements OnInit {
     const isCanceled = policy.active_status === 'canceled';
     const isPending = policy.active_status === 'pending';
     const isRequested = policy.active_status === 'requested';
+    const isConfirmed = policy.active_status === 'confirmed';
     const endDate = this.formatInputDate(policy.end_date);
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -210,6 +228,7 @@ export class UserPoliciesComponent implements OnInit {
       return this.translate.instant('pages.user_policies.status.pending');
     if (isRequested)
       return this.translate.instant('pages.user_policies.status.requested');
+    if(isConfirmed) this.translate.instant('pages.user_policies.status.confirmed');
     if (!endDate || endDate < today)
       return this.translate.instant('pages.user_policies.status.expired');
     return this.translate.instant('pages.user_policies.status.running');
@@ -226,9 +245,9 @@ export class UserPoliciesComponent implements OnInit {
     return type === 'medical'
       ? policy.medical_insurance_number
       : type === 'motor'
-      ? policy.motor_insurance_number
-      : type === 'building'
-      ? policy.building_insurance_number
-      : policy.jop_insurance_number;
+        ? policy.motor_insurance_number
+        : type === 'building'
+          ? policy.building_insurance_number
+          : policy.jop_insurance_number;
   }
 }

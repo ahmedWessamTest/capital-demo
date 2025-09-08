@@ -1,3 +1,4 @@
+import { finalize } from 'rxjs/operators';
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
@@ -116,7 +117,7 @@ export class ResetPasswordComponent implements OnInit {
         let lang = '';
         this.currentLang$.subscribe((next) => (lang = next));
         this._alertService.showNotification({
-          imagePath: '/images/common/settings.webp',
+          imagePath: './common/settings.webp',
           translationKeys: { title: 'Reset_password_successful' },
         });
         this._authService.clearResetEmail();
@@ -127,11 +128,16 @@ export class ResetPasswordComponent implements OnInit {
         this.isLoading.set(false);
         const errorMessage = error?.error?.message || 'Reset password failed. Please try again.';
         this._alertService.showNotification({
-          imagePath: '/images/common/before-remove.webp',
+          imagePath: './common/before-remove.webp',
           translationKeys: { title: errorMessage },
         });
         this.triggerShakeAnimation();
       },
+      complete: () => {
+        setTimeout(() => {
+          this._alertService.hide();
+        }, 1000)
+      }
     });
   }
 

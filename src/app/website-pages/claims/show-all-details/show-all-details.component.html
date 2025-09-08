@@ -33,7 +33,7 @@
                 : policyType === 'motor'
                 ? '/assets/policies/car.png'
                 : policyType === 'jop'
-                ? '/assets/policies/medical.png'
+                ? '/assets/policies/job.png'
                 : '/assets/policies/building.png'
             "
             [alt]="
@@ -72,17 +72,21 @@
           }}</a
         >
         <button
+          *ngIf="
+            policyDetails?.request_type === 'corporate' &&
+            policyDetails?.category_id !== 3
+          "
           [routerLink]="[
             '/',
             currentLang$ | async,
             'policies',
             policyId,
             policyType,
-            'comments'
+            'corporate-details'
           ]"
           class="show-all-details"
         >
-          {{ "pages.show_all_details.buttons.go_to_comments" | translate }}
+          {{ "pages.show_all_details.buttons.view_employee" | translate }}
         </button>
       </div>
       <img
@@ -152,13 +156,13 @@
           </button>
         </div>
 
-        <div class="text-xl sm:text-2xl font-bold text-black mb-4">
+        <!-- <div class="text-xl sm:text-2xl font-bold text-black mb-4">
           {{
             policyChoices.year_money ||
               policyChoices.month_money ||
               ("pages.show_all_details.na" | translate)
           }}
-        </div>
+        </div> -->
 
         <ul class="space-y-3 mb-6">
           <li class="flex items-center justify-between">

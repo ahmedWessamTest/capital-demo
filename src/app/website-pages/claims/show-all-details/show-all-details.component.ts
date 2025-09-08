@@ -222,7 +222,8 @@ export class ShowAllDetailsComponent implements OnInit {
 
   getPolicyDetailsFields(): { label: string; value: any }[] {
     if (!this.policyDetails || !this.policyType) return [];
-
+    console.log('Policy Details:', this.policyDetails);
+    
     const fieldsToExclude = [
       'id',
       'policy_id',

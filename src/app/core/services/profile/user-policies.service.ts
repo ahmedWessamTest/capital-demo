@@ -23,6 +23,9 @@ export interface MedicalPolicy {
   active_status: string;
   created_at: string;
   updated_at: string;
+  request_type?: string
+  company_employee_number?: number;
+  company_building_number?: number;
 }
 
 export interface MotorPolicy {
@@ -53,6 +56,9 @@ export interface MotorPolicy {
   active_status: string;
   created_at: string;
   updated_at: string;
+  request_type?: string;
+  company_employee_number?: number;
+  company_building_number?: number;
 }
 
 export interface BuildingPolicy {
@@ -80,6 +86,9 @@ export interface BuildingPolicy {
   active_status: string;
   created_at: string;
   updated_at: string;
+  request_type?: string;
+  company_employee_number?: number;
+  company_building_number?: number;
 }
 export interface JopPolicyView {
   id: number;
@@ -102,6 +111,9 @@ export interface JopPolicyView {
   active_status: string;
   created_at: string;
   updated_at: string;
+  request_type?: string;
+  company_employee_number?: number;
+  company_building_number?: number;
 }
 
 export interface UserPoliciesResponse {
@@ -216,8 +228,7 @@ export class PoliciesService {
       type: 'all',
     };
     return this._http.get<UserPoliciesResponse>(
-      `${this.baseUrl}app-profile/userpolicy/${userId}`,
-      { params }
+      `${this.baseUrl}app-profile/userpolicy/${userId}`,{params} 
     );
   }
 

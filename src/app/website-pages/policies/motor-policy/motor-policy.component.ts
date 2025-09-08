@@ -12,7 +12,7 @@ import { MotorInsurance, MotorCategory, MotorInsuranceService, MotorPolicyData }
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { CustomTranslatePipe } from '@core/pipes/translate.pipe';
 import { LanguageService } from '@core/services/language.service';
-import { AlertService, AlertType } from '@core/shared/alert/alert.service';
+import { AlertService } from '@core/shared/alert/alert.service';
 import { Router } from '@angular/router';
 import { SafeHtmlPipe } from '@core/pipes/safe-html.pipe';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -46,8 +46,8 @@ export class MotorPolicyComponent implements OnInit, OnDestroy {
   isLoading = false;
   isNeedCallLoading = false;
   showPlans = false;
-  isTextContentLoading = true; 
-  isImageLoading = true; 
+  isTextContentLoading = true;
+  isImageLoading = true;
   imageLoaded = false;
   private languageSubscription!: Subscription;
   private alertSubscription!: Subscription;
@@ -104,8 +104,8 @@ export class MotorPolicyComponent implements OnInit, OnDestroy {
     private router: Router,
     private authStorage: AuthStorageService,
     private cdr: ChangeDetectorRef,
-       private meta: Meta,
-        private title: Title, 
+    private meta: Meta,
+    private title: Title,
   ) {
     this.claimForm = this.fb.group({
       name: ['', Validators.required],
@@ -150,8 +150,8 @@ export class MotorPolicyComponent implements OnInit, OnDestroy {
   private updateCarouselDirection(lang: string): void {
     const isRtl = lang === 'ar';
     if (this.customOptions.rtl !== isRtl) {
-      this.customOptions = { 
-        ...this.customOptions, 
+      this.customOptions = {
+        ...this.customOptions,
         rtl: isRtl,
         navText: isRtl ? ['التالي', 'السابق'] : ['Previous', 'Next']
       };
@@ -165,7 +165,7 @@ export class MotorPolicyComponent implements OnInit, OnDestroy {
       if (isPlatformBrowser(this.platformId)) {
         const formElement = document.getElementById('policy-form');
         if (formElement) {
-          formElement.scrollIntoView({ behavior: 'smooth' });
+          formElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
       }
     }, 50);
@@ -174,10 +174,10 @@ export class MotorPolicyComponent implements OnInit, OnDestroy {
   onCarYearSelected(year: GovernorateOption) {
     this.claimForm.get('carYear')?.setValue(year ? year.id : '');
     this.claimForm.get('carYear')?.markAsTouched();
-    
+
     if (year && year.id === 0) {
       this.claimForm.get('otherCarYear')?.setValidators([
-        Validators.required, 
+        Validators.required,
         this.maxCarYearValidator(new Date().getFullYear()),
         Validators.min(1900)
       ]);
@@ -192,7 +192,7 @@ export class MotorPolicyComponent implements OnInit, OnDestroy {
   onCarBrandSelected(brand: GovernorateOption) {
     this.claimForm.get('carBrand')?.setValue(brand ? brand.id : '');
     this.claimForm.get('carBrand')?.markAsTouched();
-    
+
     if (brand && brand.id === 0) {
       this.claimForm.get('otherCarBrand')?.setValidators([Validators.required]);
       this.claimForm.get('otherCarBrand')?.updateValueAndValidity();
@@ -201,7 +201,7 @@ export class MotorPolicyComponent implements OnInit, OnDestroy {
       this.claimForm.get('otherCarBrand')?.updateValueAndValidity();
       this.claimForm.get('otherCarBrand')?.setValue('');
     }
-    
+
     if (brand && brand.id !== 0) {
       const models = this.motorInsuranceService.getModelsByBrand(Number(brand.id));
       this.carModels = models.map(model => ({
@@ -220,7 +220,7 @@ export class MotorPolicyComponent implements OnInit, OnDestroy {
   onCarModelSelected(model: GovernorateOption) {
     this.claimForm.get('carModel')?.setValue(model ? model.id : '');
     this.claimForm.get('carModel')?.markAsTouched();
-    
+
     if (model && model.id === 0) {
       this.claimForm.get('otherCarModel')?.setValidators([Validators.required]);
       this.claimForm.get('otherCarModel')?.updateValueAndValidity();
@@ -369,17 +369,17 @@ export class MotorPolicyComponent implements OnInit, OnDestroy {
         this.claimForm.get('phone')?.disable();
         this.claimForm.get('email')?.disable();
       }
-      
+
     }
     this.genericDataService.getCounters().subscribe(data => {
       this.counters = data.filter((counter: Counter) => counter.id === 6);
       this.cdr.markForCheck();
-      console.log("counters",this.counters)
+      console.log("counters", this.counters)
     });
     this.motorInsuranceService.fetchMotorData().pipe(
       tap(data => {
         this.category = data.category;
-        
+
         const metaTitle = this.translate.currentLang === 'ar' ? data.category.ar_meta_title : data.category.en_meta_title;
         const metaDescription = this.translate.currentLang === 'ar' ? data.category.ar_meta_description : data.category.en_meta_description;
         this.title.setTitle(metaTitle);
@@ -390,8 +390,8 @@ export class MotorPolicyComponent implements OnInit, OnDestroy {
           id: year,
           name: year.toString(),
           code: `YEAR_${year}`,
-          ar_name:''
-        })).concat({ id: 0, name: 'Other',ar_name:'اخري', code: 'OTHER_YEAR' });
+          ar_name: ''
+        })).concat({ id: 0, name: 'Other', ar_name: 'اخري', code: 'OTHER_YEAR' });
         this.carBrands = data.brands.map(brand => ({
           id: brand.id,
           name: brand.en_title,
@@ -438,9 +438,9 @@ export class MotorPolicyComponent implements OnInit, OnDestroy {
 
   nextStep() {
     if (this.isLoading) return;
-    
+
     const currentStepFields = this.steps[this.step].formFields;
-    
+
     currentStepFields.forEach(field => {
       const control = this.claimForm.get(field);
       if (control && !control.disabled) {
@@ -449,7 +449,7 @@ export class MotorPolicyComponent implements OnInit, OnDestroy {
     });
 
     this.markOtherFieldsAsTouched();
-    
+
     this.isLoading = true;
 
     const isStepValid = this.isCurrentStepValid(currentStepFields);
@@ -515,72 +515,72 @@ export class MotorPolicyComponent implements OnInit, OnDestroy {
   }
 
   private proceedWithNextStep() {
-  const formData = this.createFormData();
-  if (this.step === 0 || !this.leadId) {
-    this.motorInsuranceService.createMotorLead(formData).pipe(
-      tap(response => {
-        this.leadId = response.data.id;
-        this.step++;
-        this.progress = (this.step + 1) * 14.29;
-        if (this.step === 6) {
-          this.showPlans = false;
-          this.alertService.showGeneral({
-            messages: [
-              this.translate.instant('pages.motor_policy.alerts.building_request'),
-              this.translate.instant('pages.motor_policy.alerts.building_request_contact'),
-              this.translate.instant('pages.motor_policy.alerts.building_request_thanks')
-            ],
-            imagePath: 'assets/common/loading.gif',
-            secondaryImagePath: 'assets/common/otp.gif'
+    const formData = this.createFormData();
+    if (this.step === 0 || !this.leadId) {
+      this.motorInsuranceService.createMotorLead(formData).pipe(
+        tap(response => {
+          this.leadId = response.data.id;
+          this.step++;
+          this.progress = (this.step + 1) * 14.29;
+          if (this.step === 6) {
+            this.showPlans = false;
+            this.alertService.showGeneral({
+              messages: [
+                this.translate.instant('pages.motor_policy.alerts.building_request'),
+                this.translate.instant('pages.motor_policy.alerts.building_request_contact'),
+                this.translate.instant('pages.motor_policy.alerts.building_request_thanks')
+              ],
+              imagePath: 'assets/common/loading.gif',
+              secondaryImagePath: 'assets/common/otp.gif'
+            });
+          }
+        }),
+        catchError(err => {
+          console.error('Error creating lead:', err);
+          this.alertService.showNotification({
+            translationKeys: { message: 'pages.motor_policy.errors.lead_creation_failed' }
           });
+          return of(null);
+        })
+      ).subscribe({
+        complete: () => {
+          this.isLoading = false;
+          setTimeout(() => {
+            this.alertService.hide()
+          }, 1000)
         }
-      }),
-      catchError(err => {
-        console.error('Error creating lead:', err);
-        this.alertService.showNotification({
-          translationKeys: { message: 'pages.motor_policy.errors.lead_creation_failed' }
-        });
-        return of(null);
-      })
-    ).subscribe({
-      complete: () => {
-        this.isLoading = false;
-        setTimeout(()=>{
-          this.alertService.hide()
-        },1000)
-      }
-    });
-  } else {
-    this.motorInsuranceService.updateMotorLead(this.leadId, formData).pipe(
-      tap(() => {
-        this.step++;
-        this.progress = (this.step + 1) * 14.29;
-        if (this.step === 6) {
-          this.showPlans = false;
-          this.alertService.showGeneral({
-            messages: [this.translate.instant('pages.motor_policy.alerts.building_request')],
-            imagePath: 'assets/common/loading.gif',
-            secondaryImagePath: 'assets/common/otp.gif'
+      });
+    } else {
+      this.motorInsuranceService.updateMotorLead(this.leadId, formData).pipe(
+        tap(() => {
+          this.step++;
+          this.progress = (this.step + 1) * 14.29;
+          if (this.step === 6) {
+            this.showPlans = false;
+            this.alertService.showGeneral({
+              messages: [this.translate.instant('pages.motor_policy.alerts.building_request')],
+              imagePath: 'assets/common/loading.gif',
+              secondaryImagePath: 'assets/common/otp.gif'
+            });
+          }
+        }),
+        catchError(err => {
+          console.error('Error updating lead:', err);
+          this.alertService.showNotification({
+            translationKeys: { message: 'pages.motor_policy.errors.lead_update_failed' }
           });
+          return of(null);
+        })
+      ).subscribe({
+        complete: () => {
+          this.isLoading = false;
+          setTimeout(() => {
+            this.alertService.hide()
+          }, 1000)
         }
-      }),
-      catchError(err => { 
-        console.error('Error updating lead:', err);
-        this.alertService.showNotification({
-          translationKeys: { message: 'pages.motor_policy.errors.lead_update_failed' }
-        });
-        return of(null);
-      })
-    ).subscribe({
-      complete: () => {
-        this.isLoading = false;
-        setTimeout(()=>{
-          this.alertService.hide()
-        },1000)
-      }
-    });
+      });
+    }
   }
-}
 
   pay() {
     this.proceedWithPayment();
@@ -691,7 +691,7 @@ export class MotorPolicyComponent implements OnInit, OnDestroy {
         catchError((error: HttpErrorResponse) => {
           console.error('Registration error:', error);
           let errorMessage = this.translate.instant('pages.home_form.errors.registration_failed');
-          
+
           if ((error.status === 422 || error.status === 400) && error.error?.errors) {
             if (error.error.errors.email) {
               errorMessage += `\n- ${this.translate.instant('pages.home_form.errors.email_exist')}`;
@@ -700,7 +700,7 @@ export class MotorPolicyComponent implements OnInit, OnDestroy {
               errorMessage += `\n- ${this.translate.instant('pages.home_form.errors.phone_exist')}`;
             }
             this.alertService.showGeneral({
-              messages: [errorMessage + '\n' ],
+              messages: [errorMessage + '\n'],
               buttonLabel: this.translate.instant('pages.home_form.errors.login'),
               redirectRoute: `/${this.authService.getCurrentLang()}/login`
             });
@@ -718,7 +718,7 @@ export class MotorPolicyComponent implements OnInit, OnDestroy {
     }
     return of(true);
   }
-  
+
   goBack() {
     history.back();
   }
@@ -743,6 +743,6 @@ export class MotorPolicyComponent implements OnInit, OnDestroy {
       this.claimForm.get('fullName')?.setValue(filteredValue); // Changed 'name' to 'fullName'
     }
   }
-  
+
 }
 

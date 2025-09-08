@@ -1,0 +1,65 @@
+<div [id]="componentId" class="mx-5 md:mx-10 lg:mx-20">
+      <div class="flex flex-col gap-4">
+        <div class="flex flex-col mb-[15px] capitalize">
+          <div
+            class="text-[#3C3C3C] font-Alexandria mb-4 text-[16px] font-[400] leading-5"
+            *ngIf="config.title"
+          >
+            {{ config.title | translate }}
+          </div>
+          <div
+            class="text-[#3C3C3C] font-bold font-Alexandria mb-4 text-[18px] leading-5"
+            *ngIf="config.subtitle"
+          >
+            {{ config.subtitle | translate }}?
+          </div>
+          <div
+            class="text-[#000] font-Alexandria text-[16px] leading-5"
+            *ngIf="config.description"
+          >
+            {{ config.description | translate }}
+          </div>
+        </div>
+        
+        <div class="flex flex-wrap gap-4">
+          <label 
+            *ngFor="let option of config.options; trackBy: trackByValue"
+            class="flex items-center text-lg md:text-[18px] px-12 py-4 border border-gray-400 rounded-[15px] cursor-pointer transition"
+            [ngClass]="{
+              'border-blue-500 text-blue-500': selectedValue === option.value,
+              'hover:border-gray-500': selectedValue !== option.value
+            }"
+          >
+            <input 
+              type="radio" 
+              [value]="option.value" 
+              (change)="onSelectionChange(option.value)" 
+              [name]="radioGroupName" 
+              class="hidden"
+            >
+            <span 
+              class="w-6 h-6 me-2 rounded-full border-1 flex items-center justify-center"
+              [ngClass]="{
+                'border-blue-500': selectedValue === option.value,
+                'border-gray-400': selectedValue !== option.value
+              }"
+            >
+              <span 
+                *ngIf="selectedValue === option.value" 
+                class="w-3 h-3 bg-blue-500 rounded-full"
+              ></span>
+            </span>
+            {{ option.translationKey | translate }}
+          </label>
+        </div>
+      </div>
+      
+      <button
+        (click)="onNextClick()"
+        [disabled]="!selectedValue || disabled"
+        class="main-btn mt-8 bg-[#00AEEF] text-white py-2 px-6 rounded-lg hover:bg-blue-700 transition-colors text-sm md:text-base disabled:opacity-50 disabled:cursor-not-allowed"
+        *ngIf="config.nextButtonText"
+      >
+        {{ config.nextButtonText | translate }}
+      </button>
+    </div>

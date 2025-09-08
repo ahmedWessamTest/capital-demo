@@ -40,8 +40,32 @@
   "form_success_message": "Your message has been sent and we will contact you as soon as possible to help you.",
   "form_thanks": "Thanks for your message.",
   "back_to_home": "Back to Home",
-
+"common":{
+"delete":"Delete",
+"cancel":"cancel",
+"success":"Success",
+  "ok": "OK"
+},
   "pages": {
+    "add_emp_form": {
+    "title": "Add New Employee",
+    "name": "Full Name",
+    "Enter_employee_name": "Enter employee name",
+    "phone": "Phone",
+    "phone_placeholder": "01xxxxxxxxx",
+    "email": "Email",
+    "email_placeholder": "example@email.com",
+    "submit": "Submit",
+    "submitting": "Submitting...",
+    "alert": {
+      "emp_added_success": "Employee has been added successfully"
+    },
+    "errors": {
+      "name": "Name is required (min 3 characters).",
+      "phone": "Please enter a valid phone number (11 digits, starts with 01).",
+      "email": "Please enter a valid email.",
+      "exists": "Your phone or email already exist"
+    },
     "tool": {
       "PHONE_VALID_ERROR": "Please enter a valid 11-digit phone number."
     },
@@ -176,6 +200,8 @@
       "MESSAGE_MINLENGTH_ERROR": "Message must be at least 10 characters long"
     },
     "show_all_details": {
+      "title":"Manage Employees",
+      "no_data":"Add Employees",
       "na": "N/A",
       "jop_title": "Job Title",
       "jop_price": "Sum Insured Amount",
@@ -192,14 +218,34 @@
         "expired": "Expired",
         "expired_canceled": "Expired/Canceled"
       },
+      "delete_alert":{
+        "delete_item":"Delete Item",
+        "are_you_sure":"Are you sure you want to delete this item?",
+        "yes_delete":"Yes, delete"
+      },
       "types": {
         "medical": "Medical Insurance",
         "motor": "Motor Insurance",
         "building": "Building Insurance",
         "jop": "Job Insurance"
       },
+      "cols":{
+"username":"Username",
+"control":"Control"
+      },
       "labels": {
         "company": "Company",
+        "company_building_total_money":"company buildings total money",
+                                "company_building_number":"Number of buildings",
+
+        "total_year_money":"Yearly Inured Amount",
+        "total_month_money":"Monthly Insured Amount",
+        "company_employee_total_money":"Sum Insured Amount",
+              "company_name":"Company Name",
+"company_employee_number":"Number Of Employees",
+"company_employee_avg":"Average Age Of Employees",
+"company_address":"Company Address",
+"request_type":"Request Type",
         "monthly": "Yearly",
         "expiry_date": "Expiry Date",
         "status": "Status",
@@ -236,7 +282,10 @@
         "show_all_comments": "Show All Comments",
         "go_to_comments": "Go To Comments",
         "in_year": "In Year",
-        "in_month": "In Month"
+        "in_month": "In Month",
+                "add_employee":"Add Employee",
+                "view_employee":"View Employees"
+
       },
       "images": {
         "medical_alt": "Medical Insurance Image",
@@ -568,7 +617,6 @@
       "form": {
         "personal_information": {
           "prompt_0": "Can I Know",
-
           "prompt_1": "Your Information",
           "prompt_2": "Becouse It Will Make A big Difference",
           "name_placeholder": "Enter your full name",
@@ -630,7 +678,26 @@
           "cash": "Cash",
           "pay_button": "Pay Now"
         },
-        "next_button": "Next"
+        "next_button": "Next",
+        "company":{
+          "building_number" : {
+            "prompt_0": "Can I Know",
+            "prompt_1": "The Number Of Units",
+            "placeholder": "Enter the number of units",
+            "errors": {
+              "building_number_required": "Number of units is required",
+              "building_number_min": "Number of units must be at least 1 character"
+            }
+          },
+          "unit_price" : {
+            "prompt_0": "Can I Know",
+            "prompt_1": "Unit Prices",
+            "placeholder": "Enter the unit prices",
+            "errors": {
+            "unit_prices_required": "Unit prices is required"
+            }
+          }
+        }
       },
       "alerts": {
         "building_request": "We are processing your building insurance request",
@@ -790,6 +857,62 @@
           "errors": {
             "id_document_required": "ID document is required"
           }
+        },
+        "lead_type":{
+          "can_i_know": "Can I Know",
+          "individual_or_corporate":"Individual Or corporate",
+          "because_it_will_make_a_big_different_in_your_steps":"Because It Will Make A big Different In Your steps",
+          "individual":"Individual",
+  "corporate":"Corporate",
+  "next_button":"Next"
+        },
+        "company":{
+          "name": {
+            "prompt_0":"Can I Know",
+            "prompt_1": "Your Company name",
+            "placeholder": "Company Name",
+            "errors":{
+              "name_required": "Company name is required"
+            }
+          },
+          "address": {
+            "prompt_0":"Can I Know",
+            "prompt_1": "Your Company Location",
+            "placeholder": "Company Location",
+            "errors":{
+              "address_required": "Company location is required"
+            }
+          },
+          "number_emp": {
+            "prompt_0":"Can I Know",
+            "prompt_1": "Number of Employees",
+            "placeholder": "Company employees number",
+            "errors":{
+              "number_emp_required": "Number of employees is required",
+              "number_emp_min": "Number of employees must be at least 1"
+            }
+          },
+          "avg_age": {
+            "prompt_0":"Can I Know",
+            "prompt_1": "Average Age of Employees",
+            "placeholder": "Average Age",
+            "errors":{
+              "avg_age_required": "Average of employees is required",
+              "avg_age_min": "Average of employees must be at least 18"
+            }
+          },
+          "total_money": {
+            "prompt_0":"Can I Know",
+            "prompt_1": "Sum Insured Amount",
+            "prompt_2": "This amount will determine the value of your insurance coverage",
+            "placeholder": "Sum insured amount",
+            "range_info": "Allowed range: 50,000 to 1,000,000 EGP",
+            "errors":{
+              "total_money_required": "Sum insured is required",
+              "total_money_min": "Minimum sum insured amount is 50,000 EGP",
+            "total_money_max": "Maximum sum insured amount is 1,000,000 EGP"
+            }
+          }
         }
       },
       "alerts": {
@@ -833,8 +956,12 @@
       "types": {
         "medical": "Medical Insurance",
         "motor": "Motor Insurance",
-        "job": "Building Insurance",
+        "building": "Building Insurance",
         "jop": "Job Insurance"
+      },
+      "request_type": {
+        "corporate" : "Corporate",
+        "individual": "Individual"
       },
       "labels": {
         "policy_holder": "Policy Holder",
@@ -842,7 +969,10 @@
         "policy_type": "Policy Type",
         "status": "Status",
         "gender": "Gender",
-        "expiry_date": "Expiry Date"
+        "expiry_date": "Expiry Date",
+        "request_type":"Request Type",
+        "company_employee_number":"Number Of Employees",
+        "company_building_number":"number of buildings"
       },
       "buttons": {
         "show_all_details": "Show All Details"
@@ -1022,4 +1152,5 @@
       "DESCRIPTION": "Read our latest articles in Arabic"
     }
   }
+}
 }

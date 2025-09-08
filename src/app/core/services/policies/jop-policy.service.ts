@@ -18,7 +18,25 @@ export interface JopPolicyData {
   payment_method: string;
   active_status: string;
 }
+export interface JopPolicyDataCorporate {
+  category_id: string;
+  user_id: string;
+  jop_insurance_id: string;
+  name: string;
+  email: string;
+  phone: string;
+  company_name: string;
+  company_employee_number: number;
+  company_employee_avg: number;
+  company_employee_total_money: number;
+  company_address: string;
+  jop_title: string;
+  payment_method: string;
+  active_status: string;
+  lead_type: 'corporate';
+  request_type: 'corporate';
 
+}
 @Injectable({
   providedIn: 'root',
 })
@@ -38,7 +56,7 @@ export class JopPolicyService {
     );
   }
 
-  updateLead(id: number,formData: any) {
+  updateLead(id: number, formData: any) {
     return this.httpClient.post(
       `${API_CONFIG.BASE_URL}app-leads/jop-update/${id}`,
       formData
@@ -46,12 +64,13 @@ export class JopPolicyService {
   }
 
   /* Policies */
-  getInsurancePolicies(): Observable<JobInsurancePolicy> {
+  getInsurancePolicies(empNum?: any): Observable<JobInsurancePolicy> {
     return this.httpClient.get<JobInsurancePolicy>(
       `${API_CONFIG.BASE_URL}app-policies/policies-content/5`,
       {
         params: {
           type: 'jop',
+          employee_number: empNum
         },
       }
     );

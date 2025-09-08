@@ -135,7 +135,7 @@
                           : policy.type === 'motor'
                           ? '/assets/policies/car.png'
                           : policy.type === 'jop'
-                          ? '/assets/policies/medical.png'
+                          ? '/assets/policies/job.png'
                           : '/assets/policies/building.png'
                       "
                       [alt]="
@@ -177,7 +177,47 @@
                       {{ formatDisplayDate(policy.end_date) }}
                     </div>
                   </div>
+                  <div>
+                    <div class="label">
+                      {{
+                        "pages.user_policies.labels.request_type" | translate
+                      }}
+                    </div>
+                    <div class="value">
+                      {{
+                        "pages.user_policies.request_type." +
+                          (policy.request_type || "individual") | translate
+                      }}
+                    </div>
+                  </div>
+                  <div *ngIf="policy.request_type === 'corporate'">
+                    <div *ngIf="policy.company_employee_number; else buildNum">
+                      <div class="label">
+                        {{
+                          "pages.user_policies.labels.company_employee_number"
+                            | translate
+                        }}
+                      </div>
+                      <div class="value">
+                        {{ policy.company_employee_number }}
+                      </div>
+                    </div>
+                    <ng-template #buildNum>
+                      <div>
+                        <div class="label">
+                          {{
+                            "pages.user_policies.labels.company_building_number"
+                              | translate
+                          }}
+                        </div>
+                        <div class="value">
+                          {{ policy.company_building_number }}
+                        </div>
+                      </div>
+                    </ng-template>
+                  </div>
                 </div>
+
                 <div class="flex items-center gap-2 justify-between">
                   <button
                     [routerLink]="[

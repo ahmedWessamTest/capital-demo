@@ -480,7 +480,7 @@
 
 //     return observable;
 //   }
- 
+
 
 //   getAboutData(): Observable<AboutDataResponse> {
 //     if (!this.isBrowser()) {
@@ -1009,6 +1009,7 @@ export interface HomeDataResponse {
   clients: Client[];
   slider: Slider[];
   features: Feature[];
+  testimonials: Testimonial[];
 }
 
 export interface AboutData {
@@ -1065,17 +1066,16 @@ export interface AboutDataResponse {
 }
 
 export interface Testimonial {
-  id: number;
-  en_name: string;
-  ar_name: string;
-  en_position: string;
-  ar_position: string;
-  en_text: string;
-  ar_text: string;
-  image: string;
-  active_status: string;
-  created_at: string;
-  updated_at: string;
+  id: number
+  en_name: string
+  ar_name: string
+  en_job: string
+  ar_job: string
+  en_text: string
+  ar_text: string
+  active_status: string
+  created_at: string
+  updated_at: string
 }
 
 export interface TestimonialsResponse {
@@ -1561,14 +1561,14 @@ export class UpdatedGenericDataService implements OnChanges {
         observer.complete();
       });
     }
-  
+
     if (this.isCacheValid('partners') && this.partnersCache()) {
       const cachedData = this.partnersCache()!;
       const filteredData = this.filterPartners(cachedData);
       this.partnersSubject.next(filteredData);
       return of(filteredData);
     }
-  
+
     // If cache is empty, force fetch home data to populate partners
     return this._http.get<HomeDataResponse>(`${this.baseUrl}app-home/getHomeData`).pipe(
       map(response => response.partners),

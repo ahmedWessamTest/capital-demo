@@ -1,0 +1,132 @@
+<section class="py-10">
+  <!-- Skeleton Loading -->
+  <div *ngIf="loading; else mainContent" class="mx-auto max-w-4xl">
+    <div class="overflow-x-auto">
+      <table
+        class="min-w-full border border-gray-200 rounded-xl shadow-sm animate-pulse text-center"
+      >
+        <thead class="bg-gray-50">
+          <tr>
+            <th class="px-3 py-2 text-sm font-medium text-gray-500">
+              {{ "pages.show_all_details.cols.username" | translate }}
+            </th>
+            <th class="px-3 py-2 text-sm font-medium text-gray-500">
+              {{ "pages.show_all_details.cols.control" | translate }}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="let skeleton of skeletonRows"
+            class="border-t border-gray-100"
+          >
+            <td class="px-3 py-2">
+              <div class="h-3 w-24 bg-gray-300 rounded"></div>
+            </td>
+            <td class="px-3 py-2">
+              <div class="h-6 w-16 bg-gray-300 rounded"></div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <ng-template #mainContent>
+    <div class="mx-auto max-w-4xl px-2">
+      <!-- Title + Button -->
+      <div class="flex justify-between items-center mb-3">
+        <h2 class="text-base md:text-lg font-semibold text-gray-800">
+          {{ "pages.show_all_details.title" | translate }}
+        </h2>
+        <button
+          [disabled]="maxUnits == policyUnits.length"
+          [routerLink]="[
+            '/',
+            currentLang$ | async,
+            'policies',
+            policyId,
+            policyType,
+            'corporate-details',
+            'add'
+          ]"
+          class="bg-blue-600 text-white px-3 py-1.5 rounded-lg text-sm shadow-sm hover:bg-blue-700 transition disabled:bg-gray-500 disabled:cursor-not-allowed!"
+        >
+          {{ "pages.show_all_details.buttons.add_employee" | translate }}
+        </button>
+      </div>
+
+      <!-- If no data -->
+      <div
+        *ngIf="policyUnits.length === 0; else dataTable"
+        class="text-center py-6"
+      >
+        <p class="text-gray-500 mb-3 text-sm">
+          {{ "pages.show_all_details.no_data" | translate }}
+        </p>
+        <button
+          [routerLink]="[
+            '/',
+            currentLang$ | async,
+            'policies',
+            policyId,
+            policyType,
+            'corporate-details',
+            'add'
+          ]"
+          class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm shadow-sm hover:bg-blue-700 transition"
+        >
+          {{ "pages.show_all_details.buttons.manage_every_policy" | translate }}
+        </button>
+      </div>
+
+      <!-- Data Table -->
+      <ng-template #dataTable>
+        <div class="overflow-x-auto">
+          <div
+            class="overflow-hidden rounded-xl border border-gray-200 shadow-sm"
+          >
+            <table class="min-w-full text-center text-sm">
+              <thead class="bg-gray-50">
+                <tr>
+                  <th
+                    class="px-3 py-2 font-medium text-gray-700 cursor-pointer select-none"
+                    (click)="sortByUsername()"
+                  >
+                    <div class="flex items-center justify-center gap-1">
+                      {{ "pages.show_all_details.cols.username" | translate }}
+                      <span *ngIf="sortDirection === 'asc'">⬆️</span>
+                      <span *ngIf="sortDirection === 'desc'">⬇️</span>
+                    </div>
+                  </th>
+                  <th class="px-3 py-2 font-medium text-gray-700">
+                    {{ "pages.show_all_details.cols.control" | translate }}
+                  </th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-100">
+                <tr
+                  *ngFor="let policyUnit of policyUnits"
+                  class="hover:bg-gray-50 transition"
+                >
+                  <td class="px-3 py-2 text-gray-800">
+                    {{ policyUnit.name }}
+                  </td>
+                  <td class="px-3 py-2">
+                    <button
+                      (click)="onDelete(policyUnit.id)"
+                      class="bg-red-500 text-white px-3 py-1.5 rounded-md text-xs md:text-sm hover:bg-red-600 transition"
+                    >
+                      {{ "common.delete" | translate }}
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </ng-template>
+    </div>
+  </ng-template>
+</section>

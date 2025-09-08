@@ -39,40 +39,43 @@ export class HomeComponent implements OnInit, OnDestroy {
   partners: { en_name: string; ar_name: string; image: string; alt: string }[] = [];
   clients: { name: string; image: string; alt: string }[] = [];
   sliders: Slider[] = [];
-  
+
   counters: Counter[] = [];
   testimonials: Testimonial[] = [];
-  
+
   private subscription: Subscription = new Subscription();
   private image_url = API_CONFIG.BASE_URL_IMAGE;
-  
+
   // Track loading state for better UX
   isDataLoaded = false;
-  
+
   constructor(
     private genericDataService: UpdatedGenericDataService,
     private cdr: ChangeDetectorRef
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     // Initiate data fetching immediately
     this.genericDataService.fetchAllData();
-    
+
     this.subscription = this.genericDataService.homeData$.subscribe((data: HomeDataResponse | null) => {
       if (data) {
+        console.log(data);
+
         this.partners = data.partners.map(partner => ({
           ar_name: partner.ar_partner_name,
           en_name: partner.en_partner_name,
           image: this.image_url + partner.partner_image,
           alt: `${partner.en_partner_name} Logo`
         }));
-        
+
         this.clients = data.clients.map(client => ({
           name: client.en_client_name,
           image: this.image_url + client.client_image,
           alt: `${client.en_client_name} Company Logo`
         }));
-        
+        this.testimonials = data.testimonials
+
         this.counters = data.counters;
         this.sliders = data.slider;
         this.isDataLoaded = true;
@@ -93,7 +96,6 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.genericDataService.testimonials$.subscribe(testimonials => {
         if (testimonials) {
           this.testimonials = testimonials;
-          console.log(this.testimonials)
           this.cdr.markForCheck();
         }
       })
