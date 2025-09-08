@@ -28,6 +28,7 @@
   "language": "Language",
   "Loading": "loading",
   "Login_failed": "Login failed",
+  "account_deleted" : "Your Account Has been Deleted",
   "Login_successful": "logged successfully",
   "Registration_successful": "Registration successful",
   "No_articles": "No articles",
@@ -221,7 +222,7 @@
       },
       "delete_alert":{
         "delete_item":"Delete Item",
-        "are_you_sure":"Are you sure you want to delete this item?",
+        "are_you_sure":"Remove this member?",
         "yes_delete":"Yes, delete"
       },
       "types": {

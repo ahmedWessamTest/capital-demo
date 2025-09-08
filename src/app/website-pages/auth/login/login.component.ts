@@ -109,14 +109,20 @@ export class LoginComponent implements OnInit {
           this.loginForm.reset();
           this._router.navigate(['/', lang, 'home']);
         } else {
-          this._alertService.showNotification({
-            translationKeys: { title: 'Login_failed' },
-          });
+          if(!response?.error?.includes("Deleted")) {
+            this._alertService.showNotification({
+              translationKeys: { title: 'Login_failed' },
+            });
+          }else {
+            this._alertService.showNotification({
+              translationKeys: { title: 'account_deleted' },
+            });
+          }
           this.triggerShakeAnimation();
         }
       },
       error: (error) => {
-        this.isLoading.set(false);
+        this.isLoading.set(false);        
         const errorMessage = error?.error?.message || error?.error || 'Login failed. Please try again.';
         this._alertService.showNotification({
           translationKeys: { title: errorMessage },

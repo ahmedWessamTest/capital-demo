@@ -27,6 +27,7 @@
   "language": "اللغة",
   "Loading": "جاري التحميل",
   "Login_failed": "فشل تسجيل الدخول",
+    "account_deleted" : "حسابك قد تم حذفه",
   "Login_successful": "تم تسجيل الدخول بنجاح ",
   "Registration_successful": "التسجيل ناجح",
   "No_articles": "لا توجد مقالات",
@@ -291,7 +292,7 @@
       },
       "delete_alert": {
   "delete_item": "حذف العنصر",
-  "are_you_sure": "هل أنت متأكد أنك تريد حذف هذا العنصر؟",
+  "are_you_sure": "حذف هذا العضو؟",
   "yes_delete": "نعم، احذف"
 },
       "types": {
