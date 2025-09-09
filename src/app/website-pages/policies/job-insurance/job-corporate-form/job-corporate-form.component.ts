@@ -128,7 +128,44 @@ export class JobCorporateFormComponent {
       ar_name: 'وسائط، تسويق، الوكالات الإبداعية التي تقدم خدمات احترافية',
     },
   ];
-
+  avgAgeOptions: GovernorateOption[] = [
+    {
+      id: 1,
+      name: '20-24',
+      code: '20-24',
+      en_name: '20-24',
+    },
+    {
+      id: 2,
+      name: '25-29',
+      code: '25-29',
+      en_name: '25-29',
+    },
+    {
+      id: 3,
+      name: '30-34',
+      code: '30-34',
+      en_name: '30-34',
+    },
+    {
+      id: 4,
+      name: '35-39',
+      code: '35-39',
+      en_name: '35-39',
+    },
+    {
+      id: 5,
+      name: '40-49',
+      code: '40-49',
+      en_name: '40-49',
+    },
+    {
+      id: 6,
+      name: '50+',
+      code: '50+',
+      en_name: '50+',
+    },
+  ];
   steps = [
     {
       en_title: 'Personal Information',
@@ -225,7 +262,7 @@ export class JobCorporateFormComponent {
       jop_title: ['', Validators.required],
       company_name: ['', Validators.required],
       company_employee_number: ['', [Validators.required, Validators.min(1)]],
-      company_employee_avg: ['', [Validators.required, Validators.min(18)]],
+      company_employee_avg: ['', [Validators.required]],
       company_employee_total_money: ['', [Validators.required, Validators.min(50000), Validators.max(1000000)]],
       company_address: ['', Validators.required],
       paymentType: ['Full Payment', Validators.required],
@@ -266,9 +303,18 @@ export class JobCorporateFormComponent {
         this.claimForm.get('email')?.disable();
       }
     }
-
+    this.fetchPlans();
+    this.claimForm.get('company_employee_number')?.valueChanges.subscribe(value => {
+      if (value && Number(value) > 0) {
+        this.fetchPlans(value);
+      } else {
+        this.plans = [];
+      }
+    });
+  }
+  private fetchPlans(employeeNumber?: number): void {
     this.jopPolicyService
-      .getInsurancePolicies(this.claimForm.get("company_employee_number")?.value)
+      .getInsurancePolicies(employeeNumber)
       .pipe(
         tap((data) => {
           this.category = data.category;
@@ -280,16 +326,14 @@ export class JobCorporateFormComponent {
             this.translate.currentLang === 'ar'
               ? data.category.ar_meta_description
               : data.category.en_meta_description;
+
           this.title.setTitle(metaTitle);
           this.meta.updateTag({
             name: 'description',
             content: metaDescription,
           });
-          this.cdr.markForCheck();
+
           this.plans = data.category.jopinsurances;
-
-          // Types are now included in the JopInsurance interface
-
           this.cdr.markForCheck();
         }),
         catchError((err) => {
@@ -299,13 +343,10 @@ export class JobCorporateFormComponent {
               message: 'pages.professional_indemnity.errors.data_fetch_failed',
             },
           });
-          this.cdr.markForCheck();
           return of(null);
         })
       )
       .subscribe();
-
-
   }
 
   ngOnDestroy(): void {
@@ -759,7 +800,7 @@ export class JobCorporateFormComponent {
       jop_title: this.claimForm.get('jop_title')?.value,
       company_name: this.claimForm.get('company_name')?.value,
       company_employee_number: Number(this.claimForm.get('company_employee_number')?.value),
-      company_employee_avg: Number(this.claimForm.get('company_employee_avg')?.value),
+      company_employee_avg: this.claimForm.get('company_employee_avg')?.value,
       company_employee_total_money: Number(this.claimForm.get('company_employee_total_money')?.value),
       company_address: this.claimForm.get('company_address')?.value,
       lead_type: 'corporate',
@@ -917,5 +958,13 @@ export class JobCorporateFormComponent {
       input.value = filteredValue;
       this.claimForm.get('name')?.setValue(filteredValue);
     }
+  }
+  onAvgAgeSelected(position: GovernorateOption) {
+    // Store the English name as the backend expects it
+    this.claimForm.get('company_employee_avg')?.setValue(position ? position.en_name : '');
+    this.claimForm.get('company_employee_avg')?.markAsTouched();
+  }
+  onDropdownAvgAgeFocus(field: string) {
+    this.claimForm.get(field)?.markAsTouched();
   }
 }

@@ -1,7 +1,7 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { animate, query, stagger, state, style, transition, trigger } from '@angular/animations';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { AuthService } from '../../../core/services/auth/auth.service';
@@ -54,6 +54,7 @@ export class RegisterComponent implements OnInit {
   private _router = inject(Router);
   private _languageService = inject(LanguageService);
   private _alertService = inject(AlertService);
+  private _translate = inject(TranslateService)
   currentLang$ = this._languageService.currentLanguage$;
   registerForm!: FormGroup;
   isLoading = signal(false);
@@ -124,7 +125,7 @@ export class RegisterComponent implements OnInit {
         if (response.message === 'User Successfully Registered') {
 
           this._alertService.showNotification({
-            imagePath: '/images/common/settings.webp',
+            imagePath: './common/settings.webp',
             translationKeys: { title: 'Registration_successful' },
           });
           this.registerForm.reset();
@@ -135,65 +136,35 @@ export class RegisterComponent implements OnInit {
       },
       error: (error) => {
         this.isLoading.set(false);
-        // if (error?.error?.errors) {
-        //   if (error.error.errors.email) {
-        //     this.backendErrors.email = error.error.errors.email[0];
-        //   }
-        //   if (error.error.errors.phone) {
-        //     this.backendErrors.phone = error.error.errors.phone[0];
-        //   }
-        // } else {
-          // this._alertService.showNotification({
-          //   title: 'Registration Failed',
-          //   message: error?.error?.message || 'Please check your input and try again.',
-            
-          //   translationKeys: {
-          //     title: 'ERROR.REGISTRATION_FAILED',
-          //     message: 'ERROR.REGISTRATION_MESSAGE',
-          //   },
-          //   onDismiss: () => console.log('Notification dismissed'),
-          // });
-          // this._alertService.showConfirmation({
-          //   title: 'Registration Failed',
-          //   message: 'Would you like to retry?',
-          //   confirmText: 'Retry',
-          //   cancelText: 'Cancel',
-          //   translationKeys: {
-          //     title: 'ERROR.REGISTRATION_FAILED',
-          //     message: 'ERROR.RETRY_MESSAGE',
-          //     confirmText: 'BUTTON.RETRY',
-          //     cancelText: 'BUTTON.CANCEL',
-          //   },
-          //   onConfirm: () => console.log('Confirmed'),
-          //   onCancel: () => console.log('Canceled'),
-          //   onDismiss: () => console.log('Dismissed'),
-          // });
-          this._alertService.showOtp({
-            title: 'Verify Your Email',
-            message: 'Please enter the 6-digit code sent to your email.',
-            email: 'user@example.com',
-            translationKeys: {
-              title: 'OTP.VERIFY_EMAIL',
-              message: 'OTP.ENTER_CODE',
-            },
-            onVerify: (otp: string) => {
-              console.log(`Verified OTP: ${otp}`);
-              // Proceed with post-verification logic
-            },
-            onResend: () => {
-              console.log('Resend OTP requested');
-              // Additional resend logic
-            },
-            onCancel: () => {
-              console.log('OTP verification canceled');
-              // Cancel logic
-            },
+        console.log(error);
+        const backendErrors = error?.error?.errors || {};
+        const errorMessages: string[] = [];
+        const errorMapping: Record<string,string> = {
+          email:"email_already",
+          phone:"phone_already"
+        }
+       for (const key in errorMapping) {
+        if(backendErrors[key]) {
+          errorMessages.push(this._translate.instant(errorMapping[key]));
+        }
+       }        
+        if(errorMessages.length === 0) {
+          errorMessages.push(this._translate.instant("something_went_wrong"))
+        }
+        this._alertService.showNotification({
+            translationKeys: { title: 'register_filed' },
+            messages: errorMessages
           });
-          this.triggerShakeAnimation();
-          // this.triggerShakeAnimation();
+        this.triggerShakeAnimation();
+        // this.triggerShakeAnimation();
         // }
         this.triggerShakeAnimation();
       },
+      complete: () => {
+        setTimeout(() => {
+          this._alertService.hide();
+        }, 2000);
+      }
     });
   }
 

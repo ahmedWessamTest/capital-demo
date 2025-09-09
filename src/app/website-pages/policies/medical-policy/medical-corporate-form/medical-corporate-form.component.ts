@@ -1,7 +1,7 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Component, ViewChild, ElementRef, QueryList, ViewChildren, ChangeDetectorRef, inject, PLATFORM_ID } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { GovernorateOption } from '@core/shared/policy-drop-down/policy-drop-down.component';
+import { GovernorateOption, PolicyDropDownComponent } from '@core/shared/policy-drop-down/policy-drop-down.component';
 import { CarouselComponent, CarouselModule, OwlOptions } from 'ngx-owl-carousel-o';
 import { Observable, of, Subscription } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
@@ -19,17 +19,18 @@ import { Meta, Title } from '@angular/platform-browser';
 @Component({
   selector: 'app-medical-corporate-form',
   imports: [
-     CommonModule,
-        ReactiveFormsModule,
-        CarouselModule,
-        TranslateModule,
-        CustomTranslatePipe,
+    CommonModule,
+    ReactiveFormsModule,
+    CarouselModule,
+    TranslateModule,
+    CustomTranslatePipe,
+    PolicyDropDownComponent
   ],
   templateUrl: './medical-corporate-form.component.html',
   styleUrl: './medical-corporate-form.component.css'
 })
 export class MedicalCorporateFormComponent {
-claimForm: FormGroup;
+  claimForm: FormGroup;
   showForm = false;
   step = 0;
   progress = 20;
@@ -42,9 +43,43 @@ claimForm: FormGroup;
   private alertSubscription!: Subscription;
   private platformId = inject(PLATFORM_ID);
   plans: MedicalInsurance[] = [];
-  genders: GovernorateOption[] = [
-    { id: 'male', name: 'Male', code: 'MALE', en_name: 'Male', ar_name: 'ذكر' },
-    { id: 'female', name: 'Female', code: 'FEMALE', en_name: 'Female', ar_name: 'أنثى' }
+  avgAgeOptions: GovernorateOption[] = [
+    {
+      id: 1,
+      name: '20-24',
+      code: '20-24',
+      en_name: '20-24',
+    },
+    {
+      id: 2,
+      name: '25-29',
+      code: '25-29',
+      en_name: '25-29',
+    },
+    {
+      id: 3,
+      name: '30-34',
+      code: '30-34',
+      en_name: '30-34',
+    },
+    {
+      id: 4,
+      name: '35-39',
+      code: '35-39',
+      en_name: '35-39',
+    },
+    {
+      id: 5,
+      name: '40-49',
+      code: '40-49',
+      en_name: '40-49',
+    },
+    {
+      id: 6,
+      name: '50+',
+      code: '50+',
+      en_name: '50+',
+    },
   ];
   category: MedicalCategory | null = null;
 
@@ -104,7 +139,6 @@ claimForm: FormGroup;
     public translate: TranslateService,
     public languageService: LanguageService,
     private alertService: AlertService,
-    private genericDataService: UpdatedGenericDataService,
     private router: Router,
     private cdr: ChangeDetectorRef,
     private meta: Meta,
@@ -114,9 +148,9 @@ claimForm: FormGroup;
       name: ['', Validators.required],
       phone: ['', [Validators.required, Validators.pattern(/^01[0125]\d{8}$/)]],
       email: ['', [Validators.required, Validators.email, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]],
-            company_name: ['', Validators.required],
+      company_name: ['', Validators.required],
       company_employee_number: ['', [Validators.required, Validators.min(1)]],
-      company_employee_avg: ['', [Validators.required, Validators.min(18)]],
+      company_employee_avg: ['', [Validators.required]],
       company_address: ['', Validators.required],
 
       paymentType: ['Full Payment', Validators.required],
@@ -130,7 +164,7 @@ claimForm: FormGroup;
       this.updateCarouselDirection(lang);
 
       this.currentLanguage = lang;
-      
+
     });
 
     this.alertSubscription = this.alertService.showAlert$.subscribe(show => {
@@ -155,8 +189,19 @@ claimForm: FormGroup;
         this.claimForm.get('email')?.disable();
       }
     }
+    this.fetchPlans();
+    this.claimForm.get('company_employee_number')?.valueChanges.subscribe(value => {
+      if (value && Number(value) > 0) {
+        this.fetchPlans(value);
+      } else {
+        this.plans = [];
+      }
+    });
+  }
+  fetchPlans(value?: number) {
+    console.log(value);
 
-    this.medicalInsuranceService.fetchMedicalData().pipe(
+    this.medicalInsuranceService.fetchMedicalData(value).pipe(
       tap(data => {
         this.category = data.category;
         this.plans = this.medicalInsuranceService.getActiveInsurances();
@@ -178,7 +223,6 @@ claimForm: FormGroup;
       })
     ).subscribe();
   }
-
   onImageLoad(): void {
     this.cdr.markForCheck();
   }
@@ -203,8 +247,8 @@ claimForm: FormGroup;
   private updateCarouselDirection(lang: string): void {
     const isRtl = lang === 'ar';
     if (this.customOptions.rtl !== isRtl) {
-      this.customOptions = { 
-        ...this.customOptions, 
+      this.customOptions = {
+        ...this.customOptions,
         rtl: isRtl,
         navText: isRtl ? ['التالي', 'السابق'] : ['Previous', 'Next']
       };
@@ -318,19 +362,19 @@ claimForm: FormGroup;
         control.markAsTouched();
       }
     });
-  
+
     const isStepValid = currentStepFields.every(field => {
       const control = this.claimForm.get(field);
       return control?.disabled || control?.valid;
     });
-  
+
     if (!isStepValid) {
       return;
     }
-  
+
     if (this.isLoading) return;
     this.isLoading = true;
-  
+
     if (this.step === 0 && !this.authService.isAuthenticated()) {
       const formData = this.claimForm.value;
       const registerData = {
@@ -339,13 +383,13 @@ claimForm: FormGroup;
         phone: formData.phone,
         password: 'defaultPassword123'
       };
-  
+
       this.authService.register(registerData).pipe(
         catchError((error: HttpErrorResponse) => {
           console.error('Registration error:', error);
           this.isLoading = false;
           let errorMessage = this.translate.instant('pages.home_form.errors.registration_failed');
-  
+
           if ((error.status === 422 || error.status === 400) && error.error?.errors) {
             if (error.error.errors.email) {
               errorMessage += `\n- ${this.translate.instant('pages.home_form.errors.email_exist')}`;
@@ -354,7 +398,7 @@ claimForm: FormGroup;
               errorMessage += `\n- ${this.translate.instant('pages.home_form.errors.phone_exist')}`;
             }
             this.alertService.showGeneral({
-              messages: [errorMessage + '\n' ],
+              messages: [errorMessage + '\n'],
               buttonLabel: this.translate.instant('pages.home_form.errors.login'),
               redirectRoute: `/${this.authService.getCurrentLang()}/login`
             });
@@ -407,12 +451,14 @@ claimForm: FormGroup;
           });
           return of(null);
         })
-      ).subscribe({complete:()=>{
-        this.isLoading = false;
-        setTimeout(()=>{
-          this.alertService.hide();
-        },1000)
-      }});
+      ).subscribe({
+        complete: () => {
+          this.isLoading = false;
+          setTimeout(() => {
+            this.alertService.hide();
+          }, 2000)
+        }
+      });
     } else {
       this.medicalInsuranceService.updateMedicalLead(this.leadId, formData).pipe(
         tap(() => {
@@ -427,7 +473,7 @@ claimForm: FormGroup;
             });
           }
         }),
-        catchError(err => { 
+        catchError(err => {
           console.error('Error updating lead:', err);
           this.alertService.showNotification({
             translationKeys: { message: 'pages.medical_policy.errors.lead_update_failed' }
@@ -435,20 +481,20 @@ claimForm: FormGroup;
           return of(null);
         })
       ).subscribe({
-        complete:()=>{
+        complete: () => {
           this.isLoading = false;
-          setTimeout(()=>{
+          setTimeout(() => {
             this.alertService.hide();
-          },1000)
+          }, 2000)
         }
       });
     }
   }
-  
+
   pay() {
     this.proceedWithPayment();
   }
-  
+
   private proceedWithPayment() {
     const policyData: MedicalPolicyCorporateData = {
       category_id: String(this.category!.id),
@@ -460,13 +506,13 @@ claimForm: FormGroup;
       company_name: this.claimForm.get('company_name')?.value,
       company_employee_number: Number(this.claimForm.get('company_employee_number')?.value),
       company_address: this.claimForm.get('company_address')?.value,
-      company_employee_avg: Number(this.claimForm.get('company_employee_avg')?.value),
+      company_employee_avg: this.claimForm.get('company_employee_avg')?.value,
       lead_type: 'corporate',
       request_type: 'corporate',
       active_status: 'requested',
       payment_method: 'Cash',
     };
-  
+
     const lang = this.translate.currentLang || 'en';
     this.medicalInsuranceService.submitMedicalPolicy(policyData).pipe(
       tap(response => {
@@ -538,21 +584,21 @@ claimForm: FormGroup;
   ngAfterViewInit() {
     setTimeout(() => {
       if (isPlatformBrowser(this.platformId)) {
-      const elements = document.querySelectorAll<HTMLElement>('.plan-card');
-      let maxHeight = 0;
+        const elements = document.querySelectorAll<HTMLElement>('.plan-card');
+        let maxHeight = 0;
 
-      elements.forEach(el => {
-        el.style.height = 'auto';
-        const height = el.offsetHeight;
-        if (height > maxHeight) {
-          maxHeight = height;
-        }
-      });
+        elements.forEach(el => {
+          el.style.height = 'auto';
+          const height = el.offsetHeight;
+          if (height > maxHeight) {
+            maxHeight = height;
+          }
+        });
 
-      elements.forEach(el => {
-        el.style.height = `${maxHeight}px`;
-      });
-    }
+        elements.forEach(el => {
+          el.style.height = `${maxHeight}px`;
+        });
+      }
     }, 100);
   }
 
@@ -575,5 +621,13 @@ claimForm: FormGroup;
       input.value = filteredValue;
       this.claimForm.get('fullName')?.setValue(filteredValue); // Changed 'name' to 'fullName'
     }
+  }
+  onPositionSelected(position: GovernorateOption) {
+    // Store the English name as the backend expects it
+    this.claimForm.get('company_employee_avg')?.setValue(position ? position.en_name : '');
+    this.claimForm.get('company_employee_avg')?.markAsTouched();
+  }
+  onDropdownFocus(field: string) {
+    this.claimForm.get(field)?.markAsTouched();
   }
 }

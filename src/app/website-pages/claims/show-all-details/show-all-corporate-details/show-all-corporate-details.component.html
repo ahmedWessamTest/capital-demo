@@ -1,129 +1,257 @@
-<section class="py-10">
+<section class="py-8 px-4 min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50/30">
   <!-- Skeleton Loading -->
-  <div *ngIf="loading; else mainContent" class="mx-auto max-w-4xl">
-    <div class="overflow-x-auto">
-      <table
-        class="min-w-full border border-gray-200 rounded-xl shadow-sm animate-pulse text-center"
-      >
-        <thead class="bg-gray-50">
-          <tr>
-            <th class="px-3 py-2 text-sm font-medium text-gray-500">
-              {{ "pages.show_all_details.cols.username" | translate }}
-            </th>
-            <th class="px-3 py-2 text-sm font-medium text-gray-500">
-              {{ "pages.show_all_details.cols.control" | translate }}
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr
-            *ngFor="let skeleton of skeletonRows"
-            class="border-t border-gray-100"
-          >
-            <td class="px-3 py-2">
-              <div class="h-3 w-24 bg-gray-300 rounded"></div>
-            </td>
-            <td class="px-3 py-2">
-              <div class="h-6 w-16 bg-gray-300 rounded"></div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+  <div *ngIf="loading; else mainContent" class="mx-auto max-w-6xl">
+    <div class="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/20 shadow-xl shadow-blue-500/5 overflow-hidden">
+      <div class="p-6 border-b border-gray-100/80">
+        <div class="flex items-center justify-between">
+          <div class="h-8 w-48 bg-gradient-to-r from-gray-200 to-gray-300 rounded-lg animate-pulse"></div>
+          <div class="h-10 w-32 bg-gradient-to-r from-blue-200 to-blue-300 rounded-xl animate-pulse"></div>
+        </div>
+        <div class="mt-4 h-10 w-80 bg-gradient-to-r from-gray-200 to-gray-300 rounded-xl animate-pulse"></div>
+      </div>
+      
+      <div class="p-6">
+        <div class="space-y-4">
+          <div *ngFor="let skeleton of skeletonRows" class="flex items-center justify-between p-4 rounded-xl bg-gray-50/50">
+            <div class="h-5 w-32 bg-gradient-to-r from-gray-200 to-gray-300 rounded-lg animate-pulse"></div>
+            <div class="h-8 w-20 bg-gradient-to-r from-red-200 to-red-300 rounded-lg animate-pulse"></div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
   <!-- Main Content -->
   <ng-template #mainContent>
-    <div class="mx-auto max-w-4xl px-2">
-      <!-- Title + Button -->
-      <div class="flex justify-between items-center mb-3">
-        <h2 class="text-base md:text-lg font-semibold text-gray-800">
-          {{ "pages.show_all_details.title" | translate }}
-        </h2>
-        <button
-          [disabled]="maxUnits == policyUnits.length"
-          [routerLink]="[
-            '/',
-            currentLang$ | async,
-            'policies',
-            policyId,
-            policyType,
-            'corporate-details',
-            'add'
-          ]"
-          class="bg-blue-600 text-white px-3 py-1.5 rounded-lg text-sm shadow-sm hover:bg-blue-700 transition disabled:bg-gray-500 disabled:cursor-not-allowed!"
-        >
-          {{ "pages.show_all_details.buttons.add_employee" | translate }}
-        </button>
+    <div class="mx-auto max-w-6xl">
+      <!-- Header Card -->
+      <div class="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/20 shadow-xl shadow-blue-500/5 mb-8 overflow-hidden">
+        <div class="p-6 border-b border-gray-100/80">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div>
+              <h1 class="text-2xl md:text-3xl font-bold bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 bg-clip-text text-transparent">
+                {{ "pages.show_all_details.title" | translate }}
+              </h1>
+              <p class="text-gray-600 mt-1 text-sm">
+                Manage your policy units with modern controls
+              </p>
+            </div>
+            
+            <button
+              [disabled]="maxUnits == policyUnits.length"
+              [routerLink]="[
+                '/',
+                currentLang$ | async,
+                'policies',
+                policyId,
+                policyType,
+                'corporate-details',
+                'add'
+              ]"
+              class="group relative px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-xl font-medium shadow-lg shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/30 hover:from-blue-700 hover:to-blue-800 transition-all duration-300 disabled:from-gray-400 disabled:to-gray-500 disabled:shadow-none disabled:cursor-not-allowed transform hover:scale-[1.02] disabled:hover:scale-100"
+            >
+              <span class="flex items-center gap-2">
+                <svg class="w-5 h-5 group-hover:rotate-12 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                </svg>
+                {{ "pages.show_all_details.buttons.add_employee" | translate }}
+              </span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Search and Controls -->
+        <div class="p-6 bg-gradient-to-r from-gray-50/50 to-blue-50/30">
+          <div class="flex flex-col sm:flex-row gap-4 items-stretch sm:items-center">
+            <div class="relative flex-1">
+              <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+              </div>
+              <input
+                type="text"
+                [(ngModel)]="searchTerm"
+                placeholder="{{ 'common.search' | translate }}"
+                class="w-full pl-12 pr-4 py-3 bg-white/70 border border-gray-200/70 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 backdrop-blur-sm shadow-sm transition-all duration-200"
+              />
+            </div>
+
+            <div>
+      <label class="text-sm text-gray-600 mr-2">Show</label>
+      <select
+  [(ngModel)]="itemsPerPage"
+  (change)="updateItemsPerPage(itemsPerPage)"
+  class="border border-gray-400 rounded-lg px-3 py-2"
+>
+  <option *ngFor="let option of itemsPerPageOptions" [value]="option">{{ option }}</option>
+</select>
+      <span class="text-sm text-gray-600 ml-2">entries</span>
+    </div>
+          </div>
+        </div>
       </div>
 
-      <!-- If no data -->
+      <!-- Empty State -->
       <div
-        *ngIf="policyUnits.length === 0; else dataTable"
-        class="text-center py-6"
+        *ngIf="policyUnits.length === 0; else dataContent"
+        class="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/20 shadow-xl shadow-blue-500/5 overflow-hidden"
       >
-        <p class="text-gray-500 mb-3 text-sm">
-          {{ "pages.show_all_details.no_data" | translate }}
-        </p>
-        <button
-          [routerLink]="[
-            '/',
-            currentLang$ | async,
-            'policies',
-            policyId,
-            policyType,
-            'corporate-details',
-            'add'
-          ]"
-          class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm shadow-sm hover:bg-blue-700 transition"
-        >
-          {{ "pages.show_all_details.buttons.manage_every_policy" | translate }}
-        </button>
+        <div class="p-12 text-center">
+          <div class="w-24 h-24 mx-auto mb-6 bg-gradient-to-br from-blue-100 to-blue-200 rounded-full flex items-center justify-center">
+            <svg class="w-12 h-12 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold text-gray-900 mb-2">No data available</h3>
+          <p class="text-gray-600 mb-6 max-w-md mx-auto">
+            {{ "pages.show_all_details.no_data" | translate }}
+          </p>
+          <button
+            [routerLink]="[
+              '/',
+              currentLang$ | async,
+              'policies',
+              policyId,
+              policyType,
+              'corporate-details',
+              'add'
+            ]"
+            class="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-xl font-medium shadow-lg shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/30 hover:from-blue-700 hover:to-blue-800 transition-all duration-300 transform hover:scale-105"
+          >
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+            </svg>
+            {{ "pages.show_all_details.buttons.manage_every_policy" | translate }}
+          </button>
+        </div>
       </div>
 
-      <!-- Data Table -->
-      <ng-template #dataTable>
-        <div class="overflow-x-auto">
-          <div
-            class="overflow-hidden rounded-xl border border-gray-200 shadow-sm"
-          >
-            <table class="min-w-full text-center text-sm">
-              <thead class="bg-gray-50">
-                <tr>
-                  <th
-                    class="px-3 py-2 font-medium text-gray-700 cursor-pointer select-none"
-                    (click)="sortByUsername()"
+      <!-- Data Content -->
+      <ng-template #dataContent>
+        <div class="bg-white/70 backdrop-blur-sm rounded-2xl border border-white/20 shadow-xl shadow-blue-500/5 overflow-hidden">
+          <!-- Table Header -->
+          <div class="p-6 border-b border-gray-100/80">
+            <div class="grid grid-cols-2 gap-4">
+              <div
+                class="flex items-center gap-2 cursor-pointer select-none group"
+                (click)="sortByUsername()"
+              >
+                <span class="font-semibold text-gray-800 group-hover:text-blue-600 transition-colors">
+                  {{ "pages.show_all_details.cols.username" | translate }}
+                </span>
+                <div class="flex flex-col">
+                  <svg 
+                    *ngIf="sortDirection === 'asc'" 
+                    class="w-4 h-4 text-blue-600" 
+                    fill="currentColor" 
+                    viewBox="0 0 20 20"
                   >
-                    <div class="flex items-center justify-center gap-1">
-                      {{ "pages.show_all_details.cols.username" | translate }}
-                      <span *ngIf="sortDirection === 'asc'">⬆️</span>
-                      <span *ngIf="sortDirection === 'desc'">⬇️</span>
-                    </div>
-                  </th>
-                  <th class="px-3 py-2 font-medium text-gray-700">
-                    {{ "pages.show_all_details.cols.control" | translate }}
-                  </th>
-                </tr>
-              </thead>
-              <tbody class="divide-y divide-gray-100">
-                <tr
-                  *ngFor="let policyUnit of policyUnits"
-                  class="hover:bg-gray-50 transition"
+                    <path fill-rule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clip-rule="evenodd" />
+                  </svg>
+                  <svg 
+                    *ngIf="sortDirection === 'desc'" 
+                    class="w-4 h-4 text-blue-600" 
+                    fill="currentColor" 
+                    viewBox="0 0 20 20"
+                  >
+                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                  </svg>
+                </div>
+              </div>
+              <div class="text-right">
+                <span class="font-semibold text-gray-800">
+                  {{ "pages.show_all_details.cols.control" | translate }}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Table Body -->
+          <div class="divide-y divide-gray-100/80">
+            <div
+              *ngFor="let policyUnit of filteredPolicyUnits; let i = index"
+              class="p-6 hover:bg-blue-50/30 transition-all duration-200 group"
+            >
+              <div class="grid grid-cols-2 gap-4 items-center">
+                <div class="flex items-center gap-4">
+                  <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center text-white font-semibold text-sm shadow-lg">
+                    {{ policyUnit.name.charAt(0).toUpperCase() }}
+                  </div>
+                  <div>
+                    <h4 class="font-medium text-gray-900 group-hover:text-blue-800 transition-colors">
+                      {{ policyUnit.name }}
+                    </h4>
+                    <p class="text-sm text-gray-500">Policy Unit #{{ i + 1 }}</p>
+                  </div>
+                </div>
+                <div class="text-right">
+                  <button
+                    (click)="onDelete(policyUnit.id)"
+                    class="group/btn inline-flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-xl font-medium shadow-lg shadow-red-500/20 hover:shadow-xl hover:shadow-red-500/30 hover:from-red-600 hover:to-red-700 transition-all duration-300 transform hover:scale-105"
+                  >
+                    <svg class="w-4 h-4 group-hover/btn:rotate-12 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                    <span class="hidden sm:inline">{{ "common.delete" | translate }}</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pagination -->
+          <div class="p-6 border-t border-gray-100/80 bg-gradient-to-r from-gray-50/50 to-blue-50/30">
+            <div class="flex items-center justify-between">
+              <div class="text-sm text-gray-600">
+Showing {{ getStartIndex() }} to {{ getEndIndex() }} of {{ policyUnits.length }} entries
+              </div>
+              
+              <div class="flex items-center gap-2">
+                <button
+                  (click)="prevPage()"
+                  [disabled]="currentPage === 1"
+                  class="px-4 py-2 bg-white/70 backdrop-blur-sm border border-gray-200/70 rounded-xl text-gray-700 font-medium hover:bg-white hover:border-gray-300 hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white/70 disabled:hover:border-gray-200/70 disabled:hover:shadow-none transition-all duration-200 transform hover:scale-105 disabled:hover:scale-100"
                 >
-                  <td class="px-3 py-2 text-gray-800">
-                    {{ policyUnit.name }}
-                  </td>
-                  <td class="px-3 py-2">
-                    <button
-                      (click)="onDelete(policyUnit.id)"
-                      class="bg-red-500 text-white px-3 py-1.5 rounded-md text-xs md:text-sm hover:bg-red-600 transition"
-                    >
-                      {{ "common.delete" | translate }}
-                    </button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+                  <span class="flex items-center gap-1">
+                    <svg *ngIf="(currentLang$ | async) === 'ar'; else ltrPrev" 
+     class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+</svg>
+<ng-template #ltrPrev>
+  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+  </svg>
+</ng-template>
+                    {{ "common.prev" | translate }}
+                  </span>
+                </button>
+
+                <div class="px-4 py-2 bg-blue-600 text-white rounded-xl font-medium shadow-lg shadow-blue-500/20">
+                  {{ currentPage }} / {{ totalPages }}
+                </div>
+
+                <button
+                  (click)="nextPage()"
+                  [disabled]="currentPage === totalPages"
+                  class="px-4 py-2 bg-white/70 backdrop-blur-sm border border-gray-200/70 rounded-xl text-gray-700 font-medium hover:bg-white hover:border-gray-300 hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white/70 disabled:hover:border-gray-200/70 disabled:hover:shadow-none transition-all duration-200 transform hover:scale-105 disabled:hover:scale-100"
+                >
+                  <span class="flex items-center gap-1">
+                    {{ "common.next" | translate }}
+                    <svg *ngIf="(currentLang$ | async) === 'ar'; else ltrNext"  class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+  </svg>
+                    <ng-template #ltrNext>
+  <svg 
+class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+</svg>
+</ng-template>
+  
+                  </span>
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </ng-template>

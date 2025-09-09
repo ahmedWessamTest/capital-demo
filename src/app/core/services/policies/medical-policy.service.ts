@@ -76,11 +76,11 @@ export interface MedicalPolicyCorporateData {
   phone: string;
   active_status: string;
   company_name: string,
-      company_employee_number: number,
-      company_address: string,
-      company_employee_avg: number,
-      lead_type: 'corporate',
-      request_type: 'corporate',
+  company_employee_number: number,
+  company_address: string,
+  company_employee_avg: number,
+  lead_type: 'corporate',
+  request_type: 'corporate',
   // Optional fields
   national_id?: string;
   address?: string;
@@ -118,10 +118,15 @@ export class MedicalInsuranceService {
   }
 
   // API call to fetch medical data
-  fetchMedicalData(): Observable<MedicalDataResponse> {
+  fetchMedicalData(empNum?: any): Observable<MedicalDataResponse> {
     // Add the type parameter as a query parameter
-    const params = { type: 'medical' };
-    
+    let params;
+    if (empNum) {
+      params = { type: 'medical', employee_number: empNum };
+    } else {
+      params = { type: 'medical' };
+    }
+
     return this._http.get<MedicalDataResponse>(
       `${this.baseUrl}app-policies/policies-content/1`,
       { params }
@@ -143,7 +148,7 @@ export class MedicalInsuranceService {
     if (!formData.has('category_id')) {
       formData.append('category_id', '1');
     }
-    
+
     return this._http.post(`${this.baseUrl}app-leads/medical-lead`, formData);
   }
 
@@ -151,7 +156,7 @@ export class MedicalInsuranceService {
   updateMedicalLead(leadId: number, formData: FormData): Observable<any> {
     return this._http.post(`${this.baseUrl}app-leads/medical-update/${leadId}`, formData);
   }
-  createMedicalClaim(formData: FormData): Observable<any>{
-    return this._http.post(`${this.baseUrl}app-claims/claim-medical-store`,formData)
+  createMedicalClaim(formData: FormData): Observable<any> {
+    return this._http.post(`${this.baseUrl}app-claims/claim-medical-store`, formData)
   }
 }

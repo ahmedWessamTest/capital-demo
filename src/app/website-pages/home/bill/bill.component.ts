@@ -52,7 +52,7 @@ export interface Category {
 
         <div class="mx-auto flex justify-center max-w-[1300px] p-4 rounded-[100px] bg-[#EDF9FF]">
           <div class="p-6 w-full" [ngStyle]="{ 'height': isLargeScreen ? '200px' : 'auto' }">
-            <ul class="counter flex flex-col lg:flex-row lg:justify-between h-full" role="list">
+            <ul class="counter flex flex-col lg:flex-row lg:justify-between items-center h-full" role="list">
               <li
                 *ngFor="let item of billItems; let i = index"
                 class="flex flex-col items-center justify-center p-4 rounded-xl mb-4 lg:mb-0 lg:mr-4 last:lg:mr-0"
@@ -65,7 +65,7 @@ export interface Category {
                 <img
                   [src]="item.imageUrl"
                   [alt]="item.text + ' icon'"
-                  class="w-[50px] my-1 h-[50px] object-cover"
+                  class="w-[50px] my-1 h-[50px] object-contain aspect-square"
                   loading="lazy"
                 />
               </li>

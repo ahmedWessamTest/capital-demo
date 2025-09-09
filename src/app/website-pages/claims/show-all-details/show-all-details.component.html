@@ -74,7 +74,7 @@
         <button
           *ngIf="
             policyDetails?.request_type === 'corporate' &&
-            policyDetails?.category_id !== 3
+            policyDetails?.category_id !== 3 && policyDetails.active_status === 'confirmed'
           "
           [routerLink]="[
             '/',

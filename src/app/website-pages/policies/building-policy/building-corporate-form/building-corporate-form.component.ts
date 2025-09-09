@@ -13,7 +13,7 @@ import { CustomTranslatePipe } from '@core/pipes/translate.pipe';
 import { LanguageService } from '@core/services/language.service';
 import { AlertService } from '@core/shared/alert/alert.service';
 import { Router } from '@angular/router';
-import { BuildingInsurance, BuildingCategory, BuildingInsuranceService, BuildingPolicyData, BuildingCorporatePolicyData } from '@core/services/policies/building-policy.service';
+import { BuildingInsurance, BuildingCategory, BuildingInsuranceService, BuildingCorporatePolicyData } from '@core/services/policies/building-policy.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { AuthStorageService } from '@core/services/auth/auth-storage.service';
 import { Meta, Title } from '@angular/platform-browser';
@@ -155,8 +155,20 @@ export class BuildingCorporateFormComponent {
         this.claimForm.get('email')?.disable();
       }
     }
+    this.fetchPlans();
+    this.claimForm.get('company_building_number')?.valueChanges.subscribe(value => {
+      if (value && Number(value) > 0) {
+        this.fetchPlans(value);
+      } else {
+        this.plans = [];
+      }
+    });
 
-    this.buildingInsuranceService.fetchBuildingData().pipe(
+  }
+  fetchPlans(value?: number) {
+    console.log(value);
+
+    this.buildingInsuranceService.fetchBuildingData(value).pipe(
       tap(data => {
         this.category = data.category;
         console.log('category:', data);
@@ -203,10 +215,7 @@ export class BuildingCorporateFormComponent {
         return of(null);
       })
     ).subscribe();
-
-
   }
-
   ngOnDestroy(): void {
     if (this.languageSubscription) {
       this.languageSubscription.unsubscribe();

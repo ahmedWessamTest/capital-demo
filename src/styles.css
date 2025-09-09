@@ -11,15 +11,14 @@ body {
   width: 100%;
   overflow-x: hidden !important;
 }
-html{
+html {
   /* overflow-x: hidden !important; */
 }
 
 @layer base {
-html[dir="rtl"] p{
-  line-height: 2 !important;
-}
-
+  html[dir="rtl"] p {
+    line-height: 2 !important;
+  }
 }
 @theme {
   --color-primary-500: #79c7ee;
@@ -145,7 +144,7 @@ body {
   font-weight: 400;
   line-height: clamp(45px, 1.8vw, 65px);
   text-transform: capitalize;
- width: fit-content;
+  width: fit-content;
   flex-shrink: 0;
   border-radius: clamp(20px, 1.8vw, 30px);
   background: #37a6de;
@@ -156,13 +155,13 @@ body {
   .main-btn {
     font-size: clamp(18px, 2vw, 20px);
     line-height: clamp(50px, 2vw, 65px);
-   
+
     border-radius: clamp(25px, 2vw, 30px);
   }
   .network-link {
     font-size: clamp(18px, 2vw, 20px);
     line-height: clamp(50px, 2vw, 65px);
-   
+
     border-radius: clamp(25px, 2vw, 30px);
   }
 }
@@ -171,16 +170,15 @@ body {
   .main-btn {
     font-size: clamp(23px, 2vw, 25px);
     line-height: clamp(65px, 2vw, 80px);
-   
+
     border-radius: clamp(30px, 2vw, 40px);
   }
-  .network-link{
+  .network-link {
     font-size: clamp(23px, 2vw, 25px);
     line-height: clamp(65px, 2vw, 80px);
-   
+
     border-radius: clamp(30px, 2vw, 40px);
   }
-
 }
 
 .main-btn:hover {
@@ -467,16 +465,16 @@ body {
   text-transform: capitalize;
 }
 @media (max-width: 768px) {
-.policy-top-card div {
-  margin-top: 1rem;
-  color: #5db5df;
-  font-family: Alexandria;
-  font-size: clamp(23px, 3vw, 45px);
-  font-style: normal;
-  font-weight: 600;
-  line-height: clamp(35px, 3vw, 65px);
-  text-transform: capitalize;
-}
+  .policy-top-card div {
+    margin-top: 1rem;
+    color: #5db5df;
+    font-family: Alexandria;
+    font-size: clamp(23px, 3vw, 45px);
+    font-style: normal;
+    font-weight: 600;
+    line-height: clamp(35px, 3vw, 65px);
+    text-transform: capitalize;
+  }
 }
 
 .policy-top-card p {
@@ -703,41 +701,30 @@ html {
   display: block;
 }
 
-
-
-
-
-
-
-
-
-
-
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button {
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 
-input[type=number] {
+input[type="number"] {
   -moz-appearance: textfield;
 }
 
-
 .need-call-btn {
   border-radius: 30px;
-border: 1px solid #37A6DE;
-background: #FFF;
-padding:clamp(16px, 2.5vw, 23px) clamp(20px, 2.5vw, 30px);
-color: #37A6DE;
-font-family: Alexandria;
-font-size: clamp(16px, 2.5vw, 23px);
-font-style: normal;
-font-weight: 400;
-line-height: clamp(23px, 2.5vw, 30px); /* 282.609% */
-text-transform: capitalize;
+  border: 1px solid #37a6de;
+  background: #fff;
+  padding: clamp(16px, 2.5vw, 23px) clamp(20px, 2.5vw, 30px);
+  color: #37a6de;
+  font-family: Alexandria;
+  font-size: clamp(16px, 2.5vw, 23px);
+  font-style: normal;
+  font-weight: 400;
+  line-height: clamp(23px, 2.5vw, 30px); /* 282.609% */
+  text-transform: capitalize;
 }
-/* 
+/*
 body,
 h1,
 h2,
@@ -753,9 +740,9 @@ button,
 label {
   text-transform: capitalize;
 } */
-/* 
+/*
 
-h1 { 
+h1 {
   display: block;
   font-size: 2em;
   margin-top: 0.67em;
@@ -773,7 +760,7 @@ h2 {
   margin-right: 0;
   font-weight: bold;
 }
-h3 { 
+h3 {
   display: block;
   font-size: 1.17em;
   margin-top: 1em;
@@ -782,7 +769,7 @@ h3 {
   margin-right: 0;
   font-weight: bold;
 }
-h4 { 
+h4 {
   display: block;
   margin-top: 1.33em;
   margin-bottom: 1.33em;
@@ -790,7 +777,7 @@ h4 {
   margin-right: 0;
   font-weight: bold;
 }
-h5 { 
+h5 {
   display: block;
   font-size: .83em;
   margin-top: 1.67em;
@@ -799,7 +786,7 @@ h5 {
   margin-right: 0;
   font-weight: bold;
 }
-h6 { 
+h6 {
   display: block;
   font-size: .67em;
   margin-top: 2.33em;
@@ -809,25 +796,23 @@ h6 {
   font-weight: bold;
 } */
 
-
-
-  @font-face {
-  font-family: 'Alexandria';
-  src: url('/assets/font/Alexandria-Bold.ttf') format('truetype');
+@font-face {
+  font-family: "Alexandria";
+  src: url("/assets/font/Alexandria-Bold.ttf") format("truetype");
   font-weight: 700; /* Bold */
   font-style: normal;
   font-display: swap;
-} 
+}
 @font-face {
-  font-family: 'Alexandria';
-  src: url('/assets/font/Alexandria-Regular.ttf') format('truetype');
-  font-weight: 400; 
+  font-family: "Alexandria";
+  src: url("/assets/font/Alexandria-Regular.ttf") format("truetype");
+  font-weight: 400;
   font-display: swap;
   font-style: normal;
-} 
+}
 
-html{
-  font-family: 'Alexandria', sans-serif;
+html {
+  font-family: "Alexandria", sans-serif;
 }
 
 /* or remove sticky */
@@ -843,16 +828,15 @@ body {
   margin-top: var(--navbar-height);
 } */
 
-/* 
+/*
 .active-link {
   color: #79C7EE;
-  
+
 }
 
 .mobile-active-link {
   color: #79C7EE;
 } */
-
 
 .prose ul {
   list-style-type: disc !important;
@@ -867,7 +851,6 @@ body {
 .prose li {
   margin-bottom: 0.5rem !important;
 }
-
 
 .prose {
   word-wrap: break-word;
@@ -903,13 +886,13 @@ body {
     margin: 1rem 0;
   }
 
-   
   & p {
     /* margin: 1rem 0; */
   }
 
   /* Lists */
-  & ul, & ol {
+  & ul,
+  & ol {
     /* margin: 1rem 0; */
     padding-left: 1.5rem;
   }
@@ -970,7 +953,8 @@ body {
     border-collapse: collapse;
     margin: 1rem 0;
   }
-  & th, & td {
+  & th,
+  & td {
     border: 1px solid #e5e7eb;
     padding: 0.5rem;
   }
@@ -999,7 +983,8 @@ html[dir="rtl"] .word-spacing-ar {
   word-spacing: 4px;
 }
 
-html, body {
+html,
+body {
   transition: direction 0.3s ease;
 }
 
@@ -1011,8 +996,6 @@ html, body {
   }
 }
 
-
-
-button{
-  cursor:pointer !important;
+button {
+  cursor: pointer !important;
 }

@@ -11,6 +11,10 @@
   "Clients": "عملائنا",
   "about": "معلومات عنا",
   "blogs": "المدونات",
+    "register_filed":"فشلت عمليه تسسجيل الدخول",
+    "email_already":"الحساب موجود مسبقا",
+    "phone_already":"الرقم مسجل مسبقا",
+  "something_went_wrong":"هناك خطاء ما",
   "motor_insurance": "تأمين السيارات",
   "property_insurance": "تأمين الممتلكات",
   "medical_insurance": "التأمين الطبي",
@@ -41,7 +45,13 @@
 "delete":"حذف",
 "cancel":"الغاء",
 "success": "تم بنجاح",
-  "ok": "موافق"
+  "ok": "موافق",
+    "search":"بحث",
+      "show_more":"عرض المزيد",
+      "next":"التالي",
+  "prev":"السابق"
+
+
 },
   "pages": {
   "add_emp_form": {
@@ -911,7 +921,8 @@
   "individual_or_corporate": "فرد أم شركة",
   "because_it_will_make_a_big_different_in_your_steps": "لأن ذلك سيحدث فرقًا كبيرًا في خطواتك",
   "individual":"فرد",
-  "corporate":"شركة"
+  "corporate":"شركة",
+  "next_button":"التالي"
 },
 "company": {
   "name": {

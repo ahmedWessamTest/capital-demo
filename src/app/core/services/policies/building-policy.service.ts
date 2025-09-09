@@ -106,10 +106,10 @@ export interface BuildingCorporatePolicyData {
   building_type?: string;
   building_country?: string;
   payment_method: string;
-  company_name:string;
-  company_address:string;
-  company_building_number:number
-  company_building_total_money:number,
+  company_name: string;
+  company_address: string;
+  company_building_number: number
+  company_building_total_money: number,
   lead_type: 'corporate' | null,
   request_type: 'corporate' | null,
 }
@@ -157,10 +157,15 @@ export class BuildingInsuranceService {
   }
 
   // API call to fetch building data
-  fetchBuildingData(): Observable<BuildingDataResponse> {
+  fetchBuildingData(buildingsNum?: number): Observable<BuildingDataResponse> {
     // Add the type parameter as a query parameter
-    const params = { type: 'building' };
-    
+    let params;
+    if (buildingsNum) {
+      params = { type: 'building', building_number: buildingsNum };
+    } else {
+      params = { type: 'building' };
+    }
+
     return this._http.get<BuildingDataResponse>(
       `${this.baseUrl}app-policies/policies-content/3`,
       { params }
@@ -182,7 +187,7 @@ export class BuildingInsuranceService {
     if (!formData.has('category_id')) {
       formData.append('category_id', '3');
     }
-    
+
     return this._http.post(`${this.baseUrl}app-leads/building-lead`, formData);
   }
 
@@ -190,7 +195,7 @@ export class BuildingInsuranceService {
   updateBuildingLead(leadId: number, formData: FormData): Observable<any> {
     return this._http.post(`${this.baseUrl}app-leads/building-update/${leadId}`, formData);
   }
-  createBuildingClaim(formData: FormData): Observable<any>{
-    return this._http.post(`${this.baseUrl}app-claims/claim-building-store`,formData)
+  createBuildingClaim(formData: FormData): Observable<any> {
+    return this._http.post(`${this.baseUrl}app-claims/claim-building-store`, formData)
   }
 }

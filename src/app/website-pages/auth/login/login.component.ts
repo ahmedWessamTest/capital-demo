@@ -103,17 +103,16 @@ export class LoginComponent implements OnInit {
         this.currentLang$.subscribe((next) => (lang = next));
         if (response.access_token) {
           this._alertService.showNotification({
-
             translationKeys: { title: 'Login_successful' },
           });
           this.loginForm.reset();
           this._router.navigate(['/', lang, 'home']);
         } else {
-          if(!response?.error?.includes("Deleted")) {
+          if (!response?.error?.includes("Deleted")) {
             this._alertService.showNotification({
-              translationKeys: { title: 'Login_failed' },
+              translationKeys: { title: 'register_filed' },
             });
-          }else {
+          } else {
             this._alertService.showNotification({
               translationKeys: { title: 'account_deleted' },
             });
@@ -122,7 +121,7 @@ export class LoginComponent implements OnInit {
         }
       },
       error: (error) => {
-        this.isLoading.set(false);        
+        this.isLoading.set(false);
         const errorMessage = error?.error?.message || error?.error || 'Login failed. Please try again.';
         this._alertService.showNotification({
           translationKeys: { title: errorMessage },

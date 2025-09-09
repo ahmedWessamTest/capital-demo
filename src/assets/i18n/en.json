@@ -28,6 +28,10 @@
   "language": "Language",
   "Loading": "loading",
   "Login_failed": "Login failed",
+  "something_went_wrong":"Something went wrong",
+  "register_filed":"Registration failed",
+  "email_already":"This email already sign up",
+  "phone_already":"This phone already sign up",
   "account_deleted" : "Your Account Has been Deleted",
   "Login_successful": "logged successfully",
   "Registration_successful": "Registration successful",
@@ -45,7 +49,11 @@
 "delete":"Delete",
 "cancel":"cancel",
 "success":"Success",
-  "ok": "OK"
+  "ok": "OK",
+  "search":"Search",
+  "show_more":"Show More",
+  "next":"Next",
+  "prev":"Previous"
 },
   "pages": {
     "add_emp_form": {

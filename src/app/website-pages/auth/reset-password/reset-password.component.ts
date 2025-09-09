@@ -136,7 +136,7 @@ export class ResetPasswordComponent implements OnInit {
       complete: () => {
         setTimeout(() => {
           this._alertService.hide();
-        }, 1000)
+        }, 2000)
       }
     });
   }

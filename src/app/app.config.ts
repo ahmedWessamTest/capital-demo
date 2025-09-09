@@ -23,6 +23,7 @@ export const appConfig: ApplicationConfig = {
     // Import TranslateModule properly
     importProvidersFrom(
       TranslateModule.forRoot({
+
         loader: {
           provide: TranslateLoader,
           useFactory: HttpLoaderFactory,

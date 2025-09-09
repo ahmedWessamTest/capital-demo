@@ -2,79 +2,132 @@
   class="bg-white my-5 relative"
   [dir]="translate.currentLang === 'ar' ? 'rtl' : 'ltr'"
 >
-<div class="mx-5 md:mx-10 lg:mx-20 overflow-hidden pt-12 pb-0 relative flex flex-col md:flex-row gap-4 mb-12 bg-gradient-to-br from-[#F2F2F2] from-[15.48%] via-[#DBEFFD] via-[63.88%] to-[#DBEFFD] rounded-lg shadow-lg">
-  <img *ngIf="showSelectLead" (click)="showSelectLead = !showSelectLead" class="absolute z-10 w-[40px] h-[40px] top-[10px] start-[10px] cursor-pointer hover:scale-120 transition-all duration-300" src="assets/common/back.svg" alt="">
-  <!-- Text content with separate loading state -->
-  <div class="z-10 policy-top-card min-w-[300px] px-6 md:px-8 lg:px-12 flex flex-col gap-4 justify-center w-full md:w-3/4 transition-all duration-300" [ngClass]="{'mt-4': showForm}">
-    <!-- Text content skeleton loader -->
-    <div *ngIf="isTextContentLoading" class="animate-pulse flex flex-col gap-4">
-      <div class="h-8 md:h-10 lg:h-12 bg-gray-200 rounded w-3/4"></div>
-      <div class="space-y-2">
-        <div class="h-4 bg-gray-200 rounded w-full"></div>
-        <div class="h-4 bg-gray-200 rounded w-5/6"></div>
+  <div
+    class="mx-5 md:mx-10 lg:mx-20 overflow-hidden pt-12 pb-0 relative flex flex-col md:flex-row gap-4 mb-12 bg-gradient-to-br from-[#F2F2F2] from-[15.48%] via-[#DBEFFD] via-[63.88%] to-[#DBEFFD] rounded-lg shadow-lg"
+  >
+    <img
+      *ngIf="showSelectLead"
+      (click)="showSelectLead = !showSelectLead"
+      class="absolute z-10 w-[40px] h-[40px] top-[10px] start-[10px] cursor-pointer hover:scale-120 transition-all duration-300"
+      src="assets/common/back.svg"
+      alt=""
+    />
+    <!-- Text content with separate loading state -->
+    <div
+      class="z-10 policy-top-card min-w-[300px] px-6 md:px-8 lg:px-12 flex flex-col gap-4 justify-center w-full md:w-3/4 transition-all duration-300"
+      [ngClass]="{ 'mt-4': showForm }"
+    >
+      <!-- Text content skeleton loader -->
+      <div
+        *ngIf="isTextContentLoading"
+        class="animate-pulse flex flex-col gap-4"
+      >
+        <div class="h-8 md:h-10 lg:h-12 bg-gray-200 rounded w-3/4"></div>
+        <div class="space-y-2">
+          <div class="h-4 bg-gray-200 rounded w-full"></div>
+          <div class="h-4 bg-gray-200 rounded w-5/6"></div>
+        </div>
+        <div
+          class="flex flex-col items-start md:flex-row md:items-center gap-4 !mb-8 mt-4"
+        >
+          <div class="h-10 bg-gray-200 rounded-lg w-32"></div>
+          <div class="h-10 bg-gray-200 rounded-lg w-32"></div>
+        </div>
       </div>
-      <div class="flex flex-col items-start md:flex-row md:items-center gap-4 !mb-8 mt-4">
-        <div class="h-10 bg-gray-200 rounded-lg w-32"></div>
-        <div class="h-10 bg-gray-200 rounded-lg w-32"></div>
-      </div>
-    </div>
-    <!-- Actual text content -->
-    <div *ngIf="!isTextContentLoading">
-      <div class="md:text-2xl lg:text-3xl mb-4 font-semibold text-gray-800">
-        {{ currentLanguage === 'ar' ? category?.ar_title : category?.en_title }}
-      </div>
-      <p class="text-sm md:text-base text-gray-600 rtl:text-fluid-ar! word-spacing-ar">
-        {{ currentLanguage === 'ar' ? category?.ar_small_description : category?.en_small_description }}
-      </p>
-      <div class="flex flex-col items-start md:flex-row md:items-center gap-4 !mb-8 mt-4">
-        <button *ngIf="leadType === null" class="main-btn  cursor-pointer bg-[#00AEEF] text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors text-sm md:text-base" (click)="showForm = !showForm; scrollToForm(); showSelectLead = true">
-          {{ "pages.medical_policy.claim_data_button" | translate }}
-        </button>
-        <a [href]="category?.network_link" target="_blank">
-          <button *ngIf="!showForm" class="network-link cursor-pointer py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors">
-            {{ "pages.medical_policy.policy_network_button" | translate }}
+      <!-- Actual text content -->
+      <div *ngIf="!isTextContentLoading">
+        <div class="md:text-2xl lg:text-3xl mb-4 font-semibold text-gray-800">
+          {{
+            currentLanguage === "ar" ? category?.ar_title : category?.en_title
+          }}
+        </div>
+        <p
+          class="text-sm md:text-base text-gray-600 rtl:text-fluid-ar! word-spacing-ar"
+        >
+          {{
+            currentLanguage === "ar"
+              ? category?.ar_small_description
+              : category?.en_small_description
+          }}
+        </p>
+        <div
+          class="flex flex-col items-start md:flex-row md:items-center gap-4 !mb-8 mt-4"
+        >
+          <button
+            *ngIf="leadType === null"
+            class="main-btn cursor-pointer bg-[#00AEEF] text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors text-sm md:text-base"
+            (click)="
+              showForm = !showForm; scrollToForm(); showSelectLead = true
+            "
+          >
+            {{ "pages.medical_policy.claim_data_button" | translate }}
           </button>
-        </a>
+          <a [href]="category?.network_link" target="_blank">
+            <button
+              *ngIf="!showForm"
+              class="network-link cursor-pointer py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors"
+            >
+              {{ "pages.medical_policy.policy_network_button" | translate }}
+            </button>
+          </a>
+        </div>
       </div>
     </div>
-  </div>
-  <!-- Image section with separate loading state -->
-  <div class="h-auto w-full md:w-[580px] flex items-end justify-center">
-    <!-- Image skeleton loader -->
-    <div *ngIf="isImageLoading" class="w-full h-full animate-pulse bg-gray-200 rounded-b-lg md:rounded-none flex items-center justify-center">
-      <div class="w-16 h-16 bg-gray-300 rounded-lg flex items-center justify-center">
-        <svg class="w-8 h-8 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-          <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"/>
-        </svg>
+    <!-- Image section with separate loading state -->
+    <div class="h-auto w-full md:w-[580px] flex items-end justify-center">
+      <!-- Image skeleton loader -->
+      <div
+        *ngIf="isImageLoading"
+        class="w-full h-full animate-pulse bg-gray-200 rounded-b-lg md:rounded-none flex items-center justify-center"
+      >
+        <div
+          class="w-16 h-16 bg-gray-300 rounded-lg flex items-center justify-center"
+        >
+          <svg
+            class="w-8 h-8 text-gray-400"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </div>
       </div>
+      <!-- Actual image -->
+      <img
+        *ngIf="!isImageLoading"
+        class="w-[100%] h-[80%] object-cover rounded-b-lg md:rounded-none transition-opacity duration-300"
+        src="assets/policies/medical.png"
+        alt="{{ 'pages.medical_policy.medical_policy_image_alt' | translate }}"
+        (load)="onImageLoad()"
+        (error)="onImageError()"
+        [style.opacity]="imageLoaded ? 1 : 0"
+      />
     </div>
-    <!-- Actual image -->
-    <img 
-      *ngIf="!isImageLoading" 
-      class="w-[100%] h-[80%] object-cover rounded-b-lg md:rounded-none transition-opacity duration-300" 
-      src="assets/policies/medical.png"
-      alt="{{ 'pages.medical_policy.medical_policy_image_alt' | translate }}"
-      (load)="onImageLoad()"
-      (error)="onImageError()"
-      [style.opacity]="imageLoaded ? 1 : 0">
+    <!-- Gradient background image -->
+    <img
+      [ngStyle]="{ opacity: showForm ? 1 : 0 }"
+      src="assets/common/gradient.png"
+      class="absolute bottom-0 z-0 transition-opacity duration-300"
+      [ngClass]="{
+        '-left-10': translate.currentLang === 'en',
+        '-right-10': translate.currentLang === 'ar'
+      }"
+      alt="{{ 'pages.medical_policy.gradient_image_alt' | translate }}"
+    />
   </div>
-  <!-- Gradient background image -->
-  <img
-    [ngStyle]="{ opacity: showForm ? 1 : 0 }"
-    src="assets/common/gradient.png"
-    class="absolute bottom-0 z-0 transition-opacity duration-300"
-    [ngClass]="{'-left-10': translate.currentLang === 'en', '-right-10': translate.currentLang === 'ar'}"
-    alt="{{ 'pages.medical_policy.gradient_image_alt' | translate }}"
-  />
-</div>
 
   <div
     *ngIf="showForm"
-    class="mx-5 md:mx-10 lg:mx-20 min-h-[500px]  overflow-hidden pb-20"
+    class="mx-5 md:mx-10 lg:mx-20 min-h-[500px] overflow-hidden pb-20"
     id="policy-form"
   >
     <img
-    loading="eager" fetchpriority="high"
+      loading="eager"
+      fetchpriority="high"
       src="assets/policies/bg.png"
       alt="{{ 'pages.medical_policy.background_image_alt' | translate }}"
       class="absolute object-contain bottom-0 h-[700px] w-[400px]"
@@ -89,84 +142,121 @@
       style="z-index: 3"
     ></div> -->
     <app-medical-individual-form *ngIf="leadType === 'individual'" />
-    <app-medical-corporate-form *ngIf="leadType === 'corporate'"/>
+    <app-medical-corporate-form *ngIf="leadType === 'corporate'" />
     <app-lead-type-selector
-     [config]="leadTypeConfig"
-        [selectedValue]="userSelectedLead"
-        componentId="lead-type-choice"
-        radioGroupName="medicalType"
-        (selectionChange)="onLeadTypeSelected($event)"
-        (nextClick)="selectFrom()" *ngIf="showSelectLead" id="lead-type-choice"/>
+      [config]="leadTypeConfig"
+      [selectedValue]="userSelectedLead"
+      componentId="lead-type-choice"
+      radioGroupName="medicalType"
+      (selectionChange)="onLeadTypeSelected($event)"
+      (nextClick)="selectFrom()"
+      *ngIf="showSelectLead"
+      id="lead-type-choice"
+    />
   </div>
 </div>
 
 <div
-*ngIf="!showForm"  class="mx-5  max-h-[933px]  overflow-y-auto md:mx-10 lg:mx-20 py-2 px-4  md:px-12   rounded-[40px]  bg-[url('assets/policies/big-cover.png')] bg-no-repeat bg-center bg-cover"
+  *ngIf="!showForm"
+  class="mx-5 max-h-[933px] overflow-y-auto md:mx-10 lg:mx-20 py-2 px-4 md:px-12 rounded-[40px] bg-[url('assets/policies/big-cover.png')] bg-no-repeat bg-center bg-cover"
 >
   <div
-    class="flex flex-col gap-4  md:gap-12  p-4 capitalize prose"
-    [innerHTML]="(currentLanguage ? currentLanguage === 'ar' ? category?.ar_main_description : category?.en_main_description : '') | safeHtml"  >
-  </div>
+    class="flex flex-col gap-4 md:gap-12 p-4 capitalize prose"
+    [innerHTML]="
+      (currentLanguage
+        ? currentLanguage === 'ar'
+          ? category?.ar_main_description
+          : category?.en_main_description
+        : ''
+      ) | safeHtml
+    "
+  ></div>
 </div>
 
-
-
 <div
-*ngIf="!showForm"  class="mx-5 mt-12 md:mx-10 lg:mx-20 p-4 md:p-8 rounded-[20px]  bg-[url('assets/policies/small-cover.png')] bg-no-repeat bg-center bg-cover"
+  *ngIf="!showForm"
+  class="mx-5 mt-12 md:mx-10 lg:mx-20 p-4 md:p-8 rounded-[20px] bg-[url('assets/policies/small-cover.png')] bg-no-repeat bg-center bg-cover"
 >
   <div
-    class="w-full flex flex-col lg:flex-row  gap-8 lg:gap-16 capitalize  justify-center items-center"
+    class="w-full flex flex-col lg:flex-row gap-8 lg:gap-16 capitalize justify-center items-center"
   >
     <!-- Arc/Circle Section -->
-    <div class="relative w-64 h-64 sm:w-72 sm:h-72 md:w-86 md:h-86 flex items-center justify-center mx-auto lg:mx-0">
+    <div
+      class="relative w-64 h-64 sm:w-72 sm:h-72 md:w-86 md:h-86 flex items-center justify-center mx-auto lg:mx-0"
+    >
       <!-- Half-white border copy under the main arc -->
-      <div class="absolute w-64 h-64 sm:w-72 sm:h-72 md:w-86 md:h-86 rounded-full border-[18px] sm:border-[20px] md:border-[24px] border-transparent border-t-white rotate-[246deg]"></div>
-    
+      <div
+        class="absolute w-64 h-64 sm:w-72 sm:h-72 md:w-86 md:h-86 rounded-full border-[18px] sm:border-[20px] md:border-[24px] border-transparent border-t-white rotate-[246deg]"
+      ></div>
+
       <!-- Main blue arc -->
-      <div class="absolute w-64 h-64 sm:w-72 sm:h-72 md:w-86 md:h-86 rounded-full border-[18px] sm:border-[20px] md:border-[24px] border-transparent border-t-[#37A6DE] border-l-[#37A6DE] border-r-[#37A6DE] rotate-[16deg]"></div>
-    
+      <div
+        class="absolute w-64 h-64 sm:w-72 sm:h-72 md:w-86 md:h-86 rounded-full border-[18px] sm:border-[20px] md:border-[24px] border-transparent border-t-[#37A6DE] border-l-[#37A6DE] border-r-[#37A6DE] rotate-[16deg]"
+      ></div>
+
       <!-- Middle light blue ring -->
-      <div class="absolute w-40 h-40 sm:w-48 sm:h-48 md:w-58 md:h-58 rounded-full border-[30px] sm:border-[36px] md:border-[40px] border-[#A9D5EB] bg-transparent"></div>
-    
+      <div
+        class="absolute w-40 h-40 sm:w-48 sm:h-48 md:w-58 md:h-58 rounded-full border-[30px] sm:border-[36px] md:border-[40px] border-[#A9D5EB] bg-transparent"
+      ></div>
+
       <!-- Inner content circle -->
-      <div *ngIf="counters && counters.length > 0" class="z-10 flex flex-col items-center justify-center text-center bg-[#37A6DE] rounded-full w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 shadow-md">
+      <div
+        *ngIf="counters && counters.length > 0"
+        class="z-10 flex flex-col items-center justify-center text-center bg-[#37A6DE] rounded-full w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 shadow-md"
+      >
         <div class="text-lg sm:text-xl md:text-[30px] font-bold text-white">
           {{ counters[0].counter_value || 0 }}
         </div>
         <div class="text-sm sm:text-base md:text-[20px] text-white">
-          {{ currentLanguage === 'ar' ? counters[0].ar_name : counters[0].en_name }}
+          {{
+            currentLanguage === "ar" ? counters[0].ar_name : counters[0].en_name
+          }}
         </div>
         <div class="text-white mt-2 text-xs sm:text-sm md:text-base">
-          <img src="assets/policies/medical-icon.png" alt="" class="w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10" />
+          <img
+            src="assets/policies/medical-icon.png"
+            alt=""
+            class="w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10"
+          />
         </div>
       </div>
       <div *ngIf="!counters || counters.length === 0">
         Loading or no data available...
       </div>
     </div>
-    
-    
-    
+
     <!-- Text Content Section -->
-    <div class="flex flex-col gap-6 items-center md:items-start justify-center lg:w-[60%]">
-      <div class="policy-title2 text-[20px] md:text-[35px] text-center md:!text-start">
-        {{ currentLanguage === 'ar' ? 'تقدمنا' : 'our progress' }}
+    <div
+      class="flex flex-col gap-6 items-center md:items-start justify-center lg:w-[60%]"
+    >
+      <div
+        class="policy-title2 text-[20px] md:text-[35px] text-center md:!text-start"
+      >
+        {{ currentLanguage === "ar" ? "تقدمنا" : "our progress" }}
       </div>
-      <div class="policy-big-title text-[20px] md:text-[35px] text-center md:!text-start">
-        {{ currentLanguage === 'ar' ? 'راحة بالك تبدأ من هنا' : 'your peace of mind starts here' }}
+      <div
+        class="policy-big-title text-[20px] md:text-[35px] text-center md:!text-start"
+      >
+        {{
+          currentLanguage === "ar"
+            ? "راحة بالك تبدأ من هنا"
+            : "your peace of mind starts here"
+        }}
       </div>
       <ul class="flex flex-col gap-2 text-center md:text-start">
         <li class="leading-[35px]">
-          {{ currentLanguage === 'ar' 
-            ? 'أكثر من 200 بوليصة تأمين طبي تغطي احتياجاتك الصحية في كل مرحلة، بدءًا من الاستشارات وحتى العمليات الجراحية الكبرى'
-            : 'over 200 medical insurance policies covering your healthcare needs at every stage, from consultation to major surgeries' }}
+          {{
+            currentLanguage === "ar"
+              ? "أكثر من 200 بوليصة تأمين طبي تغطي احتياجاتك الصحية في كل مرحلة، بدءًا من الاستشارات وحتى العمليات الجراحية الكبرى"
+              : "over 200 medical insurance policies covering your healthcare needs at every stage, from consultation to major surgeries"
+          }}
         </li>
       </ul>
     </div>
   </div>
 </div>
 
-<!-- 
+<!--
 <div class="mx-5 mt-12 md:mx-10 lg:mx-20  ">
 
 
@@ -189,7 +279,7 @@
     class="w-[185px] h-[50px] object-cover"
   />
   </div>
-  
+
 </div> -->
 
 <app-partners-logos [policyType]="'medical'"></app-partners-logos>
