@@ -280,7 +280,7 @@
     },
     "show_all_details": {
             "title":"ادارة الموظفين",
-                  "no_data":"اضف موظفين",
+                  "no_data":"لا يوجد أعضاء",
       "na": "غير متوفر",
       "jop_title": "المسمي الوظيفي",
       "jop_price": "سعر العمل",
@@ -301,8 +301,8 @@
 "control":"تحكم"
       },
       "delete_alert": {
-  "delete_item": "حذف العنصر",
-  "are_you_sure": "حذف هذا العضو؟",
+  "delete_item": "حذف العضو",
+  "are_you_sure": "هل أنت متأكد من حذف هذا العضو؟",
   "yes_delete": "نعم، احذف"
 },
       "types": {

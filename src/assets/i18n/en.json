@@ -211,7 +211,7 @@
     },
     "show_all_details": {
       "title":"Manage Employees",
-      "no_data":"Add Employees",
+      "no_data":"NO current members",
       "na": "N/A",
       "jop_title": "Job Title",
       "jop_price": "Sum Insured Amount",
@@ -229,8 +229,8 @@
         "expired_canceled": "Expired/Canceled"
       },
       "delete_alert":{
-        "delete_item":"Delete Item",
-        "are_you_sure":"Remove this member?",
+        "delete_item":"Delete member",
+        "are_you_sure":"Are you sure you want to delete this member?",
         "yes_delete":"Yes, delete"
       },
       "types": {
