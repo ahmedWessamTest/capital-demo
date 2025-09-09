@@ -65,13 +65,11 @@ export class JopPolicyService {
 
   /* Policies */
   getInsurancePolicies(empNum?: any): Observable<JobInsurancePolicy> {
+    const params: any = { type: 'jop', ...(empNum && { employee_number: empNum }) };
     return this.httpClient.get<JobInsurancePolicy>(
       `${API_CONFIG.BASE_URL}app-policies/policies-content/5`,
       {
-        params: {
-          type: 'jop',
-          employee_number: empNum
-        },
+        params,
       }
     );
   }

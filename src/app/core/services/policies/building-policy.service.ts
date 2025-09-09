@@ -159,12 +159,7 @@ export class BuildingInsuranceService {
   // API call to fetch building data
   fetchBuildingData(buildingsNum?: number): Observable<BuildingDataResponse> {
     // Add the type parameter as a query parameter
-    let params;
-    if (buildingsNum) {
-      params = { type: 'building', building_number: buildingsNum };
-    } else {
-      params = { type: 'building' };
-    }
+    const params: any = { type: 'building', ...(buildingsNum && { employee_number: buildingsNum }) };
 
     return this._http.get<BuildingDataResponse>(
       `${this.baseUrl}app-policies/policies-content/3`,

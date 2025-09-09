@@ -117,15 +117,8 @@ export class MedicalInsuranceService {
     return insurance?.medicalchoices.filter(choice => choice.active_status === '1') || [];
   }
 
-  // API call to fetch medical data
   fetchMedicalData(empNum?: any): Observable<MedicalDataResponse> {
-    // Add the type parameter as a query parameter
-    let params;
-    if (empNum) {
-      params = { type: 'medical', employee_number: empNum };
-    } else {
-      params = { type: 'medical' };
-    }
+    const params: any = { type: 'medical', ...(empNum && { employee_number: empNum }) };
 
     return this._http.get<MedicalDataResponse>(
       `${this.baseUrl}app-policies/policies-content/1`,

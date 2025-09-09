@@ -6,14 +6,11 @@ import {
   PLATFORM_ID,
 } from '@angular/core';
 import {
-  FormBuilder,
   ReactiveFormsModule,
 } from '@angular/forms';
 import { Meta, Title } from '@angular/platform-browser';
-import { Router } from '@angular/router';
 import { SafeHtmlPipe } from '@core/pipes/safe-html.pipe';
 import {
-  AuthStorageService,
   UserData,
 } from '@core/services/auth/auth-storage.service';
 import { AuthService } from '@core/services/auth/auth.service';
@@ -69,15 +66,12 @@ export class JobInsuranceComponent {
   userSelectedLead: 'corporate' | 'individual' = 'individual';
 
   constructor(
-    private fb: FormBuilder,
     private authService: AuthService,
     private jopPolicyService: JopPolicyService,
     public translate: TranslateService,
     private languageService: LanguageService,
     private alertService: AlertService,
-    private router: Router,
     private genericDataService: UpdatedGenericDataService,
-    private authStorage: AuthStorageService,
     private cdr: ChangeDetectorRef,
     private meta: Meta,
     private title: Title

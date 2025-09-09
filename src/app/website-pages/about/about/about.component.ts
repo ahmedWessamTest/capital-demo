@@ -34,6 +34,7 @@ export class AboutComponent implements OnInit, OnDestroy, OnChanges {
     private router: Router
   ) {
     this.aboutData$ = this.genericDataService.aboutData$;
+    
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -56,7 +57,7 @@ export class AboutComponent implements OnInit, OnDestroy, OnChanges {
             const metaTitle = this.isArabic ? data.about.ar_meta_title : data.about.en_meta_title;
             const metaDescription = this.isArabic ? data.about.ar_meta_description : data.about.en_meta_description;
             this.title.setTitle(metaTitle);
-            this.meta.updateTag({ name: 'description', content: metaDescription });
+            this.meta.updateTag({ name: 'description', content: metaDescription });            
           }
         },
         error: (err) => console.error('Error in language or about data subscription:', err)

@@ -202,12 +202,11 @@ export class UserPoliciesComponent implements OnInit {
   }
 });
 
-    // Sort by date (newest first)
-    return filtered.sort((a, b) => {
-      const dateA = this.formatInputDate(a.created_at) || new Date(0);
-      const dateB = this.formatInputDate(b.created_at) || new Date(0);
-      return dateB.getTime() - dateA.getTime();
-    });
+     return filtered.sort((a, b) => {
+    const dateA = a.created_at ? new Date(a.created_at) : new Date(0);
+    const dateB = b.created_at ? new Date(b.created_at) : new Date(0);
+    return dateB.getTime() - dateA.getTime();
+  });
   }
 
   getPolicyStatus(

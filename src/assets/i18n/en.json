@@ -517,6 +517,7 @@
       },
       "form": {
         "other_model_placeholder": "Enter other model",
+        "no_results":"No Results",
         "other_year_placeholder": "Enter other year",
         "other_brand_placeholder": "Enter other brand",
         "other_year_required": "Other year is required",

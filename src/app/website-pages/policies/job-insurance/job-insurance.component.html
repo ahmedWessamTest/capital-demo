@@ -6,8 +6,8 @@
     class="mx-5 md:mx-10 lg:mx-20 overflow-hidden pt-8 pb-0 relative flex flex-col md:flex-row gap-4 mb-12 bg-gradient-to-br from-[#F2F2F2] from-[15.48%] via-[#DBEFFD] via-[63.88%] to-[#DBEFFD] rounded-lg shadow-lg justify-evenly"
   >
     <img
-      *ngIf="showSelectLead"
-      (click)="showSelectLead = !showSelectLead"
+      *ngIf="showForm"
+      (click)="showForm = !showForm"
       class="absolute z-10 w-[40px] h-[40px] top-[10px] start-[10px] cursor-pointer hover:scale-120 transition-all duration-300"
       src="assets/common/back.svg"
       alt=""
@@ -39,25 +39,23 @@
           class="text-xl md:text-2xl lg:text-3xl font-semibold text-gray-800"
         >
           {{
-            currentLanguage === "ar"
-              ? "التأمين المهني"
-              : "Professional Indemnity Insurance"
+            currentLanguage === "ar" ? category?.ar_title : category?.en_title
           }}
         </div>
         <p class="text-sm md:text-base text-gray-600">
           {{
             currentLanguage === "ar"
-              ? "حماية شاملة للمهنيين ضد مخاطر الأخطاء والإهمال المهني"
-              : "Comprehensive protection for professionals against errors and professional negligence risks"
+              ? category?.ar_small_description
+              : category?.en_small_description
           }}
         </p>
         <div
           class="flex flex-col items-start md:flex-row md:items-center gap-4 !mb-8 mt-4"
         >
           <button
-            *ngIf="leadType === null"
+            *ngIf="!showForm"
             class="main-btn  bg-[#00AEEF] text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors text-sm md:text-base"
-            (click)="showForm = !showForm; scrollToForm(); showSelectLead = true"
+            (click)=" scrollToForm(); showForm = true;showSelectLead = true"
           >
             {{ "pages.building_policy.claim_data_button" | translate }}
           </button>
@@ -113,19 +111,21 @@
       alt="{{ 'pages.building_policy.gradient_image_alt' | translate }}"
     />
   </div>
-  <app-job-individual-form
-    *ngIf="leadType === 'individual'" 
-  />
-  <app-job-corporate-form
-    *ngIf="leadType === 'corporate'"
-  />
-  <app-lead-type-selector [config]="leadTypeConfig"
-        [selectedValue]="userSelectedLead"
-        componentId="lead-type-choice"
-        radioGroupName="jobType"
-        (selectionChange)="onLeadTypeSelected($event)"
-        (nextClick)="selectFrom()" *ngIf="showSelectLead" id="lead-type-choice"/>
-</div>
+  <div [class.hidden]="!showForm">
+    <app-job-individual-form
+      *ngIf="leadType === 'individual'" 
+    />
+    <app-job-corporate-form
+      *ngIf="leadType === 'corporate'"
+    />
+    <app-lead-type-selector [config]="leadTypeConfig"
+    [selectedValue]="userSelectedLead"
+    componentId="lead-type-choice"
+    radioGroupName="jobType"
+    (selectionChange)="onLeadTypeSelected($event)"
+    (nextClick)="selectFrom()" id="lead-type-choice" *ngIf="showSelectLead && !leadType"/>
+  </div>
+  </div>
 
 <div
   *ngIf="!showForm"

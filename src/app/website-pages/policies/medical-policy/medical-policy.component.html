@@ -6,8 +6,8 @@
     class="mx-5 md:mx-10 lg:mx-20 overflow-hidden pt-12 pb-0 relative flex flex-col md:flex-row gap-4 mb-12 bg-gradient-to-br from-[#F2F2F2] from-[15.48%] via-[#DBEFFD] via-[63.88%] to-[#DBEFFD] rounded-lg shadow-lg"
   >
     <img
-      *ngIf="showSelectLead"
-      (click)="showSelectLead = !showSelectLead"
+      *ngIf="showForm"
+      (click)="showForm = !showForm"
       class="absolute z-10 w-[40px] h-[40px] top-[10px] start-[10px] cursor-pointer hover:scale-120 transition-all duration-300"
       src="assets/common/back.svg"
       alt=""
@@ -54,11 +54,10 @@
           class="flex flex-col items-start md:flex-row md:items-center gap-4 !mb-8 mt-4"
         >
           <button
-            *ngIf="leadType === null"
+            *ngIf="!showForm"
             class="main-btn cursor-pointer bg-[#00AEEF] text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors text-sm md:text-base"
-            (click)="
-              showForm = !showForm; scrollToForm(); showSelectLead = true
-            "
+            (click)=" scrollToForm(); showForm = true;showSelectLead = true"
+
           >
             {{ "pages.medical_policy.claim_data_button" | translate }}
           </button>
@@ -121,38 +120,35 @@
   </div>
 
   <div
-    *ngIf="showForm"
-    class="mx-5 md:mx-10 lg:mx-20 min-h-[500px] overflow-hidden pb-20"
+    class="mx-5 md:mx-10 lg:mx-20 overflow-hidden pb-3 relative z-1"
     id="policy-form"
   >
+  <div *ngIf="showForm" class="h-[700px] w-[400px] bottom-0 absolute" [ngClass]="{
+        '-right-20': translate.currentLang === 'en',
+        '-left-20': translate.currentLang === 'ar'
+      }" style="z-index: -2">
     <img
       loading="eager"
       fetchpriority="high"
       src="assets/policies/bg.png"
       alt="{{ 'pages.medical_policy.background_image_alt' | translate }}"
-      class="absolute object-contain bottom-0 h-[700px] w-[400px]"
-      [ngClass]="{
-        '-right-20': translate.currentLang === 'en',
-        '-left-20': translate.currentLang === 'ar'
-      }"
-      style="z-index: 2"
+      class="object-contain relative"
     />
-    <!-- <div
-      class="absolute inset-0 bg-transparent opacity-50"
-      style="z-index: 3"
-    ></div> -->
-    <app-medical-individual-form *ngIf="leadType === 'individual'" />
-    <app-medical-corporate-form *ngIf="leadType === 'corporate'" />
-    <app-lead-type-selector
-      [config]="leadTypeConfig"
-      [selectedValue]="userSelectedLead"
-      componentId="lead-type-choice"
-      radioGroupName="medicalType"
-      (selectionChange)="onLeadTypeSelected($event)"
-      (nextClick)="selectFrom()"
-      *ngIf="showSelectLead"
-      id="lead-type-choice"
-    />
+  </div>
+    <div [class.hidden]="!showForm">
+      <app-medical-individual-form *ngIf="leadType === 'individual'" />
+      <app-medical-corporate-form *ngIf="leadType === 'corporate'" />
+      <app-lead-type-selector
+        [config]="leadTypeConfig"
+        [selectedValue]="userSelectedLead"
+        componentId="lead-type-choice"
+        radioGroupName="medicalType"
+        (selectionChange)="onLeadTypeSelected($event)"
+        (nextClick)="selectFrom()"
+        *ngIf="showSelectLead && !leadType"
+        id="lead-type-choice"
+      />
+    </div>
   </div>
 </div>
 

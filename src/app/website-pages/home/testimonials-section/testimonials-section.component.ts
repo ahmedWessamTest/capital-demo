@@ -11,8 +11,8 @@ interface LocalTestimonial {
   id: string;
   en_name: string;
   ar_name: string;
-  en_position: string;
-  ar_position: string;
+  en_job: string;
+  ar_job: string;
   en_text: string;
   ar_text: string;
   imageSrc: string;
@@ -139,7 +139,7 @@ export class TestimonialsSectionComponent implements OnInit, OnDestroy, OnChange
   }
 
   getPosition(testimonial: LocalTestimonial): string {
-    return this.currentLanguage === 'en' ? testimonial.en_position : testimonial.ar_position;
+    return this.currentLanguage === 'en' ? testimonial.en_job : testimonial.ar_job;
   }
 
   getText(testimonial: LocalTestimonial): string {
