@@ -18,7 +18,7 @@ export class ShowAllCorporateDetailsComponent {
   itemsPerPage = 5;
   currentPage = 1;
   searchTerm = '';
-  policyUnits: any[] = [];
+  policyUnits: EmpLoyeesData[] = [];
   policyId!: string;
   skeletonRows = Array(2);
   policyType!: string;
@@ -37,6 +37,7 @@ export class ShowAllCorporateDetailsComponent {
     this.currentLang$ = this.LanguageService.currentLanguage$
     this.policyId = this.route.snapshot.paramMap.get('policyId')!;
     this.policyType = this.route.snapshot.paramMap.get('policyType')!;
+    
     this.loadUnits();
   }
   loadUnits() {
@@ -49,6 +50,8 @@ export class ShowAllCorporateDetailsComponent {
           this.maxUnits = unitsData[0].company_employee_number
         }
         this.policyUnits = res.empolyeepolicy;
+            console.log(this.policyUnits);
+
        
         this.loading = false;
         const options = this.itemsPerPageOptions;
@@ -70,7 +73,6 @@ export class ShowAllCorporateDetailsComponent {
   }
   onDelete(userId: number) {
     this.AlertService.showConfirmation({
-      title: this.translate.instant("pages.show_all_details.delete_alert.delete_item"),
       messages: [this.translate.instant("pages.show_all_details.delete_alert.are_you_sure")],
       confirmText: this.translate.instant("pages.show_all_details.delete_alert.yes_delete"), // Yes, delete
       cancelText: this.translate.instant('common.cancel'),
@@ -144,5 +146,8 @@ get filteredList() {
   }
 
   return options;
+}
+trackByPolicyUnit(index: number, item: EmpLoyeesData): number | string {
+  return item.id ?? index; 
 }
 }
