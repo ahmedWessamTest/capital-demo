@@ -128,6 +128,13 @@ export class JobIndividualFormComponent {
         'Media, marketing, creative agencies providing professional services',
       ar_name: 'وسائط، تسويق، الوكالات الإبداعية التي تقدم خدمات احترافية',
     },
+    {
+      id: 10,
+      name: 'Other',
+      code: 'other',
+      en_name: 'Other',
+      ar_name: 'أخرى',
+    },
   ];
 
   steps = [
@@ -208,6 +215,7 @@ export class JobIndividualFormComponent {
         ],
       ],
       jop_title: ['', Validators.required],
+      customJobTitle: [''], // Add custom job title field
       jop_price: [
         '',
         [Validators.required, Validators.min(50000), Validators.max(1000000)],
@@ -351,6 +359,15 @@ export class JobIndividualFormComponent {
     // Store the English name as the backend expects it
     this.claimForm.get('jop_title')?.setValue(position ? position.en_name : '');
     this.claimForm.get('jop_title')?.markAsTouched();
+    
+    // Handle Other option - add/remove validation for customJobTitle
+    if (position && position.en_name === 'Other') {
+      this.claimForm.get('customJobTitle')?.setValidators([Validators.required]);
+    } else {
+      this.claimForm.get('customJobTitle')?.clearValidators();
+      this.claimForm.get('customJobTitle')?.setValue('');
+    }
+    this.claimForm.get('customJobTitle')?.updateValueAndValidity();
   }
 
   onFileSelected(event: Event, fieldName: string) {
@@ -543,10 +560,26 @@ export class JobIndividualFormComponent {
       }
     });
 
+    // Special handling for step 1 (Position/Profession) - validate customJobTitle if "Other" is selected
+    if (this.step === 1 && this.claimForm.get('jop_title')?.value === 'Other') {
+      const customJobTitleControl = this.claimForm.get('customJobTitle');
+      if (customJobTitleControl && !customJobTitleControl.disabled) {
+        customJobTitleControl.markAsTouched();
+      }
+    }
+
     const isStepValid = currentStepFields.every((field) => {
       const control = this.claimForm.get(field);
       return control?.disabled || control?.valid;
     });
+
+    // Additional validation for customJobTitle when "Other" is selected
+    if (this.step === 1 && this.claimForm.get('jop_title')?.value === 'Other') {
+      const customJobTitleControl = this.claimForm.get('customJobTitle');
+      if (customJobTitleControl && !customJobTitleControl.disabled && !customJobTitleControl.valid) {
+        return;
+      }
+    }
 
     if (!isStepValid) {
       return;
@@ -723,6 +756,11 @@ export class JobIndividualFormComponent {
   }
 
   private proceedWithPayment() {
+    // Determine the job title to send
+    const jobTitle = this.claimForm.get('jop_title')?.value === 'Other' 
+      ? this.claimForm.get('customJobTitle')?.value 
+      : this.claimForm.get('jop_title')?.value;
+
     const policyData: JopPolicyData = {
       category_id: String(this.category!.id),
       user_id: this.authService.getUserId() || '0',
@@ -730,7 +768,7 @@ export class JobIndividualFormComponent {
       name: this.claimForm.get('name')?.value,
       email: this.claimForm.get('email')?.value,
       phone: this.claimForm.get('phone')?.value,
-      jop_title: this.claimForm.get('jop_title')?.value,
+      jop_title: jobTitle, // Use the determined job title
       jop_price: this.claimForm.get('jop_price')?.value,
       jop_main_id: this.claimForm.get('jop_main_id')?.value,
       jop_second_id: this.claimForm.get('jop_second_id')?.value,

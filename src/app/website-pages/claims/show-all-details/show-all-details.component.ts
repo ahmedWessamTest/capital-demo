@@ -242,6 +242,8 @@ export class ShowAllDetailsComponent implements OnInit {
       'admin_medical_insurance_number',
       'admin_motor_insurance_number',
       'active_status',
+      "total_month_money",
+      "total_year_money"
     ];
 
     const details = Object.entries(this.policyDetails)

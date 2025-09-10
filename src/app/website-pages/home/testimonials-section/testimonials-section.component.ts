@@ -4,7 +4,6 @@ import { CarouselModule, OwlOptions, SlidesOutputData, CarouselComponent } from 
 import { Subscription } from 'rxjs';
 import { LanguageService } from '../../../core/services/language.service';
 import { HeadingComponent } from "@core/shared/heading/heading.component";
-import { API_CONFIG } from '@core/conf/api.config';
 import { TranslateModule } from '@ngx-translate/core';
 import { Testimonial, UpdatedGenericDataService } from '@core/services/updated-general.service';
 interface LocalTestimonial {

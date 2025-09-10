@@ -844,8 +844,10 @@
           "prompt_1": "your position or occupation title",
           "prompt_2": "because this will help determine the appropriate type of coverage",
           "placeholder": "Enter your position or job title",
+          "custom_placeholder":"Enter your position or job title",
           "errors": {
-            "position_required": "Position or job title is required"
+            "position_required": "Position or job title is required",
+            "custom_job_title_required": "Custom job title is required"
           }
         },
         "sum_insured": {

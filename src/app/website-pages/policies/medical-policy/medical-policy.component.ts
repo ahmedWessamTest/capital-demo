@@ -2,7 +2,7 @@
 
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef, QueryList, ViewChildren, AfterViewInit, ChangeDetectorRef, inject, PLATFORM_ID } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {  ReactiveFormsModule } from '@angular/forms';
 import { GovernorateOption } from '@core/shared/policy-drop-down/policy-drop-down.component';
 import { CarouselComponent, CarouselModule, OwlOptions } from 'ngx-owl-carousel-o';
 import { of, Subscription } from 'rxjs';
@@ -10,8 +10,7 @@ import { catchError, tap } from 'rxjs/operators';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '@core/services/language.service';
 import { AlertService } from '@core/shared/alert/alert.service';
-import { Router } from '@angular/router';
-import { MedicalInsurance, MedicalCategory, MedicalInsuranceService, MedicalPolicyData } from '@core/services/policies/medical-policy.service';
+import { MedicalInsurance, MedicalCategory, MedicalInsuranceService } from '@core/services/policies/medical-policy.service';
 import { Counter, UpdatedGenericDataService } from '@core/services/updated-general.service';
 
 import { SafeHtmlPipe } from '@core/pipes/safe-html.pipe';

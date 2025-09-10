@@ -123,18 +123,18 @@
     class="mx-5 md:mx-10 lg:mx-20 overflow-hidden pb-3 relative z-1"
     id="policy-form"
   >
-  <div *ngIf="showForm" class="h-[700px] w-[400px] bottom-0 absolute" [ngClass]="{
-        '-right-20': translate.currentLang === 'en',
-        '-left-20': translate.currentLang === 'ar'
-      }" style="z-index: -2">
-    <img
-      loading="eager"
-      fetchpriority="high"
-      src="assets/policies/bg.png"
-      alt="{{ 'pages.medical_policy.background_image_alt' | translate }}"
-      class="object-contain relative"
-    />
-  </div>
+  <img
+    loading="eager"
+    fetchpriority="high"
+    src="assets/policies/bg.png"
+    alt="{{ 'pages.building_policy.background_image_alt' | translate }}"
+    class="absolute object-contain bottom-0 h-[700px] w-[400px]"
+    [ngClass]="{
+      '-right-20': translate.currentLang === 'en',
+      '-left-20': translate.currentLang === 'ar'
+    }"
+    style="z-index: -2"
+  />
     <div [class.hidden]="!showForm">
       <app-medical-individual-form *ngIf="leadType === 'individual'" />
       <app-medical-corporate-form *ngIf="leadType === 'corporate'" />
