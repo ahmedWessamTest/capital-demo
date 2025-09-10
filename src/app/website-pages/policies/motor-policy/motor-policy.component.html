@@ -59,8 +59,8 @@
     />
 </div>
 
-  <div *ngIf="showForm" class=" pb-20 mx-5 md:mx-10 lg:mx-20 min-h-[500px]" id="policy-form">
-    <img loading="eager" fetchpriority="high" src="assets/policies/bg.png" alt="{{ 'pages.motor_policy.background_image_alt' | translate }}" class="absolute object-contain bottom-0 h-[700px] w-[400px]" [ngClass]="{'-right-20': translate.currentLang === 'en', '-left-20': translate.currentLang === 'ar'}" style="z-index: 2;">
+  <div *ngIf="showForm" class=" pb-20 mx-5 md:mx-10 lg:mx-20 min-h-[500px] relative z-1" id="policy-form">
+    <img loading="eager" fetchpriority="high" src="assets/policies/bg.png" alt="{{ 'pages.motor_policy.background_image_alt' | translate }}" class="absolute object-contain bottom-0 h-[450px] w-[350px]" [ngClass]="{'-right-20': translate.currentLang === 'en', '-left-20': translate.currentLang === 'ar'}" style="z-index: -2;">
     <div class="absolute inset-0 bg-transparent opacity-50" style="z-index: 3;"></div>
     <div class="relative z-10 p-4">
       <div *ngIf="step < 6" class="flex flex-col sm:flex-row items-center gap-4">

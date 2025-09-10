@@ -1,5 +1,5 @@
 <div
-    class="mx-5 md:mx-10 lg:mx-20 min-h-[500px]"
+    class="mx-5 md:mx-10 lg:mx-20 min-h-[500px] relative"
     id="policy-form"
   >
     <img
@@ -7,16 +7,16 @@
       fetchpriority="high"
       src="assets/policies/bg.png"
       alt="{{ 'pages.building_policy.background_image_alt' | translate }}"
-      class="absolute object-contain bottom-0 h-[700px] w-[400px]"
+      class="absolute object-contain bottom-0 h-[700px] w-[400px] pointer-events-none"
       [ngClass]="{
-        '-right-20': translate.currentLang === 'en',
-        '-left-20': translate.currentLang === 'ar'
+        'right-0': translate.currentLang === 'en',
+        'left-0': translate.currentLang === 'ar'
       }"
-      style="z-index: 2"
+      style="z-index: 1"
     />
     <div
       class="absolute inset-0 bg-transparent opacity-50"
-      style="z-index: 3"
+      style="z-index: 2"
     ></div>
     <div class="relative z-10 p-4">
       <div
@@ -251,6 +251,35 @@
               (focused)="onDropdownFocus('jop_title')"
             >
             </app-policy-drop-down>
+            
+            <!-- Custom job title input - shown when "Other" is selected -->
+            <div *ngIf="claimForm.get('jop_title')?.value === 'Other'" class="mt-4">
+              <input
+                formControlName="customJobTitle"
+                type="text"
+                class="general-input w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                [ngClass]="{
+                  'text-right': translate.currentLang === 'ar', 
+                  'text-left': translate.currentLang === 'en',
+                  'border-red-500': claimForm.get('customJobTitle')?.invalid && claimForm.get('customJobTitle')?.touched
+                }"
+                [placeholder]="'pages.professional_indemnity.form.position.custom_placeholder' | translate"
+                (paste)="preventPaste($event)">
+              <div class="error-container flex justify-between mt-2">
+                @if (claimForm.get('customJobTitle')?.touched &&
+                claimForm.get('customJobTitle')?.invalid) {
+                <span
+                  class="error-message"
+                  [ngClass]="{ 'order-2': translate.currentLang === 'ar' }"
+                  >{{
+                    "pages.professional_indemnity.form.position.errors.custom_job_title_required"
+                      | translate
+                  }}</span
+                >
+                }
+              </div>
+            </div>
+            
             <div class="error-container flex justify-between">
               @if (claimForm.get('jop_title')?.touched &&
               claimForm.get('jop_title')?.invalid) {

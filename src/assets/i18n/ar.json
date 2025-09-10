@@ -891,9 +891,11 @@
           "prompt_0": "ممكن اعرف",
           "prompt_1": "المنصب أو الوظيفة",
           "prompt_2": "لأن هذا سيساعد في تحديد نوع التغطية المناسبة",
+          "custom_placeholder":"أدخل منصبك أو وظيفتك",
           "placeholder": "أدخل منصبك أو وظيفتك",
           "errors": {
-            "position_required": "المنصب أو الوظيفة مطلوب"
+            "position_required": "المنصب أو الوظيفة مطلوب",
+            "custom_job_title_required": "منصبك أو وظيفتك مطلوب"
           }
         },
         "sum_insured": {
