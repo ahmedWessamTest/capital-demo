@@ -7,6 +7,7 @@ import { CorporateDetailsService } from '@core/services/policies/corporate-detai
 import { AuthStorageService } from '@core/services/auth/auth-storage.service';
 import { AlertService } from '@core/shared/alert/alert.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-add-corporate-unit-form',
@@ -20,7 +21,7 @@ export class AddCorporateUnitFormComponent {
   policyType!: string;
   errorMessages: { phone: string, email: string } | null = null;
   isSubmitting: boolean = false;
-
+  private destroy$ = new Subject<void>();
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
@@ -58,7 +59,7 @@ export class AddCorporateUnitFormComponent {
       policy_id: this.policyId,
 
     };
-    this.CorporateDetailsService.submitCorporateUnit(corporateType, body).subscribe({
+    this.CorporateDetailsService.submitCorporateUnit(corporateType, body).pipe(takeUntil(this.destroy$)).subscribe({
       next: (res) => {
         this.isSubmitting = false
         if (res.success) {
@@ -84,5 +85,9 @@ export class AddCorporateUnitFormComponent {
   }
   get f() {
     return this.form.controls;
+  }
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

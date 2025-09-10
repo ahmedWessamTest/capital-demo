@@ -7,6 +7,7 @@ import { LanguageService } from '@core/services/language.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { AlertService } from '@core/shared/alert/alert.service';
 import { FormsModule } from '@angular/forms';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-show-all-corporate-details-compoent',
@@ -25,6 +26,7 @@ export class ShowAllCorporateDetailsComponent {
   maxUnits: number | null = null;
   loading = true;
   sortDirection: 'asc' | 'desc' | '' = 'asc';
+  destroy$ = new Subject<void>()
   constructor(
     private route: ActivatedRoute,
     private CorporateDetailsService: CorporateDetailsService,
@@ -43,7 +45,7 @@ export class ShowAllCorporateDetailsComponent {
   loadUnits() {
     const corporateType = "company-" + this.policyType as corporateEndPoints;
     this.loading = true;
-    this.CorporateDetailsService.getCorporateUnit(corporateType, this.policyId).subscribe({
+    this.CorporateDetailsService.getCorporateUnit(corporateType, this.policyId).pipe(takeUntil(this.destroy$)).subscribe({
       next: (res: any) => {
         const unitsData = res.empolyeepolicy;
         if (unitsData.length > 0) {
@@ -84,7 +86,7 @@ export class ShowAllCorporateDetailsComponent {
   }
   deleteUser(userId: number): void {
     const corporateType = "company-" + this.policyType as corporateEndPoints;
-    this.CorporateDetailsService.deleteCorporateUnit(corporateType, userId).subscribe({
+    this.CorporateDetailsService.deleteCorporateUnit(corporateType, userId).pipe(takeUntil(this.destroy$)).subscribe({
       next: (res) => {
         if (res.success) {
           this.policyUnits = this.policyUnits.filter(unit => unit.id !== userId)
@@ -150,4 +152,9 @@ get filteredList() {
 trackByPolicyUnit(index: number, item: EmpLoyeesData): number | string {
   return item.id ?? index; 
 }
+ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
 }
