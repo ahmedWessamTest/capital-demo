@@ -19,6 +19,8 @@
 .testimonial {
   font-family: 'Alexandria', sans-serif;
   font-size: clamp(20px, 3vw, 23px);
+  max-height: 550px;
+  overflow-y: auto;
   line-height: 30px;
   font-weight: 400;
   text-transform: capitalize;
@@ -35,8 +37,17 @@
 
 .testimonial-slide{
   min-width:280px;
+  min-height: 550px;
+}
+@media screen and (min-width:640px) {
+  .testimonial-slide{
+  min-height: auto;
+  }
 }
 
+::ng-deep .owl-stage-outer {
+  transition: height 0.3s ease-in-out;
+}
 
 ::ng-deep .owl-theme .owl-dots .owl-dot span{
   width: 12px;
