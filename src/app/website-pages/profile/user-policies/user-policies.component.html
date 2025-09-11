@@ -126,22 +126,25 @@
                       {{ getPolicyStatus(policy.type, policy) }}
                     </div>
                   </div>
-                  <div class="w-[170px] h-[85px] z-20">
+                  <div class="w-[170px] h-[85px] z-20 text-center flex justify-center">
                     <img
-                      class="w-full h-full object-cover"
+                      class="w-full h-full object-cover "
                       [src]="
                         policy.type === 'medical'
                           ? '/assets/policies/medical.png'
                           : policy.type === 'motor'
                           ? '/assets/policies/car.png'
                           : policy.type === 'jop'
-                          ? '/assets/policies/job.png'
+                          ? '/assets/policies/job.webp'
                           : '/assets/policies/building.png'
                       "
                       [alt]="
                         'pages.user_policies.images.' + policy.type + '_alt'
                           | translate
                       "
+                      [ngClass]="{
+                        'max-w-[125px]':policy.type== 'jop'
+                      }"
                     />
                   </div>
                 </div>

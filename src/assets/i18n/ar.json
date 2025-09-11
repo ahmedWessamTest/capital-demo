@@ -302,7 +302,7 @@
         "expired_canceled": "منتهية/ملغاة"
       },
       "cols":{
-"username":"اسم السمتخدم",
+"username":"اسم المستخدم",
 "control":"تحكم"
       },
       "delete_alert": {
