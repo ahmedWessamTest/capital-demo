@@ -1131,6 +1131,10 @@
     "add_manual_policy": "add new policy manuality"
   },
   "ROUTES": {
+    "PRIVACY_POLICY":{
+"TITLE":"Capital Insurance Brokerage-Privacy Policy",
+"DESCRIPTION":"Privacy Policy- protecting your personal data with website and confidentiality at our insurance website"
+    },
     "HOME": {
       "TITLE": "Capital Insurance Brokerage",
       "DESCRIPTION": "Welcome to our insurance platform"

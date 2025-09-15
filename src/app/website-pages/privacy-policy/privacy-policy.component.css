@@ -1,0 +1,22 @@
+.about-text {
+  line-height: 1.6;
+  font-size: 1rem;
+  color: #333;
+}
+::ng-deep .about-text ul {
+    list-style: disc;
+    margin-left: 1.5rem;
+    margin-bottom: 1rem;
+  }
+ ::ng-deep .about-text a {
+    color: #0d47a1;
+    text-decoration: underline;
+  }
+  ::ng-deep .about-text li {
+    margin-bottom: 0.5rem;
+  }
+ ::ng-deep .about-text h2, h3 {
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: #1a237e;
+  }
