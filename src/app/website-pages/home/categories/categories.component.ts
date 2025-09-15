@@ -83,7 +83,7 @@ export class CategoriesComponent {
       id: 'job-insurance',
       titleAr: 'التامين الوظيفي',
       title: 'Professional Indemnity',
-      imageUrl: 'assets/categories/job.PNG', // Replace with 'assets/categories/medical.jpg'
+      imageUrl: './assets/categories/job.PNG', // Replace with 'assets/categories/medical.jpg'
       altText: ' Professional Indemnity Insurance category',
       linkTitle: 'Go to  Professional Indemnity ',
       linkAriaLabel: 'Go to  Professional Indemnity Insurance category',
