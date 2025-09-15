@@ -79,7 +79,7 @@
                   *ngIf="claim.status === 'pending'"
                   class="absolute top-0 right-0 bg-yellow-400 text-black text-sm font-semibold px-3 py-1 rounded-bl-lg z-30 transform -rotate-2 shadow-md"
                 >
-                  Pending
+                  {{"pages.claims.status.pending" | translate}}
                 </div>
                 <div class="status flex justify-between items-center flex-wrap">
                   <div>
@@ -123,15 +123,15 @@
                 </div>
                 <div class="info-grid">
                   <div>
-                    <div class="label">Claimant</div>
+                    <div class="label">{{"pages.claims.labels.claimant" | translate}}</div>
                     <div class="value">{{ claim.name }}</div>
                   </div>
                   <div>
-                    <div class="label">Claim Number</div>
+                    <div class="label">{{"pages.claims.labels.claim_number" | translate}}</div>
                     <div class="value">{{ claim.claim_number }}</div>
                   </div>
                   <div class="expiry">
-                    <div class="label">Claim Date</div>
+                    <div class="label">{{"pages.claims.labels.claim_date" | translate}}</div>
                     <div
                       class="value"
                       [ngClass]="{

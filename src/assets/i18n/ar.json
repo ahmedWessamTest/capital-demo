@@ -141,6 +141,10 @@
         "password-mismatch": "كلمتا المرور غير متطابقتين.",
         "update-failed": "فشل تحديث كلمة المرور. يرجى المحاولة مرة أخرى.",
         "update-failed-title": "فشل تحديث كلمة المرور"
+      },
+      "success": {
+        "update": "تم تحديث الملف الشخصي بنجاح!",
+        "update-title": "تم تغيير كلمة المرور"
       }
     },
     "contact": {
@@ -240,7 +244,7 @@
         "jop": "مطالبة عمل"
       },
       "labels": {
-        "claimant": "المدعي",
+        "claimant": "صاحب المطالبه",
         "claim_number": "رقم المطالبة",
         "claim_date": "تاريخ المطالبة"
       },
@@ -254,6 +258,22 @@
         "jop_alt": "صورة مطالبة العمل",
         "card_background_alt": "صورة خلفية البطاقة",
         "claims_image": "صورة المطالبات"
+      },
+      "comment":{
+        "no_available": "لا توجد تعليقات متاحة لهذا الطلب.",
+"view_attached_file": "عرض الملف المرفق",
+"comment_and_update": "التعليقات والتحديثات",
+"add_a_comment": "أضف تعليقًا",
+"attache_file":"ارفاق ملف",
+"no_comment_available_to_replay": "لا توجد تعليقات متاحة للرد عليها.",
+"commenting_is_disabled": "تم تعطيل التعليقات لأن الطلب ليس في حالة انتظار.",
+"errors": {
+  "invalid_claim_or_id": "معرّف الطلب أو النوع غير صالح",
+  "failed_to_load": "فشل في تحميل التعليقات",
+  "user_not_auth": "المستخدم غير مصرح له",
+  "failed_to_submit": "فشل في إرسال التعليق"
+}
+
       }
     },
 
@@ -562,7 +582,7 @@
         "no_plan_selected": "لم يتم اختيار أي خطة"
       },
       "form": {
-                "no_results":"لا يوجد نتيجه",
+        "no_results":"لا يوجد نتيجه",
         "other_model_placeholder": "أدخل طراز آخر",
         "other_year_placeholder": "أدخل سنة أخرى",
         "other_brand_placeholder": "أدخل ماركة أخرى",
@@ -570,6 +590,7 @@
         "other_brand_required": "الماركة الأخرى مطلوبة",
         "other_model_required": "الطراز الآخر مطلوب",
         "other_year_max": "لا يمكن أن تكون سنة السيارة لاحقة من 2026",
+        "no_arabic":"لا يمكن ادخال لغه عربيه",
         "personal_information": {
           "prompt_0": "هل يمكنني معرفة",
           "prompt_1": "معلوماتك الشخصية",
@@ -1024,7 +1045,9 @@
         "notes": "ملاحظات/الوصف",
         "car_type_id": "اختر نوع السيارة",
         "car_brand_id": "اختر ماركة السيارة",
+        "custom_car_brand_id":"ماركة السيارة",
         "car_model_id": "اختر طراز السيارة",
+        "custom_car_model_id":"طراز السيارة",
         "car_year": "اختر سنة السيارة",
         "car_price": "سعر السيارة",
         "motor_insurance_id": "اختر تأمين السيارة",
@@ -1048,6 +1071,9 @@
         "fullName_required": "الاسم الكامل مطلوب",
         "email_required": "البريد الإلكتروني مطلوب",
         "email_invalid": "يرجى إدخال بريد إلكتروني صحيح",
+        "jop_title_required": "المسمى الوظيفي مطلوب",
+"jop_main_id_required": "مطلوب مستند الهوية",
+"jop_price_required": "مطلوب مبلغ التأمين",
         "phoneNumber_required": "رقم الهاتف مطلوب",
         "phone_invalid": "يرجى إدخال رقم هاتف صحيح (10-15 رقمًا)",
         "selectedPolicy_required": "البوليصة مطلوبة",
@@ -1061,7 +1087,9 @@
         "notes_minlength": "الوصف قصير جدًا (الحد الأدنى {{length}} أحرف)",
         "car_type_id_required": "نوع السيارة مطلوب",
         "car_brand_id_required": "ماركة السيارة مطلوبة",
+        "custom_car_brand_id_required":"ماركة السيارة مطلوبه",
         "car_model_id_required": "طراز السيارة مطلوب",
+                "custom_car_model_id_required":"طراز السيارة مطلوب",
         "car_year_required": "سنة السيارة مطلوبة",
         "car_year_invalid": "يرجى إدخال سنة سيارة صحيحة مكونة من 4 أرقام",
         "car_price_required": "سعر السيارة مطلوب",
@@ -1083,7 +1111,7 @@
         "invalid_insurance_type": "تم اختيار نوع تأمين غير صالح",
         "submission_failed": "حدث خطأ أثناء تقديم النموذج. يرجى المحاولة مرة أخرى.",
         "price_min": "يجب أن تكون القيمة 100,000 جنيه على الأقل",
-        "insurancePolicyNumber_minlength": "يجب أن يكون رقم بوليصة التأمين 6 أحرف على الأقل",
+        "insurancePolicyNumber_minlength": "يجب أن يكون رقم بوليصة التأمين 4 أحرف على الأقل",
         "email_exist": "هذا الايميل مسجل بالفعل",
         "phone_exist": "هذا الرقم مسجل بالفعل",
         "login": "يجب تسجيل الدخول"

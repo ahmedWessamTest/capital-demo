@@ -138,6 +138,11 @@ export class EditPasswordPageComponent implements OnInit {
         this.triggerShakeAnimation();
         this.clearMessagesAfterDelay();
       },
+      complete:()=>{
+        setTimeout(()=>{
+          this._alertService.hide();
+        },2000)
+      }
     });
   }
 

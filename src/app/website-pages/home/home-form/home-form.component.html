@@ -346,8 +346,9 @@
                         (change)="
                           controlName === 'car_brand_id'
                             ? onCarBrandChange($event)
-                            : controlName === 'building_type_id'
-                            ? onBuildingTypeChange($event)
+                            : controlName === 'building_type_id'? onBuildingTypeChange($event):
+                            controlName === 'car_model_id'?
+                            onCarModelChange($event)
                             : controlName === 'jop_title'
                             ? onJobTitleChange($event)
                             : null
@@ -431,7 +432,75 @@
                     </span>
                   </div>
                 </div>
-
+                <!-- Custom Car Brand Field (shown when Others is selected) -->
+                <div
+                  *ngIf="
+                    controlName === 'custom_car_brand_id' && showCustomCarBrandId
+                  "
+                  class="form-group"
+                >
+                  <div class="input-container">
+                    <input
+                      type="text"
+                      id="custom_car_brand_id"
+                      formControlName="custom_car_brand_id"
+                      [placeholder]="
+                        formFieldsConfig['custom_car_brand_id'].placeholder
+                          | translate
+                      "
+                      [class.error]="isFieldInvalid('custom_car_brand_id')"
+                      class="form-input"
+                      [ngClass]="{
+                        'text-right': translate.currentLang === 'ar',
+                        'text-left': translate.currentLang === 'en'
+                      }"
+                    />
+                  </div>
+                  <div class="error-container">
+                    <span
+                      *ngIf="getFieldError('custom_car_brand_id')"
+                      class="error-message"
+                      [ngClass]="{ 'order-2': translate.currentLang === 'ar' }"
+                    >
+                      {{ getFieldError("custom_car_brand_id") }}
+                    </span>
+                  </div>
+                </div>
+                <!-- Custom Car Brand Field (shown when Others is selected) -->
+                <div
+                  *ngIf="
+                    controlName === 'custom_car_model_id' && showCustomCarModelsId
+                  "
+                  class="form-group"
+                >
+                  <div class="input-container">
+                    <input
+                      type="text"
+                      id="custom_car_model_id"
+                      formControlName="custom_car_model_id"
+                      [placeholder]="
+                        formFieldsConfig['custom_car_model_id'].placeholder
+                          | translate
+                      "
+                      [class.error]="isFieldInvalid('custom_car_model_id')"
+                      class="form-input"
+                      [ngClass]="{
+                        'text-right': translate.currentLang === 'ar',
+                        'text-left': translate.currentLang === 'en'
+                      }"
+                    />
+                  </div>
+                  <div class="error-container">
+                    <span
+                      *ngIf="getFieldError('custom_car_model_id')"
+                      class="error-message"
+                      [ngClass]="{ 'order-2': translate.currentLang === 'ar' }"
+                    >
+                      {{ getFieldError("custom_car_model_id") }}
+                    </span>
+                  </div>
+                </div>
+                
                 <!-- Other form controls (dropdown, textarea) remain unchanged -->
                 <div *ngIf="controlName === 'selectedPolicy'" class="w-full">
                   <div class="w-full">

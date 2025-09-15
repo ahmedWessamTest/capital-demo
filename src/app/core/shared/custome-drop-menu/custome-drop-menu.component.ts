@@ -7,6 +7,7 @@ export interface DropdownOption {
   title: string;
   code: string;
   agreed: boolean;
+  disabled?:boolean
 }
 
 @Component({
@@ -53,27 +54,32 @@ export interface DropdownOption {
             {{ 'dropdown.no_policies_available' | translate }}
           </div>
           <ng-container *ngIf="!isLoading && options.length > 0">
-            <div
-              *ngFor="let option of options"
-              class="px-8 py-1 md:py-2 hover:bg-gray-100 cursor-pointer h-[40px] md:h-[70px] flex items-center"> <!-- Fixed height for each option -->
-              <div class="flex items-center w-full min-w-0" (click)="selectOption(option)">
-                <div class="text-xl text-green-500 font-bold flex-shrink-0 mr-2">+</div>
-                <!-- Truncate option title -->
-                <div class="font-semibold min-w-0 text-[12px] md:text-[14px] truncate">{{ option.title }}</div>
-                <!-- Truncate option code -->
-                <div class="hidden md:flex text-gray-400 text-sm flex-1 text-center ms-2 min-w-0 truncate">
-                  {{ 'dropdown.policy_code_prefix_short' | translate }} "{{ option.code }}"
-                </div>
-                <div class="md:hidden text-gray-400 text-[12px] flex-1 text-center ms-2 min-w-0 truncate">
-                  "{{ option.code }}"
-                </div>
-                <label class=" hidden md:flex custom-checkbox-wrapper  gap-2 items-center text-sky-400 text-sm flex-shrink-0 ml-4">
-                  {{ 'dropdown.agree_to_terms' | translate }}
-                  <input type="checkbox" class="hidden-checkbox" [(ngModel)]="option.agreed" />
-                  <span class="styled-checkbox cursor-pointer"></span>
-                </label>
-              </div>
-            </div>
+            <ng-container *ngFor="let option of options">
+  <ng-container *ngIf="!option?.disabled">
+    <div
+      class="px-8 py-1 md:py-2 hover:bg-gray-100 cursor-pointer h-[40px] md:h-[70px] flex items-center"> <!-- Fixed height for each option -->
+      <div class="flex items-center w-full min-w-0" (click)="selectOption(option)">
+        <div class="text-xl text-green-500 font-bold flex-shrink-0 mr-2">+</div>
+        <!-- Truncate option title -->
+        <div class="font-semibold min-w-0 text-[12px] md:text-[14px] truncate">{{ option.title }}</div>
+        <!-- Truncate option code -->
+        <div class="hidden md:flex text-gray-400 text-sm flex-1 text-center ms-2 min-w-0 truncate">
+          {{ 'dropdown.policy_code_prefix_short' | translate }} "{{ option.code }}"
+        </div>
+        <div class="md:hidden text-gray-400 text-[12px] flex-1 text-center ms-2 min-w-0 truncate">
+          "{{ option.code }}"
+        </div>
+        <label class=" hidden md:flex custom-checkbox-wrapper  gap-2 items-center text-sky-400 text-sm flex-shrink-0 ml-4">
+          {{ 'dropdown.agree_to_terms' | translate }}
+          <input type="checkbox" class="hidden-checkbox" [(ngModel)]="option.agreed" />
+          <span class="styled-checkbox cursor-pointer"></span>
+        </label>
+      </div>
+    </div>
+  </ng-container>
+  
+            </ng-container>
+            
           </ng-container>
         </div>
 
@@ -114,7 +120,8 @@ export class CustomeDropMenuComponent implements OnChanges {
     if (changes['options']) {
       this.selectedOption = undefined;
     }
-
+    console.log(changes);
+    
     // Auto-open dropdown when loading starts
     if (changes['isLoading'] && this.isLoading) {
       this.isOpen = true;

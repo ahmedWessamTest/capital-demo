@@ -27,20 +27,22 @@
       No policies available
     </div>
     <ng-container *ngIf="!isLoading && options.length > 0">
-      <div
-        *ngFor="let option of options"
-        class="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-        <div class="flex justify-around" (click)="selectOption(option)">
-          <div class="text-xl text-green-500 font-bold">+</div>
-          <div class="font-bold">{{ option.title }}</div>
-          <div class="text-gray-400 text-sm">Policy Code "{{ option.code }}"</div>
-          <label class="custom-checkbox-wrapper flex gap-2 items-center text-sky-400 text-sm">
-            Agree to terms
-            <input type="checkbox" class="hidden-checkbox" [(ngModel)]="option.agreed" />
-            <span class="styled-checkbox cursor-pointer"></span>
-          </label>
-        </div>
-      </div>
+      <ng-container *ngFor="let option of options">
+          <div
+            class="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+            <div class="flex justify-around" (click)="selectOption(option)">
+              <div class="text-xl text-green-500 font-bold">+</div>
+              <div class="font-bold">{{ option.title }}</div>
+              <div class="text-gray-400 text-sm">Policy Code "{{ option.code }}"</div>
+              <label class="custom-checkbox-wrapper flex gap-2 items-center text-sky-400 text-sm">
+                Agree to terms
+                <input type="checkbox" class="hidden-checkbox" [(ngModel)]="option.agreed" />
+                <span class="styled-checkbox cursor-pointer"></span>
+              </label>
+            </div>
+          </div>
+      </ng-container>
+      
     </ng-container>
     <div *ngIf="!isLoading" class="w-full p-4 flex items-center gap-4 px-[4vw]" (click)="onManualPolicyAdd()">
       <div>

@@ -26,7 +26,7 @@ import {
   ClaimsService,
   CreateCommentPayload,
 } from '@core/services/profile/user-claims.service';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 interface Comment {
   id: number;
@@ -60,6 +60,8 @@ export class ClaimsCommentsComponent implements OnInit, OnDestroy {
   private languageService = inject(LanguageService);
   private authStorage = inject(AuthStorageService);
   private platformId = inject(PLATFORM_ID);
+   translate = inject(TranslateService)
+  
 
   @ViewChild('commentsContainer') commentsContainer!: ElementRef;
 
@@ -102,7 +104,7 @@ export class ClaimsCommentsComponent implements OnInit, OnDestroy {
         this.claimType = type;
         this.fetchComments();
       } else {
-        this.error = 'Invalid claim ID or type';
+        this.error = this.translate.instant('pages.claims.comment.errors.invalid_claim_or_id');
         this.isLoading = false;
       }
     });
@@ -152,7 +154,7 @@ export class ClaimsCommentsComponent implements OnInit, OnDestroy {
           this.scrollToBottom();
         },
         error: (err) => {
-          this.error = 'Failed to load comments';
+          this.error = this.translate.instant('pages.claims.comment.errors.failed_to_load');
           this.isLoading = false;
           console.error('Error fetching comments:', err);
         },
@@ -236,7 +238,7 @@ export class ClaimsCommentsComponent implements OnInit, OnDestroy {
 
     const userData = this.authStorage.getUserData();
     if (!userData) {
-      this.error = 'User not authenticated';
+      this.error = this.translate.instant('pages.claims.comment.errors.user_not_auth');
       this.isSubmitting = false;
       return;
     }
@@ -283,7 +285,7 @@ export class ClaimsCommentsComponent implements OnInit, OnDestroy {
         }
       },
       error: (err) => {
-        this.error = 'Failed to submit comment';
+        this.error = this.translate.instant('pages.claims.comment.errors.failed_to_submit');
         this.isSubmitting = false;
         console.error('Error submitting comment:', err);
       },

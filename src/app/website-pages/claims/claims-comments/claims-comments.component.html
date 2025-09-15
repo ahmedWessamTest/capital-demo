@@ -7,7 +7,7 @@
           <path d="M17.499 2.97363C9.47637 2.97363 2.97266 9.47734 2.97266 17.5C2.97266 25.5227 9.47637 32.0264 17.499 32.0264C25.5217 32.0264 32.0254 25.5227 32.0254 17.5C32.0254 9.47734 25.5217 2.97363 17.499 2.97363ZM22.157 24.4863C22.585 24.9129 22.5856 25.6054 22.1591 26.0333C21.9451 26.2473 21.6648 26.3546 21.3846 26.3546C21.105 26.3546 20.8261 26.2479 20.6121 26.0354L12.841 18.2861C12.6353 18.0811 12.5197 17.8028 12.5197 17.5123C12.5197 17.2218 12.6346 16.9436 12.8403 16.7378L20.6121 8.96602C21.0394 8.53877 21.7318 8.53877 22.1591 8.96602C22.5863 9.39326 22.5863 10.0857 22.1591 10.513L15.1611 17.5103L22.157 24.4863Z" fill="#B2B2B2"/>
         </svg>
       </a>
-      <span class="comments-updates">Comments And Updates</span>
+      <span class="comments-updates">{{"pages.claims.comment.comment_and_update" |translate}}</span>
     </div>
   
     <!-- Comments List - Flexible height (takes remaining space) -->
@@ -26,7 +26,7 @@
       </div>
       <div *ngIf="!isLoading && error" class="text-red-600 text-center">{{ error }}</div>
       <div *ngIf="!isLoading && !error && comments.length === 0" class="text-gray-500 text-center">
-        No comments available for this claim.
+        {{"pages.claims.comment.no_available" |translate}}
       </div>
       <div *ngFor="let comment of comments; let isLast = last" class="mb-4">
         <div class="flex items-start gap-4" [ngClass]="getAlignmentClasses(comment.role)">
@@ -55,7 +55,7 @@
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none">
                   <path d="M14.5625 11.0912L10.7321 15.1827C10.4072 15.5457 9.9448 15.7557 9.45756 15.7614C8.97037 15.767 8.50318 15.5678 8.16989 15.2124C7.43365 14.4439 7.44602 13.2279 8.19773 12.4745L13.3423 6.97275C13.9099 6.34099 14.7175 5.97797 15.5668 5.97304C16.4159 5.9681 17.2277 6.3217 17.8025 6.94683C19.0286 8.30174 19.0199 10.3678 17.7823 11.7123L12.3276 17.5404C11.5514 18.3197 10.4887 18.7453 9.38918 18.7175C8.28962 18.6897 7.24987 18.211 6.51389 17.3936C4.83165 15.496 4.87326 12.629 6.6099 10.7811L11.7622 5.28027" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
-                View Attached File
+                {{"pages.claims.comment.view_attached_file" |translate}}
               </a>
             </div>
           </div>
@@ -93,7 +93,7 @@
         <!-- Textarea Container -->
         <div class="relative flex-grow flex items-center flex-col">
           <textarea
-            [placeholder]="canComment ? 'Add A Comment' : comments.length === 0 ? 'No comments available to reply to.' : 'Commenting is disabled as the claim is not pending.'"
+            [placeholder]="canComment ? translate.instant('pages.claims.comment.add_a_comment') : comments.length === 0 ? translate.instant('pages.claims.comment.no_comment_available_to_replay') : translate.instant('pages.claims.comment.commenting_is_disabled')"
             formControlName="message"
             rows="1"
             (keydown)="onKeyDown($event)"
@@ -114,7 +114,7 @@
               type="button"
               (click)="triggerFileInput()"
               class="p-1 hover:bg-gray-100 rounded-full transition-colors duration-200"
-              title="Attach files"
+              [title]="'pages.claims.comment.attache_file' | translate"
               [disabled]="!canComment"
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" class="text-gray-500 hover:text-gray-700">

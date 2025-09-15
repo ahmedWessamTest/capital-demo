@@ -186,6 +186,21 @@
         "jop_alt": "Job Claim Image",
         "card_background_alt": "Card Background Image",
         "claims_image": "Claims Image"
+      },
+      "comment":{
+        "no_available":"No comments available for this claim.",
+        "view_attached_file":"View Attached File",
+        "attache_file":"Attach files",
+        "comment_and_update":"Comments And Updates",
+        "add_a_comment":"Add a Comment",
+        "no_comment_available_to_replay":"No comments available to reply to.",
+        "commenting_is_disabled":"Commenting is disabled as the claim is not pending.",
+        "errors":{
+          "invalid_claim_or_id":"Invalid claim ID or type",
+          "failed_to_load":"Failed to load comments",
+          "user_not_auth":"User not authenticated",
+          "failed_to_submit":"Failed to submit comment"
+        }
       }
     },
     "contact": {
@@ -336,8 +351,8 @@
         "update-failed-title": "Password Update Failed"
       },
       "success": {
-        "update": "Password updated successfully!",
-        "update-title": "Password Updated"
+        "update": "Password has changed successfully!",
+        "update-title": "Password changed"
       }
     },
     "profile": {
@@ -521,6 +536,7 @@
         "other_year_placeholder": "Enter other year",
         "other_brand_placeholder": "Enter other brand",
         "other_year_required": "Other year is required",
+        "no_arabic":"cannot write arabic words",
         "other_brand_required": "Other brand is required",
         "other_model_required": "Other model is required",
         "other_year_max": "Car year cannot be later than 2026",
@@ -1025,8 +1041,10 @@
         "car_type_id": "Select Car Type",
         "car_brand_id": "Select Car Brand",
         "car_model_id": "Select Car Model",
+        "custom_car_model_id":"Custom Car Model",
         "car_year": "Select Car Year",
         "car_price": "Car Price",
+        "custom_car_brand_id":"Custom Car Brand",
         "motor_insurance_id": "Select Motor Insurance",
         "medical_insurance_id": "Select Medical Insurance",
         "building_type_id": "Select Building Type",
@@ -1046,6 +1064,9 @@
       },
       "errors": {
         "fullName_required": "Full name is required",
+        "jop_title_required":"Job title is required",
+        "jop_main_id_required":"ID document is required",
+        "jop_price_required":"Sum insured amount is required",
         "email_required": "Email is required",
         "email_invalid": "Please enter a valid email address",
         "phoneNumber_required": "Phone number is required",
@@ -1058,10 +1079,12 @@
         "gender_required": "Gender is required",
         "insurancePolicyNumber_required": "Insurance policy number is required",
         "notes_required": "Description is required",
+        "custom_car_brand_id_required":"Custom car brand is required",
         "notes_minlength": "Description is too short (min {{length}} characters)",
         "car_type_id_required": "Car type is required",
         "car_brand_id_required": "Car brand is required",
         "car_model_id_required": "Car model is required",
+        "custom_car_model_id_required":"Car Model is required",
         "car_year_required": "Car year is required",
         "car_year_invalid": "Please enter a valid 4-digit car year",
         "car_price_required": "Car price is required",
@@ -1082,8 +1105,8 @@
         "unexpected_error": "An unexpected error occurred during registration. Please try again.",
         "invalid_insurance_type": "Invalid insurance type selected",
         "submission_failed": "An error occurred while submitting the form. Please try again.",
-        "price_min": "Price must be at least 100 000 Egp",
-        "insurancePolicyNumber_minlength": "Policy Number Should be At least 6 numbers",
+        "price_min": "Minimum sum insured amount is 50,000 EGP",
+        "insurancePolicyNumber_minlength": "Policy Number Should be At least 4 numbers",
         "email_exist": "Email already exists",
         "phone_exist": "Phone already exists",
         "login": "You Should Go Login"

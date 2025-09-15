@@ -351,7 +351,7 @@
     </app-policy-drop-down>
     
     <!-- Other car brand input - shown when "Other" is selected -->
-    <div *ngIf="claimForm.get('carBrand')?.value === 0" class="mt-4">
+    <div *ngIf="claimForm.get('carBrand')?.value === 15" class="mt-4">
       <input
         formControlName="otherCarBrand"
         type="text"
@@ -364,14 +364,18 @@
         [placeholder]="'pages.motor_policy.form.other_brand_placeholder' | translate"
         (paste)="preventPaste($event)">
     </div>
-    
     <div class="error-container flex justify-between">
       @if (claimForm.get('carBrand')?.touched && claimForm.get('carBrand')?.invalid) {
         <span class="error-message" [ngClass]="{'order-2': translate.currentLang === 'ar'}">{{ 'pages.motor_policy.form.car_brand.errors.car_brand_required' | translate }}</span>
       }
-      @if (claimForm.get('carBrand')?.value === 0 && claimForm.get('otherCarBrand')?.invalid && claimForm.get('otherCarBrand')?.touched) {
+      @if (claimForm.controls['otherCarBrand'].hasError('required') && claimForm.get('otherCarBrand')?.touched){
         <span class="error-message" [ngClass]="{'order-2': translate.currentLang === 'ar'}">{{ 'pages.motor_policy.form.other_brand_required' | translate }}</span>
       }
+      @if(claimForm.controls['otherCarBrand'].hasError('arabicNotAllowed')){
+        <span class="error-message" [ngClass]="{'order-2': translate.currentLang === 'ar'}">{{ 'pages.motor_policy.form.no_arabic' | translate }}</span>
+
+      }
+      
     </div>
   </div>
 </div>
@@ -784,13 +788,13 @@
             </ng-container>
           </div>
                 </ng-container>
-                <div class="flex max-w-[300px] justify-start">
-                  <button class="need-call-btn" (click)="needCall()" [disabled]="isNeedCallLoading">
-                    {{ isNeedCallLoading ? ('pages.motor_policy.form.personal_information.loading' | translate) : ('pages.motor_policy.form.car_price.need_call_button' | translate) }}
-                  </button>
-                </div>
               </div>
             </ng-template>
+          </div>
+          <div class="flex max-w-[300px] justify-end self-end">
+            <button class="need-call-btn" (click)="needCall()" [disabled]="isNeedCallLoading">
+              {{ isNeedCallLoading ? ('pages.motor_policy.form.personal_information.loading' | translate) : ('pages.motor_policy.form.car_price.need_call_button' | translate) }}
+            </button>
           </div>
         </ng-container>
 

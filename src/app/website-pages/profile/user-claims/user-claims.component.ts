@@ -176,14 +176,11 @@ export class UserClaimsComponent implements OnInit {
   }
 
   getClaimStatus(claim: any): string {
-    return (
-      claim.status.charAt(0).toUpperCase() +
-      claim.status.slice(1).replace('_', ' ')
-    );
+    return this.translate.instant(`pages.claims.status.${claim.status}`);
   }
 
   getClaimTypeName(type: 'medical' | 'motor' | 'building' | 'jop'): string {
-    return type.charAt(0).toUpperCase() + type.slice(1) + ' Claim';
+    return this.translate.instant(`pages.claims.types.${type}`);
   }
 
   getClaimCode(

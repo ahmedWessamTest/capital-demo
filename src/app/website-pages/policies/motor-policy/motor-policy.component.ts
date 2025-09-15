@@ -188,13 +188,20 @@ export class MotorPolicyComponent implements OnInit, OnDestroy {
       this.claimForm.get('otherCarYear')?.setValue('');
     }
   }
-
+ noArabicValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    if (!control.value) return null;
+    const arabicRegex = /[\u0600-\u06FF]/; 
+    return arabicRegex.test(control.value) ? { arabicNotAllowed: true } : null;
+  };
+}
   onCarBrandSelected(brand: GovernorateOption) {
     this.claimForm.get('carBrand')?.setValue(brand ? brand.id : '');
     this.claimForm.get('carBrand')?.markAsTouched();
-
-    if (brand && brand.id === 0) {
-      this.claimForm.get('otherCarBrand')?.setValidators([Validators.required]);
+    console.log(brand);
+    console.log(this.claimForm.get('carBrand'))
+    if (brand && brand.id === 15) {
+      this.claimForm.get('otherCarBrand')?.setValidators([Validators.required,this.noArabicValidator()]);
       this.claimForm.get('otherCarBrand')?.updateValueAndValidity();
     } else {
       this.claimForm.get('otherCarBrand')?.clearValidators();
@@ -275,7 +282,7 @@ export class MotorPolicyComponent implements OnInit, OnDestroy {
     if (currentStep >= 4) {
       const carBrandValue = this.claimForm.get('carBrand')?.value;
       formData.append('car_brand_id', carBrandValue === 0 ? '10000' : carBrandValue?.toString() || '');
-      formData.append('car_brand', carBrandValue === 0 ? this.claimForm.get('otherCarBrand')?.value || '' : this.carBrands.find(brand => brand.id === carBrandValue)?.name || '');
+      formData.append('car_brand', carBrandValue === 15 ? this.claimForm.get('otherCarBrand')?.value || '' : this.carBrands.find(brand => brand.id === carBrandValue)?.name || '');
       formData.append('payment_method', "Cash");
     }
 
@@ -398,7 +405,7 @@ export class MotorPolicyComponent implements OnInit, OnDestroy {
           code: brand.en_title,
           en_name: brand.en_title,
           ar_name: brand.ar_title
-        })).concat({ id: 0, name: 'Other', code: 'OTHER_BRAND', en_name: 'Other', ar_name: 'أخرى' });
+        }));
         this.carTypes = data.types.map(type => ({
           id: type.id,
           name: type.en_title,
@@ -480,7 +487,7 @@ export class MotorPolicyComponent implements OnInit, OnDestroy {
     if (this.step === 3 && this.claimForm.get('carYear')?.value === 0) {
       this.claimForm.get('otherCarYear')?.markAsTouched();
     }
-    if (this.step === 4 && this.claimForm.get('carBrand')?.value === 0) {
+    if (this.step === 4 && this.claimForm.get('carBrand')?.value === 15) {
       this.claimForm.get('otherCarBrand')?.markAsTouched();
     }
     if (this.step === 5 && this.claimForm.get('carModel')?.value === 0) {
@@ -501,7 +508,7 @@ export class MotorPolicyComponent implements OnInit, OnDestroy {
       otherFieldsValid = otherFieldsValid && (otherYearControl?.valid ?? false);
     }
 
-    if (this.step === 4 && this.claimForm.get('carBrand')?.value === 0) {
+    if (this.step === 4 && this.claimForm.get('carBrand')?.value === 15) {
       const otherBrandControl = this.claimForm.get('otherCarBrand');
       otherFieldsValid = otherFieldsValid && (otherBrandControl?.valid ?? false);
     }
@@ -606,9 +613,9 @@ export class MotorPolicyComponent implements OnInit, OnDestroy {
       car_type_id: String(this.claimForm.get('carType')?.value),
       car_price: String(this.claimForm.get('carPrice')?.value),
       car_year: String(this.claimForm.get('carYear')?.value === 0 ? this.claimForm.get('otherCarYear')?.value : this.claimForm.get('carYear')?.value || '0'),
-      car_brand_id: String(this.claimForm.get('carBrand')?.value === 0 ? '10000' : this.claimForm.get('carBrand')?.value || '0'),
+      car_brand_id: String(this.claimForm.get('carBrand')?.value === 15 ? '10000' : this.claimForm.get('carBrand')?.value || '0'),
       car_model_id: String(this.claimForm.get('carModel')?.value === 0 ? '10000' : this.claimForm.get('carModel')?.value || '0'),
-      car_brand: this.claimForm.get('carBrand')?.value === 0 ? this.claimForm.get('otherCarBrand')?.value || 'Other' : this.carBrands.find(brand => brand.id === this.claimForm.get('carBrand')?.value)?.name || 'Other',
+      car_brand: this.claimForm.get('carBrand')?.value === 15 ? this.claimForm.get('otherCarBrand')?.value || 'Other' : this.carBrands.find(brand => brand.id === this.claimForm.get('carBrand')?.value)?.name || 'Other',
       car_model: this.claimForm.get('carModel')?.value === 0 ? this.claimForm.get('otherCarModel')?.value || 'Other' : this.carModels.find(model => model.id === this.claimForm.get('carModel')?.value)?.name || 'Other',
       car_type: this.carTypes.find(type => type.id === this.claimForm.get('carType')?.value)?.name || 'Other',
       payment_method: 'Cash',

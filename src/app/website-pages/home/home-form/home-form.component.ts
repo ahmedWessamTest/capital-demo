@@ -47,8 +47,8 @@ import {
 import { AlertService } from '@core/shared/alert/alert.service';
 import { HeadingComponent } from '@core/shared/heading/heading.component';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { Observable, of, Subscription } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { Observable, of, Subject, Subscription } from 'rxjs';
+import { catchError, tap, finalize, take, takeUntil } from 'rxjs/operators';
 import { API_CONFIG } from '../../../core/conf/api.config';
 import { AuthStorageService } from '../../../core/services/auth/auth-storage.service';
 import { AuthService } from '../../../core/services/auth/auth.service';
@@ -79,6 +79,7 @@ interface UserPoliciesResponse {
   medical: UserPolicy[];
   motor: UserPolicy[];
   building: UserPolicy[];
+  jop:UserPolicy[];
 }
 
 @Component({
@@ -98,6 +99,7 @@ interface UserPoliciesResponse {
   styleUrls: ['./home-form.component.css'],
 })
 export class HomeFormComponent implements OnInit, OnDestroy {
+  destroy$ = new Subject<void>();
   claimForm!: FormGroup;
   currentStep: number = 1;
   isManualPolicy: boolean = false;
@@ -143,7 +145,9 @@ export class HomeFormComponent implements OnInit, OnDestroy {
   carTypes: CarType[] = [];
   carBrands: CarBrand[] = [];
   carModels: CarModel[] = [];
+  showCustomCarModelsId:boolean = false;
   carYears: number[] = [];
+  showCustomCarBrandId:boolean = false;
   motorInsurances: MotorInsurance[] = [];
   medicalInsurances: MedicalInsurance[] = [];
   buildingTypes: BuildType[] = [];
@@ -230,9 +234,17 @@ export class HomeFormComponent implements OnInit, OnDestroy {
       type: 'select',
       placeholder: 'pages.home_form.fields.car_brand_id',
     },
+    custom_car_brand_id:{
+      type: 'select',
+      placeholder: 'pages.home_form.fields.custom_car_brand_id',
+    },
     car_model_id: {
       type: 'select',
       placeholder: 'pages.home_form.fields.car_model_id',
+    },
+    custom_car_model_id: {
+      type: 'select',
+      placeholder: 'pages.home_form.fields.custom_car_model_id',
     },
     car_year: {
       type: 'select',
@@ -411,6 +423,7 @@ export class HomeFormComponent implements OnInit, OnDestroy {
             title: policy['name'],
             code: policy['medical_insurance_number'],
             agreed: policy['active_status'] === 'confirmed',
+            disabled: policy['active_status'] !== 'confirmed'
           }));
           break;
         case 'car':
@@ -419,6 +432,7 @@ export class HomeFormComponent implements OnInit, OnDestroy {
             title: policy['name'],
             code: policy['motor_insurance_number'],
             agreed: policy['active_status'] === 'active',
+            disabled: policy['active_status'] !== 'confirmed'
           }));
           break;
         case 'property':
@@ -427,6 +441,17 @@ export class HomeFormComponent implements OnInit, OnDestroy {
             title: policy['name'],
             code: policy['building_insurance_number'],
             agreed: policy['active_status'] === 'active',
+            disabled: policy['active_status'] !== 'confirmed'
+          }));
+          break;
+          case 'jop':
+          console.log(this.userPolicies);
+          policies = this.userPolicies.jop;
+          this.dropdownOptions = policies.map((policy) => ({
+            title: policy['name'],
+            code: policy['jop_insurance_number'],
+            agreed: policy['active_status'] === 'confirmed',
+            disabled: policy['active_status'] !== 'confirmed'
           }));
           break;
       }
@@ -435,7 +460,14 @@ export class HomeFormComponent implements OnInit, OnDestroy {
       this.isLoadingPolicies = false;
     }
   }
-
+buildCarBrandOptions(){
+  this.formFieldsConfig['car_brand_id'].options = [
+                      ...this.carBrands.map((brand) => ({
+                        value: brand.id,
+                        label: this.translate.currentLang === 'en'?brand.en_title : brand.ar_title,
+                      }))
+                    ];
+}
   updateFormFields(): void {
     const activeType = this.insuranceTypes.find((type) => type.active)?.id;
     const currentValues = this.claimForm.value;
@@ -473,7 +505,9 @@ export class HomeFormComponent implements OnInit, OnDestroy {
       'building_insurance_id',
       'car_type_id',
       'car_brand_id',
+      'custom_car_brand_id',
       'car_model_id',
+      'custom_car_model_id',
       'car_year',
       'car_price',
       'building_type_id',
@@ -570,9 +604,11 @@ export class HomeFormComponent implements OnInit, OnDestroy {
             setControl('car_brand_id', currentValues.car_brand_id || '', [
               Validators.required,
             ]);
+            setControl('custom_car_brand_id', currentValues.custom_car_brand_id || '', []);
             setControl('car_model_id', currentValues.car_model_id || '', [
               Validators.required,
             ]);
+            setControl('custom_car_model_id', currentValues.custom_car_model_id || '', []);
             setControl('car_year', currentValues.car_year || '', [
               Validators.required,
               Validators.pattern(/^\d{4}$/),
@@ -580,7 +616,6 @@ export class HomeFormComponent implements OnInit, OnDestroy {
             setControl('car_price', currentValues.car_price || '', [
               Validators.required,
               Validators.pattern(/^[0-9]+$/),
-
               Validators.min(500000),
             ]);
             // setControl('motor_insurance_id', currentValues.motor_insurance_id || '', [Validators.required]);
@@ -605,13 +640,12 @@ export class HomeFormComponent implements OnInit, OnDestroy {
                     label: type.en_title,
                   })),
                 ];
-                this.formFieldsConfig['car_brand_id'].options = [
-                  // { value: 0, label: this.translate.instant('pages.home_form.options.other') },
-                  ...this.carBrands.map((brand) => ({
-                    value: brand.id,
-                    label: brand.en_title,
-                  })),
-                ];
+                this.buildCarBrandOptions()
+                this.translate.onLangChange.pipe(takeUntil(this.destroy$)).subscribe({
+                  next:()=>{
+                    this.buildCarBrandOptions()
+                  }
+                })
                 this.formFieldsConfig['car_year'].options = [
                   // { value: 0, label: this.translate.instant('pages.home_form.options.other') },
                   ...this.carYears.map((year) => ({
@@ -745,19 +779,45 @@ export class HomeFormComponent implements OnInit, OnDestroy {
     this.claimForm.markAsUntouched();
   }
 
-  onCarBrandChange(event: Event): void {
+  onCarBrandChange(event: any): void {
     const brandId = +(event.target as HTMLSelectElement).value;
     this.carModels = this.motorInsuranceService.getModelsByBrand(brandId);
-    this.claimForm.get('car_model_id')?.patchValue('');
+    // this.claimForm.get('car_model_id')?.patchValue('');
     this.formFieldsConfig['car_model_id'].options = [
       // { value: 0, label: this.translate.instant('pages.home_form.options.other') },
       ...this.carModels.map((model) => ({
         value: model.id,
         label: model.en_title,
       })),
+      {value:"Others",label:this.translate.instant("pages.home_form.options.other")}
     ];
-  }
+    const selectedValue = event.target.value;
+    const otherOption = '15';    
+    this.showCustomCarBrandId = selectedValue === otherOption;
 
+    if(this.showCustomCarBrandId) {
+      this.claimForm.get('custom_car_brand_id')?.setValidators([Validators.required])
+    } else {
+      this.claimForm.get('custom_car_brand_id')?.clearValidators();
+      this.claimForm.get('custom_car_brand_id')?.setValue('');
+    }
+    this.claimForm.get('custom_car_brand_id')?.updateValueAndValidity();
+    
+  }
+onCarModelChange(event:any):void{
+const selectedValue = event.target.value;
+    const otherOption = 'Others';  
+  this.showCustomCarModelsId = selectedValue === otherOption;
+  console.log(this.showCustomCarBrandId);
+  if(this.showCustomCarBrandId) {
+      this.claimForm.get('custom_car_model_id')?.setValidators([Validators.required])
+    } else {
+      this.claimForm.get('custom_car_model_id')?.clearValidators();
+      this.claimForm.get('custom_car_model_id')?.setValue('');
+    }
+    this.claimForm.get('custom_car_model_id')?.updateValueAndValidity();
+    
+}
   onBuildingTypeChange(event: Event): void {
     const typeId = +(event.target as HTMLSelectElement).value;
     this.filteredBuildingCountries =
@@ -914,21 +974,27 @@ export class HomeFormComponent implements OnInit, OnDestroy {
               this.medicalInsuranceService.createMedicalClaim(payload);
             break;
           case 'car':
-            payload.car_type_id = formValue.car_type_id;
-            payload.car_brand_id = formValue.car_brand_id;
+            const otherBrandOption = '15';
+            const otherModelOption = 'Others'        
+            payload.car_type_id = formValue.car_type_id ;
+            payload.car_brand_id = formValue.car_brand_id === otherBrandOption ? null : formValue.car_brand_id;
             payload.motor_insurance_number = formValue.insurancePolicyNumber;
             const selectedBrand = this.carBrands.find(
               (b) => b.id === +formValue.car_brand_id
             );
             if (selectedBrand) {
               payload.car_brand = selectedBrand.en_title;
+            } else {
+              payload.car_brand = formValue.custom_car_brand_id;
             }
-            payload.car_model_id = formValue.car_model_id;
+            payload.car_model_id = formValue.car_model_id === otherModelOption ? null : formValue.car_model_id ;
             const selectedModel = this.carModels.find(
               (m) => m.id === +formValue.car_model_id
             );
             if (selectedModel) {
               payload.car_model = selectedModel.en_title;
+            } else {
+              payload.car_model = formValue.custom_car_model_id
             }
             payload.car_year = formValue.car_year;
             payload.car_price = formValue.car_price;
@@ -1097,8 +1163,6 @@ export class HomeFormComponent implements OnInit, OnDestroy {
         submissionObservable = this.http.post(genericSubmitEndpoint, payload);
       }
 
-      console.log('Submission Payload:', payload);
-
       submissionObservable.subscribe({
         next: (response) => {
           console.log('Form submitted successfully:', response);
@@ -1126,6 +1190,11 @@ export class HomeFormComponent implements OnInit, OnDestroy {
           });
           this.isLoadingSubmit = false;
         },
+        complete:()=>{
+          setTimeout(()=>{
+            this.alertService.hide();
+          },2000)
+        }
       });
     } else {
       const invalidFields: { [key: string]: any } = {};
@@ -1310,6 +1379,8 @@ export class HomeFormComponent implements OnInit, OnDestroy {
     if (this.languageSubscription) {
       this.languageSubscription.unsubscribe();
     }
+    this.destroy$.next();
+    this.destroy$.complete()
   }
   private formatDateToYMD(dateString: string): string {
     if (!dateString) return '';
