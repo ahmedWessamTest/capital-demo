@@ -53,7 +53,7 @@ export class CategoriesComponent {
       id: 'motor-insurance',
       title: 'Motor Insurance',
       titleAr: 'تأمين السيارات',
-      imageUrl: 'assets/categories/motor.png', // Replace with 'assets/categories/motor.jpg'
+      imageUrl: 'assets/categories/motor.PNG', // Replace with 'assets/categories/motor.jpg'
       altText: 'Motor Insurance category',
       linkTitle: 'Go to Motor Insurance',
       linkAriaLabel: 'Go to Motor Insurance category',
@@ -63,7 +63,7 @@ export class CategoriesComponent {
       id: 'property-insurance',
       titleAr: 'تأمين العقارات',
       title: 'Property Insurance',
-      imageUrl: 'assets/categories/propert.png', // Replace with 'assets/categories/propert.jpg'
+      imageUrl: 'assets/categories/propert.PNG', // Replace with 'assets/categories/propert.jpg'
       altText: 'Property Insurance category',
       linkTitle: 'Go to Property Insurance',
       linkAriaLabel: 'Go to Property Insurance category',
@@ -73,7 +73,7 @@ export class CategoriesComponent {
       id: 'medical-insurance',
       titleAr: 'التامين الصحي',
       title: 'Medical Insurance',
-      imageUrl: 'assets/categories/medical.png', // Replace with 'assets/categories/medical.jpg'
+      imageUrl: 'assets/categories/medical.PNG', // Replace with 'assets/categories/medical.jpg'
       altText: 'Medical Insurance category',
       linkTitle: 'Go to Medical Insurance',
       linkAriaLabel: 'Go to Medical Insurance category',
