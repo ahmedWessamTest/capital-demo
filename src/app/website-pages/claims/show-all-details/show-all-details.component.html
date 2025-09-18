@@ -1,5 +1,5 @@
 <div
-  class="max-w-7xl mt-16 px-4 mx-auto gap-4 flex justify-between flex-wrap md:flex-nowrap padding"
+  class="max-w-7xl my-16 px-4 mx-auto gap-4 flex justify-between flex-wrap md:flex-nowrap padding"
   [@fadeIn]
   [dir]="(currentLang$ | async) === 'ar' ? 'rtl' : 'ltr'"
 >
@@ -24,7 +24,7 @@
           </div>
           <div class="subtext">{{ getStatus() }}</div>
         </div>
-        <div class="w-[170px] h-[70px] z-20 hidden md:block">
+        <div class="w-[170px] h-[85px] z-20 text-center flex justify-center">
           <img
             class="w-full h-full object-cover"
             [src]="
@@ -33,27 +33,47 @@
                 : policyType === 'motor'
                 ? '/assets/policies/car.png'
                 : policyType === 'jop'
-                ? '/assets/policies/job.png'
+                ? '/assets/policies/job.webp'
                 : '/assets/policies/building.png'
             "
             [alt]="
               'pages.show_all_details.images.' + policyType + '_alt' | translate
             "
+            [ngClass]="{
+                        'max-w-[125px]':policyType == 'jop'
+                      }"
           />
         </div>
       </div>
       <div class="info-grid">
-        <div *ngFor="let field of getPolicyDetailsFields()">
-          <div class="label">{{ field.label }}</div>
-          <div class="value">{{ field.value }}</div>
-        </div>
-        <div *ngIf="policyDetails.end_date" class="expiry">
-          <div class="label">
-            {{ "pages.show_all_details.labels.expiry_date" | translate }}
-          </div>
-          <div class="value">{{ formatDate(policyDetails.end_date) }}</div>
-        </div>
-      </div>
+  <div *ngFor="let field of getPolicyDetailsFields()">
+  <div class="label">{{ field.label }}</div>
+
+  <div
+    class="value"
+    [ngClass]="{
+      'lg:truncate max-w-[210px]': !field.value?.includes(' ') && field.value?.length > 20,
+      'break-words': field.value?.includes(' ') || field.value?.length <= 20
+    }"
+    [title]="field.value"
+  >
+    {{ field.value }}
+  </div>
+</div>
+
+  <div *ngIf="policyDetails?.end_date" class="expiry">
+    <div class="label">
+      {{ "pages.show_all_details.labels.expiry_date" | translate }}
+    </div>
+    <div
+      class="value truncate"
+      [title]="formatDate(policyDetails?.end_date)"
+    >
+      {{ formatDate(policyDetails?.end_date) }}
+    </div>
+  </div>
+</div>
+
       <div
         class="comments-footer flex flex-col gap-4 md:flex-row md:items-center justify-between px-4 py-2"
       >
@@ -114,7 +134,7 @@
           <div class="label h-4 w-20 bg-gray-200 rounded"></div>
           <div class="value h-5 w-40 bg-gray-200 rounded"></div>
         </div>
-        <div *ngIf="policyDetails.end_date" class="expiry">
+        <div *ngIf="policyDetails?.end_date" class="expiry">
           <div class="label h-4 w-20 bg-gray-200 rounded"></div>
           <div class="value h-5 w-40 bg-gray-200 rounded"></div>
         </div>
@@ -194,31 +214,45 @@
           <!-- Dynamic fields based on policy type -->
           <ng-container
             *ngIf="
-              policyType === 'medical' && policyChoices.medicalchoices?.length
+              policyType === 'medical' && policyChoices?.medicalchoices?.length
             "
           >
             <li
-              class="flex items-center justify-between"
-              *ngFor="let choice of policyChoices.medicalchoices"
-            >
-              <div class="flex items-center">
-                <img class="w-4 h-4" src="plan.svg" alt="" />
-                <span class="text-sm sm:text-base text-black capitalize">{{
-                  choice | customTranslate : "title"
-                }}</span>
-              </div>
-              <span class="text-red-600 text-xs text-right">{{
-                choice | customTranslate : "description"
-              }}</span>
-            </li>
+  class="flex items-center justify-between"
+  *ngFor="let choice of policyChoices?.medicalchoices"
+>
+  <div class="flex items-center">
+    <img class="w-4 h-4" src="plan.svg" alt="" />
+    <span class="text-sm sm:text-base text-black capitalize">
+      {{ choice | customTranslate : "title" }}
+    </span>
+  </div>
+
+  <ng-container *ngIf="(choice | customTranslate : 'description')?.startsWith('http'); else normalText">
+    <a
+      class="text-red-600 text-xs "
+      [href]="choice | customTranslate : 'description'"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      Click here
+    </a>
+  </ng-container>
+
+  <ng-template #normalText>
+    <span class="text-red-600 text-xs text-right">
+      {{ choice | customTranslate : "description" }}
+    </span>
+  </ng-template>
+</li>
           </ng-container>
 
           <ng-container
-            *ngIf="policyType === 'motor' && policyChoices.motorchoices?.length"
+            *ngIf="policyType === 'motor' && policyChoices?.motorchoices?.length"
           >
             <li
               class="flex items-center justify-between"
-              *ngFor="let choice of policyChoices.motorchoices"
+              *ngFor="let choice of policyChoices?.motorchoices"
             >
               <div class="flex items-center">
                 <img class="w-4 h-4" src="plan.svg" alt="" />
@@ -234,12 +268,12 @@
 
           <ng-container
             *ngIf="
-              policyType === 'building' && policyChoices.buildingchoices?.length
+              policyType === 'building' && policyChoices?.buildingchoices?.length
             "
           >
             <li
               class="flex items-center justify-between"
-              *ngFor="let choice of policyChoices.buildingchoices"
+              *ngFor="let choice of policyChoices?.buildingchoices"
             >
               <div class="flex items-center">
                 <img class="w-4 h-4" src="plan.svg" alt="" />
@@ -254,11 +288,11 @@
           </ng-container>
 
           <ng-container
-            *ngIf="policyType === 'jop' && policyChoices.jopchoices?.length"
+            *ngIf="policyType === 'jop' && policyChoices?.jopchoices?.length"
           >
             <li
               class="flex items-center justify-between"
-              *ngFor="let choice of policyChoices.jopchoices"
+              *ngFor="let choice of policyChoices?.jopchoices"
             >
               <div class="flex items-center">
                 <img class="w-4 h-4" src="plan.svg" alt="" />

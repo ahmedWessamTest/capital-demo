@@ -160,11 +160,10 @@ export class UserClaimsComponent implements OnInit {
     const filtered = allClaims.filter((claim) => {
       const isOpen =
         claim.status === 'pending' ||
-        claim.status === 'requested' ||
-        claim.status === 'confirmed';
-      return this.activeTab === 'open'
+        claim.status === 'requested'
+        return this.activeTab === 'open'
         ? isOpen
-        : claim.status === 'canceled' || claim.status === 'expired';
+        : claim.status === 'confirmed' || claim.status === 'canceled' || claim.status === 'expired';
     });
 
     // Sort by date (newest first)

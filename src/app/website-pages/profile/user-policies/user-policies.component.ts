@@ -188,10 +188,11 @@ export class UserPoliciesComponent implements OnInit {
 
   if (this.activeTab === 'current') {
     return (
-      isPending ||
+      !isCanceled&&(isPending ||
       isRequested ||
       (isConfirmed && endDate !== null) || // confirmed with endDate
       (endDate && endDate >= new Date())
+      )
     );
   } else {
     return (

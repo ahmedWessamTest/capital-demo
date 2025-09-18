@@ -103,6 +103,8 @@ export class ShowAllDetailsComponent implements OnInit {
         next: (response: PolicyChoicesResponse) => {
           const policyData = (response as any).ploicy || response.policy;
           this.policyChoices = policyData;
+          console.log(this.policyChoices);
+          
           this.isLoading = false;
           console.log('Policy Choices:', this.policyChoices);
         },
