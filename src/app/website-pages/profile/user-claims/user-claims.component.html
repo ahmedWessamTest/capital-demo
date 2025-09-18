@@ -79,7 +79,7 @@
                   *ngIf="claim.status === 'pending'"
                   class="absolute top-0 right-0 bg-yellow-400 text-black text-sm font-semibold px-3 py-1 rounded-bl-lg z-30 transform -rotate-2 shadow-md"
                 >
-                  {{"pages.claims.status.pending" | translate}}
+                  {{ "pages.claims.status.pending" | translate }}
                 </div>
                 <div class="status flex justify-between items-center flex-wrap">
                   <div>
@@ -100,9 +100,11 @@
                       {{ getClaimStatus(claim) }}
                     </div>
                   </div>
-                  <div class="hidden md:block w-[170px] h-[85px] z-20">
+                  <div
+                    class="w-[170px] h-[85px] z-20 text-center flex justify-center"
+                  >
                     <img
-                      class="w-[120%] -mt-4 h-[120%] object-top"
+                      class="w-full h-full object-cover"
                       [ngClass]="
                         claim.type === 'motor'
                           ? 'object-contain'
@@ -114,24 +116,33 @@
                           : claim.type === 'motor'
                           ? '/assets/policies/car.png'
                           : claim.type === 'jop'
-                          ? '/assets/policies/medical.png'
+                          ? '/assets/policies/job.webp'
                           : '/assets/policies/building.png'
                       "
                       alt=""
+                      [ngClass]="{
+                        'max-w-[125px]': claim.type == 'jop'
+                      }"
                     />
                   </div>
                 </div>
                 <div class="info-grid">
                   <div>
-                    <div class="label">{{"pages.claims.labels.claimant" | translate}}</div>
+                    <div class="label">
+                      {{ "pages.claims.labels.claimant" | translate }}
+                    </div>
                     <div class="value">{{ claim.name }}</div>
                   </div>
                   <div>
-                    <div class="label">{{"pages.claims.labels.claim_number" | translate}}</div>
+                    <div class="label">
+                      {{ "pages.claims.labels.claim_number" | translate }}
+                    </div>
                     <div class="value">{{ claim.claim_number }}</div>
                   </div>
                   <div class="expiry">
-                    <div class="label">{{"pages.claims.labels.claim_date" | translate}}</div>
+                    <div class="label">
+                      {{ "pages.claims.labels.claim_date" | translate }}
+                    </div>
                     <div
                       class="value"
                       [ngClass]="{
