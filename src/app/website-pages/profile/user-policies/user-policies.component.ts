@@ -83,7 +83,6 @@ export class UserPoliciesComponent implements OnInit {
     this.policiesService.getUserPolicies(userId).subscribe({
       next: (data) => {
         this.policies = data;
-        console.log(this.policies);
         
         this.expiringSoonCount = this.calculateExpiringSoonCount();
         this.isLoading = false;
@@ -97,7 +96,6 @@ export class UserPoliciesComponent implements OnInit {
   }
 
   private calculateExpiringSoonCount(): number {
-    console.log(this.policies);
     
     return [
       ...this.policies.medical.filter(
@@ -176,7 +174,6 @@ export class UserPoliciesComponent implements OnInit {
       ...this.policies.jop.map((p) => ({ ...p, type: 'jop' as const })),
     ];
 
-    console.log(allPolicies);
     // Filter based on active tab
     const filtered = allPolicies.filter((policy) => {
   const isCanceled = policy.active_status === 'canceled';
@@ -185,12 +182,13 @@ export class UserPoliciesComponent implements OnInit {
   const isConfirmed = policy.active_status === "confirmed";
 
   const endDate = this.formatInputDate(policy.end_date);
-
+      console.log(isCanceled,isPending,isPending,isRequested,isConfirmed);
+      
   if (this.activeTab === 'current') {
     return (
       !isCanceled&&(isPending ||
       isRequested ||
-      (isConfirmed && endDate !== null) || // confirmed with endDate
+      (isConfirmed && (endDate !== null && endDate >= new Date())) || // confirmed with endDate
       (endDate && endDate >= new Date())
       )
     );
