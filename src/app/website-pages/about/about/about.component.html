@@ -60,7 +60,7 @@
             }}
           </div>
         </div>
-        <p
+        <div
           ngClass="{{ lang === 'ar' ? 'text-right' : 'text-left' }}"
           class="about-text justify-center parse overflow-y-auto max-h-[350px]"
           [innerHTML]="
@@ -68,7 +68,7 @@
               ? aboutData.about.ar_main_content
               : aboutData.about.en_main_content
           "
-        ></p>
+        ></div>
       </div>
       <div
         class="w-full flex flex-col gap-4 items-center md:flex-row justify-around mt-4"

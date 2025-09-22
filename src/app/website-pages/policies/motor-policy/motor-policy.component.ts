@@ -5,7 +5,7 @@ import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, Validatio
 import { GovernorateOption, PolicyDropDownComponent } from '@core/shared/policy-drop-down/policy-drop-down.component';
 import { CarouselModule, OwlOptions } from 'ngx-owl-carousel-o';
 import { Observable, of, Subscription } from 'rxjs';
-import { catchError, tap, delay, map, finalize } from 'rxjs/operators';
+import { catchError, tap, map } from 'rxjs/operators';
 import { UserData } from '@core/services/auth/auth-storage.service';
 import { AuthService } from '@core/services/auth/auth.service';
 import { MotorInsurance, MotorCategory, MotorInsuranceService, MotorPolicyData } from '@core/services/policies/motors-policy.service';

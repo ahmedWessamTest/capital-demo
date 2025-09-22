@@ -2,7 +2,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { GovernorateOption, PolicyDropDownComponent } from '@core/shared/policy-drop-down/policy-drop-down.component';
+import { GovernorateOption } from '@core/shared/policy-drop-down/policy-drop-down.component';
 import { CarouselModule, OwlOptions } from 'ngx-owl-carousel-o';
 import { Observable, of, Subscription } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
@@ -21,7 +21,6 @@ import { Meta, Title } from '@angular/platform-browser';
   selector: 'app-building-corporate-form',
   imports: [CommonModule,
     ReactiveFormsModule,
-    PolicyDropDownComponent,
     CarouselModule,
     TranslateModule,
     CustomTranslatePipe,],

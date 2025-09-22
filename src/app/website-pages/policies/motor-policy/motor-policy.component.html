@@ -801,12 +801,12 @@
         <!-- Step 7: Payment -->
         <div *ngIf="step === 7" class="flex flex-col md:flex-row gap-6">
           <div class="w-full md:w-1/2">
-            <div *ngIf="selectedPlan" class="relative w-full max-w-md mx-auto p-4 shadow-lg rounded-2xl font-Alexandria sm:p-6 {{ selectedPlan.id === plans[0]?.id ? 'basic' : selectedPlan.id === plans[1]?.id ? 'standard' : 'premium' }} animate-[fadeIn_0.5s_ease-in-out_0.3s_both]" style="height: auto;">
+            <div *ngIf="selectedPlan" class="relative w-full max-w-md mx-auto p-4 shadow-lg rounded-2xl font-Alexandria sm:p-6 {{ selectedPlan.id === plans[0].id ? 'basic' : selectedPlan.id === plans[1].id ? 'standard' : 'premium' }} animate-[fadeIn_0.5s_ease-in-out_0.3s_both]" style="height: auto;">
               <div class="absolute z-10 w-10 h-12 rounded-full top-1/2 -left-0 transform -translate-x-1/2 -translate-y-1/2 bg-white [box-shadow:inset_-4px_0_4px_-2px_rgba(0,0,0,0.2)] hidden sm:block"></div>
               <div class="absolute z-10 w-10 h-12 rounded-full top-1/2 -right-0 transform translate-x-1/2 -translate-y-1/2 bg-white [box-shadow:inset_4px_0_4px_-2px_rgba(0,0,0,0.2)] hidden sm:block"></div>
               <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4">
                 <span class="text-[#5db5df] text-base capitalize">{{ selectedPlan | customTranslate: 'title' }}</span>
-                <button class="{{ selectedPlan.id === plans[0].id ? 'basic-btn' : selectedPlan.id === plans[1]?.id ? 'standard-btn' : 'premium-btn' }} basic-btn-text">{{ 'pages.motor_policy.form.select_plan.in_year' | translate }}</button>
+                <button class="{{ selectedPlan.id === plans[0].id ? 'basic-btn' : selectedPlan.id === plans[1].id ? 'standard-btn' : 'premium-btn' }} basic-btn-text">{{ 'pages.motor_policy.form.select_plan.in_year' | translate }}</button>
               </div>
               <div class="text-xl sm:text-2xl font-bold text-black mb-4">{{ selectedPlan.year_money }} EGP</div>
               <ul class="space-y-3 mb-6">

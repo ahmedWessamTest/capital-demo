@@ -11,7 +11,6 @@ import { animate, style, transition, trigger } from '@angular/animations';
 import { SafeHtmlComponent } from '@core/components/safe-html/safe-html.component';
 import { shareReplay, tap, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { CustomTranslatePipe } from "../../../core/pipes/translate.pipe";
 import { SafeHtmlPipe } from "../../../core/pipes/safe-html.pipe";
 interface SidebarPost {
   id: number;
@@ -30,7 +29,7 @@ interface BlogResponse {
   selector: 'app-blog-post',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, RouterModule, SafeHtmlComponent, CustomTranslatePipe, SafeHtmlPipe],
+  imports: [CommonModule, RouterModule, SafeHtmlComponent, SafeHtmlPipe],
   templateUrl: './blogs-details.component.html',
   styleUrls: ['./blogs-details.component.css'],
   animations: [

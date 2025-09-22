@@ -1,7 +1,6 @@
 import {
   CommonModule,
   isPlatformBrowser,
-  NgOptimizedImage,
 } from '@angular/common';
 import {
   HttpClient,
@@ -87,7 +86,6 @@ interface UserPoliciesResponse {
   standalone: true,
   imports: [
     CommonModule,
-    NgOptimizedImage,
     ReactiveFormsModule,
     HttpClientModule,
     CustomeDropMenuComponent,
