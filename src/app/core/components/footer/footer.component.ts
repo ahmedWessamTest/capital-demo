@@ -86,11 +86,12 @@ export class FooterComponent implements OnInit, OnDestroy {
             whatsapp: data.contact.whatsapp
           };
           this.footerData.socialLinks = [
-            { name: 'Facebook', url: data.contact.facebook || '#', icon: '/assets/footer/facebook.svg' },
-            { name: 'Instagram', url: data.contact.instagram || '#', icon: '/assets/footer/insta.svg' },
-            { name: 'Twitter', url: data.contact.twitter || '#', icon: '/assets/footer/x.svg' },
-            { name: 'LinkedIn', url: data.contact.linkedin || '#', icon: '/assets/footer/lin.svg' }
+            { name: 'Facebook', url: data.contact.facebook, icon: '/assets/footer/facebook.svg' },
+            { name: 'Instagram', url: data.contact.instagram, icon: '/assets/footer/insta.svg' },
+            { name: 'Twitter', url: data.contact.twitter, icon: '/assets/footer/x.svg' },
+            { name: 'LinkedIn', url: data.contact.linkedin, icon: '/assets/footer/lin.svg' }
           ];
+          
           this.isLoading = false; // API data loaded, hide skeleton
         }
       })

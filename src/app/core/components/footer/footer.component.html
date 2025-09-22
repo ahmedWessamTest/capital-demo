@@ -120,18 +120,19 @@
         </div>
         <div class="flex justify-center lg:justify-start gap-4 md:gap-2">
           <ng-container *ngFor="let social of footerData.socialLinks">
-            <ng-container *ngIf="social.url; else noSocialLink">
+            
+            <ng-container *ngIf="social.url ; else noSocialLink">
               <a
                 [href]="social.url"
                 [attr.aria-label]="social.name"
-                class="hover:shadow-2xl"
+                class="hover:shadow-2xl w-8 h-8"
                 target="_blank"
               >
                 <img
                   loading="lazy"
                   [src]="social.icon"
                   [alt]="social.name"
-                  class="w-[32px] h-[32px] object-cover"
+                  class="object-cover w-full"
                 />
               </a>
             </ng-container>
@@ -142,12 +143,12 @@
               href="https://wa.me/{{ footerData.contact.whatsapp }}"
               target="_blank"
               rel="noopener noreferrer"
-              class="flex items-center justify-center hover:opacity-80 bg-white rounded-[5px]"
+              class="flex items-center justify-center hover:opacity-80  rounded-[5px] hover:shadow-2xl w-8 h-8"
             >
               <img
                 src="/assets/icons/whats-footer.png"
                 alt="WhatsApp Icon"
-                class="w-[26px] p-[2px] h-[26px]"
+                class="object-cover w-10/12 rounded-sm bg-white"
               />
             </a>
           </ng-container>
