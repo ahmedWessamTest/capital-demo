@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, PLATFORM_ID, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -6,7 +6,7 @@ import { AuthService } from '../../../core/services/auth/auth.service';
 import { LanguageService } from '../../../core/services/language.service';
 import { AlertService } from '../../../core/shared/alert/alert.service';
 import { animate, query, stagger, state, style, transition, trigger } from '@angular/animations';
-import { AsyncPipe, CommonModule, NgClass } from '@angular/common';
+import { AsyncPipe, CommonModule, isPlatformBrowser, NgClass } from '@angular/common';
 import { Subject, takeUntil } from 'rxjs';
 
 @Component({
@@ -57,6 +57,7 @@ export class LoginComponent implements OnInit,OnDestroy {
   private _languageService = inject(LanguageService);
   private _alertService = inject(AlertService);
   private _translate = inject(TranslateService);
+  private _PLATFORM_ID = inject(PLATFORM_ID);
   currentLang$ = this._languageService.currentLanguage$;
   loginForm!: FormGroup;
   isLoading = signal(false);
@@ -89,6 +90,9 @@ export class LoginComponent implements OnInit,OnDestroy {
     });
   }
 loggedInSuccessfully(response:any):void {
+  
+  console.log(response);
+  
 this.isLoading.set(false);
         let lang = '';
         this.currentLang$.pipe(takeUntil(this.destroy$)).subscribe((next) => (lang = next));
@@ -100,9 +104,11 @@ this.isLoading.set(false);
           
           if(response.password === "") {
     this._router.navigate(['/',lang,'set-password']);
-    console.log(response);
   }else {
     this._router.navigate(['/', lang, 'home']);
+  }
+  if(isPlatformBrowser(this._PLATFORM_ID)){
+          localStorage.setItem('isPassword', response.password === "" ? "false" : "true");
   }
         } else {
           if (!response?.error?.includes("Deleted")) {

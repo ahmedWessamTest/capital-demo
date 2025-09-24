@@ -102,7 +102,6 @@ this.isLoading.set(false);
 }
 loginSuccessfully(error:any):void {
 this.isLoading.set(false);
-        const errorMessage =  'Login failed. Please try again.';
         this._alertService.showNotification({
           translationKeys: { title: this._translate.instant("Login_failed") },
         });

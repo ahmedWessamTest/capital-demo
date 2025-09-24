@@ -4,6 +4,8 @@ import { OtpTimeGuard } from './core/guards/otp.guard';
 import { publicGuard } from './core/guards/public.guard';
 import { HomeComponent } from './website-pages/home/home.component';
 import { langRedirectGuard } from '@core/guards/lang-redirect.guard';
+import { setPasswordGuardGuard } from '@core/guards/set-passowrd-guard.guard';
+import { deSetPasswordGuard } from '@core/guards/de-set-password.guard';
 
 
 export const routes: Routes = [
@@ -41,6 +43,8 @@ export const routes: Routes = [
           title: 'ROUTES.LOGIN.TITLE',
           description: 'ROUTES.LOGIN.DESCRIPTION',
         },
+        canActivate:[setPasswordGuardGuard],
+        canDeactivate:[deSetPasswordGuard]
       },
       {
         path: 'register',
