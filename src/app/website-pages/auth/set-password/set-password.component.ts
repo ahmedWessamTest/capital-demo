@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, PLATFORM_ID } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -6,7 +6,7 @@ import { AuthService } from '../../../core/services/auth/auth.service';
 import { LanguageService } from '../../../core/services/language.service';
 import { AlertService } from '../../../core/shared/alert/alert.service';
 import { animate, query, stagger, state, style, transition, trigger } from '@angular/animations';
-import { AsyncPipe, CommonModule } from '@angular/common';
+import { AsyncPipe, CommonModule, isPlatformBrowser } from '@angular/common';
 import { Subject, takeUntil } from 'rxjs';
 @Component({
   selector: 'app-set-password',
@@ -54,7 +54,8 @@ private destroy$ = new Subject<void>();
   private _router = inject(Router);
   private _languageService = inject(LanguageService);
   private _alertService = inject(AlertService);
-  private _translate = inject(TranslateService)
+  private _translate = inject(TranslateService);
+  private _PLATFORM_ID = inject(PLATFORM_ID)
   currentLang$ = this._languageService.currentLanguage$;
   setPassForm!: FormGroup;
   isLoading = signal(false);
@@ -94,7 +95,9 @@ this.isLoading.set(false);
             translationKeys: { title: 'Login_successful' },
           });
           this.setPassForm.reset();
-           
+           if(isPlatformBrowser(this._PLATFORM_ID)){
+            localStorage.setItem('isPassword',"true");
+           }
     this._router.navigate(['/', lang, 'home']);
         } else {
           this.triggerShakeAnimation();

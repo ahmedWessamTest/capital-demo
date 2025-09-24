@@ -66,6 +66,7 @@ export class AuthStorageService {
     if (!this.isBrowser) return;
 
     localStorage.removeItem(this.USER_DATA_KEY);
+    localStorage.removeItem('isPassword');
   }
 
   getToken(): string | null {
