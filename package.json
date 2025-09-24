@@ -3,12 +3,12 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "node dist/PROJECT_NAME/server/server.mjs",
-    "build": "ng build && ng run e-commerce-rose:server",
+    "start": "ng serve",
+    "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "dev:ssr": "ng run e-commerce-rose:serve-ssr",
-    "serve:ssr": "node dist/e-commerce-rose/server/main.js",
+    "serve:ssr": "node dist/e-commerce-rose/server/main.server.js",
     "build:ssr": "ng build && ng run e-commerce-rose:server",
     "prerender": "ng run e-commerce-rose:prerender"
   },
