@@ -1,11 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal, PLATFORM_ID } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, of, tap } from 'rxjs';
-import { AuthStorageService } from './auth-storage.service';
+import { from, Observable, of, switchMap, tap } from 'rxjs';
+import { AuthStorageService, UserData } from './auth-storage.service';
 import { LanguageService } from '../language.service';
 import { API_CONFIG } from '../../conf/api.config';
 import { isPlatformBrowser } from '@angular/common'; // Import isPlatformBrowser
+import { Auth, GoogleAuthProvider, signInWithPopup, signOut, User } from '@angular/fire/auth';
+import { toFormData } from '@core/utils/form-utils';
 
 export interface ILogin {
   email: string;
@@ -43,12 +45,12 @@ interface ResetPasswordResponse {
   error?: string;
   message?: string;
 }
-
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   private _http = inject(HttpClient);
+  private  auth:Auth = inject(Auth);
   private baseUrl = API_CONFIG.BASE_URL;
   private authStorage = inject(AuthStorageService);
   private _router = inject(Router);
@@ -66,11 +68,38 @@ export class AuthService {
 
   // Authentication state using signal
   private isAuthenticatedValue = signal<boolean>(this.checkAuthStatus());
+   signInWithGoogle(): Observable<any> {
+    const provider = new GoogleAuthProvider();
+    return from(signInWithPopup(this.auth, provider)).pipe(
+      switchMap(result => {
+        const user = result.user;
+        const providerData = user.providerData[0];
+        const sendData = new FormData();
+        sendData.append('google_id', providerData.uid || '');
+        sendData.append('email', providerData.email || '');
+        
+        return this._http.post<any>(
+          `${API_CONFIG.BASE_URL}${API_CONFIG.AUTH.LOGIN_GOOGLE}`,
+          sendData
+        ).pipe(
+          tap(response => {
+            if (response.access_token) {
+            // Default expiration to 24 hours if not provided by backend
+            const expiresIn = response.expires_in || 24 * 60 * 60;
+            this.authStorage.saveToken(response.access_token, expiresIn);
 
-  constructor() {
-    // No specific initialization needed here for OTP timestamp, it's handled on retrieval
+            // Save user data to local storage
+            if (response.user) {
+              this.authStorage.saveUserData(response.user);
+            }
+
+            this.isAuthenticatedValue.set(true);
+          }
+          })
+        );
+      })
+    );
   }
-
   login(data: ILogin): Observable<AuthResponse> {
     const formData = new FormData();
     formData.append('email', data.email);
@@ -95,6 +124,7 @@ export class AuthService {
         })
       );
   }
+  
 
   // register(data: IRegister): Observable<AuthResponse> { // Changed return type to AuthResponse for consistency
   //   const formData = new FormData();
@@ -166,10 +196,15 @@ export class AuthService {
     let lang = '';
     this._languageService.currentLanguage$.subscribe((next) => (lang = next));
     this._router.navigate(['/', lang]);
-
+    this.logoutFromGoogle();
     return of({ success: true });
   }
-
+  logoutFromGoogle(): Observable<void> {
+    return from(signOut(this.auth));
+  }
+  get CurrentGoogleUser():User | null {
+    return this.auth.currentUser;
+  }
   isAuthenticated(): boolean {
     return this.isAuthenticatedValue();
   }
@@ -186,7 +221,7 @@ export class AuthService {
     return !!this.authStorage.getToken();
   }
 
-  getUserData(): any {
+  getUserData(): UserData | null {
     return this.authStorage.getUserData();
   }
 
@@ -299,4 +334,12 @@ export class AuthService {
   getCurrentLang(): string {
     return this._languageService.getCurrentLanguage();
   }
+
+  updateUserData(data:any):Observable<any> {
+    return this._http.post<any>(`${this.baseUrl}${API_CONFIG.AUTH.UPDATE_USER_DATA}`,data).pipe(
+      tap(response => {
+        console.log(response);
+      })
+    );
+  } 
 }

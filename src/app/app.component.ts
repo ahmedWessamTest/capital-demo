@@ -65,7 +65,7 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     if (isPlatformBrowser(this.platformId)) {
       // Initialize language
-      const savedLang = localStorage.getItem('language') || 'en';
+      const savedLang = localStorage.getItem('language') || 'ar';
       this.translationService.use(savedLang);
   
       // Scroll to top on route change
@@ -97,7 +97,7 @@ export class AppComponent implements OnInit {
       });
     } else {
       // Server-side fallback for language
-      this.translationService.use('en'); 
+      this.translationService.use('ar'); 
     }
   }
 

@@ -3,9 +3,11 @@ import { authGuard } from './core/guards/auth.guard';
 import { OtpTimeGuard } from './core/guards/otp.guard';
 import { publicGuard } from './core/guards/public.guard';
 import { HomeComponent } from './website-pages/home/home.component';
+import { langRedirectGuard } from '@core/guards/lang-redirect.guard';
+
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'en/home', pathMatch: 'full' },
+  { path: '',canActivate:[langRedirectGuard], pathMatch: 'full' },
   {
     path: ':lang',
     children: [

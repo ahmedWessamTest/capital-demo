@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
@@ -7,6 +7,7 @@ import { LanguageService } from '../../../core/services/language.service';
 import { AlertService } from '../../../core/shared/alert/alert.service';
 import { animate, query, stagger, state, style, transition, trigger } from '@angular/animations';
 import { AsyncPipe, CommonModule, NgClass } from '@angular/common';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -48,7 +49,8 @@ import { AsyncPipe, CommonModule, NgClass } from '@angular/common';
     ]),
   ],
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit,OnDestroy {
+  private destroy$ = new Subject<void>();
   private _fb = inject(FormBuilder);
   private _authService = inject(AuthService);
   private _router = inject(Router);
@@ -85,22 +87,10 @@ export class LoginComponent implements OnInit {
       ],
     });
   }
-
-  submition() {
-    this.formSubmitted.set(true);
-
-    if (this.loginForm.invalid) {
-      this.loginForm.markAllAsTouched();
-      this.triggerShakeAnimation();
-      return;
-    }
-
-    this.isLoading.set(true);
-    this._authService.login(this.loginForm.value).subscribe({
-      next: (response: any) => {
-        this.isLoading.set(false);
+loggedInSuccessfully(response:any):void {
+this.isLoading.set(false);
         let lang = '';
-        this.currentLang$.subscribe((next) => (lang = next));
+        this.currentLang$.pipe(takeUntil(this.destroy$)).subscribe((next) => (lang = next));
         if (response.access_token) {
           this._alertService.showNotification({
             translationKeys: { title: 'Login_successful' },
@@ -119,14 +109,31 @@ export class LoginComponent implements OnInit {
           }
           this.triggerShakeAnimation();
         }
-      },
-      error: (error) => {
-        this.isLoading.set(false);
+}
+loginSuccessfully(error:any):void {
+this.isLoading.set(false);
         const errorMessage = error?.error?.message || error?.error || 'Login failed. Please try again.';
         this._alertService.showNotification({
           translationKeys: { title: errorMessage },
         });
         this.triggerShakeAnimation();
+}
+  submition() {
+    this.formSubmitted.set(true);
+
+    if (this.loginForm.invalid) {
+      this.loginForm.markAllAsTouched();
+      this.triggerShakeAnimation();
+      return;
+    }
+
+    this.isLoading.set(true);
+    this._authService.login(this.loginForm.value).pipe(takeUntil(this.destroy$)).subscribe({
+      next: (response: any) => {
+        this.loggedInSuccessfully(response);
+      },
+      error: (error) => {
+        this.loginSuccessfully(error);
       },
       complete: () => {
         setTimeout(() => {
@@ -135,7 +142,23 @@ export class LoginComponent implements OnInit {
       }
     });
   }
-
+loginWithGoogle() {
+  this._authService.signInWithGoogle().pipe(takeUntil(this.destroy$)).subscribe(
+    {
+      next:(response:any)=>{
+      this.loggedInSuccessfully(response);
+    },
+  error:(error)=>{
+this.loginSuccessfully(error);
+  },
+  complete: () => {
+        setTimeout(() => {
+          this._alertService.hide();
+        }, 2000)
+      }
+}
+  )
+}
   toggleCheckbox() {
     this.isChecked.set(!this.isChecked());
   }
@@ -153,5 +176,9 @@ export class LoginComponent implements OnInit {
     setTimeout(() => {
       this.shakeState.set('idle');
     }, 500);
+  }
+  ngOnDestroy(): void {
+      this.destroy$.next();
+      this.destroy$.complete();
   }
 }

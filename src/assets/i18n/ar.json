@@ -442,6 +442,7 @@
       "login": {
         "description": "تسجيل الدخول إلى حسابك",
         "login-form": {
+          "signin-with-google": "سجّل دخولك بجوجل",
           "haveAccount": "ليس لديك حساب؟",
           "password": "كلمة المرور",
           "password-placeholder": "أدخل كلمة المرور",

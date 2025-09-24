@@ -392,6 +392,7 @@
       "login": {
         "description": "Sign in to your account",
         "login-form": {
+          "signin-with-google":"Sign in with Google",
           "haveAccount": "Don't have an account?",
           "password": "Password",
           "password-placeholder": "Enter your password",

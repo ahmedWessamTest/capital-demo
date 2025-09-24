@@ -16,6 +16,7 @@ import { MedicalInsurance, MedicalCategory, MedicalInsuranceService, MedicalPoli
 import { HttpErrorResponse } from '@angular/common/http';
 import { Counter, UpdatedGenericDataService } from '@core/services/updated-general.service';
 import { Meta, Title } from '@angular/platform-browser';
+import { formDataToObject } from '@core/utils/form-utils';
 @Component({
   selector: 'app-medical-corporate-form',
   imports: [
@@ -30,6 +31,11 @@ import { Meta, Title } from '@angular/platform-browser';
   styleUrl: './medical-corporate-form.component.css'
 })
 export class MedicalCorporateFormComponent {
+  userDataStatus:Record<string, boolean> = {
+name: false,
+email: false,
+    phone: false,
+  };
   claimForm: FormGroup;
   showForm = false;
   step = 0;
@@ -174,20 +180,30 @@ export class MedicalCorporateFormComponent {
     });
   }
 
+fillUserData(userData: UserData | null):void {
+if(userData) {
+        const {name, email, phone} = userData as UserData;
+        this.claimForm.patchValue({name, email, phone});
 
+        const fields = ['name', 'email', 'phone'] as const;
+this.userDataStatus = {
+    name: !!userData.name,
+    email: !!userData.email,
+    phone: !!userData.phone,
+  };
+        fields.forEach(filed=>{
+          const control = this.claimForm.get(filed);
+          
+          if (this.userDataStatus[filed] && control) {
+      control.disable();
+    } 
+        })
+      }
+}
   ngOnInit(): void {
     if (typeof window !== 'undefined' && this.authService.isAuthenticated()) {
       const userData: UserData | null = this.authService.getUserData();
-      if (userData) {
-        this.claimForm.patchValue({
-          name: userData.name,
-          email: userData.email,
-          phone: userData.phone
-        });
-        this.claimForm.get('name')?.disable();
-        this.claimForm.get('phone')?.disable();
-        this.claimForm.get('email')?.disable();
-      }
+      this.fillUserData(userData);
     }
     this.fetchPlans();
     this.claimForm.get('company_employee_number')?.valueChanges.subscribe(value => {
@@ -423,6 +439,39 @@ export class MedicalCorporateFormComponent {
       this.proceedWithNextStep();
     }
   }
+  updateUserData(): void {
+  if (
+  Object.values(this.userDataStatus).some(status => status === false) &&
+  this.authService.isAuthenticated()
+) {
+  const updateFormData = new FormData();
+    updateFormData.append('user_id', String(this.authService?.getUserId()));
+    (Object.keys(this.userDataStatus) as Array<keyof typeof this.userDataStatus>)
+      .forEach(key => {
+        if (!this.userDataStatus[key]) {
+          const value = this.claimForm.get(key)?.value;
+          if (value) {
+            updateFormData.append(key, value);
+          }
+        }
+      });
+    this.authService.updateUserData(updateFormData).subscribe({
+      next: res => {
+        const userData = this.authService.getUserData();
+        const dataNeedUpdate = formDataToObject(updateFormData);
+        console.log("updated user data", dataNeedUpdate);
+        
+        if (userData) {
+          const updatedUserData = { ...userData, ...dataNeedUpdate };
+          this.authStorage.saveUserData(updatedUserData);
+        }
+      },
+      error: (err: HttpErrorResponse) => {
+        console.log('error while updating user data after lead creation', err);
+      },
+    });
+}
+}
   private proceedWithNextStep() {
     const formData = this.createFormData();
     if (this.step === 0 || !this.leadId) {
@@ -459,6 +508,7 @@ export class MedicalCorporateFormComponent {
           }, 2000)
         }
       });
+      this.updateUserData();
     } else {
       this.medicalInsuranceService.updateMedicalLead(this.leadId, formData).pipe(
         tap(() => {
