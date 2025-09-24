@@ -1,16 +1,21 @@
 {
   "version": 2,
-  "public": true,
-  "name": "e-commerce-rose",
-  "rewrites": [
+  "functions": {
+    "api/index.mjs": {
+      "runtime": "nodejs20.x"
+    }
+  },
+  "builds": [
     {
-      "source": "/(.*)",
-      "destination": "/api"
+      "src": "dist/e-commerce-rose/server/entry.mjs",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "dist/e-commerce-rose/browser/**",
+      "use": "@vercel/static"
     }
   ],
-  "functions": {
-    "api/index.js": {
-      "includeFiles": "dist/e-commerce-rose/**"
-    }
-  }
+  "routes": [
+    { "src": "/.*", "dest": "api/index.mjs" }
+  ]
 }
