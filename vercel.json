@@ -1,0 +1,19 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "dist/e-commerce-rose/server/server.mjs",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "dist/e-commerce-rose/browser/**",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/.*",
+      "dest": "dist/e-commerce-rose/server/server.mjs"
+    }
+  ]
+}
