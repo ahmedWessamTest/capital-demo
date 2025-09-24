@@ -1106,7 +1106,7 @@
         "unexpected_error": "An unexpected error occurred during registration. Please try again.",
         "invalid_insurance_type": "Invalid insurance type selected",
         "submission_failed": "An error occurred while submitting the form. Please try again.",
-        "price_min": "Minimum sum insured amount is 50,000 EGP",
+        "price_min": "Minimum sum insured amount is 500,000 EGP",
         "insurancePolicyNumber_minlength": "Policy Number Should be At least 4 numbers",
         "email_exist": "Email already exists",
         "phone_exist": "Phone already exists",
