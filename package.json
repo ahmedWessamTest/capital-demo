@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
+    "start": "node dist/PROJECT_NAME/server/server.mjs",
+    "build": "ng build && ng run e-commerce-rose:server",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "dev:ssr": "ng run e-commerce-rose:serve-ssr",
