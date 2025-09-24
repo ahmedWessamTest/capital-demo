@@ -124,6 +124,14 @@ export class AuthService {
         })
       );
   }
+  setPassword(data: ILogin): Observable<AuthResponse> {
+    const formData = new FormData();
+    
+    formData.append('user_id', this.getUserData()?.id.toString() || '');
+    formData.append('password', data.password);
+    return this._http
+      .post<AuthResponse>(`${this.baseUrl}${API_CONFIG.AUTH.SET_PASS}`, formData);
+  }
   
 
   // register(data: IRegister): Observable<AuthResponse> { // Changed return type to AuthResponse for consistency

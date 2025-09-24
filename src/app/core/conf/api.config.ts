@@ -31,6 +31,7 @@ export const API_CONFIG = {
       UPDATE_USER_DATA:'auth/update-data',
       REGISTER: 'auth/signup',
       LOGIN: 'auth/signin',
+      SET_PASS:"auth/create-password",
       LOGIN_GOOGLE: 'auth/signinGoogle',
       FORGET_PASSWORD: 'auth/resetUserCode',
       RESET_PASSWORD: 'auth/resetUserPassword',

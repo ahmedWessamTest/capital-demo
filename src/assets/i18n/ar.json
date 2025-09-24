@@ -33,6 +33,8 @@
   "Login_failed": "فشل تسجيل الدخول",
     "account_deleted" : "حسابك قد تم حذفه",
   "Login_successful": "تم تسجيل الدخول بنجاح ",
+  "SET_PASSWORD": "تم تعيين كلمة المرور بنجاح",
+  "Passwords_not_match": "كلمات المرور غير متطابقة",
   "Registration_successful": "التسجيل ناجح",
   "No_articles": "لا توجد مقالات",
   "Reset_password_successful": "إعادة تعيين كلمة المرور ناجحة",
@@ -1070,6 +1072,7 @@
       },
       "errors": {
         "fullName_required": "الاسم الكامل مطلوب",
+"fullName_minlength": "الاسم الكامل قصير جدًا (الحد الأدنى {{length}} حروف)",
         "email_required": "البريد الإلكتروني مطلوب",
         "email_invalid": "يرجى إدخال بريد إلكتروني صحيح",
         "jop_title_required": "المسمى الوظيفي مطلوب",

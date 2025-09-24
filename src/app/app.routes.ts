@@ -32,6 +32,17 @@ export const routes: Routes = [
         },
       },
       {
+        path: 'set-password',
+        loadComponent: () =>
+          import('./website-pages/auth/set-password/set-password.component').then(
+            (c) => c.SetPasswordComponent
+          ),
+        data: {
+          title: 'ROUTES.LOGIN.TITLE',
+          description: 'ROUTES.LOGIN.DESCRIPTION',
+        },
+      },
+      {
         path: 'register',
         loadComponent: () =>
           import('./website-pages/auth/register/register.component').then(
