@@ -15,5 +15,7 @@
       "src": "/.*",
       "dest": "dist/e-commerce-rose/server/server.mjs"
     }
-  ]
+  ],
+  "installCommand": "npm install --legacy-peer-deps",
+  "buildCommand": "npm run build"
 }
