@@ -1,7 +1,7 @@
 import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { AuthService } from '../../../core/services/auth/auth.service';
 import { LanguageService } from '../../../core/services/language.service';
 import { AlertService } from '../../../core/shared/alert/alert.service';
@@ -56,6 +56,7 @@ export class LoginComponent implements OnInit,OnDestroy {
   private _router = inject(Router);
   private _languageService = inject(LanguageService);
   private _alertService = inject(AlertService);
+  private _translate = inject(TranslateService)
   currentLang$ = this._languageService.currentLanguage$;
   loginForm!: FormGroup;
   isLoading = signal(false);
@@ -112,9 +113,9 @@ this.isLoading.set(false);
 }
 loginSuccessfully(error:any):void {
 this.isLoading.set(false);
-        const errorMessage = error?.error?.message || error?.error || 'Login failed. Please try again.';
+        const errorMessage =  'Login failed. Please try again.';
         this._alertService.showNotification({
-          translationKeys: { title: errorMessage },
+          translationKeys: { title: this._translate.instant("Login_failed") },
         });
         this.triggerShakeAnimation();
 }
