@@ -66,14 +66,28 @@
 // export const reqHandler = createNodeRequestHandler(app);
 
 import { AngularAppEngine, createRequestHandler } from '@angular/ssr';
-import { getContext } from '@netlify/angular-runtime/context.mjs';
 
 const angularAppEngine = new AngularAppEngine();
 
-export async function netlifyAppEngineHandler(request: Request): Promise<Response> {
-    const context = getContext();
-    const result = await angularAppEngine.handle(request, context);
-    return result || new Response('Not found', { status: 404 });
-}
+export const handler = async (event: any, context: any) => {
+  try {
+    const request = new Request(event.rawUrl, {
+      method: event.httpMethod,
+      headers: event.headers,
+      body: event.body,
+    });
 
-export const reqHandler = createRequestHandler(netlifyAppEngineHandler);
+    const response = await angularAppEngine.handle(request, context);
+
+    return {
+      statusCode: response.status,
+      headers: Object.fromEntries(response.headers),
+      body: await response.text(),
+    };
+  } catch (err: any) {
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: err.message }),
+    };
+  }
+};
