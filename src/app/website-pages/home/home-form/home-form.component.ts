@@ -881,8 +881,9 @@ updateUserData(): void {
     this.authService.updateUserData(updateFormData).subscribe({
       next: res => {
         const userData = this.authService.getUserData();
-        const dataNeedUpdate = formDataToObject(updateFormData);
+        let dataNeedUpdate = formDataToObject(updateFormData);
         console.log("updated user data", dataNeedUpdate);
+        dataNeedUpdate = {name:dataNeedUpdate['fullName'],user_id:dataNeedUpdate['user_id']}
         
         if (userData) {
           const updatedUserData = { ...userData, ...dataNeedUpdate };

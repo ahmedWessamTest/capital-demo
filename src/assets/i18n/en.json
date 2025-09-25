@@ -374,9 +374,12 @@
       "saving": "Saving...",
       "deactivate-account": "Deactivate Account",
       "deactivating": "Deactivating...",
+      "delete-account":"Delete Account",
+      "deleting":"Deleting...",
       "submit-button-aria-label": "Save profile changes",
       "deactivate-account-aria-label": "Deactivate your account",
       "confirm-deactivate": "Are you sure you want to deactivate your account? This action cannot be undone.",
+      "confirm-delete":"Are you sure want delete your account",
       "success": {
         "update": "Profile updated successfully!",
         "deactivate": "Account deactivated successfully."
@@ -387,11 +390,14 @@
         "load-failed": "Failed to load profile. Please try again.",
         "update-failed": "Failed to update profile. Please try again.",
         "deactivate-failed": "Failed to deactivate account. Please try again."
+      },
+      "delete_alert":{
+        "delete_this_account":"Delete This Account?",
+        "delete_btn":"Delete"
       }
     },
     "auth": {
       "success-message": "now you can reset your password ",
-
       "login": {
         "description": "Sign in to your account",
         "login-form": {

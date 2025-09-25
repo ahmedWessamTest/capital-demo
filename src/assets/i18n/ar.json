@@ -423,7 +423,8 @@
       "save-changes": "حفظ التغييرات",
       "saving": "جاري الحفظ...",
       "deactivate-account": "إلغاء تنشيط الحساب",
-      "deactivating": "جاري إلغاء التنشيط...",
+      "deactivating": "جاري إلغاء التنشيط",
+      "activate-account":"تنشيط الحساب",
       "submit-button-aria-label": "حفظ تغييرات الملف الشخصي",
       "deactivate-account-aria-label": "إلغاء تنشيط حسابك",
       "confirm-deactivate": "هل أنت متأكد أنك تريد إلغاء تنشيط حسابك؟ لا يمكن التراجع عن هذا الإجراء.",
@@ -437,6 +438,10 @@
         "load-failed": "فشل تحميل الملف الشخصي. حاول مرة أخرى.",
         "update-failed": "فشل تحديث الملف الشخصي. حاول مرة أخرى.",
         "deactivate-failed": "فشل إلغاء تنشيط الحساب. حاول مرة أخرى."
+      },
+      "delete_alert":{
+        "delete_this_account":"حذف هذا الحساب؟",
+        "delete_btn":"حذف"
       }
     },
     "auth": {
