@@ -8,6 +8,7 @@ import { LanguageService } from '@core/services/language.service';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { AlertService } from '@core/shared/alert/alert.service';
+import { AuthStorageService } from '@core/services/auth/auth-storage.service';
 
 @Component({
   selector: 'app-profile-page',
@@ -59,6 +60,7 @@ export class ProfileComponent implements OnInit {
   private _languageService = inject(LanguageService);
   private _alertService = inject(AlertService);
   private _translateService = inject(TranslateService);
+  private _AuthStorageService = inject(AuthStorageService);
   currentLang$ = this._languageService.currentLanguage$;
   profileForm!: FormGroup;
   userData: UserProfileData | null = null;
@@ -136,6 +138,9 @@ export class ProfileComponent implements OnInit {
         this.isSaving.set(false);
         this.loadUserProfile();
         this.clearMessagesAfterDelay();
+        const userData = this._AuthStorageService.getUserData() as any;
+        const updatedData = {...userData,...payload};
+        this._AuthStorageService.saveUserData(updatedData);
       },
       error: (error) => {
         console.error('Error updating profile:', error);

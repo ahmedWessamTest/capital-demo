@@ -395,7 +395,7 @@ email: false,
     if (userData) {
       console.log(userData);
       
-      const { fullName, email, phone: phoneNumber } = userData ;
+      const { name:fullName, email, phone: phoneNumber } = userData ;
       console.log(fullName,email,phoneNumber);
       
       this.claimForm.patchValue({ fullName, email, phoneNumber });
