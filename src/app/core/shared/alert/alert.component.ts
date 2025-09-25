@@ -65,7 +65,7 @@ export class AlertComponent implements OnInit, OnDestroy {
   shakeState: string = '';
   isVerifying = signal(false);
   resendTimer = signal(0);
-  canResend = signal(true);
+  canResend = signal(false);
 
   isOtpType(): boolean {
     let isOtp = false;
@@ -248,10 +248,12 @@ ngOnInit(): void {
   }
 
   private startResendTimer(): void {
-    this.resendTimer.set(60);
-    const timer$ = interval(1000).pipe(takeUntil(this.destroyed$));
-    
-    timer$.subscribe(() => {
+  this.resendTimer.set(60);
+  this.canResend.set(false);
+
+  interval(1000)
+    .pipe(take(5)) // هيعمل unsubscribe أوتوماتيك بعد 5 مرات
+    .subscribe(() => {
       this.resendTimer.update((time) => {
         if (time <= 1) {
           this.canResend.set(true);
@@ -260,7 +262,8 @@ ngOnInit(): void {
         return time - 1;
       });
     });
-  }
+}
+
 
   private setAutoCloseTimerIfNeeded(): void {
     this.clearAutoCloseTimer();
@@ -456,10 +459,10 @@ onVerify() {
 
     this.startResendTimer();
     this.canResend.set(false);
-
     this.alertConfig$.pipe(take(1)).subscribe((config) => {
+      console.log("resend config:",config);
       if (config?.onResend) {
-        config.onResend();
+        Promise.resolve().then(()=> config.onResend?.())
       }
     });
   }

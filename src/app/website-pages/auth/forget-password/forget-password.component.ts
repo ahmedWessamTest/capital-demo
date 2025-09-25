@@ -1,5 +1,5 @@
 
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -8,6 +8,7 @@ import { LanguageService } from '../../../core/services/language.service';
 import { AlertService, AlertType, AlertConfig } from '../../../core/shared/alert/alert.service';
 import { animate, query, stagger, state, style, transition, trigger } from '@angular/animations';
 import { AsyncPipe, CommonModule, NgClass } from '@angular/common';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-forgot-password',
@@ -49,7 +50,8 @@ import { AsyncPipe, CommonModule, NgClass } from '@angular/common';
     ]),
   ],
 })
-export class ForgetPasswordComponent implements OnInit {
+export class ForgetPasswordComponent implements OnInit,OnDestroy {
+  private destroy$ = new Subject<void>();
   private _fb = inject(FormBuilder);
   private _authService = inject(AuthService);
   private _router = inject(Router);
@@ -94,12 +96,13 @@ export class ForgetPasswordComponent implements OnInit {
     this.isLoading.set(true);
 
     const email = this.forgotPasswordForm.value.email;
-    this._authService.sendOTp(email).subscribe({
+    this._authService.sendOTp(email).pipe(takeUntil(this.destroy$)).subscribe({
       next: (response: any) => {
         this.isLoading.set(false);
+        console.log(response.success);
         if (response.success && response.success.includes('Successfully')) {
           let lang = '';
-          this.currentLang$.subscribe((next) => (lang = next));
+          this.currentLang$.pipe(takeUntil(this.destroy$)).subscribe((next) => (lang = next));
           let title = this._translateService.instant('pages.auth.forgot-password.otp-title');
           let message = this._translateService.instant('pages.auth.forgot-password.otp-message');
 
@@ -108,12 +111,12 @@ export class ForgetPasswordComponent implements OnInit {
             email: email,
             alertType: AlertType.OTP,
             onVerify: (otp: string) => {
-              this._authService.verifyOtp({ email, otp }).subscribe({
+              this._authService.verifyOtp({ email, otp }).pipe(takeUntil(this.destroy$)).subscribe({
                 next: (verifyResponse: any) => {
                   // Check if the response indicates success (either no error property or error says "Correct OTP")
                   if (!verifyResponse.error || verifyResponse.error === 'Correct OTP.') {
                     let currentLang = '';
-                    this.currentLang$.subscribe((next) => (currentLang = next));
+                    this.currentLang$.pipe(takeUntil(this.destroy$)).subscribe((next) => (currentLang = next));
                     this._authService.storeResetEmail(email);
                     this._authService.storeResetOtp(otp);
                 
@@ -142,20 +145,7 @@ export class ForgetPasswordComponent implements OnInit {
               });
             },
             onResend: () => {
-              console.log('clicked from forgot password resend handler');
-              this._authService.sendOTp(email).subscribe({
-                next: () => {
-                  // Show success notification for resend
-                  this._alertService.showNotification({
-                    message: this._translateService.instant('OTP_resent_successfully'),
-                  });
-                },
-                error: (error) => {
-                  this._alertService.showNotification({
-                    message: error?.error?.message || this._translateService.instant('Failed_to_resend_OTP'),
-                  });
-                },
-              });
+              this._authService.sendOTp(email).pipe(takeUntil(this.destroy$)).subscribe();
             },
           };
 
@@ -182,5 +172,9 @@ export class ForgetPasswordComponent implements OnInit {
     setTimeout(() => {
       this.shakeState.set('idle');
     }, 500);
+  }
+  ngOnDestroy(): void {
+      this.destroy$.next();
+      this.destroy$.complete()
   }
 }

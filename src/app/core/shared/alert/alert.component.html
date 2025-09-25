@@ -116,16 +116,17 @@
               }
             </button>
             <div class="flex items-center gap-2 mt-4">
-              <a
+              <button
                 href="javascript:void(0)"
                 class="text-[#0ea5e9] text-sm hover:underline"
                 (click)="onResend()"
                 [class.pointer-events-none]="!canResend()"
+                [disabled]="!canResend()"
                 [class.opacity-50]="!canResend()"
                 [attr.aria-label]="'pages.auth.forgot-password.Resend_OTP' | translate"
               >
                 {{ 'pages.auth.forgot-password.Resend_OTP' | translate }}
-              </a>
+              </button>
               @if (resendTimer() > 0) {
                 <span class="text-red-500 text-sm">00:{{ resendTimer() }}s</span>
               }
