@@ -54,7 +54,7 @@ private destroy$ = new Subject<void>();
   private _router = inject(Router);
   private _languageService = inject(LanguageService);
   private _alertService = inject(AlertService);
-  private _translate = inject(TranslateService);
+   _translate = inject(TranslateService);
   private _PLATFORM_ID = inject(PLATFORM_ID)
   currentLang$ = this._languageService.currentLanguage$;
   setPassForm!: FormGroup;

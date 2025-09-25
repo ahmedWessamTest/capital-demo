@@ -47,6 +47,7 @@
   "form_success_message": "Your message has been sent and we will contact you as soon as possible to help you.",
   "form_thanks": "Thanks for your message.",
   "back_to_home": "Back to Home",
+  "should_make_pass" : "Please create a password to continue.",
 "common":{
   "of":"of",
   "sort_by":"Sort by",
@@ -488,6 +489,14 @@
           "confirm-password-mismatch": "Passwords must match",
           "otp-expired": "Your OTP verification has expired. Please request a new one.",
           "access-denied": "Access denied. Please verify your OTP first."
+        }
+      },
+      "set_password": {
+        "headline":"Set your new password.",
+        "hub_head":"You signed in with Google. Add a password for extra security.",
+        "set_password_form": {
+          "new-password-placeholder":"Enter Your New Password",
+          "confirm_new_password-placeholder":"Confirm Your New Password"
         }
       }
     },

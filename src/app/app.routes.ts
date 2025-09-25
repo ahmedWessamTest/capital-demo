@@ -6,6 +6,7 @@ import { HomeComponent } from './website-pages/home/home.component';
 import { langRedirectGuard } from '@core/guards/lang-redirect.guard';
 import { setPasswordGuardGuard } from '@core/guards/set-passowrd-guard.guard';
 import { deSetPasswordGuard } from '@core/guards/de-set-password.guard';
+import { shouldSetPasswordGuard } from '@core/guards/should-set-password.guard';
 
 
 export const routes: Routes = [
@@ -20,6 +21,7 @@ export const routes: Routes = [
           title: 'ROUTES.HOME.TITLE',
           description: 'ROUTES.HOME.DESCRIPTION',
         },
+        canActivate:[shouldSetPasswordGuard]
       },
       {
         path: 'login',
@@ -69,6 +71,7 @@ export const routes: Routes = [
           title: 'ROUTES.RESET_PASSWORD.TITLE',
           description: 'ROUTES.RESET_PASSWORD.DESCRIPTION',
         },
+
       },
       {
         path: 'claims-info',
@@ -76,6 +79,7 @@ export const routes: Routes = [
           import('./website-pages/claims/claim-info/claim-info.component').then(
             (c) => c.ClaimInfoComponent
           ),
+          canActivate:[shouldSetPasswordGuard]
       },
       {
         path: 'forgot-password',
@@ -111,6 +115,7 @@ export const routes: Routes = [
         //   title: 'ROUTES.MEDICAL_INSURANCE.TITLE',
         //   description: 'ROUTES.MEDICAL_INSURANCE.DESCRIPTION'
         // },
+        canActivate:[shouldSetPasswordGuard]
       },
       {
         path: 'motor-insurance',
@@ -122,6 +127,7 @@ export const routes: Routes = [
         //   title: 'ROUTES.MOTOR_INSURANCE.TITLE',
         //   description: 'ROUTES.MOTOR_INSURANCE.DESCRIPTION'
         // },
+        canActivate:[shouldSetPasswordGuard]
       },
       {
         path: 'claims',
@@ -129,6 +135,7 @@ export const routes: Routes = [
           import(
             './website-pages/profile/user-claims/user-claims.component'
           ).then((c) => c.UserClaimsComponent),
+          canActivate:[shouldSetPasswordGuard]
       },
       {
         path: 'claims/:claimId/:claimType/comments',
@@ -136,6 +143,7 @@ export const routes: Routes = [
           import(
             './website-pages/claims/claims-comments/claims-comments.component'
           ).then((c) => c.ClaimsCommentsComponent),
+          canActivate:[shouldSetPasswordGuard]
       },
       {
         path: 'building-insurance',
@@ -147,6 +155,7 @@ export const routes: Routes = [
         //   title: 'ROUTES.BUILDING_INSURANCE.TITLE',
         //   description: 'ROUTES.BUILDING_INSURANCE.DESCRIPTION'
         // },
+        canActivate:[shouldSetPasswordGuard]
       },
       {
         path: 'job-insurance',
@@ -158,6 +167,7 @@ export const routes: Routes = [
         //   title: 'ROUTES.MEDICAL_INSURANCE.TITLE',
         //   description: 'ROUTES.MEDICAL_INSURANCE.DESCRIPTION'
         // },
+        canActivate:[shouldSetPasswordGuard]
       },
 
       // {
@@ -177,7 +187,7 @@ export const routes: Routes = [
           import('./website-pages/profile/profile.component').then(
             (c) => c.ProfileComponent
           ),
-        canActivate: [authGuard],
+        canActivate: [authGuard,shouldSetPasswordGuard],
         data: {
           title: 'ROUTES.PROFILE.TITLE',
           description: 'ROUTES.PROFILE.DESCRIPTION',
@@ -193,6 +203,7 @@ export const routes: Routes = [
           title: 'ROUTES.CONTACT.TITLE',
           description: 'ROUTES.CONTACT.DESCRIPTION',
         },
+        canActivate:[shouldSetPasswordGuard]
       },
       {
         path: 'privacy-policy',
@@ -204,6 +215,7 @@ export const routes: Routes = [
           title: 'ROUTES.PRIVACY_POLICY.TITLE',
           description: 'ROUTES.PRIVACY_POLICY.DESCRIPTION',
         },
+        canActivate:[shouldSetPasswordGuard]
       },
       {
         path: 'about',
@@ -211,6 +223,7 @@ export const routes: Routes = [
           import('./website-pages/about/about/about.component').then(
             (c) => c.AboutComponent
           ),
+          canActivate:[shouldSetPasswordGuard]
         // data: {
         //   title: 'ROUTES.ABOUT.TITLE',
         //   description: 'ROUTES.ABOUT.DESCRIPTION'
@@ -222,6 +235,7 @@ export const routes: Routes = [
           import(
             './website-pages/profile/user-policies/user-policies.component'
           ).then((c) => c.UserPoliciesComponent),
+          canActivate:[shouldSetPasswordGuard]
       },
       {
         path: 'policies/:policyId/:policyType',
@@ -229,6 +243,7 @@ export const routes: Routes = [
           import(
             './website-pages/claims/show-all-details/show-all-details.component'
           ).then((c) => c.ShowAllDetailsComponent),
+          canActivate:[shouldSetPasswordGuard]
       },
       {
         path: 'policies/:policyId/:policyType/corporate-details',
@@ -236,6 +251,7 @@ export const routes: Routes = [
           import(
             './website-pages/claims/show-all-details/show-all-corporate-details/show-all-corporate-details.component'
           ).then((c) => c.ShowAllCorporateDetailsComponent),
+          canActivate:[shouldSetPasswordGuard]
       },
       {
         path: 'policies/:policyId/:policyType/corporate-details/add',
@@ -243,6 +259,7 @@ export const routes: Routes = [
           import(
             './website-pages/claims/show-all-details/add-corporate-unit-form/add-corporate-unit-form.component'
           ).then((c) => c.AddCorporateUnitFormComponent),
+          canActivate:[shouldSetPasswordGuard]
       },
       {
         path: 'policies/:policyId/:policyType/comments',
@@ -250,6 +267,7 @@ export const routes: Routes = [
           import(
             './website-pages/comments/comments-page/comments-page.component'
           ).then((c) => c.CommentsPageComponent),
+          canActivate:[shouldSetPasswordGuard]
       },
       {
         path: 'blog/:slug',
@@ -260,6 +278,7 @@ export const routes: Routes = [
         data: {
           title: 'ROUTES.BLOG.TITLE',
           description: 'ROUTES.BLOG.DESCRIPTION',
+          canActivate:[shouldSetPasswordGuard]
         },
       },
       {
@@ -271,6 +290,7 @@ export const routes: Routes = [
         data: {
           title: 'ROUTES.ENGLISH_BLOGS.TITLE',
           description: 'ROUTES.ENGLISH_BLOGS.DESCRIPTION',
+          canActivate:[shouldSetPasswordGuard]
         },
       },
       {
@@ -283,6 +303,7 @@ export const routes: Routes = [
           title: 'ROUTES.ARABIC_BLOGS.TITLE',
           description: 'ROUTES.ARABIC_BLOGS.DESCRIPTION',
         },
+        canActivate:[shouldSetPasswordGuard]
       },
       {
         path: 'logout',
