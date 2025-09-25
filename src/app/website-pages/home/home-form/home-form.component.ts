@@ -408,6 +408,8 @@ email: false,
         email: !!userData.email,
         phoneNumber: !!userData.phone,
       };
+      console.log(this.userDataStatus);
+      
 this.claimForm.markAllAsTouched();
       // fields.forEach(field => {
       //   const control = this.claimForm.get(field);

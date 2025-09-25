@@ -3,7 +3,7 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Component, ElementRef, HostBinding, HostListener, inject, OnDestroy, OnInit, PLATFORM_ID, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { Subject, interval } from 'rxjs';
+import { Subject, Subscription, interval } from 'rxjs';
 import { map, take, takeUntil } from 'rxjs/operators';
 import { AlertService, AlertType } from './alert.service';
 import { Router } from '@angular/router';
@@ -247,22 +247,28 @@ ngOnInit(): void {
     this.clearAutoCloseTimer();
   }
 
-  private startResendTimer(): void {
-  this.resendTimer.set(60);
+  private timerSub?: Subscription;
+
+private startResendTimer(): void {
+  const duration = 60;
+  this.resendTimer.set(duration);
   this.canResend.set(false);
 
-  interval(1000)
-    .pipe(take(5)) // هيعمل unsubscribe أوتوماتيك بعد 5 مرات
-    .subscribe(() => {
-      this.resendTimer.update((time) => {
-        if (time <= 1) {
-          this.canResend.set(true);
-          return 0;
-        }
-        return time - 1;
-      });
+  // لو فيه تايمر شغال قبل كده، نقفله
+  this.timerSub?.unsubscribe();
+
+  this.timerSub = interval(1000).pipe(take(duration)).subscribe(() => {
+    this.resendTimer.update((time) => {
+      if (time <= 1) {
+        this.canResend.set(true);
+        this.timerSub?.unsubscribe(); // نوقف التايمر لما يخلص
+        return 0;
+      }
+      return time - 1;
     });
+  });
 }
+
 
 
   private setAutoCloseTimerIfNeeded(): void {
