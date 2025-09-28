@@ -130,8 +130,50 @@ export class NotificationsComponent implements OnInit,OnDestroy{
   }
   notificationRedirect(notification: any):void {
     let data: any  = this.activeTab() === 'policies' ?  notification.policy : notification.claim;
+    const title = notification?.notification_title ?? '';
     if(this.activeTab() === 'policies') {
-      this.router.navigate(['/',this.lang(),'policies',data.id,notification.request_type])
+      if(title.includes('New Comment!')) {
+this.router.navigate(['/',this.lang(),'policies',data.id,notification.request_type,'comments'])
+      }else {
+        this.router.navigate(['/',this.lang(),'policies',data.id,notification.request_type])
+      }
+    } else {
+      // /en/claims/38/medical/comments
+      this.router.navigate(['/',this.lang(),'claims',data.id,notification.request_type,'comments'])
     }
+  }
+  getNotificationLabel(notification:any):string {
+    const isAr = this.lang() === 'ar';
+    const title = notification?.notification_title ?? '';
+    if (title.includes('New Comment!')) {
+    return isAr ? 'اذهب الي التعليقات' : 'Go to comments';
+  }
+  if (title.includes('Update Alert!')) {
+    if (this.activeTab() === 'policies') {
+      return isAr ? 'اذهب الي الوثيقه' : 'Go to policy';
+    }
+    if (this.activeTab() === 'claims') {
+      return isAr ? 'اذهب الي المطالبه' : 'Go to claim';
+    }
+  }
+  return ""
+  }
+  getStatus(notification: GeneralNotify | PolicyNotify | ClaimNotify):string {
+    if(this.activeTab() === "policies") {
+      return (notification as PolicyNotify).policy.active_status;
+    } else if (this.activeTab() === "claims") {
+      return (notification as ClaimNotify).claim.status; 
+    }
+    return ''
+  }
+  getArabicStatus(notificationText:string):string {
+    if(notificationText === "pending") {
+      return "قيد الانتظار"
+    } else if (notificationText === "confirmed") {
+      return "تم الطلب"
+    }else if (notificationText === "canceled") {
+return "تم الإلغاء"
+    }
+    return notificationText
   }
 }

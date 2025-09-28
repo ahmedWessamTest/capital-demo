@@ -105,30 +105,67 @@
                 {{ formatDisplayDate(notification.created_at) }}
               </span>
             </div>
+            @if(activeTab() !== "general"){
+              <div class="inline-flex items-center gap-2 bg-gray-50 px-3 py-2 rounded-lg">
+                <ng-container [ngSwitch]="getStatus(notification)">
+  <!-- Active -->
+  <svg *ngSwitchCase="'confirmed'" class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+    <path fill-rule="evenodd" 
+          d="M16.707 5.293a1 1 0 00-1.414 0L8 12.586 
+             4.707 9.293a1 1 0 00-1.414 1.414l4 
+             4a1 1 0 001.414 0l8-8a1 1 0 
+             000-1.414z" 
+          clip-rule="evenodd" />
+  </svg>
+
+  <!-- Pending -->
+  <svg *ngSwitchCase="'pending'" class="w-5 h-5 text-yellow-500" fill="currentColor" viewBox="0 0 20 20">
+    <path fill-rule="evenodd" 
+          d="M10 18a8 8 0 100-16 8 8 0 
+             000 16zm1-11a1 1 0 10-2 
+             0v4a1 1 0 00.293.707l2.828 
+             2.829a1 1 0 101.415-1.415L11 
+             10.586V7z" 
+          clip-rule="evenodd" />
+  </svg>
+
+  <!-- Inactive -->
+  <svg *ngSwitchCase="'canceled'" class="w-5 h-5 text-red-400" fill="currentColor" viewBox="0 0 20 20">
+    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+  </svg>
+
+  <!-- Default -->
+  <svg *ngSwitchDefault class="w-5 h-5 text-gray-300" fill="currentColor" viewBox="0 0 20 20">
+    <circle cx="10" cy="10" r="8"/>
+  </svg>
+</ng-container>
+
+                <span class="text-sm font-medium text-gray-600">
+                  <!-- {{ "pages.claims.labels.claim_date" | translate }} -->
+                    {{lang() === 'ar' ? 'الحاله':'active status'}}
+                </span>
+                <span class="text-sm font-semibold text-gray-900">
+                  {{ lang() === "en" ?  getStatus(notification) : getArabicStatus(getStatus(notification)) }}
+                </span>
+              </div>
+            }
           </div>
       
           <!-- Action section with modern button -->
-           @if (activeTab() !== "general") {
-               <div class="px-6 pb-6">
-                 <button
-                   (click)="notificationRedirect(notification)"
-                   class="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold py-3 px-6 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-                   @if(notification?.notification_title?.includes('New Comment!')){
-                       <span>{{ lang()== "ar" ? "اذهب الي التعليقات" : "Go to comments" }}</span>
-                   }
-                   @if(notification?.notification_title?.includes('Update Alert!')){
-                    @if(activeTab() === 'policies'){
-                        <span>{{ lang()== "ar" ? "اذهب الي الوثيقه" : "Go to policy" }}</span>
-                    }
-                    @if(activeTab() === 'claims'){
-                        <span>{{ lang()== "ar" ? "اذهب الي المطالبه" : "Go to claim" }}</span>
-                    }
-                   }
-                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                   </svg>
-                 </button>
-               </div>
+           @if (activeTab() !== "general" 
+   && (activeTab() === "policies" 
+   || (activeTab() === "claims" && !notification?.notification_title?.includes('Update')))) {
+
+              <div class="px-6 pb-6">
+                <button
+                  (click)="notificationRedirect(notification)"
+                  class="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold py-3 px-6 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                 <span>{{getNotificationLabel(notification)}}</span>
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                  </svg>
+                </button>
+              </div>
            }
         </div>
     }
