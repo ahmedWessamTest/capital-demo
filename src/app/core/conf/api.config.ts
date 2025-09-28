@@ -1,13 +1,18 @@
 export const API_CONFIG = {
     BASE_URL: 'https://digitalbondmena.com/insurance/api/',
     BASE_URL_IMAGE: 'https://digitalbondmena.com/insurance/',
-  
+    firebaseConfig : {
+  apiKey: "AIzaSyDF96TX2OIZWUVdTSSLfHPu0i3kcQd1Ihg",
+  authDomain: "capital-insurance-8134f.firebaseapp.com",
+  projectId: "capital-insurance-8134f",
+  storageBucket: "capital-insurance-8134f.firebasestorage.app",
+  messagingSenderId: "777493807523",
+  appId: "1:777493807523:web:c94ea5be218a0fc5d2da16",
+  measurementId: "G-HPXEWYSW8Z"
+},
     HOME: {
       GET: 'home',
     },
-  
- 
-  
     CATEGORY: {
       GET_ALL: 'menu/category',
     },
@@ -23,8 +28,11 @@ export const API_CONFIG = {
     },
   
     AUTH: {
+      UPDATE_USER_DATA:'auth/update-data',
       REGISTER: 'auth/signup',
       LOGIN: 'auth/signin',
+      SET_PASS:"auth/create-password",
+      LOGIN_GOOGLE: 'auth/signinGoogle',
       FORGET_PASSWORD: 'auth/resetUserCode',
       RESET_PASSWORD: 'auth/resetUserPassword',
     },

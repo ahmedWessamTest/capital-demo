@@ -34,6 +34,8 @@
   "phone_already":"This phone already sign up",
   "account_deleted" : "Your Account Has been Deleted",
   "Login_successful": "logged successfully",
+  "SET_PASSWORD":"Set Your  Password successfully",
+  "Passwords_not_match":"Passwords do not match",
   "Registration_successful": "Registration successful",
   "No_articles": "No articles",
   "Reset_password_successful": "Reset password successful",
@@ -45,6 +47,8 @@
   "form_success_message": "Your message has been sent and we will contact you as soon as possible to help you.",
   "form_thanks": "Thanks for your message.",
   "back_to_home": "Back to Home",
+  "should_make_pass" : "Please create a password to continue.",
+  "notifications":"Notifications",
 "common":{
   "of":"of",
   "sort_by":"Sort by",
@@ -371,9 +375,12 @@
       "saving": "Saving...",
       "deactivate-account": "Deactivate Account",
       "deactivating": "Deactivating...",
+      "delete-account":"Delete Account",
+      "deleting":"Deleting...",
       "submit-button-aria-label": "Save profile changes",
       "deactivate-account-aria-label": "Deactivate your account",
       "confirm-deactivate": "Are you sure you want to deactivate your account? This action cannot be undone.",
+      "confirm-delete":"Are you sure want delete your account",
       "success": {
         "update": "Profile updated successfully!",
         "deactivate": "Account deactivated successfully."
@@ -384,14 +391,23 @@
         "load-failed": "Failed to load profile. Please try again.",
         "update-failed": "Failed to update profile. Please try again.",
         "deactivate-failed": "Failed to deactivate account. Please try again."
+      },
+      "delete_alert":{
+        "delete_this_account":"Delete This Account?",
+        "delete_btn":"Delete"
+      },
+      "deactivate_alert":{
+        "deactivate_this_account":"Deactivate This Account?",
+        "deactivate_btn":"Delete"
       }
+      
     },
     "auth": {
       "success-message": "now you can reset your password ",
-
       "login": {
         "description": "Sign in to your account",
         "login-form": {
+          "signin-with-google":"Sign in with Google",
           "haveAccount": "Don't have an account?",
           "password": "Password",
           "password-placeholder": "Enter your password",
@@ -485,6 +501,14 @@
           "confirm-password-mismatch": "Passwords must match",
           "otp-expired": "Your OTP verification has expired. Please request a new one.",
           "access-denied": "Access denied. Please verify your OTP first."
+        }
+      },
+      "set_password": {
+        "headline":"Set your new password.",
+        "hub_head":"You signed in with Google. Add a password for extra security.",
+        "set_password_form": {
+          "new-password-placeholder":"Enter Your New Password",
+          "confirm_new_password-placeholder":"Confirm Your New Password"
         }
       }
     },
@@ -1064,6 +1088,7 @@
       },
       "errors": {
         "fullName_required": "Full name is required",
+        "fullName_minlength":"Full name is too short (min {{length}} characters)",
         "jop_title_required":"Job title is required",
         "jop_main_id_required":"ID document is required",
         "jop_price_required":"Sum insured amount is required",
@@ -1105,7 +1130,7 @@
         "unexpected_error": "An unexpected error occurred during registration. Please try again.",
         "invalid_insurance_type": "Invalid insurance type selected",
         "submission_failed": "An error occurred while submitting the form. Please try again.",
-        "price_min": "Minimum sum insured amount is 50,000 EGP",
+        "price_min": "Minimum sum insured amount is 500,000 EGP",
         "insurancePolicyNumber_minlength": "Policy Number Should be At least 4 numbers",
         "email_exist": "Email already exists",
         "phone_exist": "Phone already exists",

@@ -6,6 +6,11 @@
   max-width: 1200px;
   max-height: 100vh;
 }
+input[readonly]{
+  background-color: #f5f5f5 ;
+  cursor: not-allowed ;
+  color: #888 ;
+}
 
 .main-content {
   display: flex;

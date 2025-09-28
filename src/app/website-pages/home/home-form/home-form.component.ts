@@ -9,6 +9,7 @@ import {
   HttpParams,
 } from '@angular/common/http';
 import {
+  ChangeDetectorRef,
   Component,
   Inject,
   Input,
@@ -49,9 +50,10 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Observable, of, Subject, Subscription } from 'rxjs';
 import { catchError, tap, finalize, take, takeUntil } from 'rxjs/operators';
 import { API_CONFIG } from '../../../core/conf/api.config';
-import { AuthStorageService } from '../../../core/services/auth/auth-storage.service';
+import { AuthStorageService, UserData } from '../../../core/services/auth/auth-storage.service';
 import { AuthService } from '../../../core/services/auth/auth.service';
 import { CustomeDropMenuComponent } from '../../../core/shared/custome-drop-menu/custome-drop-menu.component';
+import { formDataToObject } from '@core/utils/form-utils';
 interface InsuranceType {
   id: string;
   name: string;
@@ -97,6 +99,11 @@ interface UserPoliciesResponse {
   styleUrls: ['./home-form.component.css'],
 })
 export class HomeFormComponent implements OnInit, OnDestroy {
+  userDataStatus:Record<string, boolean> = {
+fullName: false,
+email: false,
+    phoneNumber: false,
+  };
   destroy$ = new Subject<void>();
   claimForm!: FormGroup;
   currentStep: number = 1;
@@ -316,6 +323,7 @@ export class HomeFormComponent implements OnInit, OnDestroy {
     private jopPolicyService: JopPolicyService,
     private router: Router,
     public translate: TranslateService,
+    private cdr: ChangeDetectorRef,
     private alertService: AlertService,
     private languageService: LanguageService,
     @Inject(PLATFORM_ID) private platformId: Object
@@ -381,15 +389,40 @@ export class HomeFormComponent implements OnInit, OnDestroy {
   }
 
   private prefillUserData(): void {
-    const userData = this.authStorage.getUserData();
+  if (typeof window !== 'undefined' && this.authService.isAuthenticated()) {
+    const userData = this.authStorage.getUserData() as any;
+
     if (userData) {
-      this.claimForm.patchValue({
-        fullName: userData.name || '',
-        email: userData.email || '',
-        phoneNumber: userData.phone || '',
-      });
+      console.log(userData);
+      
+      const { name:fullName, email, phone: phoneNumber } = userData ;
+      console.log(fullName,email,phoneNumber);
+      
+      this.claimForm.patchValue({ fullName, email, phoneNumber });
+
+      // Array فيها الحقول اللي محتاجين نقفلها
+      const fields = ['fullName', 'email', 'phoneNumber'] as const;
+
+      this.userDataStatus = {
+        fullName: !!userData.name,
+        email: !!userData.email,
+        phoneNumber: !!userData.phone,
+      };
+      console.log(this.userDataStatus);
+      
+this.claimForm.markAllAsTouched();
+      // fields.forEach(field => {
+      //   const control = this.claimForm.get(field);
+      //   if (this.userDataStatus[field] && control) {
+      //     control.disable({ emitEvent: false }); // ✅ دي اللي بتقفل فعلاً
+      //     control.clearValidators();             // نشيل الفاليديشن
+      //     control.updateValueAndValidity();      // نعمل recheck
+      //   }
+      // });
     }
   }
+}
+
 
   selectInsuranceType(selectedType: InsuranceType): void {
     this.insuranceTypes.forEach((type) => {
@@ -829,8 +862,42 @@ const selectedValue = event.target.value;
       })),
     ];
   }
-
+updateUserData(): void {
+  if (
+  Object.values(this.userDataStatus).some(status => status === false) &&
+  this.authService.isAuthenticated()
+) {
+  const updateFormData = new FormData();
+    updateFormData.append('user_id', String(this.authService?.getUserId()));
+    (Object.keys(this.userDataStatus) as Array<keyof typeof this.userDataStatus>)
+      .forEach(key => {
+        if (!this.userDataStatus[key]) {
+          const value = this.claimForm.get(key)?.value;
+          if (value) {
+            updateFormData.append(key, value);
+          }
+        }
+      });
+    this.authService.updateUserData(updateFormData).subscribe({
+      next: res => {
+        const userData = this.authService.getUserData();
+        let dataNeedUpdate = formDataToObject(updateFormData);
+        console.log("updated user data", dataNeedUpdate);
+        dataNeedUpdate = {name:dataNeedUpdate['fullName'],user_id:dataNeedUpdate['user_id']}
+        
+        if (userData) {
+          const updatedUserData = { ...userData, ...dataNeedUpdate };
+          this.authStorage.saveUserData(updatedUserData);
+        }
+      },
+      error: (err: HttpErrorResponse) => {
+        console.log('error while updating user data after lead creation', err);
+      },
+    });
+}
+}
   onNextStep(): void {
+    console.log(this.claimForm);
     this.claimForm.markAllAsTouched();
     const step1Fields = ['fullName', 'email', 'phoneNumber'];
     const isStep1Valid = step1Fields.every(
@@ -917,6 +984,7 @@ const selectedValue = event.target.value;
             this.isLoadingNext = false;
           },
         });
+        this.updateUserData()
       }
     } else {
       this.markFormGroupTouched();
@@ -937,6 +1005,8 @@ const selectedValue = event.target.value;
   }
 
   onSubmit(): void {
+    console.log("any");
+    
     this.claimForm.markAllAsTouched();
     console.log(this.claimForm.value);
     if (this.claimForm.valid) {

@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy, OnInit, PLATFORM_ID, signal } from '@angular/core';
+import { Component, inject, signal, PLATFORM_ID } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -6,15 +6,13 @@ import { AuthService } from '../../../core/services/auth/auth.service';
 import { LanguageService } from '../../../core/services/language.service';
 import { AlertService } from '../../../core/shared/alert/alert.service';
 import { animate, query, stagger, state, style, transition, trigger } from '@angular/animations';
-import { AsyncPipe, CommonModule, isPlatformBrowser, NgClass } from '@angular/common';
+import { AsyncPipe, CommonModule, isPlatformBrowser } from '@angular/common';
 import { Subject, takeUntil } from 'rxjs';
-
 @Component({
-  selector: 'app-login',
-  standalone: true,
+  selector: 'app-set-password',
   imports: [CommonModule, TranslateModule, ReactiveFormsModule, AsyncPipe, RouterLink],
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.css',
+  templateUrl: './set-password.component.html',
+  styleUrl: './set-password.component.css',
   animations: [
     trigger('formAnimation', [
       transition(':enter', [
@@ -49,17 +47,17 @@ import { Subject, takeUntil } from 'rxjs';
     ]),
   ],
 })
-export class LoginComponent implements OnInit,OnDestroy {
-  private destroy$ = new Subject<void>();
+export class SetPasswordComponent {
+private destroy$ = new Subject<void>();
   private _fb = inject(FormBuilder);
   private _authService = inject(AuthService);
   private _router = inject(Router);
   private _languageService = inject(LanguageService);
   private _alertService = inject(AlertService);
-  private _translate = inject(TranslateService);
-  private _PLATFORM_ID = inject(PLATFORM_ID);
+   _translate = inject(TranslateService);
+  private _PLATFORM_ID = inject(PLATFORM_ID)
   currentLang$ = this._languageService.currentLanguage$;
-  loginForm!: FormGroup;
+  setPassForm!: FormGroup;
   isLoading = signal(false);
   isChecked = signal(false);
   shakeState = signal('idle');
@@ -70,78 +68,65 @@ export class LoginComponent implements OnInit,OnDestroy {
   }
 
   initForm() {
-    this.loginForm = this._fb.group({
-      email: [
-        '',
-        [
-          Validators.required,
-          Validators.pattern(
-            /(^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$)|(^(\+2|0)(10|12|15)\d{8}$)/
-          ),
-        ],
-      ],
+    this.setPassForm = this._fb.group({ 
       password: [
         '',
         [
           Validators.required,
           Validators.minLength(8),
         ],
+        
       ],
-    });
+      rePassword: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(8),
+        ],
+      ]
+    },{ validators: this.passwordMatchValidator });
   }
 loggedInSuccessfully(response:any):void {
-  
-  console.log(response);
-  
 this.isLoading.set(false);
         let lang = '';
         this.currentLang$.pipe(takeUntil(this.destroy$)).subscribe((next) => (lang = next));
-        if (response.access_token) {
+        if (response.success) {
           this._alertService.showNotification({
             translationKeys: { title: 'Login_successful' },
           });
-          this.loginForm.reset();
-          
-          if(response.password === "") {
-    this._router.navigate(['/',lang,'set-password']);
-  }else {
+          this.setPassForm.reset();
+           if(isPlatformBrowser(this._PLATFORM_ID)){
+            localStorage.setItem('isPassword',"true");
+           }
     this._router.navigate(['/', lang, 'home']);
-  }
-  if(isPlatformBrowser(this._PLATFORM_ID)){
-          localStorage.setItem('isPassword', response.password === "" ? "false" : "true");
-  }
         } else {
-          if (!response?.error?.includes("Deleted")) {
-            this._alertService.showNotification({
-              translationKeys: { title: 'register_filed' },
-            });
-          } else {
-            this._alertService.showNotification({
-              translationKeys: { title: 'account_deleted' },
-            });
-          }
           this.triggerShakeAnimation();
         }
 }
 loginSuccessfully(error:any):void {
 this.isLoading.set(false);
-        const errorMessage =  'Login failed. Please try again.';
         this._alertService.showNotification({
           translationKeys: { title: this._translate.instant("Login_failed") },
         });
         this.triggerShakeAnimation();
 }
-  submition() {
+passwordMatchValidator(group: FormGroup) {
+  const password = group.get('password')?.value;
+  const rePassword = group.get('rePassword')?.value;
+  return password === rePassword ? null : { passwordMismatch: true };
+}
+  submission() {
+    console.log(this.setPassForm);
+    
     this.formSubmitted.set(true);
-
-    if (this.loginForm.invalid) {
-      this.loginForm.markAllAsTouched();
+    if (this.setPassForm.invalid) {
+      this.setPassForm.markAllAsTouched();
       this.triggerShakeAnimation();
       return;
     }
 
     this.isLoading.set(true);
-    this._authService.login(this.loginForm.value).pipe(takeUntil(this.destroy$)).subscribe({
+    this._authService.setPassword(this.setPassForm.value).pipe(takeUntil(this.destroy$)).subscribe({
       next: (response: any) => {
         this.loggedInSuccessfully(response);
       },
@@ -155,33 +140,9 @@ this.isLoading.set(false);
       }
     });
   }
-loginWithGoogle() {
-  this._authService.signInWithGoogle().pipe(takeUntil(this.destroy$)).subscribe(
-    {
-      next:(response:any)=>{
-      this.loggedInSuccessfully(response);
-    },
-  error:(error)=>{
-this.loginSuccessfully(error);
-  },
-  complete: () => {
-        setTimeout(() => {
-          this._alertService.hide();
-        }, 2000)
-      }
-}
-  )
-}
-  toggleCheckbox() {
-    this.isChecked.set(!this.isChecked());
-  }
-
-  onLoginInputFocus() {
-    this.loginForm.get('loginInput')?.markAsTouched();
-  }
 
   onPasswordFocus() {
-    this.loginForm.get('password')?.markAsTouched();
+    this.setPassForm.get('password')?.markAsTouched();
   }
 
   triggerShakeAnimation() {

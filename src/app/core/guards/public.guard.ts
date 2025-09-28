@@ -4,13 +4,15 @@ import { map } from 'rxjs';
 import { LanguageService } from '../services/language.service';
 import { isPlatformBrowser } from '@angular/common';
 import { PLATFORM_ID } from '@angular/core';
+import { AuthService } from '@core/services/auth/auth.service';
 
 export const publicGuard: CanActivateFn = () => {
   const router = inject(Router);
   const languageService = inject(LanguageService);
   const platformId = inject(PLATFORM_ID);
-
+  const authService = inject(AuthService)
   // Check if running in browser
+
   if (isPlatformBrowser(platformId)) {
     // Fast check - if token exists, redirect to home
     if (localStorage.getItem('auth_token') != null) {

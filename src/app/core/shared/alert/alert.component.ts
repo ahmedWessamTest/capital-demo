@@ -3,7 +3,7 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Component, ElementRef, HostBinding, HostListener, inject, OnDestroy, OnInit, PLATFORM_ID, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { Subject, interval } from 'rxjs';
+import { Subject, Subscription, interval } from 'rxjs';
 import { map, take, takeUntil } from 'rxjs/operators';
 import { AlertService, AlertType } from './alert.service';
 import { Router } from '@angular/router';
@@ -65,7 +65,7 @@ export class AlertComponent implements OnInit, OnDestroy {
   shakeState: string = '';
   isVerifying = signal(false);
   resendTimer = signal(0);
-  canResend = signal(true);
+  canResend = signal(false);
 
   isOtpType(): boolean {
     let isOtp = false;
@@ -247,20 +247,29 @@ ngOnInit(): void {
     this.clearAutoCloseTimer();
   }
 
-  private startResendTimer(): void {
-    this.resendTimer.set(60);
-    const timer$ = interval(1000).pipe(takeUntil(this.destroyed$));
-    
-    timer$.subscribe(() => {
-      this.resendTimer.update((time) => {
-        if (time <= 1) {
-          this.canResend.set(true);
-          return 0;
-        }
-        return time - 1;
-      });
+  private timerSub?: Subscription;
+
+private startResendTimer(): void {
+  const duration = 60;
+  this.resendTimer.set(duration);
+  this.canResend.set(false);
+
+  // لو فيه تايمر شغال قبل كده، نقفله
+  this.timerSub?.unsubscribe();
+
+  this.timerSub = interval(1000).pipe(take(duration)).subscribe(() => {
+    this.resendTimer.update((time) => {
+      if (time <= 1) {
+        this.canResend.set(true);
+        this.timerSub?.unsubscribe(); // نوقف التايمر لما يخلص
+        return 0;
+      }
+      return time - 1;
     });
-  }
+  });
+}
+
+
 
   private setAutoCloseTimerIfNeeded(): void {
     this.clearAutoCloseTimer();
@@ -456,10 +465,10 @@ onVerify() {
 
     this.startResendTimer();
     this.canResend.set(false);
-
     this.alertConfig$.pipe(take(1)).subscribe((config) => {
+      console.log("resend config:",config);
       if (config?.onResend) {
-        config.onResend();
+        Promise.resolve().then(()=> config.onResend?.())
       }
     });
   }

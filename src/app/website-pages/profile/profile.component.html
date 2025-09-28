@@ -19,7 +19,7 @@
       }
       <!-- Form -->
       @if (!isLoading()) {
-        <form
+        <div
           [formGroup]="profileForm"
           (ngSubmit)="onProfileSubmit()"
           novalidate
@@ -40,9 +40,10 @@
                 formControlName="name"
                 type="text"
                 id="name"
-                class="general-input w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                class="general-input w-full border border-gray-300 rounded-lg px-4 py-3 bg-gray-50 text-gray-600 cursor-not-allowed"
                 [placeholder]="'pages.profile.name-placeholder' | translate"
                 (focus)="onNameFocus()"
+                readonly
               />
             </div>
             <div class="error-container">
@@ -82,27 +83,6 @@
             </div>
           </div>
 
-          <!-- Gender Field -->
-          <!-- <div class="flex flex-col mb-2">
-            <div class="relative">
-              <select
-                formControlName="gender"
-                id="gender"
-                class="appearance-none general-input w-full border border-gray-300 rounded-lg px-4 py-3 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                <option value="">{{ 'pages.profile.gender-placeholder' | translate }}</option>
-                <option value="male">{{ 'pages.profile.gender-male' | translate }}</option>
-                <option value="female">{{ 'pages.profile.gender-female' | translate }}</option>
-                <option value="other">{{ 'pages.profile.gender-other' | translate }}</option>
-              </select>
-              <div class="pointer-events-none absolute inset-y-0 end-6 flex items-center">
-                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
-                </svg>
-              </div>
-            </div>
-          </div> -->
-
           <!-- Password Field with Edit Link -->
           <div class="flex flex-col mb-2">
             <div class="relative">
@@ -126,26 +106,22 @@
             </div>
           </div>
 
-          <!-- Save Changes and Deactivate Account -->
+          <!-- Delete Account -->
           <div class="flex flex-col gap-2 md:flex-row justify-between items-center">
             <button
-              class="general-btn"
-              type="submit"
-              [disabled]="isSaving()"
-              [class.opacity-50]="isSaving()"
+            (click)="onDelete()"
+              class="general-btn !bg-red-600"
               [attr.aria-label]="'pages.profile.submit-button-aria-label' | translate"
             >
-              @if (isSaving()) {
-                <span>{{ 'pages.profile.saving' | translate }}</span>
-              } @else {
-                {{ 'pages.profile.save-changes' | translate }}
-              }
+              
+                <span>{{ 'pages.profile.delete-account' | translate }}</span>
+              
             </button>
             <button
-              (click)="onDeactivateAccount()"
+              (click)="onDeactivate()"
               [disabled]="isDeactivating()"
               [class.opacity-50]="isDeactivating()"
-              class="general-btn !bg-red-600  "
+              class="general-btn "
               [attr.aria-label]="'pages.profile.deactivate-account-aria-label' | translate"
             >
               @if (isDeactivating()) {
@@ -155,7 +131,7 @@
               }
             </button>
           </div>
-        </form>
+        </div>
       }
     </div>
   </div>

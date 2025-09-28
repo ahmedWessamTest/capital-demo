@@ -10,7 +10,7 @@ import { LanguageService } from '@core/services/language.service';
 export class CustomTranslatePipe implements PipeTransform {
   private languageService = inject(LanguageService);
   private currentLang = toSignal(this.languageService.currentLanguage$, {
-    initialValue: 'en',
+    initialValue: 'ar',
   });
 
   transform(input: any, property?: string): any {

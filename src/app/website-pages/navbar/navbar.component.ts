@@ -285,6 +285,9 @@ export class NavbarComponent implements OnInit, OnDestroy {
         this.authService.logout().subscribe(() => {
           this.router.navigate([`/${lang}/login`]);
         });
+        break
+        case "notification":
+          this.router.navigate([`/${lang}/notifications`]);
         break;
     }
     this.isProfileMenuOpen = false;

@@ -1,5 +1,5 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ProfileService, UserProfileData, UpdateProfilePayload } from '@core/services/profile/profile.service';
@@ -77,7 +77,7 @@ export class ProfileComponent implements OnInit {
 
   initForm() {
     this.profileForm = this._fb.group({
-      name: ['', Validators.required],
+      name: [{ value: '', disabled: true }],
       email: [{ value: '', disabled: true }],
       phone: [{ value: '', disabled: true }],
       // gender: [''],
@@ -88,7 +88,7 @@ export class ProfileComponent implements OnInit {
     this.isLoading.set(true);
     this.errorMessage.set(null);
     this._profileService.getUserData().subscribe({
-      next: (response) => {
+      next: (response) => {        
         this.userData = response.user;
         this.profileForm.patchValue({
           name: this.userData.name,
@@ -110,52 +110,22 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  onProfileSubmit(): void {
-    this.formSubmitted.set(true);
-    this.profileForm.markAllAsTouched();
-
-    if (this.profileForm.invalid) {
-      this.errorMessage.set(this._translateService.instant('pages.profile.errors.form-invalid'));
-      this.triggerShakeAnimation();
-      this.clearMessagesAfterDelay();
-      return;
-    }
-
-    this.isSaving.set(true);
-    this.errorMessage.set(null);
-    this.successMessage.set(null);
-
-    const payload: UpdateProfilePayload = {
-      name: this.profileForm.get('name')?.value,
-      // gender: this.profileForm.get('gender')?.value,
-    };
-
-    this._profileService.updateProfile(payload).subscribe({
-      next: (response) => {
-        this.successMessage.set(this._translateService.instant('pages.profile.success.update'));
-        this.isSaving.set(false);
-        this.loadUserProfile();
-        this.clearMessagesAfterDelay();
-      },
-      error: (error) => {
-        console.error('Error updating profile:', error);
-        this._alertService.showNotification({
-          title: this._translateService.instant('pages.profile.errors.update-failed'),
-          message: this._translateService.instant('pages.profile.errors.update-failed'),
-        });
-        this.isSaving.set(false);
-        this.triggerShakeAnimation();
-        this.clearMessagesAfterDelay();
-      },
-    });
+  onProfileSubmit(): void {}
+  onDeactivate():void {
+    this._alertService.showConfirmation({
+      messages: [this._translateService.instant("pages.profile.deactivate_alert.deactivate_this_account")],
+      confirmText: this._translateService.instant("pages.profile.deactivate_alert.deactivate_btn"),
+      cancelText: this._translateService.instant('common.cancel'),
+      imagePath: "common/after-remove.webp",
+      onConfirm: () => {
+        this.deactivateUser();
+      }
+    })
   }
-
-  onDeactivateAccount(): void {
-    if (confirm(this._translateService.instant('pages.profile.confirm-deactivate'))) {
+  deactivateUser(): void {
       this.isDeactivating.set(true);
       this.errorMessage.set(null);
       this.successMessage.set(null);
-
       this._profileService.deactivateUser({ deactive_status: 0 }).subscribe({
         next: (response) => {
           this.successMessage.set(this._translateService.instant('pages.profile.success.deactivate'));
@@ -177,9 +147,31 @@ export class ProfileComponent implements OnInit {
           this.clearMessagesAfterDelay();
         },
       });
-    }
+    
   }
-
+  onDelete() {
+    this._alertService.showConfirmation({
+      messages: [this._translateService.instant("pages.profile.delete_alert.delete_this_account")],
+      confirmText: this._translateService.instant("pages.profile.delete_alert.delete_btn"),
+      cancelText: this._translateService.instant('common.cancel'),
+      imagePath: "common/after-remove.webp",
+      onConfirm: () => {
+        this.deleteUser();
+      }
+    })
+  }
+  deleteUser(): void {
+      this._profileService.deleteUser().pipe().subscribe({
+        next: (res) => {
+          this.isDeactivating.set(false);
+          this._authService.logout();
+          let lang = '';
+          this.currentLang$.subscribe((next) => (lang = next));
+          this._router.navigate(['/', lang, 'login']);
+          this.clearMessagesAfterDelay();
+        }
+      });
+    }
   onNameFocus() {
     this.profileForm.get('name')?.markAsTouched();
   }

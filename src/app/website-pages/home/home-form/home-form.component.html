@@ -63,6 +63,7 @@
                 <input
                   type="text"
                   id="fullName"
+                  [readOnly]="userDataStatus['fullName']"
                   formControlName="fullName"
                   [placeholder]="
                     formFieldsConfig['fullName'].placeholder | translate
@@ -92,6 +93,7 @@
                 <input
                   type="tel"
                   id="phoneNumber"
+                  [readOnly]="userDataStatus['phoneNumber']"
                   formControlName="phoneNumber"
                   [placeholder]="
                     formFieldsConfig['phoneNumber'].placeholder | translate
@@ -121,6 +123,7 @@
                 <input
                   type="email"
                   id="email"
+                  [readOnly]="userDataStatus['email']"
                   formControlName="email"
                   [placeholder]="
                     formFieldsConfig['email'].placeholder | translate
@@ -129,8 +132,10 @@
                   class="form-input"
                   [ngClass]="{
                     'text-right': translate.currentLang === 'ar',
-                    'text-left': translate.currentLang === 'en'
+                    'text-left': translate.currentLang === 'en',
+                    
                   }"
+                  
                 />
               </div>
               <div class="error-container">
