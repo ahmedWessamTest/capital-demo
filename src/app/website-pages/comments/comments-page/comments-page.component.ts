@@ -87,6 +87,8 @@ export class CommentsPageComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.currentLang$.subscribe((lang) => {
       this.isRTL = lang === 'ar';
+      console.log("direction:",this.isRTL);
+      
       console.log('Current Language:', lang); // Debug: Log language changes
     });
     this.route.paramMap.subscribe((params) => {

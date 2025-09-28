@@ -5,7 +5,9 @@
       class="absolute z-10 w-[40px] h-[40px] top-[10px] start-[10px] cursor-pointer hover:scale-120 transition-all duration-300"
        src="assets/common/back.svg"
       alt="back button"
-      role="button">
+      role="button"
+      [class.rotate-180]="currentLanguage === 'ar'"
+      >
     <!-- Text content with separate loading state -->
     <div class="z-10 policy-top-card  px-6 md:px-8 lg:px-12 flex flex-col gap-4 justify-center w-full md:w-3/4 transition-all duration-300" [ngClass]="{'mt-4': showForm}">
       <!-- Text content skeleton loader -->

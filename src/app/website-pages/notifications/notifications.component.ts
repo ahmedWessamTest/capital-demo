@@ -173,4 +173,57 @@ return "تم الإلغاء"
     }
     return notificationText
   }
+  getClaimNotificationNumber(notification:GeneralNotify | PolicyNotify | ClaimNotify):string {
+      return(notification as ClaimNotify).claim.claim_number
+  }
+  getNotificationSubTitle(notification: any): string {
+  const lang = this.lang();
+  const isUpdate = notification?.notification_title?.includes('Update');
+  let map:any;
+  if(this.activeTab() === "policies"){
+    map = {
+      medical: {
+        update: ["وثيقة التأمين الطبي", "New Medical Insurance Policy"],
+        comment: ["تعليق من وثيقة التأمين الطبي", "New Medical Insurance Policy Comment"]
+      },
+      job: {
+        update: ["وثيقة التأمين المهني", "New Professional Indemnity Policy"],
+        comment: ["تعليق من وثيقة التأمين المهني", "New Professional Indemnity Policy Comment"]
+      },
+      motor: {
+        update: ["وثيقة تأمين السيارات", "New Motor Insurance Policy"],
+        comment: ["تعليق من وثيقة تأمين السيارات", "New Motor Insurance Policy Comment"]
+      },
+      building: {
+        update: ["وثيقة تأمين الممتلكات", "New Property Insurance Policy"],
+        comment: ["تعليق من وثيقة تأمين الممتلكات", "New Property Insurance Policy Comment"]
+      }
+    };
+  } else {
+    map = {
+      medical: {
+        update: ["مطالبه التأمين الطبي", "New Medical Insurance Claim "],
+        comment: ["تعليق من مطالبه التأمين الطبي", "New Medical Insurance Claim  Comment"]
+      },
+      job: {
+        update: ["مطالبه التأمين المهني", "New Professional Indemnity Claim "],
+        comment: ["تعليق من مطالبه التأمين المهني", "New Professional Indemnity Claim  Comment"]
+      },
+      motor: {
+        update: ["مطالبه تأمين السيارات", "New Motor Insurance Claim "],
+        comment: ["تعليق من مطالبه تأمين السيارات", "New Motor Insurance Claim  Comment"]
+      },
+      building: {
+        update: ["مطالبه تأمين الممتلكات", "New Property Insurance Claim "],
+        comment: ["تعليق من مطالبه تأمين الممتلكات", "New Property Insurance Claim  Comment"]
+      }
+    };
+  }
+
+  const data = map[notification.request_type];
+  if (!data) return '';
+  const mode = isUpdate ? data.update : data.comment;
+  return lang === 'ar' ? mode[0] : mode[1];
+}
+
 }
