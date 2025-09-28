@@ -7,7 +7,6 @@ import {
 } from '@angular/animations';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import {
-  ChangeDetectorRef,
   Component,
   computed,
   inject,
@@ -58,7 +57,6 @@ export class NotificationsComponent implements OnInit,OnDestroy{
   private authService = inject(AuthService);
   private platformId = inject(PLATFORM_ID);
   private router = inject(Router);
-  private cdr = inject(ChangeDetectorRef);
   private _languageService = inject(LanguageService);
   public translate = inject(TranslateService);
   currentLang$ = this._languageService.currentLanguage$;
@@ -72,7 +70,6 @@ export class NotificationsComponent implements OnInit,OnDestroy{
     }
     this._languageService.currentLanguage$.pipe(takeUntil(this.destroy$)).subscribe((lang:string) => {
       this.lang.set(lang) ;
-      this.cdr.markForCheck();
     });
   }
 
