@@ -151,9 +151,7 @@ export class UserPoliciesComponent implements OnInit {
     return `${formattedDay}, ${formattedMonth} ${formattedYear}`;
   }
 
-  isExpiringSoon(date: string | null): boolean {
-    console.log(date);
-    
+  isExpiringSoon(date: string | null): boolean {    
     const endDate = this.formatInputDate(date);
     if (!endDate) return false;
     const today = new Date();
@@ -180,27 +178,35 @@ export class UserPoliciesComponent implements OnInit {
   const isCanceled = policy.active_status === 'canceled';
   const isPending = policy.active_status === 'pending';
   const isRequested = policy.active_status === 'requested';
-  const isConfirmed = policy.active_status === "confirmed";
+  const isConfirmed = policy.active_status === 'confirmed';
 
   const endDate = this.formatInputDate(policy.end_date);
-      console.log(isCanceled,isPending,isPending,isRequested,isConfirmed);
-      
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
   if (this.activeTab === 'current') {
     return (
-      !isCanceled&&(isPending ||
+      isPending ||
       isRequested ||
-      (isConfirmed && (endDate !== null && endDate >= new Date())) || // confirmed with endDate
-      (endDate && endDate >= new Date())
-      )
+      (isConfirmed && endDate !== null && endDate >= today)
     );
   } else {
     return (
-      isCanceled ||
-      (isConfirmed && !endDate) || // confirmed with null endDate يروح هنا
-      (endDate && endDate < new Date())
+      // previous ميقبلش requested/pending
+      !isPending &&
+      !isRequested &&
+      (
+        isCanceled ||
+        (endDate !== null && endDate < today) ||
+        (isConfirmed && !endDate)
+      )
     );
   }
 });
+
+
+
+console.log(filtered);
 
      return filtered.sort((a, b) => {
     const dateA = a.created_at ? new Date(a.created_at) : new Date(0);
