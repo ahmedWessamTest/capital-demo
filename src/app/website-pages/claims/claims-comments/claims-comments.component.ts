@@ -66,7 +66,7 @@ export class ClaimsCommentsComponent implements OnInit, OnDestroy {
   @ViewChild('commentsContainer') commentsContainer!: ElementRef;
 
   claimId: number | null = null;
-  claimType: 'medical' | 'motor' | 'building' | 'jop' | null = null;
+  claimType: 'medical' | 'motor' | 'building' | 'jop' | 'job' | null = null;
   comments: Comment[] = [];
   commentForm: FormGroup;
   isLoading = true;
@@ -94,14 +94,15 @@ export class ClaimsCommentsComponent implements OnInit, OnDestroy {
         | 'motor'
         | 'building'
         | 'jop'
+        | 'job'
         | null;
       if (
         id &&
         type &&
-        ['medical', 'motor', 'building', 'jop'].includes(type)
+        ['medical', 'motor', 'building', 'jop','job'].includes(type)
       ) {
         this.claimId = +id;
-        this.claimType = type;
+        this.claimType = type === 'job'?'jop':type;
         this.fetchComments();
       } else {
         this.error = this.translate.instant('pages.claims.comment.errors.invalid_claim_or_id');

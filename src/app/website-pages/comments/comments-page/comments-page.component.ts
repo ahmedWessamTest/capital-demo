@@ -64,7 +64,7 @@ export class CommentsPageComponent implements OnInit, OnDestroy {
   @ViewChild('commentsContainer') commentsContainer!: ElementRef;
 
   policyId: number | null = null;
-  policyType: 'medical' | 'motor' | 'building' | 'jop' | null = null;
+  policyType: 'medical' | 'motor' | 'building' | 'jop' | 'job' |  null = null;
   comments: Comment[] = [];
   commentForm: FormGroup;
   isLoading = true;
@@ -98,14 +98,17 @@ export class CommentsPageComponent implements OnInit, OnDestroy {
         | 'motor'
         | 'building'
         | 'jop'
+        |'job'
         | null;
       if (
         id &&
         type &&
-        ['medical', 'motor', 'building', 'jop'].includes(type)
+        ['medical', 'motor', 'building', 'jop','job'].includes(type)
       ) {
         this.policyId = +id;
-        this.policyType = type;
+        this.policyType = type === 'job'?'jop':type;
+        console.log(this.policyType);
+        
         this.fetchComments();
       } else {
         this.error = this.translate.instant(
@@ -227,11 +230,6 @@ export class CommentsPageComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    console.log('comment', this.commentForm.valid);
-    console.log('receiver', this.receiver);
-    console.log('policyId', this.policyId);
-    console.log('policyType', this.policyType);
-    console.log('canComment', this.canComment);
     if (
       !this.canComment ||
       !this.commentForm.valid ||

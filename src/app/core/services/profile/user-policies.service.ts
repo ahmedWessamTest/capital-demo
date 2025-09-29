@@ -328,7 +328,7 @@ export class PoliciesService {
   // Get policy choices (medical, motor, or building)
   getPolicyChoices(
     policyId: number,
-    type: 'medical' | 'motor' | 'building' | 'jop'
+    type: 'medical' | 'motor' | 'building' | 'jop' | 'job'
   ): Observable<PolicyChoicesResponse> {
     if (!policyId) {
       throw new Error('Policy ID is required');

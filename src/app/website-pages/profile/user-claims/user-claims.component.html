@@ -162,7 +162,7 @@
                       currentLang$ | async,
                       'claims',
                       claim.id,
-                      claim.type,
+                      claim.type === 'jop'?'job':claim.type,
                       'comments'
                     ]"
                     class="show-all-details w-full md:w-1/2"

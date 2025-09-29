@@ -228,7 +228,7 @@
                       currentLang$ | async,
                       'policies',
                       policy.id,
-                      policy.type
+                      policy.type === 'jop'?'job':policy.type
                     ]"
                     class="show-all-details w-full md:w-1/2"
                   >

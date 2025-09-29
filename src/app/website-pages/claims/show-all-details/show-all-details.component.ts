@@ -33,7 +33,7 @@ export class ShowAllDetailsComponent implements OnInit {
   private languageService = inject(LanguageService);
   private translate = inject(TranslateService);
   policyId: number | null = null;
-  policyType: 'medical' | 'motor' | 'building' | 'jop' | null = null;
+  policyType: 'medical' | 'motor' | 'building' | 'jop' | 'job' |  null = null;
   policyDetails: any = null;
   policyChoices: PolicyChoicesResponse['policy'] | null = null;
   isLoading = true;
@@ -48,14 +48,15 @@ export class ShowAllDetailsComponent implements OnInit {
         | 'motor'
         | 'building'
         | 'jop'
+        | 'job'
         | null;
       if (
         id &&
         type &&
-        ['medical', 'motor', 'building', 'jop'].includes(type)
+        ['medical', 'motor', 'building', 'jop','job'].includes(type)
       ) {
         this.policyId = +id;
-        this.policyType = type;
+        this.policyType = type==='job'?'jop':type;
         this.fetchPolicyDetails();
       } else {
         this.error = this.translate.instant(
@@ -93,7 +94,7 @@ export class ShowAllDetailsComponent implements OnInit {
         ? this.policyDetails.medical_insurance_id
         : this.policyType === 'motor'
         ? this.policyDetails.motor_insurance_id
-        : this.policyType === 'jop'
+        : this.policyType === 'jop' || this.policyType === 'job'
         ? this.policyDetails.jop_insurance_id
         : this.policyDetails.building_insurance_id;
 
@@ -158,7 +159,7 @@ export class ShowAllDetailsComponent implements OnInit {
       ? this.policyDetails.medical_insurance_number
       : this.policyType === 'motor'
       ? this.policyDetails.motor_insurance_number
-      : this.policyType === 'jop'
+      : this.policyType === 'jop' || this.policyType === 'job'
       ? this.policyDetails.jop_insurance_number
       : this.policyDetails.building_insurance_number;
   }

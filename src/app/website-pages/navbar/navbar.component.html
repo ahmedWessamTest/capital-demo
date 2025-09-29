@@ -591,7 +591,7 @@
               (click)="selectProfileOption('my-policies')"
             >
               <div
-                class="flex items-center gap-2 px-4 py-2 text-base font-normal font-['Alexandria'] capitalize"
+                class="flex items-center px-4 py-2 text-base font-normal font-['Alexandria'] capitalize"
               >
                 <div>
                   <svg
@@ -608,10 +608,12 @@
                   </svg>
                 </div>
                 <div>
-                  {{ "my_policies" | translate }}
+                  <span>
+                    {{ "my_policies" | translate }}
+                  </span>
                   <span
                     *ngIf="expiringPoliciesCount > 0"
-                    class="text-red-600 text-[12px] bg-red-500 w- h-12 rounded-full"
+                    class="text-red-600 text-[12px] w- h-12 rounded-full"
                     >{{ expiringPoliciesCount }}</span
                   >
                 </div>
