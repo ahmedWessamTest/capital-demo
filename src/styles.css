@@ -1,6 +1,18 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import "tailwindcss";
+/* keyframes */
+@keyframes rotate-out { to { transform: rotate(90deg); } }
+@keyframes rotate-in { from { transform: rotate(-90deg); } }
+
+::view-transition-old(count), ::view-transition-new(count) {
+  animation-duration: 200ms;
+  animation-name: -ua-view-transition-fade-in, rotate-in;
+}
+
+::view-transition-old(count) {
+  animation-name: -ua-view-transition-fade-out, rotate-out;
+}
 
 body {
   font-family: "Alexandria", sans-serif;
