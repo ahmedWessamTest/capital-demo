@@ -55,7 +55,11 @@
                 {{ "pages.user_policies.tabs.current" | translate }}
                 <div
                   *ngIf="expiringSoonCount > 0"
-                  class="absolute top-0 right-0 bg-gradient-to-r from-red-500 to-yellow-500 text-white text-sm font-medium py-2 px-4 mb-4 rounded-bl-md shadow-md transform rotate-6 origin-top-end"
+                  class="absolute right-0 -top-2.5  bg-gradient-to-r from-red-500 to-yellow-500 text-white text-xs p-1 rounded font-medium  rounded-bl-md shadow-md transform origin-top-end"
+                  [ngClass]="{
+                    'left-0':lang === 'en',
+                    'right-0':lang === 'ar',
+                  }"
                 >
                   {{ expiringSoonCount }}
                   {{

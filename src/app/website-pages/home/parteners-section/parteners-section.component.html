@@ -57,9 +57,9 @@
                     [alt]="partner.alt"
                     [attr.loading]="i === 0 ? 'eager' : 'lazy'"
                     [attr.fetchpriority]="i === 0 ? 'high' : 'auto'"
-                    class="partener-img"
+                    class="max-w-[185px] max-h-[50px] w-auto h-auto object-contain transition-opacity duration-300"
                   />
-                  <div [class]="lang() === 'ar' ? 'text-[11px] text-center mb-6 text-gray-400 capitalize transition-all duration-300' : 'text-[11px] text-center mb-6 text-gray-400 capitalize transition-all duration-300'">
+                  <div [class]="lang() === 'ar' ? 'text-[11px] text-center mb-6 text-gray-400 mt-2 capitalize transition-all duration-300' : 'text-[11px] text-center mb-6 text-gray-400 capitalize transition-all duration-300'">
                     {{ lang() === 'ar' ? partner.ar_name : partner.en_name }}
                   </div>
                 </div>

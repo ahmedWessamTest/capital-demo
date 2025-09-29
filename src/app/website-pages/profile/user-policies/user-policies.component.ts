@@ -69,7 +69,6 @@ export class UserPoliciesComponent implements OnInit {
     }
     this.languageService.currentLanguage$.subscribe((lang) => {
       this.lang = lang;
-      this.cdr.markForCheck();
     });
   }
 
@@ -153,6 +152,8 @@ export class UserPoliciesComponent implements OnInit {
   }
 
   isExpiringSoon(date: string | null): boolean {
+    console.log(date);
+    
     const endDate = this.formatInputDate(date);
     if (!endDate) return false;
     const today = new Date();
