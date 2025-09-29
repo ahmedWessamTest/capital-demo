@@ -1695,4 +1695,22 @@ export class UpdatedGenericDataService implements OnChanges {
       [key]: time,
     }));
   }
+  getSingleCategory(categoryId:number):Observable<any> {
+    let categoryName = '';
+    switch(categoryId) {
+      case 1:
+        categoryName = 'medical'
+        break;
+      case 2:
+        categoryName = 'motor'
+        break;
+      case 3:
+        categoryName = 'building'
+        break;
+      case 5:
+      categoryName = 'jop'
+    }
+    const params = {type:categoryName}
+    return this._http.get<HomeDataResponse>(`${this.baseUrl}app-category/getsingleCategory/${categoryId}`,{params});
+  }
 }

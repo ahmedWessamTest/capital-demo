@@ -12,9 +12,9 @@
     font-weight: bold;
   }
   
-  ::ng-deep .owl-item.center .partener-img img {
+  /* ::ng-deep .owl-item.center .partener-img img {
     filter: brightness(0) saturate(100%) invert(60%) sepia(60%) saturate(800%) hue-rotate(170deg) brightness(95%) contrast(90%);
-  }
+  } */
   
   ::ng-deep .owl-item.center .partener-img div {
     color: #36A6DD !important;

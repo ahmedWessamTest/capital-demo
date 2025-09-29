@@ -1,4 +1,3 @@
-@if (partners.length > 0){
 
 <section
   class="cursor-grab my-5 mx-5 md:mx-10 lg:mx-20"
@@ -13,9 +12,8 @@
         #owlCarousel
         class="w-full h-full"
       >
-        <ng-container *ngIf="partners.length > 0; else loading">
           <ng-template
-            *ngFor="let partner of partners"
+            *ngFor="let partner of partners()"
             carouselSlide
             [id]="partner.en_name"
           >
@@ -49,7 +47,6 @@
               </div>
             </div>
           </ng-template>
-        </ng-container>
         <!-- Loading template -->
         <ng-template #loading>
           <ng-template *ngFor="let item of [1, 2, 3, 4]" carouselSlide>
@@ -70,4 +67,4 @@
     </div>
   </div>
 </section>
-}
+

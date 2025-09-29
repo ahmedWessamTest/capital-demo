@@ -6,8 +6,8 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  SimpleChanges,
   ViewChild,
+  signal,
 } from '@angular/core';
 import { API_CONFIG } from '@core/conf/api.config';
 import { UpdatedGenericDataService } from '@core/services/updated-general.service';
@@ -17,7 +17,7 @@ import {
   CarouselModule,
   OwlOptions,
 } from 'ngx-owl-carousel-o';
-import { BehaviorSubject, Subscription, combineLatest } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { LanguageService } from '../../../core/services/language.service';
 
 @Component({
@@ -32,22 +32,24 @@ export class PartnersLogosComponent implements OnInit, OnDestroy {
   @ViewChild('owlCarousel') owlCarousel!: CarouselComponent;
   @Input() policyType: 'medical' | 'motor' | 'property' | 'job' | null = null;
 
-  isRtl: boolean = false;
+  isRtl = false;
   private languageSubscription!: Subscription;
   private dataSubscription!: Subscription;
-  private policyTypeSubject = new BehaviorSubject<
-    'medical' | 'motor' | 'property' | 'job' | null
-  >(null);
-  isImageLoaded: { [key: number]: boolean } = {};
-  partners: {
-    en_name: string;
-    ar_name: string;
-    image: string;
-    alt: string;
-    id: number;
-    category_id?: number;
-  }[] = [];
-  isLoading: boolean = true;
+
+  partners = signal<
+    {
+      en_name: string;
+      ar_name: string;
+      image: string;
+      alt: string;
+      id: number;
+      category_id?: number;
+    }[]
+  >([]);
+
+  isImageLoaded: Record<number, boolean> = {};
+  isLoading = true;
+
   readonly IMAGE_BASE_URL = API_CONFIG.BASE_URL_IMAGE;
 
   customOptions: OwlOptions = {
@@ -59,7 +61,7 @@ export class PartnersLogosComponent implements OnInit, OnDestroy {
     margin: 48,
     navSpeed: 700,
     smartSpeed: 700,
-    autoplay:true,
+    autoplay: true,
     autoWidth: false,
     navText: ['', ''],
     center: false,
@@ -83,6 +85,7 @@ export class PartnersLogosComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    // اللغة
     this.languageSubscription = this.languageService.currentLanguage$.subscribe(
       (lang) => {
         this.isRtl = lang === 'ar';
@@ -91,73 +94,54 @@ export class PartnersLogosComponent implements OnInit, OnDestroy {
       }
     );
 
-    this.dataSubscription = combineLatest([
-      this.dataService.partners$,
-      this.policyTypeSubject,
-    ]).subscribe(([partners, policyType]) => {
-      console.log('PolicyType:', policyType);
-      console.log('Partners from service:', partners);
-
-      // Map and filter partners based on policyType
-      let filteredPartners = partners || [];
-      if (policyType) {
-        const categoryIdMap: { [key: string]: number } = {
-          medical: 1,
-          motor: 2,
-          property: 3,
-          job: 5,
-        };
-        const categoryId = categoryIdMap[policyType];
-        filteredPartners = filteredPartners.filter(
-          (partner) => partner.category_id === categoryId
-        );
-      }
-
-      this.partners = filteredPartners.map((partner) => ({
-        ar_name: partner.ar_partner_name,
-        en_name: partner.en_partner_name,
-        image: this.IMAGE_BASE_URL + partner.partner_image,
-        alt: `${partner.en_partner_name} Logo`,
-        id: partner.id,
-        category_id: partner.category_id, // Include category_id if needed elsewhere
-      }));
-
-      console.log('Filtered and mapped partners length:', this.partners.length);
-      this.isImageLoaded = {};
-      this.isLoading = false;
-      this.cdr.markForCheck();
-    });
-
-    this.loadPartnersData();
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['policyType']) {
-      console.log('PolicyType changed to:', this.policyType);
-      this.policyTypeSubject.next(this.policyType);
-      this.loadPartnersData();
+    // تحميل الداتا
+    if (this.policyType) {
+      this.loadPartnersData(this.policyType);
     }
   }
 
   ngOnDestroy(): void {
-    if (this.languageSubscription) {
-      this.languageSubscription.unsubscribe();
-    }
-    if (this.dataSubscription) {
-      this.dataSubscription.unsubscribe();
-    }
+    this.languageSubscription?.unsubscribe();
+    this.dataSubscription?.unsubscribe();
   }
 
-  private loadPartnersData(): void {
+  private loadPartnersData(policyType: 'medical' | 'motor' | 'property' | 'job'): void {
     this.isLoading = true;
-    this.dataService.getPartners().subscribe({
-      error: (err) => {
-        console.error('Error fetching partners:', err);
-        this.isLoading = false;
-        this.partners = [];
-        this.cdr.markForCheck();
-      },
-    });
+    const categoryIdMap: Record<string, number> = {
+      medical: 1,
+      motor: 2,
+      property: 3,
+      job: 5,
+    };
+
+    const categoryId = categoryIdMap[policyType];
+    if (!categoryId) return;
+
+    this.dataSubscription = this.dataService
+      .getSingleCategory(categoryId)
+      .subscribe({
+        next: (res) => {
+          const mapped = (res.category.partners ?? []).map((partner: any) => ({
+            ar_name: partner.ar_partner_name,
+            en_name: partner.en_partner_name,
+            image: this.IMAGE_BASE_URL + partner.partner_image,
+            alt: `${partner.en_partner_name} Logo`,
+            id: partner.id,
+            category_id: partner.category_id,
+          }));
+
+          this.partners.set(mapped);
+          this.isImageLoaded = {};
+          this.isLoading = false;
+          this.cdr.markForCheck();
+        },
+        error: (err) => {
+          console.error('Error fetching partners:', err);
+          this.partners.set([]);
+          this.isLoading = false;
+          this.cdr.markForCheck();
+        },
+      });
   }
 
   onImageLoad(partnerId: number): void {
