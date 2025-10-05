@@ -31,6 +31,7 @@
     (click)="goBack()"
     class="absolute z-10 w-[40px] h-[40px] top-5 start-5 cursor-pointer hover:scale-110 transition-all duration-300"
     src="assets/common/back.svg"
+    [class.rotate-180]="currentLang === 'ar'"
     alt=""
   />
   <div class="w-full md:w-[65%] flex justify-center items-end relative">
