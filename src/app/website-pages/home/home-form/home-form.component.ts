@@ -647,7 +647,7 @@ buildCarBrandOptions(){
             setControl('car_price', currentValues.car_price || '', [
               Validators.required,
               Validators.pattern(/^[0-9]+$/),
-              Validators.min(500000),
+              Validators.min(100000),
             ]);
             // setControl('motor_insurance_id', currentValues.motor_insurance_id || '', [Validators.required]);
 
@@ -1346,14 +1346,22 @@ updateUserData(): void {
       }
       if (
         field.errors['min'] &&
-        (fieldName === 'car_price' || fieldName === 'building_price')
+         fieldName === 'building_price'
       ) {
         return this.translate.instant('pages.home_form.errors.price_min', {
           min: 500000,
         });
       }
+      else if (
+        field.errors['min'] &&
+        fieldName === 'car_price'
+      ) {
+        return this.translate.instant('pages.home_form.errors.car_price_min', {
+          min: 100000,
+        });
+      }
       if (field.errors['min'] && fieldName === 'jop_price') {
-        return this.translate.instant('pages.home_form.errors.price_min', {
+        return this.translate.instant('pages.home_form.errors.job_price_min', {
           min: 50000,
         });
       }

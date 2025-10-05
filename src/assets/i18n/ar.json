@@ -1098,6 +1098,8 @@
         "jop_title_required": "المسمى الوظيفي مطلوب",
 "jop_main_id_required": "مطلوب مستند الهوية",
 "jop_price_required": "مطلوب مبلغ التأمين",
+"job_price_min": "الحد الأدنى لمبلغ التأمين هو 50,000 جنيه مصري",
+"price_max": "الحد الأقصى لمبلغ التأمين هو {{max}} جنيه مصري",
         "phoneNumber_required": "رقم الهاتف مطلوب",
         "phone_invalid": "يرجى إدخال رقم هاتف صحيح (10-15 رقمًا)",
         "selectedPolicy_required": "البوليصة مطلوبة",

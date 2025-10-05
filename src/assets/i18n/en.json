@@ -1092,6 +1092,8 @@
         "jop_title_required":"Job title is required",
         "jop_main_id_required":"ID document is required",
         "jop_price_required":"Sum insured amount is required",
+        "job_price_min": "Minimum sum insured amount is 50,000 EGP",
+        "price_max":"Maximum sum insured amount is {{max}} EGP",
         "email_required": "Email is required",
         "email_invalid": "Please enter a valid email address",
         "phoneNumber_required": "Phone number is required",
